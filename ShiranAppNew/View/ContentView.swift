@@ -18,24 +18,19 @@ struct ContentView: View {
     let modifiedDate = Calendar.current.date(byAdding: .second, value: 30, to: Date())!
     
     var body: some View {
-        Group{if self.appState.isPrivacyPolicy{
+        Group{if self.isVideo {
+            VideoCameraView(isVideo: $isVideo)
+                .onDisappear(perform: {
+                    self.dataCounter.scoreCounter()
+                })
+        }else if self.appState.isPrivacyPolicy{
             PrivacyPolicyView()
-        }else if self.isVideo {
-            VStack{
-                HStack{
-                    Button(action: {isVideo = false}, label: {
-                        Text("  ＜Back").font(.system(size: 20))
-                    })
-                    Spacer()
-                }
-                VideoCameraView2(isVideo: $isVideo)
-                    .onDisappear(perform: {
-                        self.dataCounter.scoreCounter()
-                    })
-            }
+        }else if self.appState.isExplainView{
+            ExplainAppView()
         }else {
                 ZStack{
-                    if !dataCounter.coachMark1 {// get true when push fab
+                    if !dataCounter.coachMark1 {
+                        // get true when push fab
                         CoachMarkView()
                     }
                     fragment
@@ -137,10 +132,12 @@ struct FirstView: View{
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing){
                     Menu{
-                        /*Button(action: {}) {
-                            Text("設定")
-                            Image(systemName: "gearshape")
-                                            }*/
+                        Button(action: {
+                            appState.isExplainView = true
+                        }) {
+                            Text("アプリ詳細")
+                            Image(systemName: "newspaper")//"gearshape")歯車まーく
+                                            }
                         
                         Button(action: {
                             appState.logout()
@@ -158,6 +155,7 @@ struct FirstView: View{
                     }label: {
                         Image(systemName: "line.horizontal.3")
                     }
+                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 5))
                 }
             }
             
@@ -222,8 +220,8 @@ struct SecondView: View{
                     //print("取得　date=\(date) url=\(url) score=\(score)")
                     if date == nil || score == nil {continue}
                     videos.append(Videos(date: (date as? String)!, url: "", score: (score as? Int)!))
-                    videos.reverse()
                 }
+                videos.reverse()
             }
         }
     }

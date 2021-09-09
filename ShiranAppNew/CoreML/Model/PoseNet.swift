@@ -22,7 +22,7 @@ class PoseNet {
     /// All PoseNet models available from the Model Gallery support the input sizes 257x257, 353x353, and 513x513.
     /// Larger images typically offer higher accuracy but are more computationally expensive. The ideal size depends
     /// on the context of use and target devices, typically discovered through trial and error.
-    let modelInputSize = CGSize(width: 513, height: 513)
+    let modelInputSize = CGSize(width: 257, height: 257)
 
     /// The PoseNet model's output stride.
     ///

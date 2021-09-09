@@ -10,7 +10,8 @@
 		29F11AE9710A40D5B8B0A6BC /* Pods_ShiranAppNewTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84965A22621B1E5CD4F97631 /* Pods_ShiranAppNewTests.framework */; };
 		40C0D187E508AC14982D7D4E /* Pods_ShiranAppNew_ShiranAppNewUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A3157912BDEF62C9667874 /* Pods_ShiranAppNew_ShiranAppNewUITests.framework */; };
 		7FAEDB78D8FD5FE373130AAA /* Pods_ShiranAppNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */; };
-		CE43D8B926E1BC440067CDDB /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B226E1BC440067CDDB /* ViewController2.swift */; };
+		CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */; };
+		CE43D8B926E1BC440067CDDB /* VideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */; };
 		CE43D8BA26E1BC440067CDDB /* CoachMarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B326E1BC440067CDDB /* CoachMarks.swift */; };
 		CE43D8BC26E1BC440067CDDB /* CoachMarks2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B526E1BC440067CDDB /* CoachMarks2.swift */; };
 		CE43D8BD26E1BC440067CDDB /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B626E1BC440067CDDB /* Sounds.swift */; };
@@ -34,6 +35,7 @@
 		CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230526E6DF27002550D4 /* PoseNet.swift */; };
 		CE54231726E6DF27002550D4 /* PoseNetInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230626E6DF27002550D4 /* PoseNetInput.swift */; };
 		CE54231826E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CE54230726E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel */; };
+		CE5954C826E8B778003CE64E /* PoseUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5954C726E8B778003CE64E /* PoseUIView.swift */; };
 		CE96198226E1AE7F0084F1A7 /* ShiranAppNewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96198126E1AE7F0084F1A7 /* ShiranAppNewApp.swift */; };
 		CE96198626E1AE820084F1A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE96198526E1AE820084F1A7 /* Assets.xcassets */; };
 		CE96198926E1AE820084F1A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE96198826E1AE820084F1A7 /* Preview Assets.xcassets */; };
@@ -68,7 +70,8 @@
 		83D47980BB6380F61B6ED32E /* Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew-ShiranAppNewUITests/Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		84965A22621B1E5CD4F97631 /* Pods_ShiranAppNewTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNewTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE854FBDD6C14135AE89B35 /* Pods-ShiranAppNew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew/Pods-ShiranAppNew.release.xcconfig"; sourceTree = "<group>"; };
-		CE43D8B226E1BC440067CDDB /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
+		CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplainAppView.swift; sourceTree = "<group>"; };
+		CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCameraView.swift; sourceTree = "<group>"; };
 		CE43D8B326E1BC440067CDDB /* CoachMarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachMarks.swift; sourceTree = "<group>"; };
 		CE43D8B526E1BC440067CDDB /* CoachMarks2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachMarks2.swift; sourceTree = "<group>"; };
 		CE43D8B626E1BC440067CDDB /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
@@ -92,6 +95,7 @@
 		CE54230526E6DF27002550D4 /* PoseNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNet.swift; sourceTree = "<group>"; };
 		CE54230626E6DF27002550D4 /* PoseNetInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNetInput.swift; sourceTree = "<group>"; };
 		CE54230726E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoseNetMobileNet075S16FP16.mlmodel; sourceTree = "<group>"; };
+		CE5954C726E8B778003CE64E /* PoseUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseUIView.swift; sourceTree = "<group>"; };
 		CE96197E26E1AE7F0084F1A7 /* ShiranAppNew.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiranAppNew.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE96198126E1AE7F0084F1A7 /* ShiranAppNewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiranAppNewApp.swift; sourceTree = "<group>"; };
 		CE96198526E1AE820084F1A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -156,7 +160,6 @@
 				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
 				CE43D8B726E1BC440067CDDB /* cheers.mp3 */,
 				CE43D8B826E1BC440067CDDB /* SaveVideo.swift */,
-				CE43D8B226E1BC440067CDDB /* ViewController2.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -167,9 +170,9 @@
 				CE43D8C126E1BC540067CDDB /* LoginView.swift */,
 				CE43D8C226E1BC540067CDDB /* RootView.swift */,
 				CE43D8C526E1BC540067CDDB /* ContentView.swift */,
-				CE43D8C426E1BC540067CDDB /* IntroView.swift */,
 				CE43D8C626E1BC540067CDDB /* PrivacyPolicyView.swift */,
 				CE43D8C326E1BC540067CDDB /* PlayerView.swift */,
+				CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -188,7 +191,10 @@
 		CE5422F226E6DF27002550D4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */,
+				CE43D8C426E1BC540067CDDB /* IntroView.swift */,
 				CE5422F326E6DF27002550D4 /* PoseImageView.swift */,
+				CE5954C726E8B778003CE64E /* PoseUIView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -545,6 +551,7 @@
 				CE54231526E6DF27002550D4 /* PoseNetOutput.swift in Sources */,
 				CE54231026E6DF27002550D4 /* Joint.swift in Sources */,
 				CE43D8C926E1BC540067CDDB /* PlayerView.swift in Sources */,
+				CE5954C826E8B778003CE64E /* PoseUIView.swift in Sources */,
 				CE54231126E6DF27002550D4 /* PoseBuilder+Single.swift in Sources */,
 				CE43D8C726E1BC540067CDDB /* LoginView.swift in Sources */,
 				CE54231226E6DF27002550D4 /* Pose.swift in Sources */,
@@ -554,8 +561,9 @@
 				CE43D8BD26E1BC440067CDDB /* Sounds.swift in Sources */,
 				CE43D8CB26E1BC540067CDDB /* ContentView.swift in Sources */,
 				CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */,
+				CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */,
 				CE54231826E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel in Sources */,
-				CE43D8B926E1BC440067CDDB /* ViewController2.swift in Sources */,
+				CE43D8B926E1BC440067CDDB /* VideoCameraView.swift in Sources */,
 				CE43D8BA26E1BC440067CDDB /* CoachMarks.swift in Sources */,
 				CE54230826E6DF27002550D4 /* PoseImageView.swift in Sources */,
 				CE54231426E6DF27002550D4 /* PoseBuilderConfiguration.swift in Sources */,

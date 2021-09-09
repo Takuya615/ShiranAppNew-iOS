@@ -131,8 +131,9 @@ class DataCounter: ObservableObject {
 
 class AppState: ObservableObject {
     @Published var isLogin = false
-    @Published var isVideoPlayer = false
     @Published var isPrivacyPolicy = false
+    @Published var isExplainView = false
+    @Published var isVideoPlayer = false
     @Published var playUrl = ""
     
     init() {

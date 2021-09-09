@@ -15,17 +15,18 @@ import VideoToolbox
 
 
 //カメラのビュー
-struct VideoCameraView2: UIViewControllerRepresentable {
+struct VideoCameraView: UIViewControllerRepresentable {
     @Binding var isVideo:Bool
     func makeUIViewController(context: Context) -> UIViewController {
-        return ViewController2(videoCameraView2: self)
+        return VideoViewController(videoCameraView: self)
     }
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
     }
 }
 
 
-class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+class VideoViewController: UIViewController {
+    
     //var pD = OriginalPoseDetection()
     //var poseDetect = PoseDetectionModel()
     private var poseNet: PoseNet!
@@ -39,6 +40,7 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
     var recordButton: UIButton!
     var isRecording = false
     
+    var scoreBoad: UILabel!
     var score: CGFloat = 0
     var prePose: Pose!
     
@@ -54,9 +56,9 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
     
     
     
-    var videoCameraView2:VideoCameraView2
-    init(videoCameraView2:VideoCameraView2) {
-        self.videoCameraView2 = videoCameraView2
+    var videoCameraView:VideoCameraView
+    init(videoCameraView:VideoCameraView) {
+        self.videoCameraView = videoCameraView
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
@@ -146,8 +148,10 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
                 self.session.addInput(input)
                 self.session.addOutput(output)
 
+                self.session.startRunning()
+                self.setUpCaptureButton()
                 // プレビュー開始
-                self.startPreview()
+                //self.startPreview()
             }
         }
         catch _ {
@@ -174,7 +178,9 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
             DispatchQueue.main.async {
                 // 'previewView'の大きさに'videoPreviewLayer'をリサイズ
                 let frame = self.view.bounds
-                self.videoPreviewLayer.frame = CGRect(x: 10, y: 0, width: frame.width - 20, height: frame.height)//self.view.bounds
+                self.videoPreviewLayer.frame = CGRect(x: 10, y: 0,
+                                                      width: frame.width - 20,
+                                                      height: frame.height)//self.view.bounds
             }
         }
         
@@ -183,40 +189,43 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
         let rect = self.view.bounds.size
         
         // recording button
-        self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         self.recordButton.backgroundColor = UIColor.orange
         self.recordButton.layer.masksToBounds = true
         self.recordButton.layer.cornerRadius = self.recordButton.frame.width/2
         self.recordButton.setTitle("START", for: .normal)
         //self.recordButton.layer.cornerRadius = 20
-        self.recordButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height * 0.8)
+        self.recordButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 42)
         self.recordButton.addTarget(self, action: #selector(self.onClickRecordButton(sender:)), for: .touchUpInside)
         self.view.addSubview(recordButton)//subView 0
         
         //TimerBoard
-        self.textTimer = UILabel(frame: CGRect(x: 0, y: 0, width: 150, height: 50))
+        self.textTimer = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
         self.textTimer.text = self.min(time: self.taskTime())
         self.textTimer.textColor = UIColor.blue
         self.textTimer.backgroundColor = .white
         self.textTimer.font = UIFont.systemFont(ofSize: 50)
         self.textTimer.textAlignment = NSTextAlignment.center
-        self.textTimer.center = CGPoint(x: rect.width/2, y: rect.height*0.01)
-        
+        self.textTimer.center = CGPoint(x: rect.width/2, y: 25)//rect.height*0.01)
+
         self.textTimer.layer.borderColor = UIColor.blue.cgColor
         self.textTimer.layer.borderWidth = 2
         self.textTimer.layer.masksToBounds = true
         self.textTimer.layer.cornerRadius = 10
         self.view.addSubview(textTimer)//subView 1
         
-         
-        let text = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 25))
-        text.text = "準備中..."
-        text.textColor = .blue
-        text.font = UIFont.systemFont(ofSize: 18)
-        text.textAlignment = NSTextAlignment.center
-        text.center = CGPoint(x: rect.width/2, y: rect.height/2)
-        //text.layer.position = CGPoint(x: self.view.bounds.width/2 , y:self.view.bounds.height / 2)
-        self.view.addSubview(text)//subView 2
+        let backButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 50))
+        backButton.setTitle("< Back", for: .normal)
+        backButton.backgroundColor = UIColor.clear
+        backButton.center = CGPoint(x: 45, y: 25)
+        //backButton.layer.cornerRadius = 5
+        //backButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 40)
+        backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
+        self.view.addSubview(backButton)
+        
+        self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 50))
+        self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-105-10)
+        self.view.addSubview(self.scoreBoad)
         
         if !DataCounter().coachMark2 {
             let MainView = UIHostingController(rootView: IntroView(imageName: "sample", number: 0).environmentObject(AppState()))//ContentView())
@@ -224,6 +233,10 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
             self.present(MainView, animated: true, completion:nil)
         }
 
+    }
+    
+    @objc func onClickBackButton(sender: UIButton) {
+        self.videoCameraView.isVideo = false
     }
     @objc func onClickRecordButton(sender: UIButton) {
         
@@ -233,14 +246,16 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
             
             if self.countDown {
                 self.textTimer.text = String(self.time)
-                self.textTimer.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
-                self.textTimer.font = UIFont.systemFont(ofSize: 200)
-                self.textTimer.layer.position = CGPoint(x: self.view.bounds.width / 2 , y: self.view.bounds.height * 0.5)
+                self.textTimer.textColor = UIColor.orange
+                //self.textTimer.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+                //self.textTimer.font = UIFont.systemFont(ofSize: 200)
+                //self.textTimer.layer.position = CGPoint(x: self.view.bounds.width / 2 , y: self.view.bounds.height * 0.5)
             }else{
                 self.textTimer.text = self.min(time: self.time)
-                self.textTimer.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
-                self.textTimer.font = UIFont.systemFont(ofSize: 50)
-                self.textTimer.layer.position = CGPoint(x: self.view.bounds.width / 2 , y: self.view.bounds.height * 0.01)
+                self.textTimer.textColor = UIColor.blue
+                //self.textTimer.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
+                //self.textTimer.font = UIFont.systemFont(ofSize: 50)
+                //self.textTimer.layer.position = CGPoint(x: self.view.bounds.width / 2 , y: self.view.bounds.height * 0.01)
             }
             
             
@@ -275,7 +290,7 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
                         // ボタンが押された時の処理
                           (action: UIAlertAction!) -> Void in
                           // 何かしらの処理を記載
-                        self.videoCameraView2.isVideo = false
+                        self.videoCameraView.isVideo = false
                     })
                     // UIAlertControllerにActionを追加
                     alert.addAction(defaultAction)
@@ -304,7 +319,10 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
         return String("\(min):\(sec)")
     }
     
-    // delegateメソッド
+    
+}
+
+extension VideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate{
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         //print("1フレームごとの処理をここに書く")
         
@@ -317,10 +335,8 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
         let cgImage:CGImage = context.createCGImage(ciimage, from: ciimage.extent)!
         DispatchQueue.main.sync {
             guard currentFrame == nil else {
-                print("curentFrameがnullじゃない")
                 return
             }
-            print("curentFrame == null")
             //if cgImage == nil {print("image取得できていない");return}
             currentFrame = cgImage
             poseNet.predict(cgImage)
@@ -330,14 +346,7 @@ class ViewController2: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
 }
 
 
-//コーチマーク
-extension ViewController2 :UIAdaptivePresentationControllerDelegate{
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        self.coachController.start(in: .window(over: self))//CoachMark  .currentWindow(of: self))
-    }
-}
-
-extension ViewController2: PoseNetDelegate {
+extension VideoViewController: PoseNetDelegate {
     func poseNet(_ poseNet: PoseNet, didPredict predictions: PoseNetOutput) {
         defer {
             // Release `currentFrame` when exiting this method.
@@ -355,9 +364,17 @@ extension ViewController2: PoseNetDelegate {
         
         //print("currentFrame = \(String(describing: self.currentFrame))  ,  view.size = \(self.view.bounds.size)")
         
-        let poseImage: UIImage = PoseImageView().show2(pose: pose, on: self.currentFrame!,score: score)
+        let poseImage: UIImage = PoseImageView().show(
+            pose: pose,
+            on: self.currentFrame!,
+            score: score)
+        
+        //print("poseImage  = \(poseImage.size)")
+        //print("view = \(self.view.bounds.size)")
+        let size = self.view.bounds.size
         let poseImageView = UIImageView(image: poseImage)
-        poseImageView.isOpaque = false
+        poseImageView.layer.position = CGPoint(x: size.width/2, y:50 + poseImage.size.height/2)
+        //poseImageView.isOpaque = false
         self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
         self.view.addSubview(poseImageView)
         

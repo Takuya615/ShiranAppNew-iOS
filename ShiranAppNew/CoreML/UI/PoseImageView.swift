@@ -10,7 +10,6 @@ import UIKit
 @IBDesignable
 class PoseImageView: UIImageView {
 
-    var prePoints: Pose!
     /// A data structure used to describe a visual connection between two joints.
     struct JointSegment {
         let jointA: Joint.Name
@@ -37,16 +36,17 @@ class PoseImageView: UIImageView {
     ]
 
     /// The width of the line connecting two joints.
-    @IBInspectable var segmentLineWidth: CGFloat = 5
+    @IBInspectable var segmentLineWidth: CGFloat = 8
     /// The color of the line connecting two joints.
     @IBInspectable var segmentColor: UIColor = UIColor.green//.systemGreen//.systemTeal
     /// The radius of the circles drawn for each joint.
-    @IBInspectable var jointRadius: CGFloat = 8
+    @IBInspectable var jointRadius: CGFloat = 9
     /// The color of the circles drawn for each joint.
     @IBInspectable var jointColor: UIColor = UIColor.yellow//.systemYellow//.systemPink
     
     
-    func show2(pose: Pose, on frame: CGImage, score:CGFloat) -> UIImage {
+    func show(pose: Pose, on frame: CGImage, score:CGFloat) -> UIImage {
+        
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
 
@@ -56,7 +56,7 @@ class PoseImageView: UIImageView {
 
         let dstImage = renderer.image { rendererContext in
             // Draw the current frame as the background for the new image.
-            //draw(image: frame, in: rendererContext.cgContext)
+            draw(image: frame, in: rendererContext.cgContext)
 
             drawText(image:frame,score: score, in: rendererContext.cgContext)
             

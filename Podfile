@@ -7,6 +7,8 @@ target 'ShiranAppNew' do
 
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
   pod 'Instructions'
 
   # Pods for ShiranAppNew
