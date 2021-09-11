@@ -216,10 +216,11 @@ class VideoViewController: UIViewController {
         
         let backButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 50))
         backButton.setTitle("< Back", for: .normal)
+        backButton.setTitleColor(UIColor.blue, for: .normal)
         backButton.backgroundColor = UIColor.clear
         backButton.center = CGPoint(x: 45, y: 25)
         //backButton.layer.cornerRadius = 5
-        //backButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 40)
+        //backButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 80)
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         self.view.addSubview(backButton)
         

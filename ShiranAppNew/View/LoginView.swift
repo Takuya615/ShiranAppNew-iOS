@@ -10,12 +10,14 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
+    //@StateObject private var appControl = AppControl.shared
     var body: some View {
         Group{
             if self.appState.isPrivacyPolicy {
                 PrivacyPolicyView()
-            }else{
+            }else {
                 LoginSettingView()
+                
             }
         }
         
@@ -37,6 +39,12 @@ struct LoginSettingView: View {
     
     var body: some View {
         VStack{
+            if appState.isLoading == true {
+                ProgressView("")
+            }
+            
+            Text("\(appState.errorStr)").foregroundColor(.red).font(.body)
+            
             TextField("メールアドレス", text: $email)
                     .font(.title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -45,7 +53,7 @@ struct LoginSettingView: View {
                                 .font(.title)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.alphabet)*/
-            SecureField("パスワードを入力してください。", text: $password)
+            SecureField("パスワード", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .font(.title)
                 .keyboardType(.alphabet)
@@ -62,13 +70,23 @@ struct LoginSettingView: View {
                     
             HStack{
                 Button(action: {
-                    appState.signup(email: email, password: password)
+                    if(email.isEmpty || password.isEmpty){
+                        self.appState.errorStr = "アドレスもしくはパスワードが未入力"
+                    }else{
+                        appState.signup(email: email, password: password)
+                        appState.isLoading = true
+                    }
                 },
                        label: {Text("アカウント作成")
                 })
                 Spacer()
                 Button(action: {
+                    if(email.isEmpty || password.isEmpty){
+                        self.appState.errorStr = "アドレスもしくはパスワードが未入力"
+                    }else{
                     appState.loginMethod(email: email, password: password)
+                    appState.isLoading = true
+                    }
                 },
                        label: {Text("ログイン")})
             }.padding(.trailing)

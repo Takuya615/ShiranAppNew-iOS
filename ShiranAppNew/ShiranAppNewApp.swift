@@ -96,7 +96,6 @@ class DataCounter: ObservableObject {
             UserDefaults.standard.set(retry + 1, forKey: self.retry)//値の書き込み　↓表示の更新
             continuedRetryCounter = retry + 1
         }
-        print("ここまで来てるよ")
         updateTaskTime(total: totalDay+1)
         UserDefaults.standard.set(totalDay + 1, forKey: self.totalDay)
         UserDefaults.standard.set(today, forKey: self._LastTimeDay)
@@ -134,6 +133,8 @@ class AppState: ObservableObject {
     @Published var isPrivacyPolicy = false
     @Published var isExplainView = false
     @Published var isVideoPlayer = false
+    @Published var isLoading = false
+    @Published var errorStr = ""
     @Published var playUrl = ""
     
     init() {
@@ -144,23 +145,21 @@ class AppState: ObservableObject {
     }
     
     func signup(email:String, password:String){//email:String,password:String
-        
-        if(email.isEmpty || password.isEmpty){
-
-            print("No mailAdrress or password")
-
-        }else{
-            Auth.auth().createUser(withEmail: email, password: password) { [weak self]authResult, error in
-                guard self != nil else { return }
-                print("登録メアドは\(email)")
-                print("登録パスワードは\(password)")
-                if authResult != nil && error == nil{
-                    self?.isLogin = true
-                    print("アカウント作成に成功しました")
-                }else{
-                    self?.isLogin = false
-                    print("アカウント作成失敗")
-                }
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self]authResult, error in
+            guard self != nil else {
+                self?.isLoading = false
+                return
+            }
+            print("登録メアドは\(email)")
+            print("登録パスワードは\(password)")
+            if authResult != nil && error == nil{
+                self?.isLogin = true
+                self?.isLoading = false
+                self?.errorStr = ""
+            }else{
+                self?.isLogin = false
+                self?.isLoading = false
+                self?.errorStr = "アカウント作成に失敗しました"
             }
         }
         
@@ -168,26 +167,24 @@ class AppState: ObservableObject {
     
     
     func loginMethod(email:String, password:String){
-        if(email.isEmpty || password.isEmpty){
-            print("No mailAdrress or password")
-      
-        }else{
-            
-            Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-                guard self != nil else { return }
-                print("ログインメルアドは\(email)")
-                print("ログインパスワードは\(password)")
-                if error == nil{
-                    
-                    print("ログインに成功しました")
-                    self?.isLogin = true
-               
-                }else{
-                    print("ログイン失敗")
-                    self?.isLogin = false
-                }
-                //self?.appState.isLogin = true
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            guard self != nil else {
+                self?.isLoading = false
+                return
             }
+            print("ログインメルアドは\(email)")
+            print("ログインパスワードは\(password)")
+            if error == nil{
+                self?.isLogin = true
+                self?.isLoading = false
+                self?.errorStr = ""
+                
+            }else{
+                self?.isLogin = false
+                self?.isLoading = false
+                self?.errorStr = "ログインに失敗しました"
+            }
+            //self?.appState.isLogin = true
         }
     }
     
