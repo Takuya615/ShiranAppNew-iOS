@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+
+//VideoCameraView 232行目　コーチマークと一緒に
+
 struct IntroView: View {
     var imageName: String
     var number: Int

@@ -4,7 +4,7 @@
 //
 //  Created by user on 2021/06/18.
 //
-
+/*
 import SwiftUI
 import Firebase
 
@@ -30,3 +30,4 @@ struct RootView_Previews: PreviewProvider {
         RootView()
     }
 }
+*/

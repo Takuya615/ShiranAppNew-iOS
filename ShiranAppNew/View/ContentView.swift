@@ -27,6 +27,8 @@ struct ContentView: View {
             PrivacyPolicyView()
         }else if self.appState.isExplainView{
             ExplainAppView()
+        }else if self.appState.isLogin{
+            LoginView()
         }else {
                 ZStack{
                     if !dataCounter.coachMark1 {
@@ -54,7 +56,7 @@ struct ContentView: View {
             ThirdView()
              .tabItem {
                  Image(systemName: "questionmark")
-                 Text("？？？")
+                 Text("")
                }
         }
     }
@@ -140,18 +142,27 @@ struct FirstView: View{
                                             }
                         
                         Button(action: {
-                            appState.logout()
-                        }) {
-                            Text("ログアウト")
-                            Image(systemName: "person")
-                                            }
-                        
-                        Button(action: {
                             appState.isPrivacyPolicy = true
                         }) {
                             Text("プライバシーポリシー")
                             Image(systemName: "shield")
-                                            }
+                            }
+                        
+                        if self.appState.isinAccount {
+                            Button(action: {
+                                appState.logout()
+                            }) {
+                                Text("ログアウト")
+                                Image(systemName: "person")
+                                                }
+                        }else{
+                            Button(action: {
+                                appState.isLogin = true
+                            }) {
+                                Text("アカウント設定")
+                                Image(systemName: "person")
+                                                }
+                        }
                     }label: {
                         Image(systemName: "line.horizontal.3")
                     }
@@ -159,7 +170,7 @@ struct FirstView: View{
                 }
             }
             
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
         /*SideMenuView(isOpen: $isOpenSideMenu)
             .edgesIgnoringSafeArea(.all)
         }*/
@@ -179,27 +190,32 @@ struct SecondView: View{
     
     var body: some View {
         NavigationView{
-            List{
-                ForEach(videos) {video in
-                    HStack{
-                        Text(video.date)
-                        Spacer()
-                        Text("スコア\(video.score)")
-                    }
-                    /*Text(video.date)
-                        .contentShape(RoundedRectangle(cornerRadius: 5))
-                        .onTapGesture {
-                            print("タップされました\(video.date)")
-                            self.appState.playUrl = video.url
-                            //self.appState.isVideoPlayer = true
-                        }*/
-                    
-                }.onDelete(perform: delete)
+            Group{if Auth.auth().currentUser == nil{
+                Text("アカウントを設定すると、ここにあなたの活動記録が表示されます")
+            }else{
+                List{
+                    ForEach(videos) {video in
+                        HStack{
+                            Text(video.date)
+                            Spacer()
+                            Text("スコア\(video.score)")
+                        }
+                        /*Text(video.date)
+                            .contentShape(RoundedRectangle(cornerRadius: 5))
+                            .onTapGesture {
+                                print("タップされました\(video.date)")
+                                self.appState.playUrl = video.url
+                                //self.appState.isVideoPlayer = true
+                            }*/
+                        
+                    }.onDelete(perform: delete)
+                }.onAppear(perform: VideoList)//リストの更新をここでできる
             }
-            .onAppear(perform: VideoList)//リストの更新をここでできる
+                
+            }
             .navigationTitle("活動記録")
             .navigationBarTitleDisplayMode(.inline)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
     // FireBaseから、動画のデータを取り出し　リストかする
     func VideoList() {
@@ -265,7 +281,6 @@ struct ThirdView: View {
             Text("ただいま工事中")
             .navigationTitle("？？？")
             .navigationBarTitleDisplayMode(.inline)
-        }
-        
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }

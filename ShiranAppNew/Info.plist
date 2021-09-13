@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>カメラ機能を使うための許可です</string>
+	<string>カメラからあなたの動きを検出し、それをスコアにします。</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>カメラ音声を使うための許可です</string>
 	<key>UIApplicationSceneManifest</key>

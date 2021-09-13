@@ -14,7 +14,8 @@ import AVFoundation
 class SaveVideo{
     
     func saveData(score: Int){
-        let uid = String(Auth.auth().currentUser!.uid)//uidの設定
+        guard let auth = Auth.auth().currentUser else{return}
+        let uid = String(auth.uid)//uidの設定
         //日時の指定
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:SSS"

@@ -13,7 +13,7 @@ struct ShiranAppNewApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            RootView()
+            ContentView()
                 .environmentObject(AppState())
                 .environmentObject(DataCounter())
         }
@@ -130,19 +130,20 @@ class DataCounter: ObservableObject {
 
 class AppState: ObservableObject {
     @Published var isLogin = false
+    @Published var isLoading = false
+    @Published var errorStr = ""
+    @Published var isinAccount = false
     @Published var isPrivacyPolicy = false
     @Published var isExplainView = false
     @Published var isVideoPlayer = false
-    @Published var isLoading = false
-    @Published var errorStr = ""
     @Published var playUrl = ""
     
-    init() {
+    /*init() {
         //FirebaseApp.configure()//FireBaseの初期化
         if Auth.auth().currentUser != nil {
             self.isLogin = true
         }
-    }
+    }*/
     
     func signup(email:String, password:String){//email:String,password:String
         Auth.auth().createUser(withEmail: email, password: password) { [weak self]authResult, error in
@@ -153,11 +154,12 @@ class AppState: ObservableObject {
             print("登録メアドは\(email)")
             print("登録パスワードは\(password)")
             if authResult != nil && error == nil{
-                self?.isLogin = true
+                self?.isLogin = false
                 self?.isLoading = false
                 self?.errorStr = ""
+                self?.isinAccount = true
             }else{
-                self?.isLogin = false
+                //self?.isLogin = false
                 self?.isLoading = false
                 self?.errorStr = "アカウント作成に失敗しました"
             }
@@ -175,12 +177,13 @@ class AppState: ObservableObject {
             print("ログインメルアドは\(email)")
             print("ログインパスワードは\(password)")
             if error == nil{
-                self?.isLogin = true
+                self?.isLogin = false
                 self?.isLoading = false
                 self?.errorStr = ""
+                self?.isinAccount = true
                 
             }else{
-                self?.isLogin = false
+                //self?.isLogin = false
                 self?.isLoading = false
                 self?.errorStr = "ログインに失敗しました"
             }
@@ -192,8 +195,10 @@ class AppState: ObservableObject {
         do {
           try Auth.auth().signOut()
             print("ログアウトしました")
-            self.isLogin = false
+            self.isinAccount = false
+            //self.isLogin = true
         } catch let signOutError as NSError {
+            self.isinAccount = true
           print ("ログアウトできてませんError signing out: %@", signOutError)
           //UserDefaults.standard.set({true}, forKey:"login")
         }

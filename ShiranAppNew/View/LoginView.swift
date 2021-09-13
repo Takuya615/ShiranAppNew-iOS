@@ -20,7 +20,6 @@ struct LoginView: View {
                 
             }
         }
-        
     }
 }
 
@@ -39,6 +38,14 @@ struct LoginSettingView: View {
     
     var body: some View {
         VStack{
+            HStack{
+                            Button(action: {self.appState.isLogin = false},
+                                   label: {Text("  ＜Back").font(.system(size: 20))
+                            })
+                            Spacer()
+                        }
+            Spacer()
+            
             if appState.isLoading == true {
                 ProgressView("")
             }
@@ -90,6 +97,7 @@ struct LoginSettingView: View {
                 },
                        label: {Text("ログイン")})
             }.padding(.trailing)
+            Spacer()
                 
         }.padding(.all)
     }
