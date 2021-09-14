@@ -138,12 +138,13 @@ class AppState: ObservableObject {
     @Published var isVideoPlayer = false
     @Published var playUrl = ""
     
-    /*init() {
+    init() {
         //FirebaseApp.configure()//FireBaseの初期化
         if Auth.auth().currentUser != nil {
-            self.isLogin = true
+            self.isinAccount = true
+            //self.isLogin = true
         }
-    }*/
+    }
     
     func signup(email:String, password:String){//email:String,password:String
         Auth.auth().createUser(withEmail: email, password: password) { [weak self]authResult, error in
