@@ -12,8 +12,30 @@ import AVFoundation
 
 
 class SaveVideo{
-    
     func saveData(score: Int){
+        //日時の指定
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale =  Locale(identifier: "ja_JP")
+        let date = dateFormatter.string(from: Date())
+        
+        let dateList: [String]? = UserDefaults.standard.array(forKey: DataCounter().listD) as? [String]
+        let scoreList:[Int]? = UserDefaults.standard.array(forKey: DataCounter().listS) as? [Int]
+        
+        if var dateList = dateList, var scoreList = scoreList {
+            dateList.append(date)
+            scoreList.append(score)
+            print("リストseve data \(dateList)  score \(scoreList)")
+            UserDefaults.standard.setValue(dateList, forKey: DataCounter().listD)
+            UserDefaults.standard.setValue(scoreList, forKey: DataCounter().listS)
+        }else {
+            print("リストが nil になっている")
+            UserDefaults.standard.setValue([date], forKey: DataCounter().listD)
+            UserDefaults.standard.setValue([score], forKey: DataCounter().listS)
+        }
+        
+    }
+    func saveData2(score: Int){
         guard let auth = Auth.auth().currentUser else{return}
         let uid = String(auth.uid)//uidの設定
         //日時の指定

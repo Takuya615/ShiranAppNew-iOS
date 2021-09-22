@@ -16,7 +16,8 @@ import VideoToolbox
 
 //カメラのビュー
 struct VideoCameraView: UIViewControllerRepresentable {
-    @Binding var isVideo:Bool
+    @Binding var isVideo: Bool
+    @EnvironmentObject var dataCounter: DataCounter
     func makeUIViewController(context: Context) -> UIViewController {
         return VideoViewController(videoCameraView: self)
     }
@@ -95,8 +96,8 @@ class VideoViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // Viewが閉じられたとき、セッションを終了
-        if !DataCounter().coachMark2{
-            self.coachController.stop(immediately: true)//CoachMark
+        if !AppState().coachMark2{
+            //self.coachController.stop(immediately: true)//CoachMark
             UserDefaults.standard.set(true, forKey: "CoachMark2")//CoachMark
         }
         
@@ -116,6 +117,7 @@ class VideoViewController: UIViewController {
             //dataCounter.scoreCounter()
             //let save = SaveVideo().environmentObject(DataCounter())
             SaveVideo().saveData(score: Int(score)/100)
+            self.videoCameraView.dataCounter.scoreCounter()
         }
         
     }
@@ -188,17 +190,6 @@ class VideoViewController: UIViewController {
     func setUpCaptureButton(){
         let rect = self.view.bounds.size
         
-        // recording button
-        self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        self.recordButton.backgroundColor = UIColor.orange
-        self.recordButton.layer.masksToBounds = true
-        self.recordButton.layer.cornerRadius = self.recordButton.frame.width/2
-        self.recordButton.setTitle("START", for: .normal)
-        //self.recordButton.layer.cornerRadius = 20
-        self.recordButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 42)
-        self.recordButton.addTarget(self, action: #selector(self.onClickRecordButton(sender:)), for: .touchUpInside)
-        self.view.addSubview(recordButton)//subView 0
-        
         //TimerBoard
         self.textTimer = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
         self.textTimer.text = self.min(time: self.taskTime())
@@ -207,7 +198,6 @@ class VideoViewController: UIViewController {
         self.textTimer.font = UIFont.systemFont(ofSize: 50)
         self.textTimer.textAlignment = NSTextAlignment.center
         self.textTimer.center = CGPoint(x: rect.width/2, y: 25)//rect.height*0.01)
-
         self.textTimer.layer.borderColor = UIColor.blue.cgColor
         self.textTimer.layer.borderWidth = 2
         self.textTimer.layer.masksToBounds = true
@@ -224,11 +214,30 @@ class VideoViewController: UIViewController {
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         self.view.addSubview(backButton)
         
-        self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 50))
-        self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-105-10)
+        self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
+        self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+        self.scoreBoad.text = ""
+        self.scoreBoad.textColor = UIColor.blue
+        //self.scoreBoad.backgroundColor = UIColor.red
+        self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
+        self.scoreBoad.isHidden = true
         self.view.addSubview(self.scoreBoad)
         
-        if !DataCounter().coachMark2 {
+        // recording button
+        self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        self.recordButton.backgroundColor = UIColor.orange
+        self.recordButton.layer.masksToBounds = true
+        self.recordButton.layer.cornerRadius = self.recordButton.frame.width/2
+        self.recordButton.setTitle("START", for: .normal)
+        //self.recordButton.layer.cornerRadius = 20
+        self.recordButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 42)
+        self.recordButton.addTarget(self, action: #selector(self.onClickRecordButton(sender:)), for: .touchUpInside)
+        self.view.addSubview(recordButton)//subView 0
+        
+        let der = UILabel()//(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
+        self.view.addSubview(der)//　　あとで消す用のUIView
+        
+        if !AppState().coachMark2 {
             let MainView = UIHostingController(rootView: IntroView(imageName: "sample", number: 0).environmentObject(AppState()))//ContentView())
             MainView.presentationController?.delegate = self
             self.present(MainView, animated: true, completion:nil)
@@ -242,6 +251,7 @@ class VideoViewController: UIViewController {
     @objc func onClickRecordButton(sender: UIButton) {
         
         self.recordButton.isHidden = true
+        self.scoreBoad.isHidden = false
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             self.time -= 1
             
@@ -254,7 +264,7 @@ class VideoViewController: UIViewController {
             }else{
                 self.textTimer.text = self.min(time: self.time)
                 self.textTimer.textColor = UIColor.blue
-                //self.textTimer.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
+                //self.textTimer.frame = CGRect(x: 0, y: 0, width: 120, height: 50)
                 //self.textTimer.font = UIFont.systemFont(ofSize: 50)
                 //self.textTimer.layer.position = CGPoint(x: self.view.bounds.width / 2 , y: self.view.bounds.height * 0.01)
             }
@@ -308,7 +318,7 @@ class VideoViewController: UIViewController {
     }
 
     func taskTime() -> Int{
-        var taskTime: Int = UserDefaults.standard.integer(forKey: "TaskTime")
+        var taskTime: Int = UserDefaults.standard.integer(forKey: DataCounter().taskTime)
         if taskTime < 5 {taskTime = 5}
         if taskTime > 240 {taskTime = 240}
         return taskTime
@@ -378,18 +388,26 @@ extension VideoViewController: PoseNetDelegate {
         //poseImageView.isOpaque = false
         self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
         self.view.addSubview(poseImageView)
+        self.scoreBoad.text = "Score \(Int(score/100))"//スコア更新
         
         
         if !isRecording {return}
+        
+        //if pose.confidence < 0.1 {return}//print("人写ってない");
         if prePose == nil {
             prePose = pose
         }else{
+            
             Joint.Name.allCases.forEach {name in
+                
                 if pose.joints[name] != nil && prePose.joints[name] != nil{
-                    let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
-                    let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
-                    score = score + disX + disY
+                    if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
+                        let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
+                        let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
+                        score = score + disX + disY
+                    }
                 }
+                
             }
             prePose = pose
         }

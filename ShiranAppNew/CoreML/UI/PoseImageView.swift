@@ -58,7 +58,7 @@ class PoseImageView: UIImageView {
             // Draw the current frame as the background for the new image.
             draw(image: frame, in: rendererContext.cgContext)
 
-            drawText(image:frame,score: score, in: rendererContext.cgContext)
+            //drawText(image:frame,score: score, in: rendererContext.cgContext)
             
             // Draw the segment lines.
             for segment in PoseImageView.jointSegments {

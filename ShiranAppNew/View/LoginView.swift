@@ -4,7 +4,7 @@
 //
 //  Created by user on 2021/06/17.
 //
-
+/*
 import SwiftUI
 //import Firebase
 
@@ -102,3 +102,4 @@ struct LoginSettingView: View {
         }.padding(.all)
     }
 }
+*/

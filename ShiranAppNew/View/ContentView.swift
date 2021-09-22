@@ -20,21 +20,20 @@ struct ContentView: View {
     var body: some View {
         Group{if self.isVideo {
             VideoCameraView(isVideo: $isVideo)
-                .onDisappear(perform: {
-                    self.dataCounter.scoreCounter()
-                })
         }else if self.appState.isPrivacyPolicy{
             PrivacyPolicyView()
         }else if self.appState.isExplainView{
             ExplainAppView()
-        }else if self.appState.isLogin{
-            LoginView()
+        
+        //}else if self.appState.isLogin{
+           // LoginView()
         }else {
                 ZStack{
-                    if !dataCounter.coachMark1 {
+                    if !appState.coachMark1 {
                         // get true when push fab
                         CoachMarkView()
                     }
+                
                     fragment
                     fab
                 }
@@ -69,7 +68,7 @@ struct ContentView: View {
                 
                 Button(action:{
                     self.isVideo = true
-                    self.dataCounter.coachMark1 = true
+                    self.appState.coachMark1 = true
                 }, label: {
                     Image(systemName: "flame")//"video.fill.badge.plus")
                         .foregroundColor(.white)
@@ -139,7 +138,7 @@ struct FirstView: View{
                         }) {
                             Text("アプリ詳細")
                             Image(systemName: "newspaper")//"gearshape")歯車まーく
-                                            }
+                            }
                         
                         Button(action: {
                             appState.isPrivacyPolicy = true
@@ -148,7 +147,7 @@ struct FirstView: View{
                             Image(systemName: "shield")
                             }
                         
-                        if self.appState.isinAccount {
+                        /*if self.appState.isinAccount {
                             Button(action: {
                                 appState.logout()
                             }) {
@@ -162,12 +161,15 @@ struct FirstView: View{
                                 Text("アカウント設定")
                                 Image(systemName: "person")
                                                 }
-                        }
+                        }*/
                     }label: {
                         Image(systemName: "line.horizontal.3")
+                            .resizable()
+                            .frame(width: 25, height: 15, alignment: .topLeading)
                     }
-                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 5))
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 8, trailing: 10))
                 }
+                
             }
             
         }.navigationViewStyle(StackNavigationViewStyle())
@@ -182,91 +184,53 @@ struct SecondView: View{
     struct Videos: Identifiable {
         var id = UUID()     // ユニークなIDを自動で設定¥
         var date: String
-        var url: String
         var score: Int
     }
     @State var videos:[Videos] = []
     
-    
     var body: some View {
         NavigationView{
-            Group{if Auth.auth().currentUser == nil{
-                Text("アカウントを設定すると、ここにあなたの活動記録が表示されます")
-            }else{
-                List{
-                    ForEach(videos) {video in
-                        HStack{
-                            Text(video.date)
-                            Spacer()
-                            Text("スコア\(video.score)")
-                        }
-                        /*Text(video.date)
-                            .contentShape(RoundedRectangle(cornerRadius: 5))
-                            .onTapGesture {
-                                print("タップされました\(video.date)")
-                                self.appState.playUrl = video.url
-                                //self.appState.isVideoPlayer = true
-                            }*/
-                        
-                    }.onDelete(perform: delete)
-                }.onAppear(perform: VideoList)//リストの更新をここでできる
+            List{
+                ForEach(videos){ video in
+                    HStack{
+                        Text(video.date)
+                        Spacer()
+                        Text("スコア\(video.score)")
+                    }
+                }.onDelete(perform: delete)
             }
-                
-            }
+            .onAppear(perform: VideoList)
             .navigationTitle("活動記録")
             .navigationBarTitleDisplayMode(.inline)
         }.navigationViewStyle(StackNavigationViewStyle())
     }
-    // FireBaseから、動画のデータを取り出し　リストかする
+    
     func VideoList() {
+    
         videos = []//reset
-        guard let user = Auth.auth().currentUser else {return}
-        let uid = String(user.uid)//uidの設定
+        guard let listD = UserDefaults.standard.array(forKey: DataCounter().listD) as? [String]
+        else {print("リストが nil になっている"); return}
+        guard let listS = UserDefaults.standard.array(forKey: DataCounter().listS) as? [Int] else {return}
         
-        let db = Firestore.firestore()
-        db.collection(uid).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                //print("VideoList動いている\(querySnapshot!.documents.count)")
-                for document in querySnapshot!.documents {
-                    let date = document.data()["date"]
-                    //let url = document.data()["url"]
-                    let score = document.data()["score"]
-                    //print("取得　date=\(date) url=\(url) score=\(score)")
-                    if date == nil || score == nil {continue}
-                    videos.append(Videos(date: (date as? String)!, url: "", score: (score as? Int)!))
-                }
-                videos.reverse()
-            }
+        for num in 0 ..< listS.count {
+            videos.append(Videos(date: listD[num], score: listS[num]))
         }
+        videos.reverse()
+        
     }
+    
     func delete(at offsets: IndexSet){
-        let selectDate = offsets.map{ self.videos[$0].date }[0]
-        print("削除するデータは\(selectDate)")
-        
-        let uid = Auth.auth().currentUser?.uid
-        let db = Firestore.firestore()
-        db.collection(uid!).document(selectDate).delete() { err in
-            if let err = err {
-                print("Error removing document: \(err)")
-            } else {
-                print("項目の削除成功　Document successfully removed!")
-                /*let storageRef = Storage.storage().reference()
-                let desertRef = storageRef.child("\(uid!) /\(selectDate).mp4")
-                desertRef.delete { error in
-                  if let error = error {
-                    print("動画の削除　しっぱい\(error)")
-                    // Uh-oh, an error occurred!
-                  } else {
-                    // File deleted successfully
-                    print("動画の削除も　せいこう！")
-                  }
-                }*/
-                
-            }
-        }
         videos.remove(atOffsets: offsets)
+        
+        var listD = UserDefaults.standard.array(forKey: DataCounter().listD) as! [String]
+        var listS = UserDefaults.standard.array(forKey: DataCounter().listS) as! [Int]
+        
+        //let num = offsets.map({$0})
+        listD.remove(atOffsets: offsets)
+        listS.remove(atOffsets: offsets)
+        
+        UserDefaults.standard.setValue(listD, forKey: DataCounter().listD)
+        UserDefaults.standard.setValue(listS, forKey: DataCounter().listS)
         
     }
     

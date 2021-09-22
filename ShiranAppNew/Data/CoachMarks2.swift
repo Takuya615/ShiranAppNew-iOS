@@ -44,7 +44,7 @@ extension VideoViewController: CoachMarksControllerDataSource {
     }
     
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-        return 3//self.messages.count
+        return 2
     }
     
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {

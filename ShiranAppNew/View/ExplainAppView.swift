@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct ExplainAppView: View {
     @EnvironmentObject var appState: AppState
-    
+    @State private var btn0 = false
     @State private var btn1 = false
     @State private var btn2 = false
     @State private var btn3 = false
@@ -29,13 +30,25 @@ struct ExplainAppView: View {
             Spacer()
             Text(
                 """
-                
                 これは半年で４分間のHIITを
                 習慣にするためのアプリです。
                 
                 """
             ).font(.title)
+            
+            
             List{
+                Button(action: {
+                    self.btn0.toggle()
+                }, label: {
+                    HStack{
+                        Text("あそびかた")
+                        Image(systemName: "play.rectangle.fill")
+                            .foregroundColor(.red)
+                    }
+                }).sheet(isPresented: self.$btn0, content: {
+                    PlayerView()
+                })
                 Button("アプリの流れ"){
                     self.btn1.toggle()
                 }.sheet(isPresented: self.$btn1, content: {
@@ -72,25 +85,35 @@ struct ExplainAppView_Previews: PreviewProvider {
     }
 }
 
+struct PlayerView: View {
+    let url = Bundle.main.path(forResource: "introduce", ofType: "MP4")
+    var body: some View {
+        let player = AVPlayer(url: URL(fileURLWithPath: url!))
+        VideoPlayer(player: player)
+            .onAppear() {player.play()}
+    }
+}
+
 /// ２番めのView
 struct Explanation1: View {
     var body: some View {
         Text("アプリの流れ").font(.title)
-      
+        
+        Text("""
+
+毎日、運動した記録をつけるだけ
+""")
+            .foregroundColor(.red)
+            .bold()
+            .font(.system(size: 25, design: .default))
         Text("""
             
-            ルールはカンタン。
-            カメラで毎日、運動した記録をつけるだけ。
-            
-            
             初日はたったの５秒からスタート。
+            
             ５秒　６秒　７秒　・・・　２４０秒
-            いつの間にか４分間のHIITができるようになっています。
             
+            いつの間にか４分間のHIITができるようにまで、成長しています。
             
-            あとはあなたが続けたいと思えば、
-            気づくと引き締まった身体が手に入っています。
-            一緒に頑張りましょう。
             """)
     }
 }
@@ -112,7 +135,7 @@ struct Explanation2: View {
             
             1分 HIITは、45分 ランニングに匹敵する身体機能アップ効果が確認されています。
             近年、もっとも効率の良い運動として注目を浴びています。
-            本アプリでは、スクワットやバーピーなど、その場ですぐできる運動でHIITにトライしましょう。
+            
             """)
     }
 }

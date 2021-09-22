@@ -41,10 +41,10 @@ class DataCounter: ObservableObject {
     let retry = "retry"
     let _LastTimeDay = "LastTimeDay"
     let taskTime = "TaskTime"
+    let listD = "dateList"
+    let listS = "scoreList"
     
     
-    @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
-    @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController2 -82
     @Published var continuedDayCounter: Int = UserDefaults.standard.integer(forKey: "cDay")//めいんViewに表示する用
     @Published var continuedRetryCounter: Int = UserDefaults.standard.integer(forKey: "retry")//めいんViewに表示する用
     //@Published var capStart: Bool = false//??
@@ -54,7 +54,7 @@ class DataCounter: ObservableObject {
         let totalDay: Int = UserDefaults.standard.integer(forKey: self.totalDay)//読み込み
         
         let today = Date()
-        //let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+        //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
         let LastTimeDay: Date? = UserDefaults.standard.object(forKey: self._LastTimeDay) as? Date
     
         if LastTimeDay == nil{
@@ -129,15 +129,23 @@ class DataCounter: ObservableObject {
 }
 
 class AppState: ObservableObject {
-    @Published var isLogin = false
+    //@Published var isLogin = false
     @Published var isLoading = false
     @Published var errorStr = ""
-    @Published var isinAccount = false
+    //@Published var isinAccount = false
     @Published var isPrivacyPolicy = false
     @Published var isExplainView = false
     @Published var isVideoPlayer = false
-    @Published var playUrl = ""
+    @Published var isPlayerView = false
+    @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
+    @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController2 -82
     
+    init() {
+        if !coachMark1 {isExplainView = true}
+    }
+    
+    
+    /*
     init() {
         //FirebaseApp.configure()//FireBaseの初期化
         if Auth.auth().currentUser != nil {
@@ -203,6 +211,6 @@ class AppState: ObservableObject {
           print ("ログアウトできてませんError signing out: %@", signOutError)
           //UserDefaults.standard.set({true}, forKey:"login")
         }
-    }
+    }*/
     
 }
