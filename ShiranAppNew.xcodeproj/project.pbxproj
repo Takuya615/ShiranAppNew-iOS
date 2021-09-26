@@ -42,6 +42,7 @@
 		CE96199426E1AE830084F1A7 /* ShiranAppNewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96199326E1AE830084F1A7 /* ShiranAppNewTests.swift */; };
 		CE96199F26E1AE830084F1A7 /* ShiranAppNewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96199E26E1AE830084F1A7 /* ShiranAppNewUITests.swift */; };
 		CE9619AD26E1B76B0084F1A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */; };
+		CEB5753E26FC2E96005C5E49 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB5753D26FC2E96005C5E49 /* Character.swift */; };
 		CEE45B1926F8CAA7009D6E1F /* introduce.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CEE45B1826F88340009D6E1F /* introduce.MP4 */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +111,8 @@
 		CE96199E26E1AE830084F1A7 /* ShiranAppNewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiranAppNewUITests.swift; sourceTree = "<group>"; };
 		CE9619A026E1AE830084F1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CEB5753C26FC2AFA005C5E49 /* introduce.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = introduce.MP4; sourceTree = "<group>"; };
+		CEB5753D26FC2E96005C5E49 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		CEE45B1826F88340009D6E1F /* introduce.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = introduce.MP4; sourceTree = "<group>"; };
 		E6C48DFF81CD90D5D320ADA6 /* Pods-ShiranAppNewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,8 +164,10 @@
 				CE43D8B326E1BC440067CDDB /* CoachMarks.swift */,
 				CE43D8B526E1BC440067CDDB /* CoachMarks2.swift */,
 				CE43D8B826E1BC440067CDDB /* SaveVideo.swift */,
+				CEB5753D26FC2E96005C5E49 /* Character.swift */,
 				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
 				CEE45B1826F88340009D6E1F /* introduce.MP4 */,
+				CEB5753C26FC2AFA005C5E49 /* introduce.MP4 */,
 				CE43D8B726E1BC440067CDDB /* cheers.mp3 */,
 			);
 			path = Data;
@@ -569,6 +574,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEB5753E26FC2E96005C5E49 /* Character.swift in Sources */,
 				CE54231326E6DF27002550D4 /* PoseBuilder.swift in Sources */,
 				CE43D8BF26E1BC440067CDDB /* SaveVideo.swift in Sources */,
 				CE43D8CC26E1BC540067CDDB /* PrivacyPolicyView.swift in Sources */,
@@ -754,7 +760,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShiranAppNew/ShiranAppNew.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"ShiranAppNew/Preview Content\"";
 				DEVELOPMENT_TEAM = C4FH99N43Y;
@@ -765,7 +771,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Takuya.Tsumura.ShiranAppNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -781,7 +787,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShiranAppNew/ShiranAppNew.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"ShiranAppNew/Preview Content\"";
 				DEVELOPMENT_TEAM = C4FH99N43Y;
@@ -792,7 +798,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Takuya.Tsumura.ShiranAppNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

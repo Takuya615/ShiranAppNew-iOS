@@ -24,7 +24,6 @@ struct ContentView: View {
             PrivacyPolicyView()
         }else if self.appState.isExplainView{
             ExplainAppView()
-        
         //}else if self.appState.isLogin{
            // LoginView()
         }else {
@@ -54,8 +53,8 @@ struct ContentView: View {
                 }
             ThirdView()
              .tabItem {
-                 Image(systemName: "questionmark")
-                 Text("")
+                 Image(systemName: "lightbulb.fill")
+                 Text("スケット")
                }
         }
     }
@@ -82,11 +81,8 @@ struct ContentView: View {
                 /*.fullScreenCover(isPresented: self.$isVideo, content: {
                     VideoCameraView2(isVideo: $isVideo)
                 })*/
-            
             }
         }
-    
-        
     }
     
 }
@@ -106,28 +102,47 @@ struct FirstView: View{
 
     var body: some View {
         NavigationView{
-            HStack{
-                VStack{
-                    Text("リトライ数")
-                        .font(.system(size: 20, weight: .black, design: .default))
-                        .foregroundColor(.blue)
-                    
-                    Text(String(self.dataCounter.continuedRetryCounter))
+            VStack{
+                
+                HStack{
+                    VStack{
+                        Text("リトライ数")
+                            .font(.system(size: 20, weight: .black, design: .default))
+                            .foregroundColor(.blue)
                         
-                        .font(.system(size: 100, weight: .black, design: .default))
-                        .frame(width: 130, height: 200, alignment: .center)
-                        .foregroundColor(.blue)
+                        Text(String(self.dataCounter.continuedRetryCounter))
+                            
+                            .font(.system(size: 100, weight: .black, design: .default))
+                            .frame(width: 130, height: 200, alignment: .center)
+                            .foregroundColor(.blue)
+                    }
+                    VStack{
+                        Text("継続日数")
+                            .font(.system(size: 20, weight: .black, design: .default))
+                            .foregroundColor(.blue)
+                        Text(String(self.dataCounter.continuedDayCounter))
+                            .font(.system(size: 100, weight: .black, design: .default))
+                            .frame(width: 130, height: 200, alignment: .center)
+                            .foregroundColor(.blue)
+                    }
                 }
-                VStack{
-                    Text("継続日数")
-                        .font(.system(size: 20, weight: .black, design: .default))
-                        .foregroundColor(.blue)
-                    Text(String(self.dataCounter.continuedDayCounter))
-                        .font(.system(size: 100, weight: .black, design: .default))
-                        .frame(width: 130, height: 200, alignment: .center)
-                        .foregroundColor(.blue)
+                
+                if self.appState.showWanWan {
+                    Image("char_dog")
+                        .resizable()
+                        .frame(width: 80.0, height: 80.0, alignment: .leading)
                 }
+                
+                
+                
             }
+            .onAppear(perform: {
+                if Character().useTaskHelper() > 1.0 {
+                    self.appState.showWanWan = true
+                }else{
+                    self.appState.showWanWan = false
+                }
+            })
             .navigationTitle("ホーム")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
@@ -169,8 +184,12 @@ struct FirstView: View{
                     }
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 8, trailing: 10))
                 }
-                
+                ToolbarItem(placement: .navigationBarLeading){
+                    Text("  Lv. \(self.dataCounter.countedLevel)")
+                    //UserDefaults.standard.integer(forKey: dataCounter.level
+                }
             }
+            
             
         }.navigationViewStyle(StackNavigationViewStyle())
         /*SideMenuView(isOpen: $isOpenSideMenu)
@@ -178,6 +197,9 @@ struct FirstView: View{
         }*/
     }
 }
+
+
+
 
 struct SecondView: View{
     @EnvironmentObject var appState: AppState
@@ -239,11 +261,72 @@ struct SecondView: View{
     
 
 
+
+
 struct ThirdView: View {
+    
+    
+    @State var characters:[character] = Character().items()
+    @State var itemTap: Bool = false
+    @State var scoreUp: Bool = false
+    @State var level: Int = UserDefaults.standard.integer(forKey: DataCounter().level)
+    
     var body: some View {
         NavigationView{
-            Text("ただいま工事中")
-            .navigationTitle("？？？")
+            List(characters){ item in
+                
+                if level >= item.level {
+                    Button(action: {
+                        self.itemTap = true
+                    }, label: {
+                        HStack{
+                            Image(item.image,bundle: .main)
+                                .resizable()
+                                .frame(width: 90.0, height: 90.0, alignment: .leading)
+                            VStack(alignment: .center){
+                                Text(item.name).font(.title)
+                                //Text(item.scr)
+                            }
+                        }
+                    }).sheet(isPresented: self.$itemTap){
+                        actCharacterView(char: item)
+                    }
+                    
+                    
+                }else{
+                    HStack{
+                        Image(systemName: "questionmark.circle.fill")
+                            .resizable()
+                            .frame(width: 80.0, height: 80.0, alignment: .leading)
+                        Text("レベル\(item.level)で解放").font(.title)
+                        //VStack(alignment: .center){}
+                    }
+                }
+                
+                /*Button(action: {}, label: {
+                    Text("")
+                })
+                .alert(isPresented: self.$scoreUp) {
+                    print("ここまできている")
+                    if score == 0 {
+                        return Alert(
+                            title: Text("設定されました")
+                        )
+                        
+                    }else{
+                        return Alert(
+                            title:Text("Score +\(score)"),
+                            dismissButton:.default(Text("とじる"), action: {
+                                let newlevel: Int = UserDefaults.standard.integer(forKey: DataCounter().level)
+                                level = newlevel
+                            })
+                        )
+                    }
+                }*/
+                
+                
+            }
+            .navigationTitle("スケット")
             .navigationBarTitleDisplayMode(.inline)
         }.navigationViewStyle(StackNavigationViewStyle())
     }

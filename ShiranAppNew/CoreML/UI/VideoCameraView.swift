@@ -44,6 +44,7 @@ class VideoViewController: UIViewController {
     var scoreBoad: UILabel!
     var score: CGFloat = 0
     var prePose: Pose!
+    var timesBonus: CGFloat = 1.0
     
     var time = 4
     var timer = Timer()
@@ -78,6 +79,7 @@ class VideoViewController: UIViewController {
         }
         poseNet.delegate = self
         //poseDetect.delegate = self
+        timesBonus = Character().useTaskHelper()
     }
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
@@ -114,10 +116,9 @@ class VideoViewController: UIViewController {
         self.session = nil
         
         if !countDown {
-            //dataCounter.scoreCounter()
             //let save = SaveVideo().environmentObject(DataCounter())
-            SaveVideo().saveData(score: Int(score)/100)
-            self.videoCameraView.dataCounter.scoreCounter()
+            //SaveVideo().saveData(score: Int(score)/100)
+            self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
         }
         
     }
@@ -286,16 +287,17 @@ class VideoViewController: UIViewController {
                     timer.invalidate()//timerの終了
                     self.textTimer.isHidden = true
                     
-                    
-                    
+                    var message = ""
+                    if self.timesBonus > 1.0 {message = " ×\(self.timesBonus)倍"}
                     //スコア表示する　ダイアログを設定する
                     let totalDay: Int = UserDefaults.standard.integer(forKey: "totalDay")//読み込み
                     let alert: UIAlertController = UIAlertController(
                         title: """
                                 \(totalDay)日目　最終スコア
-                            \(Int(self.score)/100)
+                            \(Int(self.score * self.timesBonus)/100)
                             """,
-                        message:"", preferredStyle:  UIAlertController.Style.alert)
+                        message: message
+                        , preferredStyle:  UIAlertController.Style.alert)
                     // OKボタン
                     let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
                         // ボタンが押された時の処理

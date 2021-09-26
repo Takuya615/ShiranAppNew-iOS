@@ -35,6 +35,7 @@ class SaveVideo{
         }
         
     }
+    //Firebase
     func saveData2(score: Int){
         guard let auth = Auth.auth().currentUser else{return}
         let uid = String(auth.uid)//uidの設定

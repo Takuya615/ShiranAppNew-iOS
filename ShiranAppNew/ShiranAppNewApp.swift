@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 class DataCounter: ObservableObject {
+    
     // Key
     let totalDay = "totalDay"
     let continuedDay = "cDay"
@@ -44,13 +45,17 @@ class DataCounter: ObservableObject {
     let listD = "dateList"
     let listS = "scoreList"
     
+    let level = "Level"
+    let exp = "ExperiencePoint"
     
+    @Published var countedLevel: Int = UserDefaults.standard.integer(forKey: "Level")
     @Published var continuedDayCounter: Int = UserDefaults.standard.integer(forKey: "cDay")//めいんViewに表示する用
     @Published var continuedRetryCounter: Int = UserDefaults.standard.integer(forKey: "retry")//めいんViewに表示する用
     //@Published var capStart: Bool = false//??
 
     //日時の差分を計算するメソッド
-    func scoreCounter(){
+    func scoreCounter(score: Int){
+        saveData(score: score)
         let totalDay: Int = UserDefaults.standard.integer(forKey: self.totalDay)//読み込み
         
         let today = Date()
@@ -64,6 +69,7 @@ class DataCounter: ObservableObject {
             UserDefaults.standard.set(today, forKey: self._LastTimeDay)//デイリー更新
             updateTaskTime(total: 181)//TaskTime初期値を５秒に修正する
             continuedDayCounter = 1
+            levelUp(score: score)
             return
         }
                     
@@ -100,7 +106,7 @@ class DataCounter: ObservableObject {
         UserDefaults.standard.set(totalDay + 1, forKey: self.totalDay)
         UserDefaults.standard.set(today, forKey: self._LastTimeDay)
         
-        
+        levelUp(score: score)
     }
 
     func updateTaskTime(total:Int){
@@ -125,6 +131,47 @@ class DataCounter: ObservableObject {
         UserDefaults.standard.set(tt, forKey: self.taskTime)
     }
     
+    func saveData(score: Int){
+        //日時の指定
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale =  Locale(identifier: "ja_JP")
+        let date = dateFormatter.string(from: Date())
+        
+        let dateList: [String]? = UserDefaults.standard.array(forKey: DataCounter().listD) as? [String]
+        let scoreList:[Int]? = UserDefaults.standard.array(forKey: DataCounter().listS) as? [Int]
+        
+        if var dateList = dateList, var scoreList = scoreList {
+            dateList.append(date)
+            scoreList.append(score)
+            print("リストseve data \(dateList)  score \(scoreList)")
+            UserDefaults.standard.setValue(dateList, forKey: DataCounter().listD)
+            UserDefaults.standard.setValue(scoreList, forKey: DataCounter().listS)
+        }else {
+            print("リストが nil になっている")
+            UserDefaults.standard.setValue([date], forKey: DataCounter().listD)
+            UserDefaults.standard.setValue([score], forKey: DataCounter().listS)
+        }
+        
+    }
+    
+    func levelUp(score:Int){
+        let levelTable = [100,480,870,1320,1830,2400,3030,3720,4470,5280,6150,7080,8070,9120,10230,11400,
+        12630,13920,15270,16680,18150,19680,21270,22920,24630,26400,27930,29220,30570,31980,33480]
+        var exp: Int = UserDefaults.standard.integer(forKey: self.exp)//読み込み
+        exp = exp + score
+        UserDefaults.standard.set(exp, forKey: self.exp)
+        if exp > levelTable[countedLevel] {
+            countedLevel = countedLevel + 1
+        }
+        if exp > levelTable[countedLevel+1] {
+            countedLevel = countedLevel + 1
+        }
+        if exp > levelTable[countedLevel+2] {
+            countedLevel = countedLevel + 1
+        }
+        UserDefaults.standard.set(countedLevel, forKey: self.level)
+    }
     
 }
 
@@ -139,9 +186,10 @@ class AppState: ObservableObject {
     @Published var isPlayerView = false
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
     @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController2 -82
-    
+    @Published var showWanWan: Bool = false
     init() {
         if !coachMark1 {isExplainView = true}
+        UserDefaults.standard.set(10, forKey: "Level")
     }
     
     
