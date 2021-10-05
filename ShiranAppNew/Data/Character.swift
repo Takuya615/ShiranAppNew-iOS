@@ -55,7 +55,7 @@ Exp ＋8００p
         return false
     }
     
-    func useTaskHelper() -> CGFloat{
+    func useTaskHelper() -> Float{
         let user = UserDefaults.standard
         guard let wanwan = user.object(forKey: "char_dog") as? Date else {return 1.0}
         let now = Date()
@@ -75,7 +75,6 @@ struct character: Identifiable {
     var image: String
     var name: String
     var scr: String
-    
     
 }
 

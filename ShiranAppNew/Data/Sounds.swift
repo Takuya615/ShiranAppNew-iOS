@@ -11,7 +11,6 @@ import AudioToolbox
 
 class SystemSounds{
     
-    
     func BeginVideoRecording(){
         var soundIdRing:SystemSoundID = 1117
         if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
@@ -34,7 +33,8 @@ class SystemSounds{
     }
     
     // mp3 ファイルの再生
-    @IBAction func buttonSampleWav(_ sender : Any) {
+    //@IBAction
+    func buttonSampleWav(_ sender : Any) {
         var soundIdRing:SystemSoundID = 0
         if let soundUrl:NSURL = NSURL(fileURLWithPath:
             Bundle.main.path(forResource: "cheers", ofType:"mp3")!) as NSURL?{

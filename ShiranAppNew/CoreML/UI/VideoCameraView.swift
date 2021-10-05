@@ -10,7 +10,7 @@ import AVFoundation
 import Instructions
 import Vision
 import CoreML
-//import UIKit
+import UIKit
 import VideoToolbox
 
 
@@ -42,9 +42,9 @@ class VideoViewController: UIViewController {
     var isRecording = false
     
     var scoreBoad: UILabel!
-    var score: CGFloat = 0
+    var score:Float = 0.0
     var prePose: Pose!
-    var timesBonus: CGFloat = 1.0
+    var timesBonus: Float = 1.0
     
     var time = 4
     var timer = Timer()
@@ -56,7 +56,9 @@ class VideoViewController: UIViewController {
     var messages:[String] = []
     var views: [UIView] = []
     
-    
+    var exiteBoss: boss? = BOSS().isExist()
+    var isBoss: Bool = false
+    var bossHPbar: UIProgressView!
     
     var videoCameraView:VideoCameraView
     init(videoCameraView:VideoCameraView) {
@@ -66,8 +68,6 @@ class VideoViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +80,8 @@ class VideoViewController: UIViewController {
         poseNet.delegate = self
         //poseDetect.delegate = self
         timesBonus = Character().useTaskHelper()
+        if exiteBoss != nil { view.backgroundColor = .black; isBoss = true }
+        
     }
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
@@ -115,11 +117,11 @@ class VideoViewController: UIViewController {
         }
         self.session = nil
         
-        if !countDown {
+        //if !countDown {
             //let save = SaveVideo().environmentObject(DataCounter())
             //SaveVideo().saveData(score: Int(score)/100)
-            self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
-        }
+            //self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
+        //}
         
     }
 
@@ -215,14 +217,30 @@ class VideoViewController: UIViewController {
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         self.view.addSubview(backButton)
         
-        self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
-        self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-        self.scoreBoad.text = ""
-        self.scoreBoad.textColor = UIColor.blue
-        //self.scoreBoad.backgroundColor = UIColor.red
-        self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
-        self.scoreBoad.isHidden = true
-        self.view.addSubview(self.scoreBoad)
+        if isBoss {
+            let alert1 = BOSS().showBOSS(boss: exiteBoss!)
+            self.present(alert1, animated: true, completion: nil)
+            
+            self.bossHPbar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 80))
+            self.bossHPbar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
+            self.bossHPbar.progressTintColor = .gray
+            self.bossHPbar.backgroundColor = .red
+            //self.bossHPbar.setProgress(bossHPbar.progress, animated: true)
+            self.bossHPbar.transform = CGAffineTransform(scaleX: 1.0, y: 10.0)
+            self.bossHPbar.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+            self.bossHPbar.isHidden = true
+            self.view.addSubview(self.bossHPbar)
+
+        }else{
+            self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
+            self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+            self.scoreBoad.text = "Score"
+            self.scoreBoad.textColor = UIColor.blue
+            //self.scoreBoad.backgroundColor = UIColor.red
+            self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
+            self.scoreBoad.isHidden = true
+            self.view.addSubview(self.scoreBoad)
+        }
         
         // recording button
         self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
@@ -235,8 +253,8 @@ class VideoViewController: UIViewController {
         self.recordButton.addTarget(self, action: #selector(self.onClickRecordButton(sender:)), for: .touchUpInside)
         self.view.addSubview(recordButton)//subView 0
         
-        let der = UILabel()//(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
-        self.view.addSubview(der)//　　あとで消す用のUIView
+        let der = UILabel()// あとで消す用のUIView
+        self.view.addSubview(der)
         
         if !AppState().coachMark2 {
             let MainView = UIHostingController(rootView: IntroView(imageName: "sample", number: 0).environmentObject(AppState()))//ContentView())
@@ -252,7 +270,7 @@ class VideoViewController: UIViewController {
     @objc func onClickRecordButton(sender: UIButton) {
         
         self.recordButton.isHidden = true
-        self.scoreBoad.isHidden = false
+        if isBoss {self.bossHPbar.isHidden = false} else {self.scoreBoad.isHidden = false}
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             self.time -= 1
             
@@ -285,40 +303,19 @@ class VideoViewController: UIViewController {
                     //SystemSounds().EndVideoRecording()
                     self.isRecording = false
                     timer.invalidate()//timerの終了
-                    self.textTimer.isHidden = true
+                    if self.isBoss {self.bossHPbar.isHidden = true} else {self.scoreBoad.isHidden = true}
                     
-                    var message = ""
-                    if self.timesBonus > 1.0 {message = " ×\(self.timesBonus)倍"}
-                    //スコア表示する　ダイアログを設定する
-                    let totalDay: Int = UserDefaults.standard.integer(forKey: "totalDay")//読み込み
-                    let alert: UIAlertController = UIAlertController(
-                        title: """
-                                \(totalDay)日目　最終スコア
-                            \(Int(self.score * self.timesBonus)/100)
-                            """,
-                        message: message
-                        , preferredStyle:  UIAlertController.Style.alert)
-                    // OKボタン
-                    let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-                        // ボタンが押された時の処理
-                          (action: UIAlertAction!) -> Void in
-                          // 何かしらの処理を記載
-                        self.videoCameraView.isVideo = false
-                    })
-                    // UIAlertControllerにActionを追加
-                    alert.addAction(defaultAction)
-                    // Alert表示
+                    let num = DataCounter().scoreCounter(score: Int(self.score))
+                    let alert = DataCounter().showResult(view: self.videoCameraView,boss: self.exiteBoss,
+                                                  score: self.score,bonus: self.timesBonus,num: num)
                     self.present(alert, animated: true, completion: nil)
-                    //モーダル表示
-                    //let MainView = UIHostingController(rootView: DialogView().environmentObject(AppState()))//ContentView())
-                    //self.present(MainView, animated: true, completion: nil)
                     
                 }
             }
             
         })
     }
-
+    
     func taskTime() -> Int{
         var taskTime: Int = UserDefaults.standard.integer(forKey: DataCounter().taskTime)
         if taskTime < 5 {taskTime = 5}
@@ -379,8 +376,7 @@ extension VideoViewController: PoseNetDelegate {
         
         let poseImage: UIImage = PoseImageView().show(
             pose: pose,
-            on: self.currentFrame!,
-            score: score)
+            on: self.currentFrame!)
         
         //print("poseImage  = \(poseImage.size)")
         //print("view = \(self.view.bounds.size)")
@@ -390,7 +386,15 @@ extension VideoViewController: PoseNetDelegate {
         //poseImageView.isOpaque = false
         self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
         self.view.addSubview(poseImageView)
-        self.scoreBoad.text = "Score \(Int(score/100))"//スコア更新
+        
+        if exiteBoss != nil {
+            let damage: Float = UserDefaults.standard.float(forKey: DataCounter().damage)
+            //print("スコア\(score)　ダメージ\(damage)　マックス\(exiteBoss!.maxHp)　計算結果\(Float((score + damage) / exiteBoss!.maxHp))")
+            self.bossHPbar.progress = Float((score + damage) / exiteBoss!.maxHp)
+            //self.bossHPbar.setProgress(self.bossHPbar.progress, animated: true)
+        }else{
+            self.scoreBoad.text = "Score \(Int(score))"//スコア更新
+        }
         
         
         if !isRecording {return}
@@ -406,7 +410,8 @@ extension VideoViewController: PoseNetDelegate {
                     if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
                         let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
                         let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
-                        score = score + disX + disY
+                        let sum = Float(disY + disX)/100*timesBonus
+                        score = score + sum
                     }
                 }
                 

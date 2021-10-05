@@ -152,15 +152,33 @@ struct FirstView: View{
                             appState.isExplainView = true
                         }) {
                             Text("アプリ詳細")
-                            Image(systemName: "newspaper")//"gearshape")歯車まーく
+                            Image(systemName: "info.circle")//"gearshape")歯車まーく
                             }
-                        
                         Button(action: {
                             appState.isPrivacyPolicy = true
                         }) {
                             Text("プライバシーポリシー")
                             Image(systemName: "shield")
                             }
+                        
+                        Button(action: {
+                            guard let writeReviewURL = URL(string: "https://twitter.com/G0DhdLNn4SftTjc")
+                                else { fatalError("Expected a valid URL") }
+                                UIApplication.shared.open(writeReviewURL)
+                        }) {
+                            Text("ご意見（twitter）")
+                            Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                            }
+                        
+                        Button(action: {
+                            guard let writeReviewURL = URL(string: "https://apps.apple.com/us/app/%E3%81%97%E3%82%89%E3%82%93%E3%83%97%E3%83%AA/id1584268203")
+                                else { fatalError("Expected a valid URL") }
+                                UIApplication.shared.open(writeReviewURL)
+                        }) {
+                            Text("アプリを評価する")
+                            Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                            }
+                        
                         
                         /*if self.appState.isinAccount {
                             Button(action: {
@@ -299,31 +317,8 @@ struct ThirdView: View {
                             .resizable()
                             .frame(width: 80.0, height: 80.0, alignment: .leading)
                         Text("レベル\(item.level)で解放").font(.title)
-                        //VStack(alignment: .center){}
                     }
                 }
-                
-                /*Button(action: {}, label: {
-                    Text("")
-                })
-                .alert(isPresented: self.$scoreUp) {
-                    print("ここまできている")
-                    if score == 0 {
-                        return Alert(
-                            title: Text("設定されました")
-                        )
-                        
-                    }else{
-                        return Alert(
-                            title:Text("Score +\(score)"),
-                            dismissButton:.default(Text("とじる"), action: {
-                                let newlevel: Int = UserDefaults.standard.integer(forKey: DataCounter().level)
-                                level = newlevel
-                            })
-                        )
-                    }
-                }*/
-                
                 
             }
             .navigationTitle("スケット")

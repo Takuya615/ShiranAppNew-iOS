@@ -45,7 +45,7 @@ class PoseImageView: UIImageView {
     @IBInspectable var jointColor: UIColor = UIColor.yellow//.systemYellow//.systemPink
     
     
-    func show(pose: Pose, on frame: CGImage, score:CGFloat) -> UIImage {
+    func show(pose: Pose, on frame: CGImage) -> UIImage {
         
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
