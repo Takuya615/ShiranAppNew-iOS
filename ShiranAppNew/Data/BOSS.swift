@@ -15,7 +15,7 @@ class BOSS {
         let user = UserDefaults.standard
         //デイリーなのかチェックする
         let today = Date()
-        //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+        //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -2, to: today)!
         let LastTimeDay: Date? = user.object(forKey: DataCounter()._LastTimeDay) as? Date
         if LastTimeDay == nil {return nil}//　初めて使う時は、敵が出てこない。
         let cal = Calendar(identifier: .gregorian)

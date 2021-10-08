@@ -81,6 +81,7 @@ class VideoViewController: UIViewController {
         //poseDetect.delegate = self
         timesBonus = Character().useTaskHelper()
         if exiteBoss != nil { view.backgroundColor = .black; isBoss = true }
+        EventAnalytics().tapFab()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -305,8 +306,9 @@ class VideoViewController: UIViewController {
                     timer.invalidate()//timerの終了
                     if self.isBoss {self.bossHPbar.isHidden = true} else {self.scoreBoad.isHidden = true}
                     
-                    let num = DataCounter().scoreCounter(score: Int(self.score))
-                    let alert = DataCounter().showResult(view: self.videoCameraView,boss: self.exiteBoss,
+                    let num = self.videoCameraView.dataCounter.scoreCounter(score: Int(self.score))
+                    //DataCounter().scoreCounter(view: self.videoCameraView,score: Int(self.score))
+                    let alert = self.videoCameraView.dataCounter.showResult(view: self.videoCameraView,boss: self.exiteBoss,
                                                   score: self.score,bonus: self.timesBonus,num: num)
                     self.present(alert, animated: true, completion: nil)
                     

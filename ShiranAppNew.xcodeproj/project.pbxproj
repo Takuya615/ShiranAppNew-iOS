@@ -45,6 +45,7 @@
 		CEB5753E26FC2E96005C5E49 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB5753D26FC2E96005C5E49 /* Character.swift */; };
 		CED69991270560AC006E3AEA /* BOSS.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED69990270560AC006E3AEA /* BOSS.swift */; };
 		CED6999327065EC8006E3AEA /* DataCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED6999227065EC8006E3AEA /* DataCounter.swift */; };
+		CED6B891270D5EE7009BC3F6 /* EventAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */; };
 		CEE45B1926F8CAA7009D6E1F /* introduce.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CEE45B1826F88340009D6E1F /* introduce.MP4 */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,7 @@
 		CEB5753D26FC2E96005C5E49 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		CED69990270560AC006E3AEA /* BOSS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOSS.swift; sourceTree = "<group>"; };
 		CED6999227065EC8006E3AEA /* DataCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCounter.swift; sourceTree = "<group>"; };
+		CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAnalytics.swift; sourceTree = "<group>"; };
 		CEE45B1826F88340009D6E1F /* introduce.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = introduce.MP4; sourceTree = "<group>"; };
 		E6C48DFF81CD90D5D320ADA6 /* Pods-ShiranAppNewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,6 +173,7 @@
 				CE43D8B526E1BC440067CDDB /* CoachMarks2.swift */,
 				CE43D8B826E1BC440067CDDB /* SaveVideo.swift */,
 				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
+				CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */,
 				CEE45B1826F88340009D6E1F /* introduce.MP4 */,
 				CE04B411270C04AF00F21059 /* cheers.mp3 */,
 			);
@@ -269,12 +272,12 @@
 		CE96198026E1AE7F0084F1A7 /* ShiranAppNew */ = {
 			isa = PBXGroup;
 			children = (
-				CE6F978F26F0E476007CF587 /* ShiranAppNew.entitlements */,
 				CE96198126E1AE7F0084F1A7 /* ShiranAppNewApp.swift */,
 				CE43D8C026E1BC540067CDDB /* View */,
 				CE43D8B126E1BC440067CDDB /* Data */,
 				CE5422F126E6DF27002550D4 /* CoreML */,
 				CE96198A26E1AE820084F1A7 /* Info.plist */,
+				CE6F978F26F0E476007CF587 /* ShiranAppNew.entitlements */,
 				CE96198526E1AE820084F1A7 /* Assets.xcassets */,
 				CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */,
 				CE96198726E1AE820084F1A7 /* Preview Content */,
@@ -585,6 +588,7 @@
 				CE54230C26E6DF27002550D4 /* CGPoint+Extension.swift in Sources */,
 				CE96198226E1AE7F0084F1A7 /* ShiranAppNewApp.swift in Sources */,
 				CE54231526E6DF27002550D4 /* PoseNetOutput.swift in Sources */,
+				CED6B891270D5EE7009BC3F6 /* EventAnalytics.swift in Sources */,
 				CE54231026E6DF27002550D4 /* Joint.swift in Sources */,
 				CE43D8C926E1BC540067CDDB /* PlayerView.swift in Sources */,
 				CE5954C826E8B778003CE64E /* PoseUIView.swift in Sources */,

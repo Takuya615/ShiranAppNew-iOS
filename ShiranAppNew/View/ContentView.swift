@@ -32,7 +32,6 @@ struct ContentView: View {
                         // get true when push fab
                         CoachMarkView()
                     }
-                
                     fragment
                     fab
                 }
@@ -179,8 +178,30 @@ struct FirstView: View{
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
                             }
                         
+                        Button(action: {
+                            let massage = "運動習慣化アプリ　しらんプリ"
+                            //let image = postImage
+                            let link = URL(string: "https://apps.apple.com/us/app/%E3%81%97%E3%82%89%E3%82%93%E3%83%97%E3%83%AA/id1584268203")!
+                            let activityViewController = UIActivityViewController(activityItems: [massage,link], applicationActivities: nil)
+                            let viewController = UIApplication.shared.windows.first?.rootViewController
+                            viewController?.present(activityViewController, animated: true, completion: nil)
+                            EventAnalytics().share()
+                        }) {
+                            Text("シェア")
+                            Image(systemName: "paperplane.fill")
+                            }
                         
-                        /*if self.appState.isinAccount {
+                        
+                        /*
+                         @IBAction func share() {
+                                 //share(上の段)から遷移した際にシェアするアイテム
+                                 let activityItems: [Any] = [shareText, shareUrl]
+                                 let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: [LINEActivity(message: shareText), TwitterActivity(message: shareText)])
+                                 self.present(activityViewController, animated: true, completion: nil)
+                             }
+                         
+                         
+                         if self.appState.isinAccount {
                             Button(action: {
                                 appState.logout()
                             }) {
@@ -248,15 +269,13 @@ struct SecondView: View{
     func VideoList() {
     
         videos = []//reset
-        guard let listD = UserDefaults.standard.array(forKey: DataCounter().listD) as? [String]
-        else {print("リストが nil になっている"); return}
+        guard let listD = UserDefaults.standard.array(forKey: DataCounter().listD) as? [String] else {return}
         guard let listS = UserDefaults.standard.array(forKey: DataCounter().listS) as? [Int] else {return}
         
         for num in 0 ..< listS.count {
             videos.append(Videos(date: listD[num], score: listS[num]))
         }
         videos.reverse()
-        
     }
     
     func delete(at offsets: IndexSet){

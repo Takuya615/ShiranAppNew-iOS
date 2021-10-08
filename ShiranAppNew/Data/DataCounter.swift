@@ -41,7 +41,7 @@ class DataCounter: ObservableObject {
         let totalDay: Int = User.integer(forKey: self.totalDay)//読み込み
         
         let today = Date()
-        //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+        //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -2, to: today)!
         let LastTimeDay: Date? = User.object(forKey: self._LastTimeDay) as? Date
     
         if LastTimeDay == nil{
@@ -58,7 +58,8 @@ class DataCounter: ObservableObject {
         let cal = Calendar(identifier: .gregorian)
         let todayDC = Calendar.current.dateComponents([.year, .month,.day], from: today)
         let lastDC = Calendar.current.dateComponents([.year, .month,.day], from: LastTimeDay!)
-        let diff = cal.dateComponents([.day], from: lastDC, to: todayDC)
+        let di: DateComponents? = cal.dateComponents([.day], from: lastDC, to: todayDC)
+        guard let diff = di else {return 0}
         print("todayDC:\(todayDC)")
         print("dt1DC:\(lastDC)")
         print("差は \(diff.day!) 日")
@@ -73,16 +74,16 @@ class DataCounter: ObservableObject {
             return 0
         }else if(diff.day == 1){
             print("毎日記録更新")
-            
             User.set(continuedDay + 1, forKey: self.continuedDay)
             continuedDayCounter = continuedDay + 1
-            
+            EventAnalytics().doneDayly()
         }else{
             print("記録リセット")
             User.set(0, forKey: self.continuedDay)
             continuedDayCounter = 0
             User.set(retry + 1, forKey: self.retry)//値の書き込み　↓表示の更新
             continuedRetryCounter = retry + 1
+            EventAnalytics().doneNotEveryDay(diff: diff.day!)
         }
         User.set(totalDay + 1, forKey: self.totalDay)
         User.set(today, forKey: self._LastTimeDay)
@@ -93,7 +94,7 @@ class DataCounter: ObservableObject {
     func saveData(score: Int){
         //日時の指定
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         dateFormatter.locale =  Locale(identifier: "ja_JP")
         let date = dateFormatter.string(from: Date())
         
@@ -103,6 +104,10 @@ class DataCounter: ObservableObject {
         if var dateList = dateList, var scoreList = scoreList {
             dateList.append(date)
             scoreList.append(score)
+            if dateList.count > 15 {
+                dateList.removeLast()
+                scoreList.removeLast()
+            }
             print("リストseve data \(dateList)  score \(scoreList)")
             UserDefaults.standard.setValue(dateList, forKey: DataCounter().listD)
             UserDefaults.standard.setValue(scoreList, forKey: DataCounter().listS)
@@ -134,6 +139,7 @@ class DataCounter: ObservableObject {
         }
         print("タスクタイム＝\(tt)")
         UserDefaults.standard.set(tt, forKey: self.taskTime)
+        EventAnalytics().totalAndTask(total: total, task: tt)
     }
     
     func levelUp(score:Int) -> (Int,Int){
@@ -169,38 +175,55 @@ class DataCounter: ObservableObject {
         if bonus != 1.0 {addStr = "\n(スケット補正　×\(bonus))"}
         let intScore = Int(score)
         var title = "Score \(intScore)p"
-        var message = "(デイリー達成済み)\(addStr)"
-        
+        var message = "(デイリー達成済み 経験値なし)\n\(addStr)"
+        let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
         if num != 0 {//　　　　　デイリー達成していない
             if boss == nil {
-                title = mes(view: view, score: intScore,str: addStr)
+                title = mes(score: intScore,str: addStr)
                 message = ""
             }else{
+                EventAnalytics().totalBattle()
                 let damage: Float = UserDefaults.standard.float(forKey: DataCounter().damage)
                 let reHP = boss!.maxHp - score - damage
                 if reHP < 0 {//撃破！！
                     UserDefaults.standard.set(0.0, forKey: DataCounter().damage)
                     UserDefaults.standard.set(-1, forKey: DataCounter().bossNum)
-                    title = "\(boss!.name)討伐 成功！！"
+                    title = "WINNER！！"
                     addStr = addStr + "\n(討伐ボーナス　Exp ＋\(boss!.bonus))"
-                    message = mes(view: view, score: boss!.bonus + Int(score),str: addStr)
+                    message = mes(score: boss!.bonus + Int(score),str: addStr)
                     
+                    //モノクロ
+                    let myInputImage = CIImage(image: UIImage(named: boss!.image)!)
+                    let imageView = UIImageView(frame: CGRect(x:100, y:-75, width:100, height:100))
+                    let myMonochromeFilter = CIFilter(name: "CIColorMonochrome")
+                    myMonochromeFilter!.setValue(myInputImage, forKey: kCIInputImageKey)
+                    myMonochromeFilter!.setValue(CIColor(red: 0.9, green: 0.9, blue: 0.9), forKey: kCIInputColorKey)
+                    myMonochromeFilter!.setValue(1.0, forKey: kCIInputIntensityKey)
+                    let myOutputImage : CIImage = (myMonochromeFilter?.outputImage!)!
+                    imageView.image = UIImage(ciImage: myOutputImage)//UIImage(named: boss!.image)
+                    alert.view.addSubview(imageView)
                 }else{
-                    title = "\(boss!.name)討伐 未達成..."
+                    title = "\(boss!.name)討伐 失敗..."
+                    let imageView = UIImageView(frame: CGRect(x:100, y:-75, width:100, height:100))
+                    imageView.image = UIImage(named: boss!.image)
+                    alert.view.addSubview(imageView)
+                    
                     if boss!.encount != 0 {//ボスならEXP全部没収
                         addStr = addStr + "\n(ボスペナルティー　Exp ×0.1)"
-                        message = mes(view: view, score: boss!.bonus/10, str: addStr)
+                        message = mes(score: boss!.bonus/10, str: addStr)
                         UserDefaults.standard.set(score + damage, forKey: DataCounter().damage)
                     }else{
                         addStr = addStr + "\n(ペナルティー　Exp ×0.5)"
-                        message = mes(view: view, score: boss!.bonus/2, str: addStr)
+                        message = mes(score: boss!.bonus/2, str: addStr)
+                        EventAnalytics().loseEnemy(enemy: boss!.name)
                     }
                     
                 }
             }
         }
         
-        let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
+        alert.title = title
+        alert.message = message
         let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
             view.isVideo = false
@@ -210,12 +233,13 @@ class DataCounter: ObservableObject {
         return alert
     }
     
-    func mes(view: VideoCameraView ,score: Int,str: String) -> String{
-        let ctrLeval = view.dataCounter.levelUp(score: score)//DataCounter().levelUp(score: boss!.bonus)
+    func mes(score: Int,str: String) -> String{
+        let ctrLeval = levelUp(score: score)//DataCounter().levelUp(score: boss!.bonus)
         var message = ""
         if ctrLeval.0 == ctrLeval.1 {
             message = "Exp 獲得 \(score)p \(str)"
         }else{
+            EventAnalytics().levelUp(level: ctrLeval.1)
             message = "レベルアップ！！ \(ctrLeval.0) → \(ctrLeval.1)"
         }
         return message

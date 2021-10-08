@@ -26,7 +26,7 @@ Exp ＋３００p
 
 毎回のスコア 1.2倍
 """),
-             character.init(level: 3,score: 800, image: "char_rabbit", name: "二兎",
+             character.init(level: 3,score: 800, image: "char_rabbit", name: "ニト",
                             scr: """
 運動の種類を1つにしぼる。
 「今日は何をしようか？」と迷うと、運動がめんどくさく感じることもあります。
@@ -131,6 +131,12 @@ struct actCharacterView: View {
                     case "わんわん":do {
                         UserDefaults.standard.set(selectionDate, forKey: self.char.image)
                         //self.scoreUp = true
+                    }
+                    case "ニト":do{//最後のキャラが使われたらアナリティクスに知らされる。
+                        UserDefaults.standard.set(text, forKey: self.char.image)
+                        let plusScore = Character().useCharacter(item: char)
+                        if plusScore { self.scoreUp = true}
+                        EventAnalytics().lastCharacterReleased()
                     }
                     default:do {
                         UserDefaults.standard.set(text, forKey: self.char.image)
