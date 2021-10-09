@@ -269,13 +269,17 @@ class VideoViewController: UIViewController {
         self.videoCameraView.isVideo = false
     }
     @objc func onClickRecordButton(sender: UIButton) {
-        
+        var Ring = false
         self.recordButton.isHidden = true
         if isBoss {self.bossHPbar.isHidden = false} else {self.scoreBoad.isHidden = false}
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             self.time -= 1
             
             if self.countDown {
+                if !Ring {
+                    Ring = true
+                    SystemSounds().countDown("")
+                }
                 self.textTimer.text = String(self.time)
                 self.textTimer.textColor = UIColor.orange
                 //self.textTimer.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
@@ -295,7 +299,6 @@ class VideoViewController: UIViewController {
                     //   moment of 0 Sec
                     self.countDown = false
                     self.isRecording = true
-                    SystemSounds().BeginVideoRecording()
                     self.time = self.taskTime() //                           本編スタート
                 }else{
                     print("撮影終了")

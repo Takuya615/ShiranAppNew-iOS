@@ -14,7 +14,7 @@ struct ContentView: View {
     @EnvironmentObject var dataCounter: DataCounter
     @State var push = false
     @State var isVideo = false
-    
+    @State var showDiamondAlert = false
     let modifiedDate = Calendar.current.date(byAdding: .second, value: 30, to: Date())!
     
     var body: some View {
@@ -32,8 +32,10 @@ struct ContentView: View {
                         // get true when push fab
                         CoachMarkView()
                     }
+                    
                     fragment
                     fab
+                    if dataCounter.countedDiamond == 0 { dia }
                 }
             }
         }
@@ -57,7 +59,33 @@ struct ContentView: View {
                }
         }
     }
-    
+    var dia: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action:{
+                    showDiamondAlert = true
+                }, label: {
+                    Image("diamonds").resizable().frame(width: 100.0, height: 100.0, alignment: .leading)
+                })
+                .frame(width: 60, height: 60, alignment: .center)
+                //.background(Color.blue)
+                .cornerRadius(30.0)
+                .shadow(color: .gray, radius: 3, x: 3, y: 3)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 150.0, trailing: 16.0))
+                .alert(isPresented: $showDiamondAlert, content: {
+                    Alert(title: Text("インストール\nありがとうございます!"),
+                        message: Text("ダイヤ ×５０ をプレゼント！！\n＊このダイヤは今はまだゲーム内で使えません。"),
+                        dismissButton: .default(Text("了解"),
+                        action: {
+                            dataCounter.countedDiamond = 50
+                            UserDefaults.standard.set(50, forKey: dataCounter.diamond)
+                        }))
+                })
+            }
+        }
+    }
     var fab: some View {
         VStack {
             Spacer()
@@ -142,7 +170,7 @@ struct FirstView: View{
                     self.appState.showWanWan = false
                 }
             })
-            .navigationTitle("ホーム")
+            .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing){
@@ -224,16 +252,18 @@ struct FirstView: View{
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 8, trailing: 10))
                 }
                 ToolbarItem(placement: .navigationBarLeading){
-                    Text("  Lv. \(self.dataCounter.countedLevel)")
-                    //UserDefaults.standard.integer(forKey: dataCounter.level
+                    HStack{
+                        Text("  Lv. \(self.dataCounter.countedLevel)  ")
+                        Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                        Text(" \(self.dataCounter.countedDiamond)")
+                    }
+                    
                 }
             }
             
             
         }.navigationViewStyle(StackNavigationViewStyle())
-        /*SideMenuView(isOpen: $isOpenSideMenu)
-            .edgesIgnoringSafeArea(.all)
-        }*/
+        
     }
 }
 

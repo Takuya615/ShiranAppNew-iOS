@@ -36,6 +36,8 @@
 		CE54231726E6DF27002550D4 /* PoseNetInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230626E6DF27002550D4 /* PoseNetInput.swift */; };
 		CE54231826E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CE54230726E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel */; };
 		CE5954C826E8B778003CE64E /* PoseUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5954C726E8B778003CE64E /* PoseUIView.swift */; };
+		CE6C8DD027119399007286A4 /* fightEnemy.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */; };
+		CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DD1271196C8007286A4 /* countdown.mp3 */; };
 		CE96198226E1AE7F0084F1A7 /* ShiranAppNewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96198126E1AE7F0084F1A7 /* ShiranAppNewApp.swift */; };
 		CE96198626E1AE820084F1A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE96198526E1AE820084F1A7 /* Assets.xcassets */; };
 		CE96198926E1AE820084F1A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE96198826E1AE820084F1A7 /* Preview Assets.xcassets */; };
@@ -101,6 +103,8 @@
 		CE54230626E6DF27002550D4 /* PoseNetInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNetInput.swift; sourceTree = "<group>"; };
 		CE54230726E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoseNetMobileNet075S16FP16.mlmodel; sourceTree = "<group>"; };
 		CE5954C726E8B778003CE64E /* PoseUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseUIView.swift; sourceTree = "<group>"; };
+		CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fightEnemy.MP4; sourceTree = "<group>"; };
+		CE6C8DD1271196C8007286A4 /* countdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = countdown.mp3; sourceTree = "<group>"; };
 		CE6F978F26F0E476007CF587 /* ShiranAppNew.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiranAppNew.entitlements; sourceTree = "<group>"; };
 		CE96197E26E1AE7F0084F1A7 /* ShiranAppNew.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiranAppNew.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE96198126E1AE7F0084F1A7 /* ShiranAppNewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiranAppNewApp.swift; sourceTree = "<group>"; };
@@ -175,6 +179,8 @@
 				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
 				CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */,
 				CEE45B1826F88340009D6E1F /* introduce.MP4 */,
+				CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */,
+				CE6C8DD1271196C8007286A4 /* countdown.mp3 */,
 				CE04B411270C04AF00F21059 /* cheers.mp3 */,
 			);
 			path = Data;
@@ -430,11 +436,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */,
 				CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */,
 				CEE45B1926F8CAA7009D6E1F /* introduce.MP4 in Resources */,
 				CE96198926E1AE820084F1A7 /* Preview Assets.xcassets in Resources */,
 				CE96198626E1AE820084F1A7 /* Assets.xcassets in Resources */,
 				CE9619AD26E1B76B0084F1A7 /* GoogleService-Info.plist in Resources */,
+				CE6C8DD027119399007286A4 /* fightEnemy.MP4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,7 +778,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShiranAppNew/ShiranAppNew.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"ShiranAppNew/Preview Content\"";
 				DEVELOPMENT_TEAM = C4FH99N43Y;
@@ -781,7 +789,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Takuya.Tsumura.ShiranAppNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -797,7 +805,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShiranAppNew/ShiranAppNew.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"ShiranAppNew/Preview Content\"";
 				DEVELOPMENT_TEAM = C4FH99N43Y;
@@ -808,7 +816,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Takuya.Tsumura.ShiranAppNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

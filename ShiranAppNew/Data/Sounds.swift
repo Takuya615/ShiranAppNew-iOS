@@ -12,15 +12,7 @@ import AudioToolbox
 class SystemSounds{
     
     func BeginVideoRecording(){
-        var soundIdRing:SystemSoundID = 1117
-        if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
-                    AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
-                    AudioServicesPlaySystemSound(soundIdRing)
-                }
-    }
-    
-    func EndVideoRecording(){
-        var soundIdRing:SystemSoundID = 1118
+        var soundIdRing:SystemSoundID = 1117//1118
         if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
                     AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
                     AudioServicesPlaySystemSound(soundIdRing)
@@ -38,6 +30,15 @@ class SystemSounds{
         var soundIdRing:SystemSoundID = 0
         if let soundUrl:NSURL = NSURL(fileURLWithPath:
             Bundle.main.path(forResource: "cheers", ofType:"mp3")!) as NSURL?{
+            AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
+            AudioServicesPlaySystemSound(soundIdRing)
+        }
+    }
+    
+    func countDown(_ sender : Any) {
+        var soundIdRing:SystemSoundID = 0
+        if let soundUrl:NSURL = NSURL(fileURLWithPath:
+            Bundle.main.path(forResource: "countdown", ofType:"mp3")!) as NSURL?{
             AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
             AudioServicesPlaySystemSound(soundIdRing)
         }

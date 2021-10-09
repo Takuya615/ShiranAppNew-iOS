@@ -49,6 +49,17 @@ struct ExplainAppView: View {
                 }).sheet(isPresented: self.$btn0, content: {
                     PlayerView()
                 })
+                Button(action: {
+                    self.btn0.toggle()
+                }, label: {
+                    HStack{
+                        Text("敵モンスターの倒しかた")
+                        Image(systemName: "play.rectangle.fill")
+                            .foregroundColor(.red)
+                    }
+                }).sheet(isPresented: self.$btn0, content: {
+                    PlayerView2()
+                })
                 Button("アプリの流れ"){
                     self.btn1.toggle()
                 }.sheet(isPresented: self.$btn1, content: {
@@ -87,6 +98,14 @@ struct ExplainAppView_Previews: PreviewProvider {
 
 struct PlayerView: View {
     let url = Bundle.main.path(forResource: "introduce", ofType: "MP4")
+    var body: some View {
+        let player = AVPlayer(url: URL(fileURLWithPath: url!))
+        VideoPlayer(player: player)
+            .onAppear() {player.play()}
+    }
+}
+struct PlayerView2: View {
+    let url = Bundle.main.path(forResource: "fightEnemy", ofType: "MP4")
     var body: some View {
         let player = AVPlayer(url: URL(fileURLWithPath: url!))
         VideoPlayer(player: player)

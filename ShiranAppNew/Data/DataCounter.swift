@@ -23,12 +23,16 @@ class DataCounter: ObservableObject {
     
     let level = "Level"
     let exp = "ExperiencePoint"
+    let coin = "Coin"
+    let diamond = "Diamond"
     
     let bossNum = "BOSS_ListNumber"
     //let bossHP = "BOSS_HP"
     let damage = "BOSS_Damege"
     
     @Published var countedLevel: Int = UserDefaults.standard.integer(forKey: "Level")
+    @Published var countedCoin: Int = UserDefaults.standard.integer(forKey: "Coin")
+    @Published var countedDiamond: Int = UserDefaults.standard.integer(forKey: "Diamond")
     @Published var continuedDayCounter: Int = UserDefaults.standard.integer(forKey: "cDay")//めいんViewに表示する用
     @Published var continuedRetryCounter: Int = UserDefaults.standard.integer(forKey: "retry")//めいんViewに表示する用
     //@Published var capStart: Bool = false//??
@@ -41,16 +45,16 @@ class DataCounter: ObservableObject {
         let totalDay: Int = User.integer(forKey: self.totalDay)//読み込み
         
         let today = Date()
-        //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -2, to: today)!
+        //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
         let LastTimeDay: Date? = User.object(forKey: self._LastTimeDay) as? Date
     
         if LastTimeDay == nil{
             print("記念すべき第一回目")
-            User.set(1, forKey: self.totalDay)//総日数
-            User.set( 1, forKey: self.continuedDay)//継続日数
+            User.set(0, forKey: self.totalDay)//総日数
+            User.set(0, forKey: self.continuedDay)//継続日数
             let lastDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
             User.set(lastDay, forKey: self._LastTimeDay)//デイリー更新(初回はもう一度遊べるようにする)
-            continuedDayCounter = 1
+            continuedDayCounter = 0
             updateTaskTime(total: 181)
             return -1
         }
@@ -144,7 +148,7 @@ class DataCounter: ObservableObject {
     
     func levelUp(score:Int) -> (Int,Int){
         let user = UserDefaults.standard
-        let levelTable = [10,480,870,1320,1830,2400,3030,3720,4470,5280,6150,7080,8070,9120,10230,11400,
+        let levelTable = [200,480,870,1320,1830,2400,3030,3720,4470,5280,6150,7080,8070,9120,10230,11400,
         12630,13920,15270,16680,18150,19680,21270,22920,24630,26400,27930,29220,30570,31980,33480]
         var exp: Int = user.integer(forKey: self.exp)//読み込み
         let preLevel: Int = user.integer(forKey: self.level)//読み込み

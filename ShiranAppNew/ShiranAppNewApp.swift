@@ -45,6 +45,7 @@ class AppState: ObservableObject {
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
     @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController2 -82
     @Published var showWanWan: Bool = false
+    @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: "getDiamonds")
     init() {
         if !coachMark1 {isExplainView = true}
         //UserDefaults.standard.set(10, forKey: "Level")
