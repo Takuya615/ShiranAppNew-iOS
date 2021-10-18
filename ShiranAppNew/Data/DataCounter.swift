@@ -248,7 +248,7 @@ class DataCounter: ObservableObject {
         }
         return message
     }
-    /*
+    
     func saveMyPose(poseList:[Pose]){
         let db = Firestore.firestore()
         db.collection("つむ").document("poseList").setData([
@@ -260,5 +260,5 @@ class DataCounter: ObservableObject {
                 print("PoseListの保存成功！！")
             }
         }
-    }*/
+    }
 }

@@ -120,6 +120,7 @@ class VideoViewController: UIViewController {
         self.session = nil
         
         if !countDown {
+            DataCounter().saveMyPose(poseList: myPoseList)
             //let save = SaveVideo().environmentObject(DataCounter())
             //SaveVideo().saveData(score: Int(score)/100)
             //self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
@@ -383,10 +384,10 @@ extension VideoViewController: PoseNetDelegate {
         let pose = poseBuilder.pose
         
         //print("currentFrame = \(String(describing: self.currentFrame))  ,  view.size = \(self.view.bounds.size)")
-        /*if !self.countDown{
+        if !self.countDown{
             myPoseList.append(pose)
         }
-        */
+        
         
         
         
