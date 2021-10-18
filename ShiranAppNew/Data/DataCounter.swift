@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Firebase
 
 
 class DataCounter: ObservableObject {
@@ -27,7 +28,6 @@ class DataCounter: ObservableObject {
     let diamond = "Diamond"
     
     let bossNum = "BOSS_ListNumber"
-    //let bossHP = "BOSS_HP"
     let damage = "BOSS_Damege"
     
     @Published var countedLevel: Int = UserDefaults.standard.integer(forKey: "Level")
@@ -183,7 +183,7 @@ class DataCounter: ObservableObject {
         let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
         if num != 0 {//　　　　　デイリー達成していない
             if boss == nil {
-                title = mes(score: intScore,str: addStr)
+                title = "Score \(intScore)p"//mes(score: intScore,str: addStr)
                 message = ""
             }else{
                 EventAnalytics().totalBattle()
@@ -248,5 +248,17 @@ class DataCounter: ObservableObject {
         }
         return message
     }
-    
+    /*
+    func saveMyPose(poseList:[Pose]){
+        let db = Firestore.firestore()
+        db.collection("つむ").document("poseList").setData([
+            "poseList": poseList
+        ]) { err in
+            if let err = err {
+                print("エラー　Error adding document: \(err)")
+            } else {
+                print("PoseListの保存成功！！")
+            }
+        }
+    }*/
 }

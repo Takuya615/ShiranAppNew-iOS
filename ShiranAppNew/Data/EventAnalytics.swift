@@ -11,7 +11,7 @@ import FirebaseAnalytics
 
 class EventAnalytics {
     
-    private let isDebag = false
+    private let isDebag = true//false
     
     func tapFab(){
         if isDebag {return}
@@ -46,17 +46,18 @@ class EventAnalytics {
     }
     
     
-    
+    //DataCounter
     func loseEnemy(enemy:String){
         if isDebag {return}
-        let total = UserDefaults.standard.integer(forKey: DataCounter().totalDay)
+        //let total = UserDefaults.standard.integer(forKey: DataCounter().totalDay)
         let task = UserDefaults.standard.integer(forKey: DataCounter().taskTime)
         Analytics.logEvent("loseEnemy", parameters: [
             AnalyticsParameterItemCategory: "Battle",
             AnalyticsParameterItemName: "負けた数",
-          "count": "\(enemy) に総日\(total)日目、タスク時間\(task)秒で負けた。" as NSObject,
+          "count": "\(enemy)タスク\(task)秒負け" as NSObject,
         ])
     }
+    //DataCounter
     func totalBattle(){
         if isDebag {return}
         Analytics.logEvent("totalBattle", parameters: [
@@ -64,6 +65,7 @@ class EventAnalytics {
             AnalyticsParameterItemName: "総バトル回数"
         ])
     }
+    //DataCounter
     func levelUp(level: Int){
         if isDebag {return}
         let totalDay: Int = UserDefaults.standard.integer(forKey: DataCounter().totalDay)
@@ -86,6 +88,7 @@ class EventAnalytics {
     func lastCharacterReleased(){
         if isDebag {return}
         Analytics.logEvent("LastCharaReleased", parameters: [
+            AnalyticsParameterItemName: "ラストキャラ使われた",
             AnalyticsParameterContentType: "Int"
         ])
     }

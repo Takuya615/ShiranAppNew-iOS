@@ -12,7 +12,7 @@ import Instructions
 //コーチマーク
 extension VideoViewController: UIAdaptivePresentationControllerDelegate{
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        self.coachController.start(in: .window(over: self))//CoachMark  .currentWindow(of: self))
+        //self.coachController.start(in: .window(over: self))//CoachMark  .currentWindow(of: self))
     }
 }
 

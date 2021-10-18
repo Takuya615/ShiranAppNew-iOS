@@ -36,7 +36,6 @@ class BOSS {
         let total = user.integer(forKey: DataCounter().totalDay)
         for i in 1 ... list.count-1 {
             if total == list[i].encount {
-                //user.set(0.0, forKey: DataCounter().damage)
                 user.set( i , forKey: DataCounter().bossNum)
                 return list[i]
             }

@@ -11,6 +11,7 @@ import AVKit
 struct ExplainAppView: View {
     @EnvironmentObject var appState: AppState
     @State private var btn0 = false
+    @State private var btn01 = false
     @State private var btn1 = false
     @State private var btn2 = false
     @State private var btn3 = false
@@ -35,6 +36,7 @@ struct ExplainAppView: View {
                 
                 """
             ).font(.title)
+            .onAppear(perform: { if !appState.coachMark1{btn0 = true}})
             
             
             List{
@@ -50,14 +52,14 @@ struct ExplainAppView: View {
                     PlayerView()
                 })
                 Button(action: {
-                    self.btn0.toggle()
+                    self.btn01.toggle()
                 }, label: {
                     HStack{
                         Text("敵モンスターの倒しかた")
                         Image(systemName: "play.rectangle.fill")
                             .foregroundColor(.red)
                     }
-                }).sheet(isPresented: self.$btn0, content: {
+                }).sheet(isPresented: self.$btn01, content: {
                     PlayerView2()
                 })
                 Button("アプリの流れ"){

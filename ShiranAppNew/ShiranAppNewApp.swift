@@ -43,7 +43,8 @@ class AppState: ObservableObject {
     @Published var isVideoPlayer = false
     @Published var isPlayerView = false
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
-    @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController2 -82
+    @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController -82
+    @Published var coachMark3: Bool = UserDefaults.standard.bool(forKey: "CoachMark3")
     @Published var showWanWan: Bool = false
     @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: "getDiamonds")
     init() {

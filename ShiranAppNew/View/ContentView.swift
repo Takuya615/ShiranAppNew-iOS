@@ -29,8 +29,11 @@ struct ContentView: View {
         }else {
                 ZStack{
                     if !appState.coachMark1 {
-                        // get true when push fab
                         CoachMarkView()
+                    }else if !appState.coachMark3 {
+                        CoachMarkView3()
+                            .onDisappear(perform: {appState.coachMark3 = true})
+                            
                     }
                     
                     fragment
@@ -138,7 +141,6 @@ struct FirstView: View{
                             .foregroundColor(.blue)
                         
                         Text(String(self.dataCounter.continuedRetryCounter))
-                            
                             .font(.system(size: 100, weight: .black, design: .default))
                             .frame(width: 130, height: 200, alignment: .center)
                             .foregroundColor(.blue)

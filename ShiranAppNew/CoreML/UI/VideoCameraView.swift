@@ -45,6 +45,7 @@ class VideoViewController: UIViewController {
     var score:Float = 0.0
     var prePose: Pose!
     var timesBonus: Float = 1.0
+    var myPoseList: [Pose]!
     
     var time = 4
     var timer = Timer()
@@ -102,7 +103,7 @@ class VideoViewController: UIViewController {
         super.viewDidDisappear(animated)
         // Viewが閉じられたとき、セッションを終了
         if !AppState().coachMark2{
-            //self.coachController.stop(immediately: true)//CoachMark
+            self.coachController.stop(immediately: true)//CoachMark
             UserDefaults.standard.set(true, forKey: "CoachMark2")//CoachMark
         }
         
@@ -118,11 +119,11 @@ class VideoViewController: UIViewController {
         }
         self.session = nil
         
-        //if !countDown {
+        if !countDown {
             //let save = SaveVideo().environmentObject(DataCounter())
             //SaveVideo().saveData(score: Int(score)/100)
             //self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
-        //}
+        }
         
     }
 
@@ -258,10 +259,14 @@ class VideoViewController: UIViewController {
         self.view.addSubview(der)
         
         if !AppState().coachMark2 {
+            self.coachController.start(in: .window(over: self))
+        }
+        /*
+        if !AppState().coachMark2 {
             let MainView = UIHostingController(rootView: IntroView(imageName: "sample", number: 0).environmentObject(AppState()))//ContentView())
             MainView.presentationController?.delegate = self
             self.present(MainView, animated: true, completion:nil)
-        }
+        }*/
 
     }
     
@@ -378,6 +383,21 @@ extension VideoViewController: PoseNetDelegate {
         let pose = poseBuilder.pose
         
         //print("currentFrame = \(String(describing: self.currentFrame))  ,  view.size = \(self.view.bounds.size)")
+        /*if !self.countDown{
+            myPoseList.append(pose)
+        }
+        */
+        
+        
+        
+        //ココにFirebaseからのPoseデータを読み込んで、PoseImageView().showに読み込ませられれば、友達の行動とリンクして遊べるようになる！！
+        //0.5秒おきにPoseを渡す。みたいな感じになると思う
+        
+        
+        
+        
+        
+        
         
         let poseImage: UIImage = PoseImageView().show(
             pose: pose,

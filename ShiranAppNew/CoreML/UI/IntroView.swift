@@ -4,11 +4,11 @@
 //
 //  Created by user on 2021/08/27.
 //
-
+/*
 import SwiftUI
 
 
-//VideoCameraView 239行目　コーチマークと一緒に
+//VideoCameraView 260行目　コーチマークと一緒に
 
 struct IntroView: View {
     var imageName: String
@@ -50,3 +50,4 @@ struct IntroView_Previews: PreviewProvider {
         IntroView(imageName: "", number: 0)
     }
 }
+*/
