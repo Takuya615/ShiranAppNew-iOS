@@ -24,8 +24,8 @@ struct ContentView: View {
             PrivacyPolicyView()
         }else if self.appState.isExplainView{
             ExplainAppView()
-        //}else if self.appState.isLogin{
-           // LoginView()
+        }else if self.appState.isLogin{
+            LoginView()
         }else {
                 ZStack{
                     if !appState.coachMark1 {
@@ -39,6 +39,7 @@ struct ContentView: View {
                     fragment
                     fab
                     if dataCounter.countedDiamond == 0 { dia }
+                    reset
                 }
             }
         }
@@ -115,6 +116,32 @@ struct ContentView: View {
         }
     }
     
+    
+    var reset: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                
+                Button(action:{
+                    appState.reset()
+                }, label: {
+                    Image(systemName: "video.fill.badge.plus")
+                        .foregroundColor(.black)
+                        .font(.system(size: 40))
+                })
+                .frame(width: 60, height: 60, alignment: .center)
+                .background(Color.orange)
+                .cornerRadius(30.0)
+                .shadow(color: .gray, radius: 3, x: 3, y: 3)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 250.0, trailing: 16.0))
+                /*.fullScreenCover(isPresented: self.$isVideo, content: {
+                    VideoCameraView2(isVideo: $isVideo)
+                })*/
+            }
+        }
+    }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -221,6 +248,21 @@ struct FirstView: View{
                             Image(systemName: "paperplane.fill")
                             }
                         
+                        if self.appState.isinAccount {
+                           Button(action: {
+                               appState.logout()
+                           }) {
+                               Text("ログアウト")
+                               Image(systemName: "person")
+                                               }
+                       }else{
+                           Button(action: {
+                               appState.isLogin = true
+                           }) {
+                               Text("アカウント設定")
+                               Image(systemName: "person")
+                                               }
+                       }
                         
                         /*
                          @IBAction func share() {
@@ -229,23 +271,7 @@ struct FirstView: View{
                                  let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: [LINEActivity(message: shareText), TwitterActivity(message: shareText)])
                                  self.present(activityViewController, animated: true, completion: nil)
                              }
-                         
-                         
-                         if self.appState.isinAccount {
-                            Button(action: {
-                                appState.logout()
-                            }) {
-                                Text("ログアウト")
-                                Image(systemName: "person")
-                                                }
-                        }else{
-                            Button(action: {
-                                appState.isLogin = true
-                            }) {
-                                Text("アカウント設定")
-                                Image(systemName: "person")
-                                                }
-                        }*/
+                         */
                     }label: {
                         Image(systemName: "line.horizontal.3")
                             .resizable()
@@ -255,6 +281,7 @@ struct FirstView: View{
                 }
                 ToolbarItem(placement: .navigationBarLeading){
                     HStack{
+                        Text(UserDefaults.standard.string(forKey: DataCounter().myName) ?? "")
                         Text("  Lv. \(self.dataCounter.countedLevel)  ")
                         Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
                         Text(" \(self.dataCounter.countedDiamond)")

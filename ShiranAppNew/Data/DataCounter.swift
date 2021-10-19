@@ -26,9 +26,10 @@ class DataCounter: ObservableObject {
     let exp = "ExperiencePoint"
     let coin = "Coin"
     let diamond = "Diamond"
-    
     let bossNum = "BOSS_ListNumber"
     let damage = "BOSS_Damege"
+    let myName = "MyName"
+    
     
     @Published var countedLevel: Int = UserDefaults.standard.integer(forKey: "Level")
     @Published var countedCoin: Int = UserDefaults.standard.integer(forKey: "Coin")
@@ -250,8 +251,9 @@ class DataCounter: ObservableObject {
     }
     
     func saveMyPose(poseList:[Pose]){
-        let db = Firestore.firestore()
-        db.collection("つむ").document("poseList").setData([
+        guard let myName = UserDefaults.standard.string(forKey: self.myName) else {return}
+        let db = Firestore.firestore().collection("users").document(myName)
+        db.updateData([
             "poseList": poseList
         ]) { err in
             if let err = err {

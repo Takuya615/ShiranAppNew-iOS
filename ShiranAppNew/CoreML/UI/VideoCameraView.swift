@@ -45,7 +45,7 @@ class VideoViewController: UIViewController {
     var score:Float = 0.0
     var prePose: Pose!
     var timesBonus: Float = 1.0
-    var myPoseList: [Pose]!
+    var myPoseList: [Pose] = []
     
     var time = 4
     var timer = Timer()

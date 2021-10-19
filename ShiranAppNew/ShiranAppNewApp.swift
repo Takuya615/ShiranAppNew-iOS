@@ -34,10 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 class AppState: ObservableObject {
-    //@Published var isLogin = false
+    @Published var isLogin = false
+    @Published var isNamed = false
+    @Published var isinAccount = false
     @Published var isLoading = false
     @Published var errorStr = ""
-    //@Published var isinAccount = false
     @Published var isPrivacyPolicy = false
     @Published var isExplainView = false
     @Published var isVideoPlayer = false
@@ -49,17 +50,11 @@ class AppState: ObservableObject {
     @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: "getDiamonds")
     init() {
         if !coachMark1 {isExplainView = true}
-        //UserDefaults.standard.set(10, forKey: "Level")
-    }
-    
-    
-    /*
-    init() {
-        //FirebaseApp.configure()//FireBaseの初期化
         if Auth.auth().currentUser != nil {
-            self.isinAccount = true
+            self.isinAccount = true//trueなら　アカウント設定 　false　ならログアウトボタンに切り替わる
             //self.isLogin = true
         }
+        //UserDefaults.standard.set(10, forKey: "Level")
     }
     
     func signup(email:String, password:String){//email:String,password:String
@@ -71,10 +66,11 @@ class AppState: ObservableObject {
             print("登録メアドは\(email)")
             print("登録パスワードは\(password)")
             if authResult != nil && error == nil{
-                self?.isLogin = false
                 self?.isLoading = false
                 self?.errorStr = ""
+                self?.isNamed = true
                 self?.isinAccount = true
+                //self?.saveDetails()
             }else{
                 //self?.isLogin = false
                 self?.isLoading = false
@@ -94,11 +90,10 @@ class AppState: ObservableObject {
             print("ログインメルアドは\(email)")
             print("ログインパスワードは\(password)")
             if error == nil{
-                self?.isLogin = false
-                self?.isLoading = false
+                //self?.isLoading = false
                 self?.errorStr = ""
                 self?.isinAccount = true
-                
+                self?.existName()
             }else{
                 //self?.isLogin = false
                 self?.isLoading = false
@@ -119,6 +114,61 @@ class AppState: ObservableObject {
           print ("ログアウトできてませんError signing out: %@", signOutError)
           //UserDefaults.standard.set({true}, forKey:"login")
         }
-    }*/
+    }
     
+    func saveDetails(name: String){
+        //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
+        let id = Auth.auth().currentUser!.uid
+        let db = Firestore.firestore().collection("users").document(name)
+        db.setData([
+            "id": id,
+            "name": name,
+            "friends": [],
+            "poseList": []
+        ]) { err in
+            if let err = err {
+                print("エラー　Error adding document: \(err)")
+                self.isLoading = false
+                self.errorStr = "不明なエラー\n通信環境の良いところで、もう１度お試しください"
+            } else {
+                print("ディティールの保存成功！！")
+                self.isLoading = false
+                self.errorStr = ""
+                UserDefaults.standard.set(name, forKey: DataCounter().myName)
+                self.isLogin = false
+                self.isNamed = false
+            }
+        }
+    }
+    
+    func existName(){
+        let id = Auth.auth().currentUser!.uid
+        let db = Firestore.firestore().collection("users").whereField("id", isEqualTo: id)
+        db.getDocuments() { (querySnapshot, err) in
+            if querySnapshot!.documents.isEmpty {//そもそもまだデータ登録されていない場合、NameSettingViewへ
+                self.isNamed = true
+                self.isLoading = false
+            }else{//                                nameを設定し直してメインへ
+                let name: String = querySnapshot!.documents[0].data()["name"] as! String
+                print("documentは\(name)")
+                UserDefaults.standard.set(name, forKey: DataCounter().myName)
+                self.isLogin = false
+                self.isLoading = false
+            }
+        }
+    }
+    
+    func reset(){
+        //let db = Firestore.firestore()
+        //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
+        UserDefaults.standard.removeObject(forKey: DataCounter().myName)
+        /*db.collection("users").document(myName).delete() { err in
+            if let err = err {
+                print("さくじょ　Error removing document: \(err)")
+            } else {
+                
+                print("さくじょ　Document successfully removed!")
+            }
+        }*/
+    }
 }
