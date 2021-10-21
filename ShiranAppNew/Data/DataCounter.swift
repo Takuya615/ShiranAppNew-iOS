@@ -250,7 +250,7 @@ class DataCounter: ObservableObject {
         return message
     }
     
-    func saveMyPose(poseList:[Pose]){
+    func saveMyPose(poseList:[Int]){
         guard let myName = UserDefaults.standard.string(forKey: self.myName) else {return}
         let db = Firestore.firestore().collection("users").document(myName)
         db.updateData([

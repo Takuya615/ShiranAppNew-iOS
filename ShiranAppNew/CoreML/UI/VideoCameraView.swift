@@ -12,6 +12,7 @@ import Vision
 import CoreML
 import UIKit
 import VideoToolbox
+import Firebase
 
 
 //カメラのビュー
@@ -45,7 +46,9 @@ class VideoViewController: UIViewController {
     var score:Float = 0.0
     var prePose: Pose!
     var timesBonus: Float = 1.0
-    var myPoseList: [Pose] = []
+    var myPoseList: [Int] = []
+    var friPoseList: [Int] = []
+    var poseNum: Int = 0
     
     var time = 4
     var timer = Timer()
@@ -83,6 +86,13 @@ class VideoViewController: UIViewController {
         timesBonus = Character().useTaskHelper()
         if exiteBoss != nil { view.backgroundColor = .black; isBoss = true }
         EventAnalytics().tapFab()
+        
+        let db = Firestore.firestore().collection("users").whereField("name", isEqualTo: "つむ")
+        db.getDocuments() { (querySnapshot, err) in
+            if err != nil {return}
+            guard let poseList: [Int] = querySnapshot!.documents[0].data()["poseList"] as? [Int] else{print("フレンドリストなし");return}
+            self.friPoseList = poseList
+        }
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -383,25 +393,38 @@ extension VideoViewController: PoseNetDelegate {
 
         let pose = poseBuilder.pose
         
-        //print("currentFrame = \(String(describing: self.currentFrame))  ,  view.size = \(self.view.bounds.size)")
+        
+        let fPose = Pose()
+        
         if !self.countDown{
-            myPoseList.append(pose)
+            let namelist = Pose().joints2
+            //自分のポーズを保存
+            for i in 0 ... namelist.count-1 {
+                if pose[namelist[i]].isValid {
+                    myPoseList.append(Int(pose[namelist[i]].position.x))
+                    myPoseList.append(Int(pose[namelist[i]].position.y))
+                }else{
+                    myPoseList.append(-1); myPoseList.append(-1)
+                }
+            }
+            //友達のポーズを引っ張ってきてプレイ！
+            if !friPoseList.isEmpty {
+                var n = 0
+                for i in stride(from: 0, to: 26, by: 2) {
+                    if friPoseList[i] > -1 {
+                        fPose[namelist[n]].isValid = true
+                        fPose[namelist[n]].position = CGPoint(x: friPoseList[i], y: friPoseList[i+1])
+                    }
+                    n += 1
+                }
+                friPoseList.removeFirst(26)
+            }
+            
         }
         
-        
-        
-        
-        //ココにFirebaseからのPoseデータを読み込んで、PoseImageView().showに読み込ませられれば、友達の行動とリンクして遊べるようになる！！
-        //0.5秒おきにPoseを渡す。みたいな感じになると思う
-        
-        
-        
-        
-        
-        
-        
-        let poseImage: UIImage = PoseImageView().show(
+            let poseImage: UIImage = PoseImageView().show(
             pose: pose,
+            friPose: fPose,
             on: self.currentFrame!)
         
         //print("poseImage  = \(poseImage.size)")

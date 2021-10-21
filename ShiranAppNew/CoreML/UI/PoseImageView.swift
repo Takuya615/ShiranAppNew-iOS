@@ -45,7 +45,7 @@ class PoseImageView: UIImageView {
     @IBInspectable var jointColor: UIColor = UIColor.yellow//.systemYellow//.systemPink
     
     
-    func show(pose: Pose, on frame: CGImage) -> UIImage {
+    func show(pose: Pose,friPose: Pose, on frame: CGImage) -> UIImage {
         
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
@@ -60,23 +60,33 @@ class PoseImageView: UIImageView {
 
             //drawText(image:frame,score: score, in: rendererContext.cgContext)
             
-            // Draw the segment lines.
             for segment in PoseImageView.jointSegments {
                 let jointA = pose[segment.jointA]
                 let jointB = pose[segment.jointB]
-
-                guard jointA.isValid, jointB.isValid else {
-                    continue
-                }
-
+                guard jointA.isValid, jointB.isValid else {continue}
                 drawLine(from: jointA,
                          to: jointB,
                          in: rendererContext.cgContext)
             }
-
-            // Draw the joints as circles above the segment lines.
             for joint in pose.joints.values.filter({ $0.isValid }) {
                 draw(circle: joint, in: rendererContext.cgContext)
+            }
+            
+            if friPose[.nose].position.x != 0 {
+                segmentColor = .blue//.lightGray//UIColor.orange
+                jointColor = .blue
+                for joint in friPose.joints.values.filter({ $0.isValid }) {
+                    draw(circle: joint, in: rendererContext.cgContext)
+                }
+                drawHead(circle: friPose[.nose], in: rendererContext.cgContext)
+                for segment in PoseImageView.jointSegments {
+                    let jointA = friPose[segment.jointA]
+                    let jointB = friPose[segment.jointB]
+                    guard jointA.isValid, jointB.isValid else {continue}
+                    drawLine(from: jointA,
+                                to: jointB,
+                                in: rendererContext.cgContext)
+                }
             }
             
         }
@@ -124,12 +134,25 @@ class PoseImageView: UIImageView {
     ///     - circle: A valid joint whose position is used as the circle's center.
     ///     - cgContext: The rendering context.
     private func draw(circle joint: Joint, in cgContext: CGContext) {
+        if joint.name == .nose {return}
         cgContext.setFillColor(jointColor.cgColor)
-
         let rectangle = CGRect(x: joint.position.x - jointRadius, y: joint.position.y - jointRadius,
                                width: jointRadius * 2, height: jointRadius * 2)
         cgContext.addEllipse(in: rectangle)
         cgContext.drawPath(using: .fill)
+    }
+    
+    private func drawHead(circle joint: Joint, in cgContext: CGContext) {
+        if joint.name != .nose {return}
+        jointRadius = 30
+        //cgContext.setFillColor(jointColor.cgColor)
+        cgContext.setStrokeColor(jointColor.cgColor)
+        let rectangle = CGRect(x: joint.position.x - jointRadius, y: joint.position.y - jointRadius,
+                               width: jointRadius * 2, height: jointRadius * 2)
+        cgContext.setLineWidth(segmentLineWidth)
+        cgContext.strokeEllipse(in: rectangle)
+        cgContext.drawPath(using: .stroke)
+        //val kadomaruShikaku = UIBezierPath(roundedRect: CGRect(x: 100, y: 100, width: 100, height: 100), cornerRadius: 10)
     }
     
     private func drawText(image: CGImage,score: CGFloat, in cgContext: CGContext){

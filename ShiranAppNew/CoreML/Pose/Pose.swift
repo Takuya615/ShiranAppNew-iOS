@@ -47,7 +47,7 @@ struct Pose {
 
     /// The joints that make up a pose.
     private(set) var joints: [Joint.Name: Joint] = [
-        //.nose: Joint(name: .nose),
+        .nose: Joint(name: .nose),
         //.leftEye: Joint(name: .leftEye),
         //.leftEar: Joint(name: .leftEar),
         .leftShoulder: Joint(name: .leftShoulder),
@@ -66,6 +66,23 @@ struct Pose {
         .rightAnkle: Joint(name: .rightAnkle)
     ]
 
+    var joints2: [Joint.Name] = [
+        .nose,
+        .leftShoulder,
+        .leftElbow,
+        .leftWrist,
+        .leftHip,
+        .leftKnee,
+        .leftAnkle,
+        
+        .rightShoulder,
+        .rightElbow,
+        .rightWrist,
+        .rightHip,
+        .rightKnee,
+        .rightAnkle
+    ]
+    
     /// The confidence score associated with this pose.
     var confidence: Double = 0.0
 
