@@ -29,11 +29,14 @@ class DataCounter: ObservableObject {
     let bossNum = "BOSS_ListNumber"
     let damage = "BOSS_Damege"
     let myName = "MyName"
-    
+    let questNum = "QuestNumber"
+    let qsl = "QuestStateList"
+    let skin = "SkinNumber"
     
     @Published var countedLevel: Int = UserDefaults.standard.integer(forKey: "Level")
     @Published var countedCoin: Int = UserDefaults.standard.integer(forKey: "Coin")
     @Published var countedDiamond: Int = UserDefaults.standard.integer(forKey: "Diamond")
+    @Published var questStateList: [Int]? = UserDefaults.standard.array(forKey: "QuestStateList") as? [Int]
     @Published var continuedDayCounter: Int = UserDefaults.standard.integer(forKey: "cDay")//めいんViewに表示する用
     @Published var continuedRetryCounter: Int = UserDefaults.standard.integer(forKey: "retry")//めいんViewに表示する用
     //@Published var capStart: Bool = false//??
@@ -56,7 +59,7 @@ class DataCounter: ObservableObject {
             let lastDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
             User.set(lastDay, forKey: self._LastTimeDay)//デイリー更新(初回はもう一度遊べるようにする)
             continuedDayCounter = 0
-            updateTaskTime(total: 181)
+            updateTaskTime(total: 7)
             return -1
         }
                     
@@ -127,7 +130,6 @@ class DataCounter: ObservableObject {
     func updateTaskTime(total:Int){
         if total%2 == 0{return}//偶数なら見送り
         var tt = UserDefaults.standard.integer(forKey: self.taskTime)
-        
         switch total {
         case 0 ..< 61:
             tt = tt + 1
@@ -143,6 +145,10 @@ class DataCounter: ObservableObject {
             tt = tt + 5
         }
         print("タスクタイム＝\(tt)")
+        /*if total % 7 != 0 { return}
+        var tt = UserDefaults.standard.integer(forKey: self.taskTime)
+        tt += 30
+        if tt > 240 {tt = 240}*/
         UserDefaults.standard.set(tt, forKey: self.taskTime)
         EventAnalytics().totalAndTask(total: total, task: tt)
     }
@@ -181,10 +187,19 @@ class DataCounter: ObservableObject {
         let intScore = Int(score)
         var title = "Score \(intScore)p"
         var message = "(デイリー達成済み 経験値なし)\n\(addStr)"
+        if view.qScore != 0 {
+            title += "\nさわったボール　\(view.qScore) コ"
+                        message = ""
+            if view.qScore > 5 {title = "クエストクリア!!\n" + title
+                self.questStateList = [0,2,0,0,0,0,0,0]
+                UserDefaults.standard.set(0, forKey: DataCounter().questNum)
+                UserDefaults.standard.set([0,2,0,0,0,0,0], forKey: DataCounter().qsl)
+            }
+        }
         let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
         if num != 0 {//　　　　　デイリー達成していない
             if boss == nil {
-                title = "Score \(intScore)p"//mes(score: intScore,str: addStr)
+                title = "Score \(intScore)"//mes(score: intScore,str: addStr)
                 message = ""
             }else{
                 EventAnalytics().totalBattle()

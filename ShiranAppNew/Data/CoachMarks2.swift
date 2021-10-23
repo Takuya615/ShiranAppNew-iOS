@@ -22,11 +22,13 @@ extension VideoViewController: CoachMarksControllerDataSource {
         
         self.messages = ["""
                         タイマー
-                        その日のタイムリミットが表示されます(初回は５秒)
+                        その日のタイムリミットが表示されます
+                        (初回は５秒)
                         """,
                         """
                         タップしてはじめる
-                        ３秒後にスタート。タイムリミットまでスコアを記録します。
+                        ３秒後にスタート
+                        タイムリミットまでスコアを記録します
                         (録画機能はありません)
                         """,
                         """
@@ -48,7 +50,6 @@ extension VideoViewController: CoachMarksControllerDataSource {
     }
     
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
-        
         views = [self.textTimer,self.recordButton,self.scoreBoad]
         //self.coachController.overlay.backgroundColor = UIColor.init(.accentColor)//(white: 000000, alpha: 0.3)
         return self.coachController.helper.makeCoachMark(for: self.views[index], pointOfInterest: nil, cutoutPathMaker: nil)

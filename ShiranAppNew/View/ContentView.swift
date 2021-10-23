@@ -15,6 +15,8 @@ struct ContentView: View {
     @State var push = false
     @State var isVideo = false
     @State var showDiamondAlert = false
+    @State var place = "main"
+    @State var selection: Int = 0
     let modifiedDate = Calendar.current.date(byAdding: .second, value: 30, to: Date())!
     
     var body: some View {
@@ -28,23 +30,27 @@ struct ContentView: View {
             LoginView()
         }else {
                 ZStack{
-                    if !appState.coachMark1 {
-                        CoachMarkView()
-                    }else if !appState.coachMark3 {
+                    
+                    if !self.appState.coachMarkf {
+                        CoachMarkView(place: $place)
+                    }/*else if !appState.coachMark3 {
                         CoachMarkView3()
-                            .onDisappear(perform: {appState.coachMark3 = true})
-                            
-                    }
+                            .onDisappear(perform: { appState.coachMark3 = true})
+                    }else if !appState.coachMark4 {
+                        CoachMarkView4()
+                            .onDisappear(perform: { appState.coachMark4 = true})
+                    }*/
                     
                     fragment
                     fab
                     if dataCounter.countedDiamond == 0 { dia }
-                    reset
+                    //reset
                 }
-            }
+        }
         }
     }
     var fragment:some View {
+
         TabView {
             FirstView()
              .tabItem {
@@ -56,11 +62,22 @@ struct ContentView: View {
                     Image(systemName: "pencil")
                     Text("活動記録")
                 }
-            ThirdView()
+            fourthView()
              .tabItem {
                  Image(systemName: "lightbulb.fill")
-                 Text("スケット")
+                 Text("クエスト")
                }
+            ThirdView()
+            .tabItem {
+                Image(systemName: "lightbulb.fill")
+                Text("スケット")
+            }
+            fifthView()
+            .tabItem {
+                Image(systemName: "lightbulb.fill")
+                Text("ショップ")
+            }
+
         }
     }
     var dia: some View {
@@ -80,11 +97,13 @@ struct ContentView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 150.0, trailing: 16.0))
                 .alert(isPresented: $showDiamondAlert, content: {
                     Alert(title: Text("インストール\nありがとうございます!"),
-                        message: Text("ダイヤ ×５０ をプレゼント！！\n＊このダイヤは今はまだゲーム内で使えません。"),
+                        message: Text("コイン　×100　とダイヤ ×５０ をプレゼント！！\n＊このダイヤは今はまだゲーム内で使えません。"),
                         dismissButton: .default(Text("了解"),
                         action: {
                             dataCounter.countedDiamond = 50
                             UserDefaults.standard.set(50, forKey: dataCounter.diamond)
+                        dataCounter.countedCoin = 100
+                        UserDefaults.standard.set(100, forKey: DataCounter().coin)
                         }))
                 })
             }
@@ -116,32 +135,6 @@ struct ContentView: View {
         }
     }
     
-    
-    var reset: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                
-                Button(action:{
-                    appState.reset()
-                }, label: {
-                    Image(systemName: "video.fill.badge.plus")
-                        .foregroundColor(.black)
-                        .font(.system(size: 40))
-                })
-                .frame(width: 60, height: 60, alignment: .center)
-                .background(Color.orange)
-                .cornerRadius(30.0)
-                .shadow(color: .gray, radius: 3, x: 3, y: 3)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 250.0, trailing: 16.0))
-                /*.fullScreenCover(isPresented: self.$isVideo, content: {
-                    VideoCameraView2(isVideo: $isVideo)
-                })*/
-            }
-        }
-    }
-
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -160,7 +153,12 @@ struct FirstView: View{
     var body: some View {
         NavigationView{
             VStack{
-                
+                if self.appState.coachMark3 && !self.appState.coachMark4 {
+                    Image("enemy1")
+                        .resizable()
+                        .frame(width: 80.0, height: 80.0, alignment: .leading)
+                    Text("スライムがあらわれた")
+                }
                 HStack{
                     VStack{
                         Text("リトライ数")
@@ -190,7 +188,6 @@ struct FirstView: View{
                 }
                 
                 
-                
             }
             .onAppear(perform: {
                 if Character().useTaskHelper() > 1.0 {
@@ -210,6 +207,23 @@ struct FirstView: View{
                             Text("アプリ詳細")
                             Image(systemName: "info.circle")//"gearshape")歯車まーく
                             }
+                        
+                        if self.appState.isinAccount {
+                           Button(action: {
+                               appState.logout()
+                           }) {
+                               Text("ログアウト")
+                               Image(systemName: "person")
+                                               }
+                       }else{
+                           Button(action: {
+                               appState.isLogin = true
+                           }) {
+                               Text("アカウント設定")
+                               Image(systemName: "person")
+                                               }
+                       }
+                        
                         Button(action: {
                             appState.isPrivacyPolicy = true
                         }) {
@@ -248,21 +262,14 @@ struct FirstView: View{
                             Image(systemName: "paperplane.fill")
                             }
                         
-                        if self.appState.isinAccount {
-                           Button(action: {
-                               appState.logout()
-                           }) {
-                               Text("ログアウト")
-                               Image(systemName: "person")
-                                               }
-                       }else{
-                           Button(action: {
-                               appState.isLogin = true
-                           }) {
-                               Text("アカウント設定")
-                               Image(systemName: "person")
-                                               }
-                       }
+                        
+                        Button(action: {
+                            UserDefaults.standard.removeAll()
+                            exit(0)
+                        }) {
+                            Text("リセット")
+                            Image(systemName: "shield")
+                            }
                         
                         /*
                          @IBAction func share() {
@@ -283,6 +290,8 @@ struct FirstView: View{
                     HStack{
                         Text(UserDefaults.standard.string(forKey: DataCounter().myName) ?? "")
                         Text("  Lv. \(self.dataCounter.countedLevel)  ")
+                        Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                        Text(" \(self.dataCounter.countedCoin)")
                         Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
                         Text(" \(self.dataCounter.countedDiamond)")
                     }
@@ -361,11 +370,13 @@ struct SecondView: View{
 
 struct ThirdView: View {
     
-    
+    @EnvironmentObject var appState: AppState
+    @State var place: String = "スケット"
     @State var characters:[character] = Character().items()
     @State var itemTap: Bool = false
     @State var scoreUp: Bool = false
     @State var level: Int = UserDefaults.standard.integer(forKey: DataCounter().level)
+    @State var coach5: Bool = UserDefaults.standard.bool(forKey: "CoachMark5")
     
     var body: some View {
         NavigationView{
@@ -401,6 +412,170 @@ struct ThirdView: View {
             }
             .navigationTitle("スケット")
             .navigationBarTitleDisplayMode(.inline)
+            //if !coach5 { CoachMarkView(place: $place) }
+        }.navigationViewStyle(StackNavigationViewStyle())
+        
+    }
+}
+
+
+
+//クエスト
+struct fourthView: View{
+    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var dataCounter: DataCounter
+    @State var showAlert = false
+    struct Quest: Identifiable {
+        var id = UUID()     // ユニークなIDを自動で設定¥
+        var name: String
+        var text: String
+        var score: Int
+        var number: Int
+    }
+    @State var videos:[Quest] = [
+        Quest(name: "ボール集め　１", text: "制限時間以内に、画面上のボールを6コとる", score: 100,number: 1),
+        Quest(name: "ボール集め　２", text: "制限時間以内に、画面上のボールを１０コとる", score: 300,number: 2),
+        Quest(name: "ボール集め　３", text: "制限時間以内に、画面上のボールを１５コとる", score: 500,number: 3),
+        Quest(name: "はげしく動け！", text: "制限時間以内にスコア 1500以上", score: 1000,number: 4),
+        Quest(name: "はげしく動け！", text: "制限時間以内にスコア 2500以上", score: 2500,number: 5),
+    
+    ]
+    
+    var body: some View {
+        NavigationView{
+            List(videos){ item in
+                Text("挑戦!!").hidden()
+                Button(action: {
+                    self.showAlert = true
+                }, label: {
+                    HStack{
+                        if dataCounter.questStateList != nil {
+                            if dataCounter.questStateList![item.number] == 1{
+                                Text("挑戦中")
+                            }else if dataCounter.questStateList![item.number] == 2 {
+                                Text("クリア！")
+                            }
+                        }
+                        VStack{
+                            Text(item.name)
+                            Text(item.text)
+                        }
+                    }
+                    
+                }).alert(isPresented: $showAlert) {
+                    if item.number == 1 {
+                        return Alert(title: Text("このクエストにチャレンジしますか？"),
+                            primaryButton: .cancel(Text("キャンセル")),
+                            secondaryButton: .default(Text("チャレンジ"), action: {
+                            UserDefaults.standard.set(item.number, forKey: DataCounter().questNum)
+                            UserDefaults.standard.set([0,1,0,0,0,0,0], forKey: DataCounter().qsl)
+                            dataCounter.questStateList = [0,1,0,0,0,0,0]
+                            }))
+                    }else{
+                        return Alert(title: Text("このクエストはまだ受けられません"),
+                            dismissButton: .cancel(Text("キャンセル")))
+                    }
+                    
+                    
+                    
+                }
+            }
+            //.onAppear(perform: VideoList)
+            .navigationTitle("クエスト")
+            .navigationBarTitleDisplayMode(.inline)
         }.navigationViewStyle(StackNavigationViewStyle())
     }
+    
+    func delete(at offsets: IndexSet){
+        videos.remove(atOffsets: offsets)
+        
+        var listD = UserDefaults.standard.array(forKey: DataCounter().listD) as! [String]
+        var listS = UserDefaults.standard.array(forKey: DataCounter().listS) as! [Int]
+        
+        //let num = offsets.map({$0})
+        listD.remove(atOffsets: offsets)
+        listS.remove(atOffsets: offsets)
+        
+        UserDefaults.standard.setValue(listD, forKey: DataCounter().listD)
+        UserDefaults.standard.setValue(listS, forKey: DataCounter().listS)
+        
+    }
+    
+    
+}
+
+//ショップ
+struct fifthView: View{
+    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var dataCounter: DataCounter
+    @State var coin = UserDefaults.standard.integer(forKey: DataCounter().coin)
+    @State var showAlert = false
+    @State var isBought = false
+    struct Skin: Identifiable {
+        var id = UUID()     // ユニークなIDを自動で設定¥
+        var name: String
+        var coin: Int
+        var skinNum: Int
+    }
+    @State var skins:[Skin] = [
+        Skin(name: "カラーあか", coin: 100, skinNum: 001),
+        Skin(name: "カラーあお", coin: 150, skinNum: 002),
+        Skin(name: "カラーくろ", coin: 150, skinNum: 003),
+        Skin(name: "カラーみどり", coin: 150, skinNum: 004),
+        Skin(name: "衣装１", coin: 500, skinNum: 005),
+        Skin(name: "衣装２", coin: 1000, skinNum: 006),
+        Skin(name: "衣装３", coin: 1500, skinNum: 007),
+    ]
+    
+    var body: some View {
+        NavigationView{
+            List(skins){ video in
+                    HStack{
+                        Text(video.name)
+                        Spacer()
+                        Text("コイン\(video.coin)")
+                        if dataCounter.countedCoin >= video.coin {
+                            Button(action: {
+                                self.showAlert = true
+                            },
+                                    label:{
+                                Text("購入")
+                                //Image("coin").resizable().frame(width: 100.0, height: 100.0, alignment: .leading)
+                            }).alert(isPresented: $showAlert) {
+                                Alert(title: Text("\(video.name)を購入しますか？"),
+                                        //message: Text("詳細メッセージです"),
+                                        primaryButton: .cancel(Text("キャンセル")),
+                                        secondaryButton: .default(Text("購入する"), action: {
+                                    UserDefaults.standard.set(video.skinNum, forKey: DataCounter().skin)
+                                    self.isBought = true
+                                    dataCounter.countedCoin -= video.coin
+                                    UserDefaults.standard.set(dataCounter.countedCoin,forKey: dataCounter.coin)
+                                }))
+                            }
+
+                        }
+                    }
+                
+            }.alert(isPresented: $isBought, content: {
+                Alert(title: Text("設定しました！"))
+            })
+        
+            //.onAppear(perform: VideoList)
+            .navigationTitle("ショップ")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarLeading){
+                    HStack{
+                        Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                        Text(" \(self.dataCounter.countedCoin)")
+                        Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                        Text(" \(self.dataCounter.countedDiamond)")
+                    }
+                    
+                }
+            }
+            
+        }.navigationViewStyle(StackNavigationViewStyle())
+    }
+    
 }

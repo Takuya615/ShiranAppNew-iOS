@@ -46,6 +46,8 @@ class AppState: ObservableObject {
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
     @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController -82
     @Published var coachMark3: Bool = UserDefaults.standard.bool(forKey: "CoachMark3")
+    @Published var coachMark4: Bool = UserDefaults.standard.bool(forKey: "CoachMark4")
+    @Published var coachMarkf: Bool = UserDefaults.standard.bool(forKey: "CoachMarkf")
     @Published var showWanWan: Bool = false
     @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: "getDiamonds")
     init() {
@@ -161,7 +163,6 @@ class AppState: ObservableObject {
     func reset(){
         //let db = Firestore.firestore()
         //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
-        UserDefaults.standard.removeObject(forKey: DataCounter().myName)
         /*db.collection("users").document(myName).delete() { err in
             if let err = err {
                 print("さくじょ　Error removing document: \(err)")
@@ -170,5 +171,11 @@ class AppState: ObservableObject {
                 print("さくじょ　Document successfully removed!")
             }
         }*/
+    }
+}
+
+extension UserDefaults {
+    func removeAll() {
+        dictionaryRepresentation().forEach{ removeObject(forKey: $0.key) }
     }
 }

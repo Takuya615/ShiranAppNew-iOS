@@ -10,6 +10,11 @@ import UIKit
 @IBDesignable
 class PoseImageView: UIImageView {
 
+    var qPlace:CGPoint = CGPoint(x: -100, y: 0)
+    let qNum = UserDefaults.standard.integer(forKey: DataCounter().questNum)
+    var qScore = 0
+    var gameStart = false
+    
     /// A data structure used to describe a visual connection between two joints.
     struct JointSegment {
         let jointA: Joint.Name
@@ -59,7 +64,7 @@ class PoseImageView: UIImageView {
             draw(image: frame, in: rendererContext.cgContext)
 
             //drawText(image:frame,score: score, in: rendererContext.cgContext)
-            
+            changeSkin()
             for segment in PoseImageView.jointSegments {
                 let jointA = pose[segment.jointA]
                 let jointB = pose[segment.jointB]
@@ -72,8 +77,9 @@ class PoseImageView: UIImageView {
                 draw(circle: joint, in: rendererContext.cgContext)
             }
             
+            //フレンド
             if friPose[.nose].position.x != 0 {
-                segmentColor = .blue//.lightGray//UIColor.orange
+                segmentColor = .blue
                 jointColor = .blue
                 for joint in friPose.joints.values.filter({ $0.isValid }) {
                     draw(circle: joint, in: rendererContext.cgContext)
@@ -87,8 +93,12 @@ class PoseImageView: UIImageView {
                                 to: jointB,
                                 in: rendererContext.cgContext)
                 }
+                
             }
-            
+            //クエスト
+            if gameStart {
+                if qNum == 1 { quest1(pose: pose,size: dstImageSize, in: rendererContext.cgContext) }
+            }
         }
 
         image = dstImage
@@ -143,13 +153,13 @@ class PoseImageView: UIImageView {
     }
     
     private func drawHead(circle joint: Joint, in cgContext: CGContext) {
-        if joint.name != .nose {return}
+        //if joint.name != .nose {return}
         jointRadius = 30
         //cgContext.setFillColor(jointColor.cgColor)
         cgContext.setStrokeColor(jointColor.cgColor)
         let rectangle = CGRect(x: joint.position.x - jointRadius, y: joint.position.y - jointRadius,
                                width: jointRadius * 2, height: jointRadius * 2)
-        cgContext.setLineWidth(segmentLineWidth)
+        cgContext.setLineWidth(9)
         cgContext.strokeEllipse(in: rectangle)
         cgContext.drawPath(using: .stroke)
         //val kadomaruShikaku = UIBezierPath(roundedRect: CGRect(x: 100, y: 100, width: 100, height: 100), cornerRadius: 10)
@@ -162,4 +172,53 @@ class PoseImageView: UIImageView {
         string.draw(at: CGPoint(x: image.width*1/10, y: image.height*9/10))
         UIGraphicsPopContext()
     }
+    
+    func changeSkin(){
+        let skin = UserDefaults.standard.integer(forKey: DataCounter().skin)
+        if skin == 001 {
+            segmentColor = .systemPink
+            jointColor = .red
+            segmentLineWidth = 20
+        }else{
+            segmentColor = .green
+            jointColor = .yellow
+        }
+    }
+    
+    func quest1(pose: Pose,size: CGSize, in cgContext: CGContext){
+        //if !pose[.leftAnkle].isValid || !pose[.rightAnkle].isValid {return}
+        
+        if qPlace.y == 0 {
+            let places: [CGPoint] = [CGPoint(x: size.width/6,y: size.height*1/6),
+                                     CGPoint(x: size.width/6,y: size.height*3/6),
+                                     CGPoint(x: size.width/6,y: size.height*5/6),
+                                     CGPoint(x: size.width*3/6,y: size.height*1/6),
+                                     CGPoint(x: size.width*3/6,y: size.height*3/6),
+                                     CGPoint(x: size.width*3/6,y: size.height*5/6),
+                                     CGPoint(x: size.width*5/6,y: size.height*1/6),
+                                     CGPoint(x: size.width*5/6,y: size.height*3/6),
+                                     CGPoint(x: size.width*5/6,y: size.height*5/6),]
+            qPlace = places.randomElement() ?? CGPoint(x: -100, y: 0)
+        }
+        let left = pose[.leftWrist].position
+        let l_diff = abs(qPlace.x - left.x) + abs(qPlace.y - left.y)
+        if l_diff < 30 { qPlace = CGPoint(x: -100, y: 0); qScore += 1 }
+        let right = pose[.rightWrist].position
+        let r_diff = abs(qPlace.x - right.x) + abs(qPlace.y - right.y)
+        if r_diff < 30 { qPlace = CGPoint(x: -100, y: 0); qScore += 1 }
+        
+        jointRadius = 30
+        segmentColor = .red
+        cgContext.setFillColor(jointColor.cgColor)
+        //cgContext.setStrokeColor(jointColor.cgColor)
+        let rectangle = CGRect(x: qPlace.x - jointRadius, y: qPlace.y - jointRadius,
+                               width: jointRadius * 2, height: jointRadius * 2)
+        cgContext.setLineWidth(9)
+        cgContext.fillEllipse(in: rectangle)
+        cgContext.drawPath(using: .stroke)
+        jointRadius = 9
+        segmentColor = .green
+        
+    }
+    
 }

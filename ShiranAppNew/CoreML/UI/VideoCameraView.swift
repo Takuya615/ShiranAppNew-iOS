@@ -19,6 +19,7 @@ import Firebase
 struct VideoCameraView: UIViewControllerRepresentable {
     @Binding var isVideo: Bool
     @EnvironmentObject var dataCounter: DataCounter
+    var qScore = 0
     func makeUIViewController(context: Context) -> UIViewController {
         return VideoViewController(videoCameraView: self)
     }
@@ -31,6 +32,7 @@ class VideoViewController: UIViewController {
     
     //var pD = OriginalPoseDetection()
     //var poseDetect = PoseDetectionModel()
+    let poseImageView = PoseImageView()
     private var poseNet: PoseNet!
     private var currentFrame: CGImage?
     // カメラからの入出力データをまとめるセッション
@@ -315,6 +317,7 @@ class VideoViewController: UIViewController {
                     //   moment of 0 Sec
                     self.countDown = false
                     self.isRecording = true
+                    self.poseImageView.gameStart = true
                     self.time = self.taskTime() //                           本編スタート
                 }else{
                     print("撮影終了")
@@ -327,6 +330,7 @@ class VideoViewController: UIViewController {
                     
                     let num = self.videoCameraView.dataCounter.scoreCounter(score: Int(self.score))
                     //DataCounter().scoreCounter(view: self.videoCameraView,score: Int(self.score))
+                    self.videoCameraView.qScore = self.poseImageView.qScore
                     let alert = self.videoCameraView.dataCounter.showResult(view: self.videoCameraView,boss: self.exiteBoss,
                                                   score: self.score,bonus: self.timesBonus,num: num)
                     self.present(alert, animated: true, completion: nil)
@@ -422,7 +426,7 @@ extension VideoViewController: PoseNetDelegate {
             
         }
         
-            let poseImage: UIImage = PoseImageView().show(
+            let poseImage: UIImage = poseImageView.show(
             pose: pose,
             friPose: fPose,
             on: self.currentFrame!)
@@ -431,7 +435,7 @@ extension VideoViewController: PoseNetDelegate {
         //print("view = \(self.view.bounds.size)")
         let size = self.view.bounds.size
         let poseImageView = UIImageView(image: poseImage)
-        poseImageView.layer.position = CGPoint(x: size.width/2, y:50 + poseImage.size.height/2)
+        poseImageView.layer.position = CGPoint(x: size.width/2, y:60 + poseImage.size.height/2)
         //poseImageView.isOpaque = false
         self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
         self.view.addSubview(poseImageView)

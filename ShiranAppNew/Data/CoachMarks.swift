@@ -10,9 +10,10 @@ import SwiftUI
 import Instructions
 
 struct CoachMarkView: UIViewControllerRepresentable {
-
+    @Binding var place: String
+    @EnvironmentObject var appState: AppState
     func makeUIViewController(context: Context) -> UIViewController {
-        return cmViewController()
+        return cmViewController(coachMarkView: self)
     }
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
     }
@@ -22,6 +23,39 @@ struct CoachMarkView: UIViewControllerRepresentable {
 class cmViewController: UIViewController, CoachMarksControllerDataSource {
     
     var coachController = CoachMarksController()
+    // コーチマークを表示したいUIView
+    var firstButton: UIButton!
+    var secondButton: UIButton!
+    var thirdButton: UIButton!
+    private var messages: [String]!
+    private var views: [UIButton]!
+    private var rect: CGRect!
+    private var cmNumber: String = ""
+    
+    var coachMarkView: CoachMarkView
+    init(coachMarkView: CoachMarkView){
+        self.coachMarkView = coachMarkView
+        super.init(nibName: nil, bundle: nil)
+        self.rect = self.view.bounds
+        
+        switch self.coachMarkView.place {
+        case "スケット": setFive()
+        default:
+            if !self.coachMarkView.appState.coachMark1 {
+                setOne()
+            }else if !self.coachMarkView.appState.coachMark3 {
+                setThree()
+            }else if !self.coachMarkView.appState.coachMark4 {
+                setFour()
+            }else{
+                self.coachMarkView.appState.coachMarkf = true
+            }
+        }
+        
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,22 +68,8 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
     override func viewDidDisappear(_ animated: Bool) {
         super .viewDidDisappear(animated)
         self.coachController.stop(immediately: true)
-        UserDefaults.standard.set(true, forKey: "CoachMark1")//CoachMark
+        UserDefaults.standard.set(true, forKey: cmNumber)//CoachMark
     }
-    
-    // コーチマークを表示したいUIView
-    /*@IBOutlet weak*/ var firstButton: UIButton!
-    /*@IBOutlet weak*/ var secondButton: UIButton!
-
-        // マークのメッセージ配列
-    private var messages = ["""
-        ここをタップ
-日々の運動記録をつけることができます。
-"""
-    ]
-
-        // UIViewを配列にしておきます
-    private var views: [UIButton] = []//[firstButton, self.secondButton]
     
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
         let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
@@ -58,31 +78,116 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
 
                 return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
-    
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
         return self.messages.count
     }
-    
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
-        let rect = self.view.bounds
-        self.firstButton = UIButton(frame: CGRect(x:0, y:0, width: 300, height: 200))
-        self.firstButton.layer.position = CGPoint(x: rect.width/2 , y: rect.height/2 )
-        
-        self.secondButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        let bf = self.secondButton.frame
-        self.secondButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 40)
-        views = [self.secondButton]
-        
         //self.coachController.overlay.backgroundColor = UIColor.init(.blue)//(white: 000000, alpha: 0.3)
         return self.coachController.helper.makeCoachMark(for: self.views[index], pointOfInterest: nil, cutoutPathMaker: nil)
                 // for: にUIViewを指定すれば、マークがそのViewに対応します
+    }
+    
+    func setOne(){
+        messages = [
+                """
+                    ここをタップ
+            日々の運動記録をつけることができます
+            """
+        ]
+        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+        self.firstButton.layer.cornerRadius = 30.0
+        let bf = self.firstButton.frame
+        self.firstButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 55)
+        views = [firstButton]
+        cmNumber = "CoachMark1"
+        self.coachMarkView.appState.coachMark1 = true
+    }
+    func setThree(){
+        messages = [
+                """
+            
+            　　おめでとう！！
+            チュートリアル達成！！
+            
+            おや？なにかいますね？！
+            
+            """,
+                """
+
+毎日１回だけ、敵モンスターがあらわれます。
+かれらは、あなたの「運動したくない」、「サボりたい」という心の化身です。
+今すぐ撃退してしまいましょう！！
+""",
+                """
+もう一度ここをタップ
+"""
+        ]
+        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        self.firstButton.layer.position = CGPoint(x: rect.width/2, y: rect.height/2-200)
+        self.secondButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        self.secondButton.layer.position = CGPoint(x: rect.width/2, y: rect.height/2-150)
+        self.thirdButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        self.thirdButton.layer.cornerRadius = 30.0
+        let bf = self.thirdButton.frame
+        self.thirdButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 55)
+        views = [secondButton,secondButton,thirdButton]
+        cmNumber = "CoachMark3"
+        self.coachMarkView.appState.coachMark3 = true
+    }
+    func setFour(){
+        messages = [
+            """
+敵モンスターは、その日の最初の一度だけあらわれます
+たおすと、大量の経験値やコインが手に入ります
+
+""",
+                """
+            ほかにも経験値やコインを手に入れる方法があります。
+            クエスト をタップ   ↓
+            """
+        ]
+        
+        self.secondButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        self.secondButton.layer.position = CGPoint(x: rect.width/2, y: rect.height/2-150)
+        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        let bf = self.firstButton.frame
+        self.firstButton.layer.position = CGPoint(x: rect.width/2/* - bf.width/2*/, y: rect.height - bf.height/2)
+        views = [secondButton,firstButton]
+        cmNumber = "CoachMark4"
+        self.coachMarkView.appState.coachMark4 = true
+    }
+    func setFive(){
+        messages = [
+                """
+                    ここ
+            """
+        ]
+        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        let bf = self.firstButton.frame
+        self.firstButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 40)
+        views = [firstButton]
+        cmNumber = "CoachMark5"
+        //self.coachMarkView.appState.coachMark5 = true
+    }
+    func setSix(){
+        messages = [
+                """
+                    ここをタップ
+            日々の運動記録をつけることができます
+            """
+        ]
+        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        let bf = self.firstButton.frame
+        self.firstButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 40)
+        views = [firstButton]
+        cmNumber = "CoachMark6"
     }
     
     
 }
 
 
-
+/*
 struct CoachMarkView3: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
@@ -91,8 +196,6 @@ struct CoachMarkView3: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
     }
 }
-
-
 class cmViewController3: UIViewController, CoachMarksControllerDataSource {
     
     var coachController = CoachMarksController()
@@ -110,12 +213,7 @@ class cmViewController3: UIViewController, CoachMarksControllerDataSource {
         self.coachController.stop(immediately: true)
         UserDefaults.standard.set(true, forKey: "CoachMark3")//CoachMark
     }
-    
-    // コーチマークを表示したいUIView
-    /*@IBOutlet weak*/ var firstButton: UIButton!
-    /*@IBOutlet weak*/ var secondButton: UIButton!
-
-        // マークのメッセージ配列
+    var firstButton: UIButton!
     private var messages = ["""
 　　　チュートリアル達成！！
 ここまではチュートリアルです
@@ -123,36 +221,79 @@ class cmViewController3: UIViewController, CoachMarksControllerDataSource {
 １日１回だけ 敵があらわれ、経験値を稼ぐことができます。
 """
     ]
-
-        // UIViewを配列にしておきます
     private var views: [UIButton] = []//[firstButton, self.secondButton]
-    
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
         let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
                 coachViews.bodyView.hintLabel.text = self.messages[index] // ここで文章を設定
                 coachViews.bodyView.nextLabel.text = "了解" // 「次へ」などの文章
-
                 return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
-    
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
         return self.messages.count
     }
-    
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
         let rect = self.view.bounds
-        self.firstButton = UIButton(frame: CGRect(x:0, y:0, width: 300, height: 200))
-        self.firstButton.layer.position = CGPoint(x: rect.width/2 , y: rect.height/2 )
-        
-        self.secondButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        let bf = self.secondButton.frame
-        self.secondButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 40)
-        views = [self.secondButton]
-        
-        //self.coachController.overlay.backgroundColor = UIColor.init(.blue)//(white: 000000, alpha: 0.3)
+        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        let bf = self.firstButton.frame
+        self.firstButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 40)
+        views = [self.firstButton]
         return self.coachController.helper.makeCoachMark(for: self.views[index], pointOfInterest: nil, cutoutPathMaker: nil)
-                // for: にUIViewを指定すれば、マークがそのViewに対応します
     }
     
     
 }
+
+
+
+struct CoachMarkView4: UIViewControllerRepresentable {
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        return cmViewController4()
+    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    }
+}
+class cmViewController4: UIViewController, CoachMarksControllerDataSource {
+    
+    var coachController = CoachMarksController()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.coachController.dataSource = self
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super .viewDidAppear(animated)
+        self.coachController.start(in: .window(over: self))//.currentWindow(of: self)
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super .viewDidDisappear(animated)
+        self.coachController.stop(immediately: true)
+        UserDefaults.standard.set(true, forKey: "CoachMark3")//CoachMark
+    }
+    var firstButton: UIButton!
+    private var messages = ["""
+敵は日に1度のみですが、クエストによって経験値とコインをかせぐこともできます。
+"""
+    ]
+    private var views: [UIButton] = []//[firstButton, self.secondButton]
+    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
+                coachViews.bodyView.hintLabel.text = self.messages[index] // ここで文章を設定
+                coachViews.bodyView.nextLabel.text = "了解" // 「次へ」などの文章
+                return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
+    }
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 1//self.messages.count
+    }
+    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
+        let rect = self.view.bounds
+        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        let bf = self.firstButton.frame
+        self.firstButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 40)
+        views = [self.firstButton]
+        return self.coachController.helper.makeCoachMark(for: self.views[index], pointOfInterest: nil, cutoutPathMaker: nil)
+    }
+    
+    
+}
+*/

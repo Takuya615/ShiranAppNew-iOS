@@ -99,11 +99,15 @@ struct ExplainAppView_Previews: PreviewProvider {
 }
 
 struct PlayerView: View {
+    @EnvironmentObject var appState: AppState
     let url = Bundle.main.path(forResource: "introduce", ofType: "MP4")
     var body: some View {
         let player = AVPlayer(url: URL(fileURLWithPath: url!))
         VideoPlayer(player: player)
-            .onAppear() {player.play()}
+            .onDisappear(perform: {
+                if !appState.coachMark1 {self.appState.isExplainView = false}
+            })
+            //.onAppear() {player.play()}
     }
 }
 struct PlayerView2: View {
