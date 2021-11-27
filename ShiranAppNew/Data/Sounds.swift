@@ -36,9 +36,17 @@ class SystemSounds{
     }
     
     func countDown(_ sender : Any) {
-        var soundIdRing:SystemSoundID = 0
+        var soundIdRing:SystemSoundID = 1
         if let soundUrl:NSURL = NSURL(fileURLWithPath:
             Bundle.main.path(forResource: "countdown", ofType:"mp3")!) as NSURL?{
+            AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
+            AudioServicesPlaySystemSound(soundIdRing)
+        }
+    }
+    func score_up(_ sender : Any) {
+        var soundIdRing:SystemSoundID = 2
+        if let soundUrl:NSURL = NSURL(fileURLWithPath:
+            Bundle.main.path(forResource: "score_up", ofType:"mp3")!) as NSURL?{
             AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
             AudioServicesPlaySystemSound(soundIdRing)
         }

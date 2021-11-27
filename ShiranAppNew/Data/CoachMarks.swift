@@ -10,7 +10,6 @@ import SwiftUI
 import Instructions
 
 struct CoachMarkView: UIViewControllerRepresentable {
-    @Binding var place: String
     @EnvironmentObject var appState: AppState
     func makeUIViewController(context: Context) -> UIViewController {
         return cmViewController(coachMarkView: self)
@@ -37,20 +36,8 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
         self.coachMarkView = coachMarkView
         super.init(nibName: nil, bundle: nil)
         self.rect = self.view.bounds
-        
-        switch self.coachMarkView.place {
-        case "スケット": setFive()
-        default:
-            if !self.coachMarkView.appState.coachMark1 {
-                setOne()
-            }else if !self.coachMarkView.appState.coachMark3 {
-                setThree()
-            }else if !self.coachMarkView.appState.coachMark4 {
-                setFour()
-            }else{
-                self.coachMarkView.appState.coachMarkf = true
-            }
-        }
+        self.setOne()
+        //if !self.coachMarkView.appState.coachMark3{}
         
     }
     required init?(coder: NSCoder) {
@@ -68,7 +55,8 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
     override func viewDidDisappear(_ animated: Bool) {
         super .viewDidDisappear(animated)
         self.coachController.stop(immediately: true)
-        UserDefaults.standard.set(true, forKey: cmNumber)//CoachMark
+        self.coachMarkView.appState.coachMarkf = false
+        //UserDefaults.standard.set(true, forKey: cmNumber)//CoachMark
     }
     
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
@@ -79,7 +67,7 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
                 return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-        return self.messages.count
+        return 1//self.messages.count
     }
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
         //self.coachController.overlay.backgroundColor = UIColor.init(.blue)//(white: 000000, alpha: 0.3)
@@ -88,19 +76,14 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
     }
     
     func setOne(){
-        messages = [
-                """
-                    ここをタップ
-            日々の運動記録をつけることができます
-            """
-        ]
+        messages = ["タップ"]
         self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
         self.firstButton.layer.cornerRadius = 30.0
         let bf = self.firstButton.frame
         self.firstButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 55)
         views = [firstButton]
-        cmNumber = "CoachMark1"
-        self.coachMarkView.appState.coachMark1 = true
+        //cmNumber = "CoachMark1"
+        //self.coachMarkView.appState.coachMark1 = true
     }
     func setThree(){
         messages = [
@@ -156,36 +139,8 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
         cmNumber = "CoachMark4"
         self.coachMarkView.appState.coachMark4 = true
     }
-    func setFive(){
-        messages = [
-                """
-                    ここ
-            """
-        ]
-        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        let bf = self.firstButton.frame
-        self.firstButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 40)
-        views = [firstButton]
-        cmNumber = "CoachMark5"
-        //self.coachMarkView.appState.coachMark5 = true
-    }
-    func setSix(){
-        messages = [
-                """
-                    ここをタップ
-            日々の運動記録をつけることができます
-            """
-        ]
-        self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        let bf = self.firstButton.frame
-        self.firstButton.layer.position = CGPoint(x: rect.width - bf.width/2 - 16, y: rect.height - bf.height/2 - 40)
-        views = [firstButton]
-        cmNumber = "CoachMark6"
-    }
-    
     
 }
-
 
 /*
 struct CoachMarkView3: UIViewControllerRepresentable {

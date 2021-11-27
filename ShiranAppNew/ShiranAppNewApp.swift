@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 class AppState: ObservableObject {
+    @Published var isVideo = false
     @Published var isLogin = false
     @Published var isNamed = false
     @Published var isinAccount = false
@@ -43,15 +44,20 @@ class AppState: ObservableObject {
     @Published var isExplainView = false
     @Published var isVideoPlayer = false
     @Published var isPlayerView = false
+    
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
     @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController -82
     @Published var coachMark3: Bool = UserDefaults.standard.bool(forKey: "CoachMark3")
     @Published var coachMark4: Bool = UserDefaults.standard.bool(forKey: "CoachMark4")
+    @Published var coachOpenQuest: Bool = UserDefaults.standard.bool(forKey: "OpenQuest")
+    @Published var coachOpenChar: Bool = UserDefaults.standard.bool(forKey: "OpenChar")
+    @Published var coachOpenShop: Bool = UserDefaults.standard.bool(forKey: "OpenShop")
     @Published var coachMarkf: Bool = UserDefaults.standard.bool(forKey: "CoachMarkf")
+    
     @Published var showWanWan: Bool = false
     @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: "getDiamonds")
     init() {
-        if !coachMark1 {isExplainView = true}
+        if !coachMark1 { isVideoPlayer = true }//{isExplainView = true}
         if Auth.auth().currentUser != nil {
             self.isinAccount = true//trueなら　アカウント設定 　false　ならログアウトボタンに切り替わる
             //self.isLogin = true

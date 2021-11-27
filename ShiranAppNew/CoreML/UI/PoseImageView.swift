@@ -11,7 +11,6 @@ import UIKit
 class PoseImageView: UIImageView {
 
     var qPlace:CGPoint = CGPoint(x: -100, y: 0)
-    let qNum = UserDefaults.standard.integer(forKey: DataCounter().questNum)
     var qScore = 0
     var gameStart = false
     
@@ -50,7 +49,7 @@ class PoseImageView: UIImageView {
     @IBInspectable var jointColor: UIColor = UIColor.yellow//.systemYellow//.systemPink
     
     
-    func show(pose: Pose,friPose: Pose, on frame: CGImage) -> UIImage {
+    func show(state: Int,qNum: Int, pose: Pose,friPose: Pose, on frame: CGImage) -> UIImage {
         
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
@@ -77,27 +76,28 @@ class PoseImageView: UIImageView {
                 draw(circle: joint, in: rendererContext.cgContext)
             }
             
-            //フレンド
-            if friPose[.nose].position.x != 0 {
-                segmentColor = .blue
-                jointColor = .blue
-                for joint in friPose.joints.values.filter({ $0.isValid }) {
-                    draw(circle: joint, in: rendererContext.cgContext)
+            if state != 0{//フレンド
+                if friPose[.nose].position.x != 0 {
+                    segmentColor = .blue
+                    jointColor = .blue
+                    for joint in friPose.joints.values.filter({ $0.isValid }) {
+                        draw(circle: joint, in: rendererContext.cgContext)
+                    }
+                    drawHead(circle: friPose[.nose], in: rendererContext.cgContext)
+                    for segment in PoseImageView.jointSegments {
+                        let jointA = friPose[segment.jointA]
+                        let jointB = friPose[segment.jointB]
+                        guard jointA.isValid, jointB.isValid else {continue}
+                        drawLine(from: jointA,
+                                    to: jointB,
+                                    in: rendererContext.cgContext)
+                    }
+                 }
+            }else{//クエスト
+                if gameStart {
+                    if qNum == 1 { quest1(pose: pose,size: dstImageSize, in: rendererContext.cgContext) }
+                    
                 }
-                drawHead(circle: friPose[.nose], in: rendererContext.cgContext)
-                for segment in PoseImageView.jointSegments {
-                    let jointA = friPose[segment.jointA]
-                    let jointB = friPose[segment.jointB]
-                    guard jointA.isValid, jointB.isValid else {continue}
-                    drawLine(from: jointA,
-                                to: jointB,
-                                in: rendererContext.cgContext)
-                }
-                
-            }
-            //クエスト
-            if gameStart {
-                if qNum == 1 { quest1(pose: pose,size: dstImageSize, in: rendererContext.cgContext) }
             }
         }
 
@@ -162,6 +162,7 @@ class PoseImageView: UIImageView {
         cgContext.setLineWidth(9)
         cgContext.strokeEllipse(in: rectangle)
         cgContext.drawPath(using: .stroke)
+        jointRadius = 9
         //val kadomaruShikaku = UIBezierPath(roundedRect: CGRect(x: 100, y: 100, width: 100, height: 100), cornerRadius: 10)
     }
     
@@ -202,20 +203,25 @@ class PoseImageView: UIImageView {
         }
         let left = pose[.leftWrist].position
         let l_diff = abs(qPlace.x - left.x) + abs(qPlace.y - left.y)
-        if l_diff < 30 { qPlace = CGPoint(x: -100, y: 0); qScore += 1 }
+        if l_diff < 40 { qPlace = CGPoint(x: -100, y: 0); qScore += 1 }
         let right = pose[.rightWrist].position
         let r_diff = abs(qPlace.x - right.x) + abs(qPlace.y - right.y)
-        if r_diff < 30 { qPlace = CGPoint(x: -100, y: 0); qScore += 1 }
+        if r_diff < 40 { qPlace = CGPoint(x: -100, y: 0); qScore += 1 }
         
         jointRadius = 30
         segmentColor = .red
-        cgContext.setFillColor(jointColor.cgColor)
+        //cgContext.setFillColor(jointColor.cgColor)
         //cgContext.setStrokeColor(jointColor.cgColor)
         let rectangle = CGRect(x: qPlace.x - jointRadius, y: qPlace.y - jointRadius,
-                               width: jointRadius * 2, height: jointRadius * 2)
-        cgContext.setLineWidth(9)
-        cgContext.fillEllipse(in: rectangle)
-        cgContext.drawPath(using: .stroke)
+                               width: jointRadius * 3, height: jointRadius * 3)
+        //let drawingRect = CGRect(x: 0, y: -image.height, width: image.width, height: image.height)
+        let cgImage = UIImage(named: "coin")?.cgImage
+        cgContext.draw(cgImage!, in: rectangle)
+        //cgContext.restoreGState()
+        
+        //cgContext.setLineWidth(9)
+        //cgContext.fillEllipse(in: rectangle)
+        //cgContext.drawPath(using: .stroke)
         jointRadius = 9
         segmentColor = .green
         
