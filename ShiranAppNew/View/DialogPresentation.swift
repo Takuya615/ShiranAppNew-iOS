@@ -24,9 +24,9 @@ final class DialogPresentation: ObservableObject {
 enum DialogContent: View {
     case contentDetail1(isPresented: Binding<Bool>)//, isHightLight: Binding<Bool>)
     case contentDetail2(isPresented: Binding<Bool>)
-    case contentDetail3(isPresented: Binding<Bool>)
-    case contentDetail4(isPresented: Binding<Bool>)
-    case contentDetail5(isPresented: Binding<Bool>)
+    //case contentDetail3(isPresented: Binding<Bool>)
+    //case contentDetail4(isPresented: Binding<Bool>)
+    //case contentDetail5(isPresented: Binding<Bool>)
     
     @ViewBuilder
     var body: some View {
@@ -35,12 +35,12 @@ enum DialogContent: View {
             DialogContent1(isPresented: isPresented)//,isHightLight: isHightLight)
         case .contentDetail2(isPresented: let isPresented):
             DialogContent2(isPresented: isPresented)
-        case .contentDetail3(isPresented: let isPresented):
+        /*case .contentDetail3(isPresented: let isPresented):
             DialogContent3(isPresented: isPresented)
         case .contentDetail4(isPresented: let isPresented):
             DialogContent4(isPresented: isPresented)
         case .contentDetail5(isPresented: let isPresented):
-            DialogContent5(isPresented: isPresented)
+            DialogContent5(isPresented: isPresented)*/
         }
     }
 }
@@ -80,22 +80,6 @@ struct DialogContent1: View {
                 Text("今すぐ撃退しましょう！！\n")
             }
             
-            /*Spacer()
-            Button(action: {
-                isPresented = false
-                //isHightLight.toggle()
-                appState.isVideo = true
-                appState.coachMark3 = true
-                UserDefaults.standard.set(true, forKey: "CoachMark3")
-            }, label: {
-                Image(systemName: "flame")
-                    .foregroundColor(.white)
-                    .font(.system(size: 40))
-            })
-                .frame(width: 60, height: 60, alignment: .center)
-                    .background(Color.orange)
-                    .cornerRadius(30.0)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 60.0, trailing: 16.0))*/
             
         }
         .onAppear(perform: { SystemSounds().buttonVib("") })
@@ -132,61 +116,6 @@ struct DialogContent2: View {
         .background(Color.white)
         .cornerRadius(8)
         .onDisappear(perform: {appState.coachMark4 = true; UserDefaults.standard.set(true, forKey: "CoachMark4")})
-    }
-}
-
-struct DialogContent3: View {
-    @Binding var isPresented: Bool
-    
-    var body: some View {
-        VStack{
-            HStack{
-                Spacer()
-                Button(action: {isPresented = false},
-                       label: {Text("❎閉じる")})
-            }
-            Text("スケット").font(.title)
-            Text("スケットは習慣化のテクニックを教えてくれます。\n")
-            
-        }
-        .background(Color.white)
-        .cornerRadius(8)
-    }
-}
-struct DialogContent4: View {
-    @Binding var isPresented: Bool
-    
-    var body: some View {
-        VStack{
-            HStack{
-                Spacer()
-                Button(action: {isPresented = false},
-                       label: {Text("❎閉じる")})
-            }
-            Text("クエスト").font(.title)
-            Text("クエストを設定すると、チャレンジボタン🔥から、")
-            
-        }
-        .background(Color.white)
-        .cornerRadius(8)
-    }
-}
-struct DialogContent5: View {
-    @Binding var isPresented: Bool
-    
-    var body: some View {
-        VStack{
-            HStack{
-                Spacer()
-                Button(action: {isPresented = false},
-                       label: {Text("❎閉じる")})
-            }
-            Text("クエスト").font(.title)
-            Text("クエストを設定すると、チャレンジボタン🔥から、")
-            
-        }
-        .background(Color.white)
-        .cornerRadius(8)
     }
 }
 

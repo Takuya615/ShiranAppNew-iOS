@@ -11,7 +11,7 @@ import FirebaseAnalytics
 
 class EventAnalytics {
     
-    private let isDebag = true//false
+    private let isDebag = false
     
     func tapFab(){
         if isDebag {return}

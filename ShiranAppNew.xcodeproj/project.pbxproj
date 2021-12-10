@@ -16,11 +16,8 @@
 		CE43D8B926E1BC440067CDDB /* VideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */; };
 		CE43D8BA26E1BC440067CDDB /* CoachMarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B326E1BC440067CDDB /* CoachMarks.swift */; };
 		CE43D8BD26E1BC440067CDDB /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B626E1BC440067CDDB /* Sounds.swift */; };
-		CE43D8BF26E1BC440067CDDB /* SaveVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B826E1BC440067CDDB /* SaveVideo.swift */; };
 		CE43D8C726E1BC540067CDDB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8C126E1BC540067CDDB /* LoginView.swift */; };
-		CE43D8C826E1BC540067CDDB /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8C226E1BC540067CDDB /* RootView.swift */; };
 		CE43D8C926E1BC540067CDDB /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8C326E1BC540067CDDB /* PlayerView.swift */; };
-		CE43D8CA26E1BC540067CDDB /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8C426E1BC540067CDDB /* IntroView.swift */; };
 		CE43D8CB26E1BC540067CDDB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8C526E1BC540067CDDB /* ContentView.swift */; };
 		CE43D8CC26E1BC540067CDDB /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8C626E1BC540067CDDB /* PrivacyPolicyView.swift */; };
 		CE54230826E6DF27002550D4 /* PoseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5422F326E6DF27002550D4 /* PoseImageView.swift */; };
@@ -34,7 +31,6 @@
 		CE54231526E6DF27002550D4 /* PoseNetOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230426E6DF27002550D4 /* PoseNetOutput.swift */; };
 		CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230526E6DF27002550D4 /* PoseNet.swift */; };
 		CE54231726E6DF27002550D4 /* PoseNetInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230626E6DF27002550D4 /* PoseNetInput.swift */; };
-		CE5954C826E8B778003CE64E /* PoseUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5954C726E8B778003CE64E /* PoseUIView.swift */; };
 		CE6C8DD027119399007286A4 /* fightEnemy.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */; };
 		CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DD1271196C8007286A4 /* countdown.mp3 */; };
 		CE82BE7C2728FE790051EA84 /* DialogPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE82BE7B2728FE790051EA84 /* DialogPresentation.swift */; };
@@ -86,11 +82,8 @@
 		CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCameraView.swift; sourceTree = "<group>"; };
 		CE43D8B326E1BC440067CDDB /* CoachMarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachMarks.swift; sourceTree = "<group>"; };
 		CE43D8B626E1BC440067CDDB /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
-		CE43D8B826E1BC440067CDDB /* SaveVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveVideo.swift; sourceTree = "<group>"; };
 		CE43D8C126E1BC540067CDDB /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		CE43D8C226E1BC540067CDDB /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		CE43D8C326E1BC540067CDDB /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
-		CE43D8C426E1BC540067CDDB /* IntroView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
 		CE43D8C526E1BC540067CDDB /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CE43D8C626E1BC540067CDDB /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		CE5422F326E6DF27002550D4 /* PoseImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseImageView.swift; sourceTree = "<group>"; };
@@ -104,7 +97,6 @@
 		CE54230426E6DF27002550D4 /* PoseNetOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNetOutput.swift; sourceTree = "<group>"; };
 		CE54230526E6DF27002550D4 /* PoseNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNet.swift; sourceTree = "<group>"; };
 		CE54230626E6DF27002550D4 /* PoseNetInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNetInput.swift; sourceTree = "<group>"; };
-		CE5954C726E8B778003CE64E /* PoseUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseUIView.swift; sourceTree = "<group>"; };
 		CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fightEnemy.MP4; sourceTree = "<group>"; };
 		CE6C8DD1271196C8007286A4 /* countdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = countdown.mp3; sourceTree = "<group>"; };
 		CE6F978F26F0E476007CF587 /* ShiranAppNew.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiranAppNew.entitlements; sourceTree = "<group>"; };
@@ -181,7 +173,6 @@
 				CED69990270560AC006E3AEA /* BOSS.swift */,
 				CEB5753D26FC2E96005C5E49 /* Character.swift */,
 				CE43D8B326E1BC440067CDDB /* CoachMarks.swift */,
-				CE43D8B826E1BC440067CDDB /* SaveVideo.swift */,
 				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
 				CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */,
 			);
@@ -197,7 +188,6 @@
 				CE43D8C126E1BC540067CDDB /* LoginView.swift */,
 				CE43D8C326E1BC540067CDDB /* PlayerView.swift */,
 				CE82BE7B2728FE790051EA84 /* DialogPresentation.swift */,
-				CE43D8C226E1BC540067CDDB /* RootView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -218,8 +208,6 @@
 			children = (
 				CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */,
 				CE5422F326E6DF27002550D4 /* PoseImageView.swift */,
-				CE43D8C426E1BC540067CDDB /* IntroView.swift */,
-				CE5954C726E8B778003CE64E /* PoseUIView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -611,7 +599,6 @@
 			files = (
 				CEB5753E26FC2E96005C5E49 /* Character.swift in Sources */,
 				CE54231326E6DF27002550D4 /* PoseBuilder.swift in Sources */,
-				CE43D8BF26E1BC440067CDDB /* SaveVideo.swift in Sources */,
 				CE43D8CC26E1BC540067CDDB /* PrivacyPolicyView.swift in Sources */,
 				CE54230C26E6DF27002550D4 /* CGPoint+Extension.swift in Sources */,
 				CE96198226E1AE7F0084F1A7 /* ShiranAppNewApp.swift in Sources */,
@@ -619,14 +606,11 @@
 				CED6B891270D5EE7009BC3F6 /* EventAnalytics.swift in Sources */,
 				CE54231026E6DF27002550D4 /* Joint.swift in Sources */,
 				CE43D8C926E1BC540067CDDB /* PlayerView.swift in Sources */,
-				CE5954C826E8B778003CE64E /* PoseUIView.swift in Sources */,
 				CE54231126E6DF27002550D4 /* PoseBuilder+Single.swift in Sources */,
 				CE43D8C726E1BC540067CDDB /* LoginView.swift in Sources */,
 				CED69991270560AC006E3AEA /* BOSS.swift in Sources */,
 				CE54231226E6DF27002550D4 /* Pose.swift in Sources */,
-				CE43D8CA26E1BC540067CDDB /* IntroView.swift in Sources */,
 				CE82BE7C2728FE790051EA84 /* DialogPresentation.swift in Sources */,
-				CE43D8C826E1BC540067CDDB /* RootView.swift in Sources */,
 				CED6999327065EC8006E3AEA /* DataCounter.swift in Sources */,
 				CE43D8BD26E1BC440067CDDB /* Sounds.swift in Sources */,
 				CE43D8CB26E1BC540067CDDB /* ContentView.swift in Sources */,
@@ -798,7 +782,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShiranAppNew/ShiranAppNew.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"ShiranAppNew/Preview Content\"";
 				DEVELOPMENT_TEAM = C4FH99N43Y;
@@ -809,7 +793,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11;
+				MARKETING_VERSION = 1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Takuya.Tsumura.ShiranAppNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -825,7 +809,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShiranAppNew/ShiranAppNew.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"ShiranAppNew/Preview Content\"";
 				DEVELOPMENT_TEAM = C4FH99N43Y;
@@ -836,7 +820,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11;
+				MARKETING_VERSION = 1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Takuya.Tsumura.ShiranAppNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -16,9 +16,6 @@ struct ContentView: View {
     @State var push = false
     @State var selection: Int = 0
     @State var showDiamondAlert = false
-    //@State var showCoachMarkMnager = false
-    //@State var showArrow = false
-    //@State var showArrow2 = false
     @State var dialogPresentation = DialogPresentation()
     let modifiedDate = Calendar.current.date(byAdding: .second, value: 30, to: Date())!
     
@@ -147,7 +144,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            //.environmentObject(AppState())
     }
 }
 
@@ -380,13 +376,7 @@ struct SecondView: View{
 struct ThirdView: View {
     
     @ObservedObject var cM = CharacterModel()
-    //@EnvironmentObject var appState: AppState
-    //@State var dialogPresentation = DialogPresentation()
-    //@State var characters:[character] = Character().items()
-    //@State var itemTap: Bool = false
-    //@State var scoreUp: Bool = false
     @State var level: Int = UserDefaults.standard.integer(forKey: DataCounter().level)
-    //@State var coach5: Bool = UserDefaults.standard.bool(forKey: "CoachMark5")
     
     var body: some View {
         NavigationView{
@@ -427,8 +417,6 @@ struct ThirdView: View {
             })*/
             .navigationTitle("スケット")
             .navigationBarTitleDisplayMode(.inline)
-            
-            //if !coach5 { CoachMarkView(place: $place) }
         }.navigationViewStyle(StackNavigationViewStyle())
         //.customDialog(presentaionManager: dialogPresentation)
         
@@ -537,12 +525,9 @@ struct fourthView: View{
                             appState.isVideo = true
                             EventAnalytics().doneQuest()
                             }))
-                        
                     }
-                    
-                    
                 }
-                
+    
             }
             .onAppear(perform: {
                 setStage()

@@ -12,35 +12,6 @@ import SwiftUI
 class BOSS {
     
     func isExist() -> boss?{
-        //let user = UserDefaults.standard
-        /*デイリーなのかチェックする
-        let today = Date()
-        //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
-        let LastTimeDay: Date? = user.object(forKey: DataCounter()._LastTimeDay) as? Date
-        if LastTimeDay == nil {return nil}//　初めて使う時は、敵が出てこない。
-        let cal = Calendar(identifier: .gregorian)
-        let todayDC = Calendar.current.dateComponents([.year, .month,.day], from: today)
-        let lastDC = Calendar.current.dateComponents([.year, .month,.day], from: LastTimeDay!)
-        let diff = cal.dateComponents([.day], from: lastDC, to: todayDC)
-        if diff.day == 0 { return nil }*/
-        
-        //BOSSと戦闘中？？
-        /*let list = bossList()
-        //UserDefaults.standard.set( 3 , forKey: DataCounter().bossNum)
-        //return list[3]
-        let bossNum = user.integer(forKey: DataCounter().bossNum)
-        //let damage = user.integer(forKey: DataCounter().damage)
-        if bossNum > 0 { return list[bossNum] }
-        
-        //新規BOSS？？
-        let total = user.integer(forKey: DataCounter().totalDay)
-        for i in 1 ... list.count-1 {
-            if total == list[i].encount {
-                user.set( i , forKey: DataCounter().bossNum)
-                return list[i]
-            }
-        }*/
-        
         let enemyList = enemyList()
         return enemyList.randomElement()
     }
