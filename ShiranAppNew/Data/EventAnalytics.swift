@@ -92,4 +92,22 @@ class EventAnalytics {
             AnalyticsParameterContentType: "Int"
         ])
     }
+    
+    //ContentView.fouthView  in .alert()
+    func doneQuest(){
+        if isDebag {return}
+        Analytics.logEvent("doneQuest", parameters: [
+            AnalyticsParameterItemCategory: "Daily",
+            AnalyticsParameterItemName: "クエスト利用数"
+        ])
+    }
+    //Character.finish()
+    func doneCharacter(){
+        if isDebag {return}
+        Analytics.logEvent("doneCharacter", parameters: [
+            AnalyticsParameterItemCategory: "Daily",
+            AnalyticsParameterItemName: "キャラクター利用数"
+        ])
+    }
+    
 }

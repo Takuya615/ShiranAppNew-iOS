@@ -85,6 +85,7 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
         //cmNumber = "CoachMark1"
         //self.coachMarkView.appState.coachMark1 = true
     }
+    /*
     func setThree(){
         messages = [
                 """
@@ -139,7 +140,7 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
         cmNumber = "CoachMark4"
         self.coachMarkView.appState.coachMark4 = true
     }
-    
+    */
 }
 
 /*

@@ -9,10 +9,12 @@ import UIKit
 
 @IBDesignable
 class PoseImageView: UIImageView {
-
-    var qPlace:CGPoint = CGPoint(x: -100, y: 0)
-    var qScore = 0
+    
     var gameStart = false
+    var qScore = 0
+    var qPlace:CGPoint = CGPoint(x: -100, y: 0)
+    
+    
     
     /// A data structure used to describe a visual connection between two joints.
     struct JointSegment {
@@ -48,8 +50,36 @@ class PoseImageView: UIImageView {
     /// The color of the circles drawn for each joint.
     @IBInspectable var jointColor: UIColor = UIColor.yellow//.systemYellow//.systemPink
     
+    func showMiss(on frame: CGImage) -> UIImage {
+        let dstImageSize = CGSize(width: frame.width, height: frame.height)
+        let dstImageFormat = UIGraphicsImageRendererFormat()
+        dstImageFormat.scale = 1
+        
+        let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
+        let dstImage = renderer.image { rendererContext in
+            let cgContext = rendererContext.cgContext
+            draw(image: frame, in: cgContext)
+            let cg = UIImage(named: "picto")?.cgImage
+            cgContext.saveGState()
+            cgContext.scaleBy(x: 1.0, y: -1.0)
+            let drawingRect = CGRect(x: -50, y: -frame.height, width: frame.width+100, height: frame.height)
+            cgContext.setAlpha(0.5)
+            cgContext.draw(cg!, in: drawingRect)
+            cgContext.restoreGState()
+            //draw(image: cg!, in: rendererContext.cgContext)
+            /*UIGraphicsPushContext(rendererContext.cgContext)
+            let font = UIFont.systemFont(ofSize: 30)
+            let string = NSAttributedString(
+                string: "全身をうつしてください",
+                attributes:[NSAttributedString.Key.font: font]
+            )
+            string.draw(at: CGPoint(x: 0, y: frame.height/2))
+            UIGraphicsPopContext()*/
+        }
+        return dstImage
+    }
     
-    func show(state: Int,qNum: Int, pose: Pose,friPose: Pose, on frame: CGImage) -> UIImage {
+    func show(state: Int,qType: Int,prePose: Pose,pose: Pose,friPose: Pose, on frame: CGImage) -> UIImage {
         
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
@@ -75,8 +105,17 @@ class PoseImageView: UIImageView {
             for joint in pose.joints.values.filter({ $0.isValid }) {
                 draw(circle: joint, in: rendererContext.cgContext)
             }
-            
-            if state != 0{//フレンド
+            //gameStart = true
+            if state == 0{//クエスト
+                if gameStart {
+                    switch qType {
+                    case 1 : quest1(pose: pose,size: dstImageSize, in: rendererContext.cgContext)
+                    case 3 : quest2(pre: prePose, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
+                    case 4 : quest3(pre: prePose, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
+                    default: print();
+                    }
+                }
+            }else{//フレンド
                 if friPose[.nose].position.x != 0 {
                     segmentColor = .blue
                     jointColor = .blue
@@ -93,11 +132,6 @@ class PoseImageView: UIImageView {
                                     in: rendererContext.cgContext)
                     }
                  }
-            }else{//クエスト
-                if gameStart {
-                    if qNum == 1 { quest1(pose: pose,size: dstImageSize, in: rendererContext.cgContext) }
-                    
-                }
             }
         }
 
@@ -185,7 +219,7 @@ class PoseImageView: UIImageView {
             jointColor = .yellow
         }
     }
-    
+    //coins
     func quest1(pose: Pose,size: CGSize, in cgContext: CGContext){
         //if !pose[.leftAnkle].isValid || !pose[.rightAnkle].isValid {return}
         
@@ -215,7 +249,7 @@ class PoseImageView: UIImageView {
         let rectangle = CGRect(x: qPlace.x - jointRadius, y: qPlace.y - jointRadius,
                                width: jointRadius * 3, height: jointRadius * 3)
         //let drawingRect = CGRect(x: 0, y: -image.height, width: image.width, height: image.height)
-        let cgImage = UIImage(named: "coin")?.cgImage
+        let cgImage = UIImage(named: "coin")?.flipVertical().cgImage
         cgContext.draw(cgImage!, in: rectangle)
         //cgContext.restoreGState()
         
@@ -226,5 +260,97 @@ class PoseImageView: UIImageView {
         segmentColor = .green
         
     }
+    //climbing
+    func quest2(pre: Pose,pose: Pose,size: CGSize, in cgContext: CGContext){
+        
+        let leftE = pose[.leftElbow].position.y - pre[.leftElbow].position.y
+        let rightE = pose[.rightElbow].position.y - pre[.rightElbow].position.y
+        let leftK = pose[.leftKnee].position.y - pre[.leftKnee].position.y
+        let rightK = pose[.rightKnee].position.y - pre[.rightKnee].position.y
+        if leftE > 0 && rightK > 0 { qScore += Int((leftE/2 + rightK)/10); qPlace.y += leftE*2 + rightK*4 }
+        if leftK > 0 && rightE > 0 { qScore += Int((leftK + rightE/2)/10); qPlace.y += leftK*4 + rightE*2}
+        
+        let cgImage = UIImage(named: "rockwall")?.cgImage
+        let rectangle = CGRect(x:0, y:qPlace.y-size.height, width:size.width, height:size.height)
+        let rectangle2 = CGRect(x:0, y:qPlace.y, width:size.width, height:size.height)
+        cgContext.setAlpha(0.5)
+        cgContext.draw(cgImage!, in: rectangle)
+        cgContext.draw(cgImage!,in: rectangle2)
+        
+        if qPlace.y > size.height {qPlace.y = 0}
+        
+    }
+    //skating
+    private var co:CGFloat = 0.0
+    private var sTime: CGFloat = 0.0
+    private var flg = 0
+    private var leftside = true
+    func quest3(pre: Pose,pose: Pose,size: CGSize, in cgContext: CGContext){
+        
+        let leftA = pose[.leftKnee].position
+        let rightA = pose[.rightKnee].position
+        let diff = leftA.y - rightA.y
+        var newflg = 1
+        if diff<0 {newflg = 1}else{newflg = -1}
+        if newflg != flg {//足が切り替わった
+            print("切り替わった")
+            flg = newflg
+            co = 0.0
+        }
+        sTime = -0.4*co*co + 4.0*co + 1.0
+        if sTime < 0.0 || 20 > abs(diff) {sTime = 0.0}
+        co += 1.0
+        
+        qPlace.y += sTime
+        qScore += Int(sTime/10)
+        let back = UIImage(named: "skate_back")?.flipVertical().cgImage
+        let rectangle = CGRect(x:0, y:0, width:size.width, height:size.height/2)
+        cgContext.setAlpha(0.5)
+        cgContext.draw(back!, in: rectangle)
+        
+        cgContext.setFillColor(CGColor(red: 0.9, green: 1.0, blue: 1.0, alpha: 0.8))
+        cgContext.fill(CGRect(x: 0, y: size.height*1/2, width: size.width, height: size.height/2))
+        
+        let cgImage = UIImage(named: "icerock")?.flipVertical().cgImage
+        let si = 200-qPlace.y//画像サイズ
+        //if size.height*2/3 > size.height - si - qPlace.y {print("リセット"); qPlace = CGPoint(x: 0,y: 0)}
+        if si < 0 {qPlace = CGPoint(x: 0,y: 0); leftside = !leftside}
+        var r = qPlace.y/2
+        if !leftside { r = size.width - 200 + qPlace.y/2 }
+        let rectangle2 = CGRect(x: r , y:size.height-100 - qPlace.y, width:si, height:si)
+        cgContext.setAlpha(0.9)
+        cgContext.draw(cgImage!, in: rectangle2)
+    }
     
+}
+
+extension UIImage {
+
+
+    //上下反転
+    func flipVertical() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+        let imageRef = self.cgImage
+        let context = UIGraphicsGetCurrentContext()
+        context?.translateBy(x: 0, y:  0)
+        context?.scaleBy(x: 1.0, y: 1.0)
+        context?.draw(imageRef!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        let flipHorizontalImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return flipHorizontalImage!
+    }
+
+    //左右反転
+    func flipHorizontal() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+        let imageRef = self.cgImage
+        let context = UIGraphicsGetCurrentContext()
+        context?.translateBy(x: size.width, y:  size.height)
+        context?.scaleBy(x: -1.0, y: -1.0)
+        context?.draw(imageRef!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        let flipHorizontalImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return flipHorizontalImage!
+    }
+
 }

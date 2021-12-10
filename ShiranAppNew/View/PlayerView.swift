@@ -22,6 +22,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
 class ViewController: UIViewController {
     var videoPlayer: AVPlayer!
     var startButton: UIButton!
+    var skipButton: UIButton!
     var videoPlayerView: VideoPlayerView
     init(videoPlayerView: VideoPlayerView) {
         self.videoPlayerView = videoPlayerView
@@ -66,6 +67,14 @@ class ViewController: UIViewController {
         startButton.setImage(reImage, for: .normal)
         startButton.addTarget(self, action: #selector(onStartButtonTapped), for: UIControl.Event.touchUpInside)
         view.addSubview(startButton)
+        
+        /*skipButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        skipButton.layer.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY+10)
+        skipButton.setTitle("スキップ", for: .normal)
+        skipButton.setTitleColor(UIColor.black, for: .normal)
+        skipButton.addTarget(self, action: #selector(onSkipButtonTapped), for: UIControl.Event.touchUpInside)
+        view.addSubview(skipButton)*/
+        
     }
     
     // Start Button Tapped
@@ -74,7 +83,12 @@ class ViewController: UIViewController {
         videoPlayer.seek(to: CMTimeMakeWithSeconds(0, preferredTimescale: Int32(NSEC_PER_SEC)))
         videoPlayer.play()
     }
-    
+    // Start Button Tapped
+    @objc func onSkipButtonTapped(){
+        startButton.isHidden = true
+        videoPlayer.seek(to: CMTimeMakeWithSeconds(0, preferredTimescale: Int32(NSEC_PER_SEC)))
+        videoPlayer.play()
+    }
     // Movie Did Finish
     @objc func playerDidFinishPlaying() {
         self.videoPlayerView.appState.isVideoPlayer = false

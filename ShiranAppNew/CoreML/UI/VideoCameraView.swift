@@ -39,8 +39,8 @@ class VideoViewController: UIViewController {
     // プレビューレイヤ
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     
-    let state: Int = DataCounter().setDailyState()//  diff.dayの数値
-    let qNum = UserDefaults.standard.integer(forKey: DataCounter().questNum)
+    var state: Int = DataCounter().setDailyState()//  diff.dayの数値
+    let qType = UserDefaults.standard.integer(forKey: DataCounter().questType)
     
     var count = 0
     var recordButton: UIButton!
@@ -90,10 +90,11 @@ class VideoViewController: UIViewController {
         //poseDetect.delegate = self
         
         
-        //状態を定義する
-        //state = DataCounter().setDailyState()
-        let quest = UserDefaults.standard.integer(forKey: "")
-        if state > 0{//デイリー
+        
+        if self.qType != 0{//クエスト
+            state = 0//デイリーが表示されないようにする
+            //print("");
+        }else if state > 0{//デイリー
             //if exiteBoss != nil { view.backgroundColor = .black; isBoss = true }
             let db = Firestore.firestore().collection("users").whereField("name", isEqualTo: "つむ")
             db.getDocuments() { (querySnapshot, err) in
@@ -101,13 +102,10 @@ class VideoViewController: UIViewController {
                 guard let poseList: [Int] = querySnapshot!.documents[0].data()["poseList"] as? [Int] else{print("フレンドリストなし");return}
                 self.friPoseList = poseList
             }
-        }else if quest != 0{//クエスト
-            
-        }else{//初回？　デイリー終わり？
+        }else {//初回？　デイリー終わり？
             
         }
-        timesBonus = Character().useTaskHelper()
-        
+        timesBonus = CharacterModel().useTaskHelper()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -358,12 +356,13 @@ class VideoViewController: UIViewController {
                     //リザルト表示
                     var alert  = self.videoCameraView.dataCounter.showScoreResult(
                         view: self.videoCameraView, score: self.score, bonus: self.timesBonus)
-                    if self.state > 0 {//　デイリー
-                        self.videoCameraView.dataCounter.scoreCounter()//デイリー処理
-                        alert = self.videoCameraView.dataCounter.showDailyResult(alert: alert, view: self.videoCameraView, bonus: self.timesBonus, killList: self.killList)
-                    }else if self.qNum != 0 {//　クエスト
+                    
+                    if self.qType != 0 {//　クエスト
                         alert = self.videoCameraView.dataCounter.showQuestResult(
-                            alert: alert, view: self.videoCameraView, qNum: self.qNum,qScore: self.poseImageView.qScore)
+                            alert: alert, view: self.videoCameraView, qType: self.qType,qScore: self.poseImageView.qScore)
+                    }else if self.state > 0 {//　デイリー
+                        //self.videoCameraView.dataCounter.scoreCounter()//デイリー処理
+                        alert = self.videoCameraView.dataCounter.showDailyResult(alert: alert, view: self.videoCameraView, bonus: self.timesBonus, killList: self.killList)
                     }
                     
                     self.present(alert, animated: true, completion: nil)
@@ -429,7 +428,16 @@ extension VideoViewController: PoseNetDelegate {
                                       configuration: PoseBuilderConfiguration(),
                                       inputImage: self.currentFrame!)
         let pose = poseBuilder.pose
-        
+        let check = check(pose: pose, size: self.currentFrame!.size)
+        if check {
+            let poseImage = poseImageView.showMiss(on: self.currentFrame!)
+            let poseImageView = UIImageView(image: poseImage)
+            poseImageView.layer.position = CGPoint(x: self.view.bounds.size.width/2, y:60 + poseImage.size.height/2)
+            //poseImageView.isOpaque = false
+            self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
+            self.view.addSubview(poseImageView)
+            return
+        }
         //フレンドの描画部分
         let fPose = Pose()
         if !self.countDown{
@@ -462,7 +470,8 @@ extension VideoViewController: PoseNetDelegate {
         }
         //自分とフレンドの動きを描画
         let poseImage: UIImage = poseImageView.show(
-            state: self.state, qNum: self.qNum,
+            state: self.state, qType: self.qType,
+            prePose: prePose,
             pose: pose,//自分のポーズ
             friPose: fPose,//フレンドのポーズ
             on: self.currentFrame!)
@@ -489,7 +498,7 @@ extension VideoViewController: PoseNetDelegate {
             //self.bossHPbar.setProgress(self.bossHPbar.progress, animated: true)
         }else{
             self.scoreBoad.text = "Score \(Int(score))"//スコア更新
-            if qNum == 2 { self.poseImageView.qScore = Int(score) }
+            if qType == 2 { self.poseImageView.qScore = Int(score) }
         }
         
         prePose = culculateScore(pose: pose, prePose: prePose)
@@ -499,22 +508,30 @@ extension VideoViewController: PoseNetDelegate {
     func culculateScore(pose: Pose, prePose: Pose) -> Pose{
         //スコアの測定計算
         if !isRecording {return pose}
-        if prePose == nil {
-            return pose
-        }else{
+        Joint.Name.allCases.forEach {name in
             
-            Joint.Name.allCases.forEach {name in
-                
-                if pose.joints[name] != nil && prePose.joints[name] != nil{
-                    if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
-                        let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
-                        let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
-                        let sum = Float(disY + disX)/100*timesBonus
-                        score += sum
-                    }
+            if pose.joints[name] != nil && prePose.joints[name] != nil{
+                if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
+                    let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
+                    let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
+                    let sum = Float(disY + disX)/100*timesBonus
+                    score += sum
                 }
             }
-            return pose
         }
+        return pose
+    }
+    func check(pose: Pose,size: CGSize) -> Bool{
+        //return false
+        let list = [pose[.leftAnkle],pose[.rightAnkle],
+                    pose[.leftWrist],pose[.rightWrist],
+                    pose[.nose]
+        ]
+        for l in list {
+            if l.confidence < 0.1 {return true}
+            if l.position.x < 0 || l.position.x > size.width {return true}
+            if l.position.y < 0 || l.position.y > size.height {return true}
+        }
+        return false
     }
 }

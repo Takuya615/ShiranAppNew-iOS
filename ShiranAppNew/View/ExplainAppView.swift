@@ -118,6 +118,32 @@ struct PlayerView2: View {
             .onAppear() {player.play()}
     }
 }
+struct PlayerViewCoin: View {
+    let url = Bundle.main.path(forResource: "q_coin", ofType: "mp4")
+    var body: some View {
+        let player = AVPlayer(url: URL(fileURLWithPath: url!))
+        VStack{
+            Image(systemName: "chevron.compact.down")
+                .resizable().frame(width: 100, height: 20, alignment: .top).padding().foregroundColor(.gray)
+            VideoPlayer(player: player)
+                        .onAppear() {player.play()}
+        }
+        
+    }
+}
+struct PlayerViewClimb: View {
+    let url = Bundle.main.path(forResource: "q_climb", ofType: "mp4")
+    var body: some View {
+        let player = AVPlayer(url: URL(fileURLWithPath: url!))
+        VStack{
+            Image(systemName: "chevron.compact.down")
+                .resizable().frame(width: 100, height: 20, alignment: .top).padding().foregroundColor(.gray)
+            VideoPlayer(player: player)
+                        .onAppear() {player.play()}
+        }
+    }
+}
+
 
 /// ２番めのView
 struct Explanation1: View {

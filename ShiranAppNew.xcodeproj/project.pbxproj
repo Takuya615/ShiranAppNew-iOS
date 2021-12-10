@@ -15,7 +15,6 @@
 		CE25ACE82751CABB00ABDF18 /* score_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE25ACE72751CABB00ABDF18 /* score_up.mp3 */; };
 		CE43D8B926E1BC440067CDDB /* VideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */; };
 		CE43D8BA26E1BC440067CDDB /* CoachMarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B326E1BC440067CDDB /* CoachMarks.swift */; };
-		CE43D8BC26E1BC440067CDDB /* CoachMarks2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B526E1BC440067CDDB /* CoachMarks2.swift */; };
 		CE43D8BD26E1BC440067CDDB /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B626E1BC440067CDDB /* Sounds.swift */; };
 		CE43D8BF26E1BC440067CDDB /* SaveVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B826E1BC440067CDDB /* SaveVideo.swift */; };
 		CE43D8C726E1BC540067CDDB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8C126E1BC540067CDDB /* LoginView.swift */; };
@@ -35,7 +34,6 @@
 		CE54231526E6DF27002550D4 /* PoseNetOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230426E6DF27002550D4 /* PoseNetOutput.swift */; };
 		CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230526E6DF27002550D4 /* PoseNet.swift */; };
 		CE54231726E6DF27002550D4 /* PoseNetInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230626E6DF27002550D4 /* PoseNetInput.swift */; };
-		CE54231826E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CE54230726E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel */; };
 		CE5954C826E8B778003CE64E /* PoseUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5954C726E8B778003CE64E /* PoseUIView.swift */; };
 		CE6C8DD027119399007286A4 /* fightEnemy.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */; };
 		CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DD1271196C8007286A4 /* countdown.mp3 */; };
@@ -47,10 +45,13 @@
 		CE96199F26E1AE830084F1A7 /* ShiranAppNewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96199E26E1AE830084F1A7 /* ShiranAppNewUITests.swift */; };
 		CE9619AD26E1B76B0084F1A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */; };
 		CEB5753E26FC2E96005C5E49 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB5753D26FC2E96005C5E49 /* Character.swift */; };
+		CEBE67E92761B47800DA11B2 /* q_climb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */; };
+		CEBE67EA2761B49400DA11B2 /* q_coin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CEBE67E82761A07900DA11B2 /* q_coin.mp4 */; };
 		CED69991270560AC006E3AEA /* BOSS.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED69990270560AC006E3AEA /* BOSS.swift */; };
 		CED6999327065EC8006E3AEA /* DataCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED6999227065EC8006E3AEA /* DataCounter.swift */; };
 		CED6B891270D5EE7009BC3F6 /* EventAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */; };
 		CEE45B1926F8CAA7009D6E1F /* introduce.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CEE45B1826F88340009D6E1F /* introduce.MP4 */; };
+		CEE6FEF827571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CEE6FEF727571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +85,6 @@
 		CE25ACE72751CABB00ABDF18 /* score_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = score_up.mp3; sourceTree = "<group>"; };
 		CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCameraView.swift; sourceTree = "<group>"; };
 		CE43D8B326E1BC440067CDDB /* CoachMarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachMarks.swift; sourceTree = "<group>"; };
-		CE43D8B526E1BC440067CDDB /* CoachMarks2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachMarks2.swift; sourceTree = "<group>"; };
 		CE43D8B626E1BC440067CDDB /* Sounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
 		CE43D8B826E1BC440067CDDB /* SaveVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveVideo.swift; sourceTree = "<group>"; };
 		CE43D8C126E1BC540067CDDB /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -104,7 +104,6 @@
 		CE54230426E6DF27002550D4 /* PoseNetOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNetOutput.swift; sourceTree = "<group>"; };
 		CE54230526E6DF27002550D4 /* PoseNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNet.swift; sourceTree = "<group>"; };
 		CE54230626E6DF27002550D4 /* PoseNetInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNetInput.swift; sourceTree = "<group>"; };
-		CE54230726E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoseNetMobileNet075S16FP16.mlmodel; sourceTree = "<group>"; };
 		CE5954C726E8B778003CE64E /* PoseUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseUIView.swift; sourceTree = "<group>"; };
 		CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fightEnemy.MP4; sourceTree = "<group>"; };
 		CE6C8DD1271196C8007286A4 /* countdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = countdown.mp3; sourceTree = "<group>"; };
@@ -123,10 +122,13 @@
 		CE9619A026E1AE830084F1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEB5753D26FC2E96005C5E49 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
+		CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = q_climb.mp4; sourceTree = "<group>"; };
+		CEBE67E82761A07900DA11B2 /* q_coin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = q_coin.mp4; sourceTree = "<group>"; };
 		CED69990270560AC006E3AEA /* BOSS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOSS.swift; sourceTree = "<group>"; };
 		CED6999227065EC8006E3AEA /* DataCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCounter.swift; sourceTree = "<group>"; };
 		CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAnalytics.swift; sourceTree = "<group>"; };
 		CEE45B1826F88340009D6E1F /* introduce.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = introduce.MP4; sourceTree = "<group>"; };
+		CEE6FEF727571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoseNetMobileNet100S16FP16.mlmodel; sourceTree = "<group>"; };
 		E6C48DFF81CD90D5D320ADA6 /* Pods-ShiranAppNewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -174,19 +176,14 @@
 		CE43D8B126E1BC440067CDDB /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				CECB80AA2762E09C0001565D /* Resource */,
 				CED6999227065EC8006E3AEA /* DataCounter.swift */,
 				CED69990270560AC006E3AEA /* BOSS.swift */,
 				CEB5753D26FC2E96005C5E49 /* Character.swift */,
 				CE43D8B326E1BC440067CDDB /* CoachMarks.swift */,
-				CE43D8B526E1BC440067CDDB /* CoachMarks2.swift */,
 				CE43D8B826E1BC440067CDDB /* SaveVideo.swift */,
 				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
 				CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */,
-				CEE45B1826F88340009D6E1F /* introduce.MP4 */,
-				CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */,
-				CE25ACE72751CABB00ABDF18 /* score_up.mp3 */,
-				CE6C8DD1271196C8007286A4 /* countdown.mp3 */,
-				CE04B411270C04AF00F21059 /* cheers.mp3 */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -239,9 +236,9 @@
 		CE5422FD26E6DF27002550D4 /* Pose */ = {
 			isa = PBXGroup;
 			children = (
-				CE5422FE26E6DF27002550D4 /* Joint.swift */,
 				CE54230026E6DF27002550D4 /* Pose.swift */,
 				CE5422FF26E6DF27002550D4 /* PoseBuilder+Single.swift */,
+				CE5422FE26E6DF27002550D4 /* Joint.swift */,
 				CE54230126E6DF27002550D4 /* PoseBuilder.swift */,
 				CE54230226E6DF27002550D4 /* PoseBuilderConfiguration.swift */,
 			);
@@ -254,7 +251,7 @@
 				CE54230526E6DF27002550D4 /* PoseNet.swift */,
 				CE54230626E6DF27002550D4 /* PoseNetInput.swift */,
 				CE54230426E6DF27002550D4 /* PoseNetOutput.swift */,
-				CE54230726E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel */,
+				CEE6FEF727571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -321,6 +318,20 @@
 				CE9619A026E1AE830084F1A7 /* Info.plist */,
 			);
 			path = ShiranAppNewUITests;
+			sourceTree = "<group>";
+		};
+		CECB80AA2762E09C0001565D /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				CEE45B1826F88340009D6E1F /* introduce.MP4 */,
+				CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */,
+				CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */,
+				CEBE67E82761A07900DA11B2 /* q_coin.mp4 */,
+				CE25ACE72751CABB00ABDF18 /* score_up.mp3 */,
+				CE6C8DD1271196C8007286A4 /* countdown.mp3 */,
+				CE04B411270C04AF00F21059 /* cheers.mp3 */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		F51A56C6C73E76EF64A72CD9 /* Frameworks */ = {
@@ -442,6 +453,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEBE67EA2761B49400DA11B2 /* q_coin.mp4 in Resources */,
+				CEBE67E92761B47800DA11B2 /* q_climb.mp4 in Resources */,
 				CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */,
 				CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */,
 				CE25ACE82751CABB00ABDF18 /* score_up.mp3 in Resources */,
@@ -615,14 +628,13 @@
 				CE82BE7C2728FE790051EA84 /* DialogPresentation.swift in Sources */,
 				CE43D8C826E1BC540067CDDB /* RootView.swift in Sources */,
 				CED6999327065EC8006E3AEA /* DataCounter.swift in Sources */,
-				CE43D8BC26E1BC440067CDDB /* CoachMarks2.swift in Sources */,
 				CE43D8BD26E1BC440067CDDB /* Sounds.swift in Sources */,
 				CE43D8CB26E1BC540067CDDB /* ContentView.swift in Sources */,
 				CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */,
 				CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */,
-				CE54231826E6DF27002550D4 /* PoseNetMobileNet075S16FP16.mlmodel in Sources */,
 				CE43D8B926E1BC440067CDDB /* VideoCameraView.swift in Sources */,
 				CE43D8BA26E1BC440067CDDB /* CoachMarks.swift in Sources */,
+				CEE6FEF827571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel in Sources */,
 				CE54230826E6DF27002550D4 /* PoseImageView.swift in Sources */,
 				CE54231426E6DF27002550D4 /* PoseBuilderConfiguration.swift in Sources */,
 				CE54231726E6DF27002550D4 /* PoseNetInput.swift in Sources */,

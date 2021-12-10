@@ -64,13 +64,17 @@ struct DialogContent1: View {
                 Image("enemy1")
                     .resizable()
                     .frame(width: 100.0, height: 100.0, alignment: .leading)
-                Text("スライムがあらわれた").font(.title)
+                Text("デイリー").font(.title)
                 Text("毎日はじめの１回だけ").foregroundColor(.red)
                 Text("モンスターがあらわれます")
                 
                 
                 Button(action: { page = true }, label: {Text("\n次へ\n")})
             }else{
+                Image("enemy1")
+                    .resizable()
+                    .frame(width: 100.0, height: 100.0, alignment: .leading)
+                Text("デイリー").font(.title)
                 Text("\n彼らは、")
                 Text("あなたのなまけ心の化身です").foregroundColor(.red)
                 Text("今すぐ撃退しましょう！！\n")
@@ -111,7 +115,7 @@ struct DialogContent2: View {
             HStack{
                 Spacer()
                 Button(action: {isPresented = false},
-                       label: {Text("❎閉じる")})
+                       label: {Text("❎とじる")})
             }
             if page1 {
                 //Text("クエスト").font(.title)
@@ -141,8 +145,8 @@ struct DialogContent3: View {
                 Button(action: {isPresented = false},
                        label: {Text("❎閉じる")})
             }
-            Text("クエスト").font(.title)
-            Text("クエストを設定すると、チャレンジボタン🔥から、")
+            Text("スケット").font(.title)
+            Text("スケットは習慣化のテクニックを教えてくれます。\n")
             
         }
         .background(Color.white)
