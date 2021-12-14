@@ -247,18 +247,6 @@ struct FirstView: View{
                             Image(systemName: "rectangle.and.pencil.and.ellipsis")
                             }
                         
-                        Button(action: {
-                            let massage = "運動習慣化アプリ　しらんプリ"
-                            //let image = postImage
-                            let link = URL(string: "https://apps.apple.com/us/app/%E3%81%97%E3%82%89%E3%82%93%E3%83%97%E3%83%AA/id1584268203")!
-                            let activityViewController = UIActivityViewController(activityItems: [massage,link], applicationActivities: nil)
-                            let viewController = UIApplication.shared.windows.first?.rootViewController
-                            viewController?.present(activityViewController, animated: true, completion: nil)
-                            EventAnalytics().share()
-                        }) {
-                            Text("シェア")
-                            Image(systemName: "paperplane.fill")
-                            }
                         
                         /*      　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　でバック用ボタン
                         Button(action: {
