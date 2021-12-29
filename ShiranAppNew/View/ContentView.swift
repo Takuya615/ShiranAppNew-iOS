@@ -22,6 +22,8 @@ struct ContentView: View {
     var body: some View {
         Group{if self.appState.isVideo {
             VideoCameraView(isVideo: $appState.isVideo)
+        }else if self.appState.isQuest{
+            QuestCameraView(isVideo: $appState.isQuest)
         }else if self.appState.isPrivacyPolicy{
             PrivacyPolicyView()
         }else if self.appState.isExplainView{
@@ -30,6 +32,8 @@ struct ContentView: View {
             LoginView()
         }else if self.appState.isVideoPlayer{
             VideoPlayerView()
+        }else if self.appState.isSettingView{
+            SettingView()
         }else {
                 ZStack{
                     if self.appState.coachMarkf { CoachMarkView() }
@@ -108,7 +112,7 @@ struct ContentView: View {
             HStack {
                 Spacer()
                 Button(action:{
-                    EventAnalytics().tapFab()
+                    EventAnalytics.tapFab()
                     self.appState.isVideo = true
                     self.appState.coachMark1 = true
                     UserDefaults.standard.set(true, forKey: "CoachMark1")
@@ -164,7 +168,7 @@ struct FirstView: View{
                         
                         Text(String(self.dataCounter.continuedRetryCounter))
                             .font(.system(size: 100, weight: .black, design: .default))
-                            .frame(width: 130, height: 200, alignment: .center)
+                            .frame(width: 170, height: 200, alignment: .center)
                             .foregroundColor(.blue)
                     }
                     VStack{
@@ -173,7 +177,7 @@ struct FirstView: View{
                             .foregroundColor(.blue)
                         Text(String(self.dataCounter.continuedDayCounter))
                             .font(.system(size: 100, weight: .black, design: .default))
-                            .frame(width: 130, height: 200, alignment: .center)
+                            .frame(width: 170, height: 200, alignment: .center)
                             .foregroundColor(.blue)
                     }
                 }
@@ -188,6 +192,8 @@ struct FirstView: View{
             }
             .onAppear(perform: {
                 self.dataCounter.countedLevel = UserDefaults.standard.integer(forKey: "Level")//データ更新
+                self.dataCounter.continuedDayCounter = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
+                self.dataCounter.continuedRetryCounter = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)
                 if CharacterModel().useTaskHelper() > 1.0 {
                     self.appState.showWanWan = true
                 }else{
@@ -199,6 +205,12 @@ struct FirstView: View{
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing){
                     Menu{
+                        Button(action: {
+                            appState.isSettingView = true
+                        }) {
+                            Text("設定")
+                            Image(systemName: "gear")//"gearshape")歯車まーく
+                            }
                         Button(action: {
                             appState.isExplainView = true
                         }) {
@@ -248,7 +260,6 @@ struct FirstView: View{
                             }
                         
                         
-                        /*      　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　でバック用ボタン
                         Button(action: {
                             UserDefaults.standard.removeAll()
                             exit(0)
@@ -259,12 +270,12 @@ struct FirstView: View{
                         
                         Button(action: {
                             let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-                            UserDefaults.standard.set(LastTimeDay, forKey: self.dataCounter._LastTimeDay)
+                            UserDefaults.standard.set(LastTimeDay, forKey: Keys._LastTimeDay.rawValue)
                         }) {
                             Text("１日リセット")
                             Image(systemName: "shield")
                             }
-                        */
+                        
                         /*
                          @IBAction func share() {
                                  //share(上の段)から遷移した際にシェアするアイテム
@@ -282,7 +293,7 @@ struct FirstView: View{
                 }
                 ToolbarItem(placement: .navigationBarLeading){
                     HStack{
-                        Text(UserDefaults.standard.string(forKey: DataCounter().myName) ?? "")
+                        Text(UserDefaults.standard.string(forKey: Keys.myName.rawValue) ?? "")
                         Text("  Lv. \(self.dataCounter.countedLevel)  ")
                         Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
                         Text(" \(self.dataCounter.countedCoin)")
@@ -364,7 +375,7 @@ struct SecondView: View{
 struct ThirdView: View {
     
     @ObservedObject var cM = CharacterModel()
-    @State var level: Int = UserDefaults.standard.integer(forKey: DataCounter().level)
+    @State var level: Int = UserDefaults.standard.integer(forKey: Keys.level.rawValue)
     
     var body: some View {
         NavigationView{
@@ -419,7 +430,7 @@ struct fourthView: View{
     @EnvironmentObject var dataCounter: DataCounter
     @State var dialogPresentation = DialogPresentation()
     @State var showAlert = false
-    @State var qsl: [Int] = UserDefaults.standard.array(forKey: DataCounter().qsl) as? [Int] ?? [0,0,0]
+    @State var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
     @State var updated_stage: Int = UserDefaults.standard.integer(forKey: "updatedStage")
     @State var stage :Int = 1//星の数で開けるステージを限定
     @State var stageOnNow :Int = 1//今どこのステージにいるのか
@@ -507,11 +518,11 @@ struct fourthView: View{
                                      message: Text(item.text),
                             primaryButton: .cancel(Text("キャンセル")),
                             secondaryButton: .default(Text("チャレンジ"), action: {
-                            UserDefaults.standard.set(item.number, forKey: DataCounter().questNum)
-                            UserDefaults.standard.set(item.type,forKey: DataCounter().questType)
-                            UserDefaults.standard.set(item.goal, forKey: DataCounter().qGoal)
-                            appState.isVideo = true
-                            EventAnalytics().doneQuest()
+                            UserDefaults.standard.set(item.number, forKey: Keys.questNum.rawValue)
+                            UserDefaults.standard.set(item.type,forKey: Keys.questType.rawValue)
+                            UserDefaults.standard.set(item.goal, forKey: Keys.qGoal.rawValue)
+                            appState.isQuest = true
+                            EventAnalytics.doneQuest()
                             }))
                     }
                 }
@@ -558,7 +569,7 @@ struct fourthView: View{
         if stage > updated_stage {//新ステージ解放時。　星の数を記録するリストを更新する
             UserDefaults.standard.set(stage, forKey: "updatedStage")
             for _ in 1 ... addQ{ qsl.append(0) }
-            UserDefaults.standard.set(qsl, forKey: DataCounter().qsl)
+            UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
         }
         
     }
@@ -569,7 +580,7 @@ struct fifthView: View{
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var dataCounter: DataCounter
     @State var dialogPresentation = DialogPresentation()
-    @State var coin = UserDefaults.standard.integer(forKey: DataCounter().coin)
+    @State var coin = UserDefaults.standard.integer(forKey: Keys.coin.rawValue)
     @State var showAlert = false
     @State var isBought = false
     struct Skin: Identifiable {

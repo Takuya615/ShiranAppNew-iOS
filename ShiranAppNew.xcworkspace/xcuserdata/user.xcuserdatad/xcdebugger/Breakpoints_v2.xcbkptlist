@@ -30,8 +30,8 @@
             filePath = "ShiranAppNew/CoreML/UI/PoseImageView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "show(state:qType:prePose:pose:friPose:on:)"
             landmarkType = "7">
          </BreakpointContent>

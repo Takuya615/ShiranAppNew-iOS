@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 class AppState: ObservableObject {
     @Published var isVideo = false
+    @Published var isQuest = false
     @Published var isLogin = false
     @Published var isNamed = false
     @Published var isinAccount = false
@@ -44,6 +45,7 @@ class AppState: ObservableObject {
     @Published var isExplainView = false
     @Published var isVideoPlayer = false
     @Published var isPlayerView = false
+    @Published var isSettingView = false
     
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
     @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController -82
@@ -142,7 +144,7 @@ class AppState: ObservableObject {
                 print("ディティールの保存成功！！")
                 self.isLoading = false
                 self.errorStr = ""
-                UserDefaults.standard.set(name, forKey: DataCounter().myName)
+                UserDefaults.standard.set(name, forKey: Keys.myName.rawValue)
                 self.isLogin = false
                 self.isNamed = false
             }
@@ -159,7 +161,7 @@ class AppState: ObservableObject {
             }else{//                                nameを設定し直してメインへ
                 let name: String = querySnapshot!.documents[0].data()["name"] as! String
                 print("documentは\(name)")
-                UserDefaults.standard.set(name, forKey: DataCounter().myName)
+                UserDefaults.standard.set(name, forKey: Keys.myName.rawValue)
                 self.isLogin = false
                 self.isLoading = false
             }

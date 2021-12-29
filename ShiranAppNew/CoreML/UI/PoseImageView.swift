@@ -62,22 +62,39 @@ class PoseImageView: UIImageView {
             let cg = UIImage(named: "picto")?.cgImage
             cgContext.saveGState()
             cgContext.scaleBy(x: 1.0, y: -1.0)
-            let drawingRect = CGRect(x: -50, y: -frame.height, width: frame.width+100, height: frame.height)
+            let drawingRect = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height*9/10)
             cgContext.setAlpha(0.5)
             cgContext.draw(cg!, in: drawingRect)
             cgContext.restoreGState()
-            //draw(image: cg!, in: rendererContext.cgContext)
-            /*UIGraphicsPushContext(rendererContext.cgContext)
-            let font = UIFont.systemFont(ofSize: 30)
-            let string = NSAttributedString(
-                string: "全身をうつしてください",
-                attributes:[NSAttributedString.Key.font: font]
-            )
-            string.draw(at: CGPoint(x: 0, y: frame.height/2))
-            UIGraphicsPopContext()*/
         }
         return dstImage
     }
+    
+    /*static func showDial() -> UIImage {
+        //let dstImageSize = CGSize(width: frame.width, height: frame.height)
+        let frame = CGSize(width: 250, height: 500)
+        let dstImageFormat = UIGraphicsImageRendererFormat()
+        dstImageFormat.scale = 1
+        
+        let renderer = UIGraphicsImageRenderer(size: frame,format: dstImageFormat)
+        let dstImage = renderer.image { rendererContext in
+            let cgContext = rendererContext.cgContext
+            UIGraphicsPushContext(cgContext)
+            let font = UIFont.systemFont(ofSize: 30)
+            let string = NSAttributedString(string: "あいうえお", attributes: [NSAttributedString.Key.font: font])
+            string.draw(at: CGPoint(x: frame.width/2, y: frame.height/2))
+            UIGraphicsPopContext()
+            /*draw(image: frame, in: cgContext)
+            let cg = UIImage(named: "picto")?.cgImage
+            cgContext.saveGState()
+            cgContext.scaleBy(x: 1.0, y: -1.0)
+            let drawingRect = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height*9/10)
+            cgContext.setAlpha(0.5)
+            cgContext.draw(cg!, in: drawingRect)
+            cgContext.restoreGState()*/
+        }
+        return dstImage
+    }*/
     
     func show(state: Int,qType: Int,prePose: Pose,pose: Pose,friPose: Pose, on frame: CGImage) -> UIImage {
         
@@ -115,8 +132,9 @@ class PoseImageView: UIImageView {
                     default: print();
                     }
                 }
-            }else{//フレンド
-                if friPose[.nose].position.x != 0 {
+            }else{//デイリー　（フレンド）
+                daily(pose: pose, size: dstImageSize, in: rendererContext.cgContext)
+                /*if friPose[.nose].position.x != 0 {
                     segmentColor = .blue
                     jointColor = .blue
                     for joint in friPose.joints.values.filter({ $0.isValid }) {
@@ -131,7 +149,7 @@ class PoseImageView: UIImageView {
                                     to: jointB,
                                     in: rendererContext.cgContext)
                     }
-                 }
+                 }*/
             }
         }
 
@@ -209,7 +227,7 @@ class PoseImageView: UIImageView {
     }
     
     func changeSkin(){
-        let skin = UserDefaults.standard.integer(forKey: DataCounter().skin)
+        let skin = UserDefaults.standard.integer(forKey: Keys.skin.rawValue)
         if skin == 001 {
             segmentColor = .systemPink
             jointColor = .red
@@ -219,6 +237,75 @@ class PoseImageView: UIImageView {
             jointColor = .yellow
         }
     }
+    
+    //デイリー
+    private var jump = true
+    func daily(pose: Pose,size: CGSize, in cgContext: CGContext){
+        if jump {
+            let rectangle = CGRect(x: 0, y: 0, width: size.width, height: size.height*5/6)
+            cgContext.setAlpha(0.2)
+            cgContext.fill(rectangle)
+            let left = pose[.leftAnkle].position.y
+            let right = pose[.rightAnkle].position.y
+            if left < size.height*5/6 && right < size.height*5/6 {
+                jump = false
+                qScore+=1
+                SystemSounds.score_up("")
+            }
+        }else{
+            let rectangle = CGRect(x: 0, y: size.height*7/8, width: size.width, height: size.height/8)
+            cgContext.setAlpha(0.2)
+            cgContext.fill(rectangle)
+            let leftW = pose[.leftWrist]
+            let rightW = pose[.rightWrist]
+            
+            if leftW.position.y > size.height*7/8 && rightW.position.y > size.height*7/8 {
+                let lh = pose[.leftHip].confidence
+                let lk = pose[.leftKnee].confidence
+                let la = pose[.leftAnkle].confidence
+                let rh = pose[.rightHip].confidence
+                let rk = pose[.rightKnee].confidence
+                let ra = pose[.rightAnkle].confidence
+                
+                if lh+lk+la+rh+rk+ra < 2.4 {
+                    jump = true
+                    qScore+=1
+                    SystemSounds.score_up("")
+                }
+                //if lh+lk+la+rh+rk+ra < 3.0 {SystemSounds().buttonVib("")}
+                
+                /*let angleR = angle(firstLandmark: pose[.rightShoulder],
+                                   midLandmark: pose[.rightElbow],
+                                   lastLandmark: rightW)
+                let angleL = angle(firstLandmark: pose[.leftShoulder],
+                                   midLandmark: pose[.leftElbow],
+                                   lastLandmark: leftW)
+                if angleL < 150 || angleR < 90 {
+                    
+                }*/
+                
+            }
+        }
+        
+    }
+    func angle(
+          firstLandmark: Joint,
+          midLandmark: Joint,
+          lastLandmark: Joint
+      ) -> CGFloat {
+          let radians: CGFloat =
+              atan2(lastLandmark.position.y - midLandmark.position.y,
+                        lastLandmark.position.x - midLandmark.position.x) -
+                atan2(firstLandmark.position.y - midLandmark.position.y,
+                        firstLandmark.position.x - midLandmark.position.x)
+          var degrees = radians * 180.0 / .pi
+          degrees = abs(degrees) // Angle should never be negative
+          if degrees > 180.0 {
+              degrees = 360.0 - degrees // Always get the acute representation of the angle
+          }
+          return degrees
+      }
+    
     //coins
     func quest1(pose: Pose,size: CGSize, in cgContext: CGContext){
         //if !pose[.leftAnkle].isValid || !pose[.rightAnkle].isValid {return}

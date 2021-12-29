@@ -12,6 +12,7 @@
 		7FAEDB78D8FD5FE373130AAA /* Pods_ShiranAppNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */; };
 		CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE04B411270C04AF00F21059 /* cheers.mp3 */; };
 		CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */; };
+		CE23112D276836A8003D49B7 /* QuestCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23112C276836A8003D49B7 /* QuestCameraView.swift */; };
 		CE25ACE82751CABB00ABDF18 /* score_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE25ACE72751CABB00ABDF18 /* score_up.mp3 */; };
 		CE43D8B926E1BC440067CDDB /* VideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */; };
 		CE43D8BA26E1BC440067CDDB /* CoachMarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43D8B326E1BC440067CDDB /* CoachMarks.swift */; };
@@ -31,6 +32,7 @@
 		CE54231526E6DF27002550D4 /* PoseNetOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230426E6DF27002550D4 /* PoseNetOutput.swift */; };
 		CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230526E6DF27002550D4 /* PoseNet.swift */; };
 		CE54231726E6DF27002550D4 /* PoseNetInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54230626E6DF27002550D4 /* PoseNetInput.swift */; };
+		CE59CC94277B1244007E96C3 /* attack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE59CC93277B1244007E96C3 /* attack.mp3 */; };
 		CE6C8DD027119399007286A4 /* fightEnemy.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */; };
 		CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DD1271196C8007286A4 /* countdown.mp3 */; };
 		CE82BE7C2728FE790051EA84 /* DialogPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE82BE7B2728FE790051EA84 /* DialogPresentation.swift */; };
@@ -40,6 +42,7 @@
 		CE96199426E1AE830084F1A7 /* ShiranAppNewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96199326E1AE830084F1A7 /* ShiranAppNewTests.swift */; };
 		CE96199F26E1AE830084F1A7 /* ShiranAppNewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96199E26E1AE830084F1A7 /* ShiranAppNewUITests.swift */; };
 		CE9619AD26E1B76B0084F1A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */; };
+		CEA3081727741DDF00D7FDC7 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3081627741DDF00D7FDC7 /* SettingView.swift */; };
 		CEB5753E26FC2E96005C5E49 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB5753D26FC2E96005C5E49 /* Character.swift */; };
 		CEBE67E92761B47800DA11B2 /* q_climb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */; };
 		CEBE67EA2761B49400DA11B2 /* q_coin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CEBE67E82761A07900DA11B2 /* q_coin.mp4 */; };
@@ -78,6 +81,7 @@
 		ADE854FBDD6C14135AE89B35 /* Pods-ShiranAppNew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew/Pods-ShiranAppNew.release.xcconfig"; sourceTree = "<group>"; };
 		CE04B411270C04AF00F21059 /* cheers.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cheers.mp3; sourceTree = "<group>"; };
 		CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplainAppView.swift; sourceTree = "<group>"; };
+		CE23112C276836A8003D49B7 /* QuestCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCameraView.swift; sourceTree = "<group>"; };
 		CE25ACE72751CABB00ABDF18 /* score_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = score_up.mp3; sourceTree = "<group>"; };
 		CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCameraView.swift; sourceTree = "<group>"; };
 		CE43D8B326E1BC440067CDDB /* CoachMarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachMarks.swift; sourceTree = "<group>"; };
@@ -97,6 +101,7 @@
 		CE54230426E6DF27002550D4 /* PoseNetOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNetOutput.swift; sourceTree = "<group>"; };
 		CE54230526E6DF27002550D4 /* PoseNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNet.swift; sourceTree = "<group>"; };
 		CE54230626E6DF27002550D4 /* PoseNetInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseNetInput.swift; sourceTree = "<group>"; };
+		CE59CC93277B1244007E96C3 /* attack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = attack.mp3; sourceTree = "<group>"; };
 		CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fightEnemy.MP4; sourceTree = "<group>"; };
 		CE6C8DD1271196C8007286A4 /* countdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = countdown.mp3; sourceTree = "<group>"; };
 		CE6F978F26F0E476007CF587 /* ShiranAppNew.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiranAppNew.entitlements; sourceTree = "<group>"; };
@@ -113,6 +118,7 @@
 		CE96199E26E1AE830084F1A7 /* ShiranAppNewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiranAppNewUITests.swift; sourceTree = "<group>"; };
 		CE9619A026E1AE830084F1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CEA3081627741DDF00D7FDC7 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		CEB5753D26FC2E96005C5E49 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = q_climb.mp4; sourceTree = "<group>"; };
 		CEBE67E82761A07900DA11B2 /* q_coin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = q_coin.mp4; sourceTree = "<group>"; };
@@ -188,6 +194,7 @@
 				CE43D8C126E1BC540067CDDB /* LoginView.swift */,
 				CE43D8C326E1BC540067CDDB /* PlayerView.swift */,
 				CE82BE7B2728FE790051EA84 /* DialogPresentation.swift */,
+				CEA3081627741DDF00D7FDC7 /* SettingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -195,10 +202,10 @@
 		CE5422F126E6DF27002550D4 /* CoreML */ = {
 			isa = PBXGroup;
 			children = (
+				CE5422F226E6DF27002550D4 /* UI */,
 				CE5422FD26E6DF27002550D4 /* Pose */,
 				CE54230326E6DF27002550D4 /* Model */,
 				CE5422F726E6DF27002550D4 /* Extensions+Types */,
-				CE5422F226E6DF27002550D4 /* UI */,
 			);
 			path = CoreML;
 			sourceTree = "<group>";
@@ -208,6 +215,7 @@
 			children = (
 				CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */,
 				CE5422F326E6DF27002550D4 /* PoseImageView.swift */,
+				CE23112C276836A8003D49B7 /* QuestCameraView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -315,6 +323,7 @@
 				CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */,
 				CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */,
 				CEBE67E82761A07900DA11B2 /* q_coin.mp4 */,
+				CE59CC93277B1244007E96C3 /* attack.mp3 */,
 				CE25ACE72751CABB00ABDF18 /* score_up.mp3 */,
 				CE6C8DD1271196C8007286A4 /* countdown.mp3 */,
 				CE04B411270C04AF00F21059 /* cheers.mp3 */,
@@ -447,6 +456,7 @@
 				CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */,
 				CE25ACE82751CABB00ABDF18 /* score_up.mp3 in Resources */,
 				CEE45B1926F8CAA7009D6E1F /* introduce.MP4 in Resources */,
+				CE59CC94277B1244007E96C3 /* attack.mp3 in Resources */,
 				CE96198926E1AE820084F1A7 /* Preview Assets.xcassets in Resources */,
 				CE96198626E1AE820084F1A7 /* Assets.xcassets in Resources */,
 				CE9619AD26E1B76B0084F1A7 /* GoogleService-Info.plist in Resources */,
@@ -611,8 +621,10 @@
 				CED69991270560AC006E3AEA /* BOSS.swift in Sources */,
 				CE54231226E6DF27002550D4 /* Pose.swift in Sources */,
 				CE82BE7C2728FE790051EA84 /* DialogPresentation.swift in Sources */,
+				CE23112D276836A8003D49B7 /* QuestCameraView.swift in Sources */,
 				CED6999327065EC8006E3AEA /* DataCounter.swift in Sources */,
 				CE43D8BD26E1BC440067CDDB /* Sounds.swift in Sources */,
+				CEA3081727741DDF00D7FDC7 /* SettingView.swift in Sources */,
 				CE43D8CB26E1BC540067CDDB /* ContentView.swift in Sources */,
 				CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */,
 				CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */,

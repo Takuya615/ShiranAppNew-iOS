@@ -292,7 +292,7 @@ struct actCharacterView: View {
                 Button("借りる"){
                     let canUse = cM.useCharacter(item: char)
                     if canUse {
-                        EventAnalytics().doneQuest()
+                        EventAnalytics.doneQuest()
                         text = DataCounter().mes(score: char.score, str: "")
                         self.scoreUp = true
                     }else{

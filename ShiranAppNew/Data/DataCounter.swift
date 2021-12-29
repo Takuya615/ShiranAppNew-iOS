@@ -9,38 +9,46 @@ import Foundation
 import SwiftUI
 import Firebase
 
+enum Keys: String {
+    // Key
+    case daylyState = "DailyState"
+    case totalDay = "totalDay"
+    case continuedDay = "cDay"
+    case continuedWeek = "wDay"
+    case retry = "retry"
+    case _LastTimeDay = "LastTimeDay"
+    case taskTime = "TaskTime"
+    
+    case listD = "dateList"
+    case listS = "scoreList"
+    
+    case level = "Level"
+    case difficult = "difficultyLevel"
+    case scoreMax = "MomentaryMaxScore"
+    case exp = "ExperiencePoint"
+    case expTT = "ExpForTaskTime"
+    case coin = "Coin"
+    case diamond = "Diamond"
+    case bossNum = "BOSS_ListNumber"
+    case damage = "BOSS_Damege"
+    case myName = "MyName"
+    
+    case questNum = "QuestNumber"
+    case questType = "QuestType"
+    case qGoal = "QuestGoalScore"
+    case qsl = "QuestStarsList"
+    case skin = "SkinNumber"
+}
 
 class DataCounter: ObservableObject {
     
-    // Key
-    let daylyState = "DailyState"
-    let totalDay = "totalDay"
-    let continuedDay = "cDay"
-    let continuedWeek = "wDay"
-    let retry = "retry"
-    let _LastTimeDay = "LastTimeDay"
-    let taskTime = "TaskTime"
-    let listD = "dateList"
-    let listS = "scoreList"
     
-    let level = "Level"
-    let exp = "ExperiencePoint"
-    let coin = "Coin"
-    let diamond = "Diamond"
-    let bossNum = "BOSS_ListNumber"
-    let damage = "BOSS_Damege"
-    let myName = "MyName"
-    let questNum = "QuestNumber"
-    let questType = "QuestType"
-    let qGoal = "QuestGoalScore"
-    let qsl = "QuestStarsList"
-    let skin = "SkinNumber"
     
-    @Published var countedLevel: Int = UserDefaults.standard.integer(forKey: "Level")
-    @Published var countedCoin: Int = UserDefaults.standard.integer(forKey: "Coin")
-    @Published var countedDiamond: Int = UserDefaults.standard.integer(forKey: "Diamond")
-    @Published var continuedDayCounter: Int = UserDefaults.standard.integer(forKey: "cDay")//めいんViewに表示する用
-    @Published var continuedRetryCounter: Int = UserDefaults.standard.integer(forKey: "retry")//めいんViewに表示する用
+    @Published var countedLevel: Int = UserDefaults.standard.integer(forKey: Keys.level.rawValue)
+    @Published var countedCoin: Int = UserDefaults.standard.integer(forKey: Keys.coin.rawValue)
+    @Published var countedDiamond: Int = UserDefaults.standard.integer(forKey: Keys.diamond.rawValue)
+    @Published var continuedDayCounter: Int = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
+    @Published var continuedRetryCounter: Int = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)//めいんViewに表示する用
 
     
     
@@ -49,16 +57,16 @@ class DataCounter: ObservableObject {
         let User = UserDefaults.standard
         let today = Date()
         //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
-        let LastTimeDay: Date? = User.object(forKey: self._LastTimeDay) as? Date
+        let LastTimeDay: Date? = User.object(forKey: Keys._LastTimeDay.rawValue) as? Date
         if LastTimeDay == nil{
             print("記念すべき第一回目")
-            User.set(0, forKey: self.totalDay)//総日数
-            User.set(0, forKey: self.continuedDay)//継続日数
+            User.set(0, forKey: Keys.totalDay.rawValue)//総日数
+            User.set(0, forKey: Keys.continuedDay.rawValue)//継続日数
             let lastDay: Date? = Calendar.current.date(byAdding: .day, value: -1, to: today)
-            User.set(lastDay, forKey: self._LastTimeDay)//デイリー更新(初回はもう一度遊べるようにする)
+            User.set(lastDay, forKey: Keys._LastTimeDay.rawValue)//デイリー更新(初回はもう一度遊べるようにする)
             continuedDayCounter = 0
             updateTaskTime(total: -1)
-            User.setValue(-1, forKey: self.daylyState)
+            User.setValue(-1, forKey: Keys.daylyState.rawValue)
             return -1
         }
         let cal = Calendar(identifier: .gregorian)
@@ -69,37 +77,37 @@ class DataCounter: ObservableObject {
         print("todayDC:\(todayDC)")
         print("dt1DC:\(lastDC)")
         print("差は \(diff.day!) 日")
-        User.setValue(diff.day!, forKey: self.daylyState)
+        User.setValue(diff.day!, forKey: Keys.daylyState.rawValue)
         return diff.day!
     }
     
     //
     func scoreCounter() -> Int{
         let User = UserDefaults.standard
-        let totalDay: Int = User.integer(forKey: self.totalDay)//読み込み
+        let totalDay: Int = User.integer(forKey: Keys.totalDay.rawValue)//読み込み
         
         //var calenderList:[ Int] = UserDefaults.standard.object(forKey: self.calender) as? [Int] ?? []//値が無ければ空のリスト
-        let continuedDay = User.integer(forKey: self.continuedDay)
-        let retry = User.integer(forKey: self.retry)
-        let diff = User.integer(forKey: self.daylyState)
+        let continuedDay = User.integer(forKey: Keys.continuedDay.rawValue)
+        let retry = User.integer(forKey: Keys.retry.rawValue)
+        let diff = User.integer(forKey: Keys.daylyState.rawValue)
         if diff == 0{
             print("デイリー達成済み")
             return 0
         }else if(diff == 1){
             print("毎日記録更新")
-            User.set(continuedDay + 1, forKey: self.continuedDay)
+            User.set(continuedDay + 1, forKey: Keys.continuedDay.rawValue)
             continuedDayCounter = continuedDay + 1
-            EventAnalytics().doneDayly()
+            EventAnalytics.doneDayly()
         }else{
             print("記録リセット")
-            User.set(0, forKey: self.continuedDay)
+            User.set(0, forKey: Keys.continuedDay.rawValue)
             continuedDayCounter = 0
-            User.set(retry + 1, forKey: self.retry)//値の書き込み　↓表示の更新
+            User.set(retry + 1, forKey: Keys.retry.rawValue)//値の書き込み　↓表示の更新
             continuedRetryCounter = retry + 1
-            EventAnalytics().doneNotEveryDay(diff: diff)
+            EventAnalytics.doneNotEveryDay(diff: diff)
         }
-        User.set(totalDay + 1, forKey: self.totalDay)
-        User.set(Date(), forKey: self._LastTimeDay)
+        User.set(totalDay + 1, forKey: Keys.totalDay.rawValue)
+        User.set(Date(), forKey: Keys._LastTimeDay.rawValue)
         let taskTime = updateTaskTime(total: totalDay)
         return taskTime
     }
@@ -134,7 +142,7 @@ class DataCounter: ObservableObject {
     
     func updateTaskTime(total:Int) -> Int{
         if total%2 == 0{return 0}//偶数なら見送り
-        var tt = UserDefaults.standard.integer(forKey: self.taskTime)
+        var tt = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
         switch total {
         case 0 ..< 61:
             tt = tt + 1
@@ -150,15 +158,37 @@ class DataCounter: ObservableObject {
             tt = tt + 5
         }
         print("タスクタイム＝\(tt)")
-        UserDefaults.standard.set(tt, forKey: self.taskTime)
-        EventAnalytics().totalAndTask(total: total, task: tt)
+        UserDefaults.standard.set(tt, forKey: Keys.taskTime.rawValue)
+        EventAnalytics.totalAndTask(total: total, task: tt)
         return tt
     }
     
-    
-    
-    
-    
+    //前のタイム経験値、今回の経験値の端数、何回プログレスバーを更新するかInt
+    static func updateTT(score: Int) -> (Float,Float){
+        let TimeList = [10,30,60,90,120,150,180,210,240]
+        let TTTable = [0,5000,11000,24000,39000,56000,75000,96000,119000]//,144000]
+        var tt = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
+        let expTT = UserDefaults.standard.integer(forKey: Keys.expTT.rawValue)
+        var fraction = expTT+score
+        var before: Float = 0.0
+        var after: Float = 0.0
+        for i in 0...TimeList.count-1 {
+            if TimeList[i] > tt {
+                var ttt = TTTable[i]
+                if TTTable[i] <= fraction {//タスク時間更新！！
+                    tt = TimeList[i]
+                    fraction -= TTTable[i]
+                    ttt = TTTable[i+1]
+                    UserDefaults.standard.set(tt, forKey: Keys.taskTime.rawValue)
+                }
+                before = Float(expTT / TTTable[i]) //0.0 - 1.0
+                after = Float(fraction / ttt) //0.0 - 1.0
+                break
+            }
+        }
+        UserDefaults.standard.set(fraction, forKey: Keys.expTT.rawValue)
+        return (before,after)
+    }
     
     //リザルト画面３つ。　何もなし　デイリー　クエスト
     func showScoreResult(view: VideoCameraView,score:Float,bonus:Float) -> UIAlertController{
@@ -167,6 +197,7 @@ class DataCounter: ObservableObject {
         var message = "(デイリー達成済み 経験値なし)"
         if bonus != 1.0 {message += "(\nスケット補正　×\(bonus))"}
         let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
+        //alert.view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
             view.isVideo = false
@@ -175,14 +206,20 @@ class DataCounter: ObservableObject {
         return alert
     }
     func showDailyResult(alert: UIAlertController,view: VideoCameraView,bonus:Float,killList:[boss]) -> UIAlertController{
-        EventAnalytics().totalBattle()
+        EventAnalytics.totalBattle()
         //let alert: UIAlertController = UIAlertController(title:"", message:"", preferredStyle:  UIAlertController.Style.alert)
-        let taskTime = view.dataCounter.scoreCounter()
+        let taskTime = self.scoreCounter()//view.dataCounter.scoreCounter()
+        //let center = Int(alert.view.frame.height*0)
         var exp = 0
         var wid = 0
+        //alert.preferredContentSize = CGSize(width: 400, height: 50)
+        let lav = UILabel(frame: CGRect(x: 10, y: 5, width: 200, height: 20))
+        lav.text = " たおした数　\(killList.count)!!"
+        alert.view.addSubview(lav)
+        
         for kill in killList {
             let myInputImage = CIImage(image: UIImage(named: kill.image)!)
-            let imageView = UIImageView(frame: CGRect(x:20+wid, y:-40, width:40, height:40))
+            let imageView = UIImageView(frame: CGRect(x:10+wid, y:30, width:40, height:40))
             wid += 20
             let myMonochromeFilter = CIFilter(name: "CIColorMonochrome")
             myMonochromeFilter!.setValue(myInputImage, forKey: kCIInputImageKey)
@@ -193,20 +230,31 @@ class DataCounter: ObservableObject {
             alert.view.addSubview(imageView)
             exp += kill.bonus
         }
-        alert.title = "たおした数　\(killList.count)!!"
-        var message = mes(score: exp, str: "")//"Exp \(exp)"
+        //"たおした数　\(killList.count)!!"
+        /*var message = mes(score: exp, str: "")//"Exp \(exp)"
         if bonus != 1.0 {message += "(\nスケット補正　×\(bonus))"}
         if taskTime != 0 {message += "\n制限時間が\(taskTime)秒に伸びました！"}
-        alert.message = message
+        alert.message = message*/
+        var message = mes(score: exp, str: "")
+        let lav2 = UILabel(frame: CGRect(x: 10, y: 75 , width: 200, height: 20))
+        lav2.text = message
+        alert.view.addSubview(lav2)
+    
+        let lav3 = UILabel(frame: CGRect(x: 10, y: 110 , width: 400, height: 20))
+        lav3.text = "制限時間が\(taskTime)秒に伸びました！"
+        alert.view.addSubview(lav3)
+        
+        alert.title = "\n\n\n\n\n\n\n\n"
+        alert.message = ""
         //self.saveData(score: exp)
         return alert
     }
-    func showQuestResult(alert: UIAlertController,view: VideoCameraView,qType: Int, qScore: Int) -> UIAlertController{
+    func showQuestResult(alert: UIAlertController,view: QuestCameraView,qType: Int, qScore: Int) -> UIAlertController{
         var title = ""
         var message = ""
-        let qNum: Int = UserDefaults.standard.integer(forKey: self.questNum)
-        let qGoal: [Int] = UserDefaults.standard.array(forKey: self.qGoal) as! [Int]
-        var qsl: [Int] = UserDefaults.standard.array(forKey: DataCounter().qsl) as? [Int] ?? [0,0,0]
+        let qNum: Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
+        let qGoal: [Int] = UserDefaults.standard.array(forKey: Keys.qGoal.rawValue) as! [Int]
+        var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
         
         switch qType {
         case 1:title += "\n 獲得コイン　\(qScore) コ\n"
@@ -218,88 +266,9 @@ class DataCounter: ObservableObject {
         else if qScore >= qGoal[1] {qsl[qNum] = 2;title += " 2/3　達成\n"}
         else if qScore >= qGoal[0] {qsl[qNum] = 1;title += " 1/3　達成\n"}
         
-        UserDefaults.standard.set(0, forKey: self.questNum)
-        UserDefaults.standard.set(0, forKey: self.questType)
-        UserDefaults.standard.set(qsl, forKey: self.qsl)
-        alert.title = title
-        alert.message = message
-        return alert
-    }
-    
-    
-    /*
-    func showResult(view: VideoCameraView,boss:boss?,score:Float,bonus:Float,num:Int,killList:[boss]) -> UIAlertController{
-        var addStr = ""
-        if bonus != 1.0 {addStr = "\n(スケット補正　×\(bonus))"}
-        let intScore = Int(score)
-        var title = "Score \(intScore)p"
-        var message = "(デイリー達成済み 経験値なし)\n\(addStr)"
-        
-        let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
-        if num != 0 {//　　　　　デイリー達成していない
-            if boss == nil {
-                title = "Score \(intScore)"//mes(score: intScore,str: addStr)
-                message = ""
-            }else{
-                EventAnalytics().totalBattle()
-                var exp = 0
-                var wid = 0
-                for kill in killList {
-                    let myInputImage = CIImage(image: UIImage(named: kill.image)!)
-                    let imageView = UIImageView(frame: CGRect(x:20+wid, y:-40, width:40, height:40))
-                    wid += 20
-                    let myMonochromeFilter = CIFilter(name: "CIColorMonochrome")
-                    myMonochromeFilter!.setValue(myInputImage, forKey: kCIInputImageKey)
-                    myMonochromeFilter!.setValue(CIColor(red: 0.9, green: 0.9, blue: 0.9), forKey: kCIInputColorKey)
-                    myMonochromeFilter!.setValue(1.0, forKey: kCIInputIntensityKey)
-                    let myOutputImage : CIImage = (myMonochromeFilter?.outputImage!)!
-                    imageView.image = UIImage(ciImage: myOutputImage)//UIImage(named: boss!.image)
-                    alert.view.addSubview(imageView)
-                    exp += kill.bonus
-                }
-                title = "討伐数　\(killList.count)!!"
-                message = "Exp \(exp)"
-                
-                
-                /*
-                let damage: Float = UserDefaults.standard.float(forKey: DataCounter().damage)
-                let reHP = boss!.maxHp - score - damage
-                if reHP < 0 {//撃破！！
-                    UserDefaults.standard.set(0.0, forKey: DataCounter().damage)
-                    UserDefaults.standard.set(-1, forKey: DataCounter().bossNum)
-                    title = "WINNER！！"
-                    addStr = addStr + "\n(討伐ボーナス　Exp ＋\(boss!.bonus))"
-                    message = mes(score: boss!.bonus + Int(score),str: addStr)
-                    
-                    //モノクロ
-                    let myInputImage = CIImage(image: UIImage(named: boss!.image)!)
-                    let imageView = UIImageView(frame: CGRect(x:100, y:-75, width:100, height:100))
-                    let myMonochromeFilter = CIFilter(name: "CIColorMonochrome")
-                    myMonochromeFilter!.setValue(myInputImage, forKey: kCIInputImageKey)
-                    myMonochromeFilter!.setValue(CIColor(red: 0.9, green: 0.9, blue: 0.9), forKey: kCIInputColorKey)
-                    myMonochromeFilter!.setValue(1.0, forKey: kCIInputIntensityKey)
-                    let myOutputImage : CIImage = (myMonochromeFilter?.outputImage!)!
-                    imageView.image = UIImage(ciImage: myOutputImage)//UIImage(named: boss!.image)
-                    alert.view.addSubview(imageView)
-                }else{
-                    title = "\(boss!.name)討伐 失敗..."
-                    let imageView = UIImageView(frame: CGRect(x:100, y:-75, width:100, height:100))
-                    imageView.image = UIImage(named: boss!.image)
-                    alert.view.addSubview(imageView)
-                    
-                    if boss!.encount != 0 {//ボスならEXP全部没収
-                        addStr = addStr + "\n(ボスペナルティー　Exp ×0.1)"
-                        message = mes(score: boss!.bonus/10, str: addStr)
-                        UserDefaults.standard.set(score + damage, forKey: DataCounter().damage)
-                    }else{
-                        addStr = addStr + "\n(ペナルティー　Exp ×0.5)"
-                        message = mes(score: boss!.bonus/2, str: addStr)
-                        EventAnalytics().loseEnemy(enemy: boss!.name)
-                    }
-                }*/
-            }
-        }
-        
+        UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
+        UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
+        UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
         alert.title = title
         alert.message = message
         let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
@@ -307,9 +276,10 @@ class DataCounter: ObservableObject {
             view.isVideo = false
         })
         alert.addAction(confirmAction)
-        
         return alert
-    }*/
+    }
+    
+    
     
     func mes(score: Int,str: String) -> String{
         let ctrLeval = levelUp(score: score)//DataCounter().levelUp(score: boss!.bonus)
@@ -317,7 +287,7 @@ class DataCounter: ObservableObject {
         if ctrLeval.0 == ctrLeval.1 {
             message = "Exp 獲得 \(score)p \(str)"
         }else{
-            EventAnalytics().levelUp(level: ctrLeval.1)
+            EventAnalytics.levelUp(level: ctrLeval.1)
             message = "レベルアップ！！ \(ctrLeval.0) → \(ctrLeval.1)"
         }
         return message
@@ -327,10 +297,10 @@ class DataCounter: ObservableObject {
         let user = UserDefaults.standard
         let levelTable = [200,480,870,1320,1830,2400,3030,3720,4470,5280,6150,7080,8070,9120,10230,11400,
         12630,13920,15270,16680,18150,19680,21270,22920,24630,26400,27930,29220,30570,31980,33480]
-        var exp: Int = user.integer(forKey: self.exp)//読み込み
-        let preLevel: Int = user.integer(forKey: self.level)//読み込み
-        exp = exp + score
-        user.set(exp, forKey: self.exp)
+        var exp: Int = user.integer(forKey: Keys.exp.rawValue)//読み込み
+        let preLevel: Int = user.integer(forKey: Keys.level.rawValue)//読み込み
+        exp += score
+        user.set(exp, forKey: Keys.exp.rawValue)
         
         for i in 0...levelTable.count-1 {
             if levelTable[i] > exp {
@@ -338,13 +308,13 @@ class DataCounter: ObservableObject {
                 break
             }
         }
-        user.set(countedLevel, forKey: self.level)
+        user.set(countedLevel, forKey: Keys.level.rawValue)
         
         return (preLevel,countedLevel)
     }
     
     func saveMyPose(poseList:[Int]){
-        guard let myName = UserDefaults.standard.string(forKey: self.myName) else {return}
+        guard let myName = UserDefaults.standard.string(forKey: Keys.myName.rawValue) else {return}
         let db = Firestore.firestore().collection("users").document(myName)
         db.updateData([
             "poseList": poseList

@@ -11,7 +11,7 @@ import AudioToolbox
 
 class SystemSounds{
     
-    func BeginVideoRecording(){
+    static func BeginVideoRecording(){
         var soundIdRing:SystemSoundID = 1117//1118
         if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
                     AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
@@ -20,13 +20,13 @@ class SystemSounds{
     }
     
     // バイブレータ
-    func buttonVib(_ sender : Any) {
+    static func buttonVib(_ sender : Any) {
         AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
     // mp3 ファイルの再生
     //@IBAction
-    func buttonSampleWav(_ sender : Any) {
+    static func buttonSampleWav(_ sender : Any) {
         var soundIdRing:SystemSoundID = 0
         if let soundUrl:NSURL = NSURL(fileURLWithPath:
             Bundle.main.path(forResource: "cheers", ofType:"mp3")!) as NSURL?{
@@ -35,7 +35,7 @@ class SystemSounds{
         }
     }
     
-    func countDown(_ sender : Any) {
+    static func countDown(_ sender : Any) {
         var soundIdRing:SystemSoundID = 1
         if let soundUrl:NSURL = NSURL(fileURLWithPath:
             Bundle.main.path(forResource: "countdown", ofType:"mp3")!) as NSURL?{
@@ -43,10 +43,19 @@ class SystemSounds{
             AudioServicesPlaySystemSound(soundIdRing)
         }
     }
-    func score_up(_ sender : Any) {
+    static func score_up(_ sender : Any) {
         var soundIdRing:SystemSoundID = 2
         if let soundUrl:NSURL = NSURL(fileURLWithPath:
             Bundle.main.path(forResource: "score_up", ofType:"mp3")!) as NSURL?{
+            AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
+            AudioServicesPlaySystemSound(soundIdRing)
+        }
+    }
+    
+    static func attack(_ sender : Any) {
+        var soundIdRing:SystemSoundID = 3
+        if let soundUrl:NSURL = NSURL(fileURLWithPath:
+            Bundle.main.path(forResource: "attack", ofType:"mp3")!) as NSURL?{
             AudioServicesCreateSystemSoundID(soundUrl, &soundIdRing)
             AudioServicesPlaySystemSound(soundIdRing)
         }

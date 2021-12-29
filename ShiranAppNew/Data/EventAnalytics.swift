@@ -11,9 +11,9 @@ import FirebaseAnalytics
 
 class EventAnalytics {
     
-    private let isDebag = false
+    static private let isDebag = true//false
     
-    func tapFab(){
+    static func tapFab(){
         if isDebag {return}
         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
           AnalyticsParameterItemID: "id-DailyTask",
@@ -21,7 +21,7 @@ class EventAnalytics {
           AnalyticsParameterItemCategory: "Daily"
         ])
     }
-    func totalAndTask(total:Int,task:Int){
+    static func totalAndTask(total:Int,task:Int){
         if isDebag {return}
         Analytics.logEvent("totalAndTask", parameters: [
             AnalyticsParameterItemCategory: "Daily",
@@ -29,14 +29,14 @@ class EventAnalytics {
             "count": "総日\(total)日で タスク時間\(task)秒" as NSObject
         ])
     }
-    func doneDayly(){
+    static func doneDayly(){
         if isDebag {return}
         Analytics.logEvent("doneDaily", parameters: [
             AnalyticsParameterItemCategory: "Daily",
             AnalyticsParameterItemName: "毎日更新数"
         ])
     }
-    func doneNotEveryDay(diff: Int){
+    static func doneNotEveryDay(diff: Int){
         if isDebag {return}
         Analytics.logEvent("doneNotEveryday", parameters: [
             AnalyticsParameterItemCategory: "Daily",
@@ -47,10 +47,10 @@ class EventAnalytics {
     
     
     //DataCounter
-    func loseEnemy(enemy:String){
+    static func loseEnemy(enemy:String){
         if isDebag {return}
         //let total = UserDefaults.standard.integer(forKey: DataCounter().totalDay)
-        let task = UserDefaults.standard.integer(forKey: DataCounter().taskTime)
+        let task = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
         Analytics.logEvent("loseEnemy", parameters: [
             AnalyticsParameterItemCategory: "Battle",
             AnalyticsParameterItemName: "負けた数",
@@ -58,7 +58,7 @@ class EventAnalytics {
         ])
     }
     //DataCounter
-    func totalBattle(){
+    static func totalBattle(){
         if isDebag {return}
         Analytics.logEvent("totalBattle", parameters: [
             AnalyticsParameterItemCategory: "Battle",
@@ -66,9 +66,9 @@ class EventAnalytics {
         ])
     }
     //DataCounter
-    func levelUp(level: Int){
+    static func levelUp(level: Int){
         if isDebag {return}
-        let totalDay: Int = UserDefaults.standard.integer(forKey: DataCounter().totalDay)
+        let totalDay: Int = UserDefaults.standard.integer(forKey: Keys.totalDay.rawValue)
         Analytics.logEvent(AnalyticsEventLevelUp, parameters: [
             AnalyticsParameterItemName: "レベルアップ",
             AnalyticsParameterLevel: level,
@@ -77,7 +77,7 @@ class EventAnalytics {
     }
     
     
-    func share(){
+    static func share(){
         if isDebag {return}
         Analytics.logEvent(AnalyticsEventShare, parameters: [
             AnalyticsParameterMethod: "SNS",
@@ -85,7 +85,7 @@ class EventAnalytics {
         ])
     }
     
-    func lastCharacterReleased(){
+    static func lastCharacterReleased(){
         if isDebag {return}
         Analytics.logEvent("LastCharaReleased", parameters: [
             AnalyticsParameterItemName: "ラストキャラ使われた",
@@ -94,7 +94,7 @@ class EventAnalytics {
     }
     
     //ContentView.fouthView  in .alert()
-    func doneQuest(){
+    static func doneQuest(){
         if isDebag {return}
         Analytics.logEvent("doneQuest", parameters: [
             AnalyticsParameterItemCategory: "Daily",
@@ -102,7 +102,7 @@ class EventAnalytics {
         ])
     }
     //Character.finish()
-    func doneCharacter(){
+    static func doneCharacter(){
         if isDebag {return}
         Analytics.logEvent("doneCharacter", parameters: [
             AnalyticsParameterItemCategory: "Daily",
