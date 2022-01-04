@@ -162,7 +162,7 @@ class PoseImageView: UIImageView {
     /// - parameters:
     ///     - image: The image to draw onto the context (vertically flipped).
     ///     - cgContext: The rendering context.
-    func draw(image: CGImage, in cgContext: CGContext) {
+    private func draw(image: CGImage, in cgContext: CGContext) {
         cgContext.saveGState()
         // The given image is assumed to be upside down; therefore, the context
         // is flipped before rendering the image.
@@ -179,7 +179,7 @@ class PoseImageView: UIImageView {
     ///     - parentJoint: A valid joint whose position is used as the start position of the line.
     ///     - childJoint: A valid joint whose position is used as the end of the line.
     ///     - cgContext: The rendering context.
-    func drawLine(from parentJoint: Joint,
+    private func drawLine(from parentJoint: Joint,
                   to childJoint: Joint,
                   in cgContext: CGContext) {
         cgContext.setStrokeColor(segmentColor.cgColor)
@@ -226,7 +226,7 @@ class PoseImageView: UIImageView {
         UIGraphicsPopContext()
     }
     
-    func changeSkin(){
+    private func changeSkin(){
         let skin = UserDefaults.standard.integer(forKey: Keys.skin.rawValue)
         if skin == 001 {
             segmentColor = .systemPink
@@ -239,23 +239,32 @@ class PoseImageView: UIImageView {
     }
     
     //デイリー
-    private var jump = true
+    var jump = false
+    //private var diffi = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//1,2,6
     func daily(pose: Pose,size: CGSize, in cgContext: CGContext){
+        var sta = 1.0
+        switch UserDefaults.standard.integer(forKey: Keys.difficult.rawValue) {
+        case 2 : sta = 5/6//  Hard Mode
+        case 6 : sta = 4/6//  VeryHard Mode
+        default: return//     Nomal Mode
+        }
         if jump {
-            let rectangle = CGRect(x: 0, y: 0, width: size.width, height: size.height*5/6)
+            let rectangle = CGRect(x: 0, y: 0, width: size.width, height: size.height*sta)
             cgContext.setAlpha(0.2)
             cgContext.fill(rectangle)
+            if !gameStart {return}
             let left = pose[.leftAnkle].position.y
             let right = pose[.rightAnkle].position.y
-            if left < size.height*5/6 && right < size.height*5/6 {
+            if left < size.height*sta && right < size.height*sta {
                 jump = false
-                qScore+=1
+                //qScore+=1
                 SystemSounds.score_up("")
             }
         }else{
             let rectangle = CGRect(x: 0, y: size.height*7/8, width: size.width, height: size.height/8)
             cgContext.setAlpha(0.2)
             cgContext.fill(rectangle)
+            if !gameStart {return}
             let leftW = pose[.leftWrist]
             let rightW = pose[.rightWrist]
             
@@ -269,7 +278,7 @@ class PoseImageView: UIImageView {
                 
                 if lh+lk+la+rh+rk+ra < 2.4 {
                     jump = true
-                    qScore+=1
+                    //qScore+=1
                     SystemSounds.score_up("")
                 }
                 //if lh+lk+la+rh+rk+ra < 3.0 {SystemSounds().buttonVib("")}
@@ -305,6 +314,9 @@ class PoseImageView: UIImageView {
           }
           return degrees
       }
+    
+    
+    
     
     //coins
     func quest1(pose: Pose,size: CGSize, in cgContext: CGContext){

@@ -214,8 +214,8 @@
 			isa = PBXGroup;
 			children = (
 				CE43D8B226E1BC440067CDDB /* VideoCameraView.swift */,
-				CE5422F326E6DF27002550D4 /* PoseImageView.swift */,
 				CE23112C276836A8003D49B7 /* QuestCameraView.swift */,
+				CE5422F326E6DF27002550D4 /* PoseImageView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";

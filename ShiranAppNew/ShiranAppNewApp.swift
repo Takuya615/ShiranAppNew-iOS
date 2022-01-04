@@ -59,12 +59,17 @@ class AppState: ObservableObject {
     @Published var showWanWan: Bool = false
     @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: "getDiamonds")
     init() {
-        if !coachMark1 { isVideoPlayer = true }//{isExplainView = true}
+        if !coachMark1 {
+            isVideoPlayer = true
+            UserDefaults.standard.set(1, forKey: Keys.difficult.rawValue)
+            
+        }//{isExplainView = true}
         if Auth.auth().currentUser != nil {
             self.isinAccount = true//trueなら　アカウント設定 　false　ならログアウトボタンに切り替わる
             //self.isLogin = true
         }
         //UserDefaults.standard.set(10, forKey: "Level")
+        
     }
     
     func signup(email:String, password:String){//email:String,password:String
@@ -169,6 +174,7 @@ class AppState: ObservableObject {
     }
     
     func reset(){
+        
         //let db = Firestore.firestore()
         //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
         /*db.collection("users").document(myName).delete() { err in

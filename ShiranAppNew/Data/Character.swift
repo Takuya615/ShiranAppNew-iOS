@@ -37,7 +37,7 @@ class CharacterModel: ObservableObject {
         return false
     }
     
-    func useTaskHelper() -> Float{
+    static func useTaskHelper() -> Float{
         let user = UserDefaults.standard
         guard let wanwan = user.object(forKey: "char_dog") as? Date else {return 1.0}
         let now = Date()
@@ -293,7 +293,7 @@ struct actCharacterView: View {
                     let canUse = cM.useCharacter(item: char)
                     if canUse {
                         EventAnalytics.doneQuest()
-                        text = DataCounter().mes(score: char.score, str: "")
+                        text = DataCounter.updateLv(score: char.score).3//mes(score: char.score, str: "")
                         self.scoreUp = true
                     }else{
                         cM.itemOpen = false

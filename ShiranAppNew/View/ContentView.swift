@@ -191,10 +191,10 @@ struct FirstView: View{
                 
             }
             .onAppear(perform: {
-                self.dataCounter.countedLevel = UserDefaults.standard.integer(forKey: "Level")//データ更新
+                self.dataCounter.countedLevel = UserDefaults.standard.integer(forKey: Keys.level.rawValue)//データ更新
                 self.dataCounter.continuedDayCounter = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
                 self.dataCounter.continuedRetryCounter = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)
-                if CharacterModel().useTaskHelper() > 1.0 {
+                if CharacterModel.useTaskHelper() > 1.0 {
                     self.appState.showWanWan = true
                 }else{
                     self.appState.showWanWan = false

@@ -39,7 +39,7 @@ class QuestCameraViewController: UIViewController {
     // プレビューレイヤ
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     
-    var state: Int = DataCounter().setDailyState()//  diff.dayの数値
+    //var state: Int = DataCounter.setDailyState()//  diff.dayの数値
     let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
     
     var count = 0
@@ -141,7 +141,7 @@ class QuestCameraViewController: UIViewController {
         }
     }
 
-    private func startPreview() {
+    /*private func startPreview() {
         self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.session)
         self.videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         
@@ -157,7 +157,7 @@ class QuestCameraViewController: UIViewController {
             }
         }
         
-    }
+    }*/
     func setUpCaptureButton(){
         let rect = self.view.bounds.size
         
@@ -185,7 +185,7 @@ class QuestCameraViewController: UIViewController {
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         self.view.addSubview(backButton)
         
-        
+        /*
         self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
         self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
         self.scoreBoad.text = "Score"
@@ -194,6 +194,7 @@ class QuestCameraViewController: UIViewController {
         self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
         self.scoreBoad.isHidden = true
         self.view.addSubview(self.scoreBoad)
+         */
         
         // recording button
         self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
@@ -218,7 +219,6 @@ class QuestCameraViewController: UIViewController {
     @objc func onClickRecordButton(sender: UIButton) {
         var Ring = false
         self.recordButton.isHidden = true
-        if state > 0 {self.bossHPbar.isHidden = false} else {self.scoreBoad.isHidden = false}
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             self.time -= 1
             
@@ -252,12 +252,10 @@ class QuestCameraViewController: UIViewController {
                     self.poseImageView.gameStart = true//クエストゲーム終了
                     timer.invalidate()//timerの終了
                     
-                    if self.state > 0 {self.bossHPbar.isHidden = true; self.bossImage.isHidden = true;}
-                                 else {self.scoreBoad.isHidden = true}
                     //リザルト表示
-                    var alert: UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
-                    alert = self.questCameraView.dataCounter.showQuestResult(
-                        alert: alert, view: self.questCameraView, qType: self.qType,qScore: self.poseImageView.qScore)
+                    //var alert: UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
+                    let alert = self.questCameraView.dataCounter.showQuestResult(
+                        view: self.questCameraView, qType: self.qType,qScore: self.poseImageView.qScore)
                     
                     self.present(alert, animated: true, completion: nil)
                     
@@ -268,7 +266,8 @@ class QuestCameraViewController: UIViewController {
     }
     
     func taskTime() -> Int{
-        var taskTime: Int = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
+        //if self.qType == 0 {}
+        var taskTime: Int = 10//UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
         if taskTime < 5 {taskTime = 5}
         if taskTime > 240 {taskTime = 240}
         return taskTime

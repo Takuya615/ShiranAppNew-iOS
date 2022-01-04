@@ -28,6 +28,16 @@ class Joint {
         case rightAnkle
     }
 
+    static let scoreParts = [
+        Name.rightHip,Name.leftHip,
+        Name.rightShoulder,Name.leftShoulder,
+        Name.rightKnee,Name.leftKnee,
+        Name.rightElbow,Name.leftElbow,
+        Name.rightAnkle,Name.leftAnkle,
+        Name.rightWrist,Name.leftWrist,
+        Name.nose
+    ]
+    
     /// The total number of joints available.
     static var numberOfJoints: Int {
         return Name.allCases.count

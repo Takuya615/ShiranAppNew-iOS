@@ -39,7 +39,7 @@ class VideoViewController: UIViewController {
     // プレビューレイヤ
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     
-    var state: Int = DataCounter().setDailyState()//  diff.dayの数値
+    var state: Int = DataCounter.setDailyState()//  diff.dayの数値
     //let qType = UserDefaults.standard.integer(forKey: DataCounter().questType)
     
     var count = 0
@@ -53,6 +53,7 @@ class VideoViewController: UIViewController {
     var scoreMax: Float = UserDefaults.standard.float(forKey: Keys.scoreMax.rawValue)
     var prePose: Pose! = Pose()
     var timesBonus: Float = 1.0
+    var difBonus: Float = 1.0
     var myPoseList: [Int] = []
     var friPoseList: [Int] = []
     var poseNum: Int = 0
@@ -68,7 +69,7 @@ class VideoViewController: UIViewController {
     //var nHeart = 2
     var heart1: UIImageView!
     var heart2: UIImageView!
-    var damageC = 0
+    
     //コーチマーク用
     /*var coachController = CoachMarksController()
     var messages:[String] = []
@@ -109,7 +110,7 @@ class VideoViewController: UIViewController {
             }
         }
         
-        timesBonus = CharacterModel().useTaskHelper()
+        timesBonus = CharacterModel.useTaskHelper()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -192,8 +193,7 @@ class VideoViewController: UIViewController {
             print("error occurd")
         }
     }
-
-    private func startPreview() {
+    /*private func startPreview() {
         // 画像を表示するレイヤーを生成
         self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.session)
         // カメラ入力の縦横比を維持したまま、レイヤーいっぱいに表示
@@ -218,7 +218,7 @@ class VideoViewController: UIViewController {
             }
         }
         
-    }
+    }*/
     func setUpCaptureButton(){
         let rect = self.view.bounds.size
         
@@ -337,7 +337,7 @@ class VideoViewController: UIViewController {
                     //   moment of 0 Sec
                     self.countDown = false
                     self.isRecording = true
-                    self.poseImageView.gameStart = true//クエストはじめ
+                    self.poseImageView.gameStart = true//PoseImageview はじめ
                     self.time = self.taskTime() //                           本編スタート
                 }else{
                     print("撮影終了")
@@ -345,46 +345,82 @@ class VideoViewController: UIViewController {
                     SystemSounds.buttonSampleWav("")
                     //SystemSounds().EndVideoRecording()
                     self.isRecording = false
-                    self.poseImageView.gameStart = false//クエストゲーム終了
+                    self.poseImageView.gameStart = false// PoseImageView終了
                     timer.invalidate()//timerの終了
-                    if self.state > 0 {self.bossHPbar.isHidden = true; self.bossImage.isHidden = true;}
-                                 else {self.scoreBoad.isHidden = true}
-                    //リザルト表示
-                    var alert  = DataCounter().showScoreResult(
-                        view: self.videoCameraView, score: self.score, bonus: self.timesBonus)
                     if self.state > 0 {//　デイリー
+                        DataCounter.updateDate(diff: self.state)
+                        var h = 0
+                        if self.heart1.isHidden {h += 1}
+                        if self.heart2.isHidden {h += 1}
                         //self.videoCameraView.dataCounter.scoreCounter()//デイリー処理
-                        alert = DataCounter().showDailyResult(alert: alert, view: self.videoCameraView, bonus: self.timesBonus, killList: self.killList)
+                        let data = DataCounter.showDailyResult(view: self.videoCameraView, bonus: self.timesBonus, killList: self.killList,lostHeart: h)
+                        let alert = data.0
+                        let pV = data.1
+                        var pro: Float = data.2
+                        let frac: Float = data.3
+                        var re: Int = data.4
                         
-                        let progressView = UIProgressView(progressViewStyle: .default)
-                        progressView.frame = CGRect(x: 10, y: 135 , width: 200, height: 20)
-                        progressView.progress = 0.0
-                        progressView.setProgress(0.0, animated: true)
-                        progressView.tintColor = UIColor.blue
-                        alert.view.addSubview(progressView)
-                        
+                        let pV2 = data.5
+                        var pro2: Float = data.6
+                        let frac2: Float = data.7
+                        var re2: Int = data.8
+                        alert.view.addSubview(pV)
+                        alert.view.addSubview(pV2)
                         self.present(alert, animated: true, completion: nil)
-                        var re = 2
-                        let frac = 0.7
-                        var pro = 0.0
+                        
                         DispatchQueue.global().async {
                             repeat{
                                 pro += 0.00001
-                                //print("pro = \(pro)")
                                 DispatchQueue.main.async(flags: .barrier, execute: {
-                                    if re > 1 && pro > 0.99 {
+                                    if re > 0 && pro > 0.99 {
                                         SystemSounds.attack("")
                                         pro = 0.0
                                         re -= 1
-                                        progressView.progress = 0.0
+                                        pV.progress = 0.0
                                     }
-                                    progressView.setProgress(Float(pro), animated: true)
+                                    pV.setProgress(Float(pro), animated: true)
                                 })
-                                if re == 1 && pro > frac { break }
+                                if re == 0 && pro > frac { break }
                             }while pro < 1.0
                         }
+                        /*DispatchQueue.global().async {
+                            if re2 < 0{//タスク時間減る
+                                repeat{
+                                    pro2 -= 0.00001
+                                    DispatchQueue.main.async(flags: .barrier, execute: {
+                                        if re2 < -1 && pro2 < 0.01 {
+                                            SystemSounds.attack("")
+                                            pro2 = 1.0
+                                            re2 += 1
+                                            pV2.progress = 1.0
+                                        }
+                                        pV2.setProgress(Float(pro2), animated: true)
+                                    })
+                                    if re2 == -1 && pro2 < frac2 { break }
+                                }while pro2 > 0.0
+                            }else{//通常
+                                repeat{
+                                    pro2 += 0.00001
+                                    DispatchQueue.main.async(flags: .barrier, execute: {
+                                        if re2 > 0 && pro2 > 0.99 {
+                                            SystemSounds.attack("")
+                                            pro2 = 0.0
+                                            re2 -= 1
+                                            pV2.progress = 0.0
+                                        }
+                                        pV2.setProgress(Float(pro2), animated: true)
+                                    })
+                                    if re2 == 0 && pro2 > frac2 { break }
+                                }while pro2 < 1.0
+                            }
+                            
+                        }*/
                         
-                    }else{self.present(alert, animated: true, completion: nil)}
+                    }else{
+                        let alert  = DataCounter.showScoreResult(view: self.videoCameraView,
+                                                                 score: self.score, bonus: self.timesBonus)
+                        self.present(alert, animated: true, completion: nil)
+                    }
                      
                 }
             }
@@ -400,6 +436,7 @@ class VideoViewController: UIViewController {
                 self.textTimer.textColor = UIColor.blue
                 self.count20_10()
                 self.damageCounter()
+                self.difficultBonus()
             }
             self.time -= 1
         })
@@ -422,10 +459,12 @@ class VideoViewController: UIViewController {
             rest = !rest
             if rest {
                 self.isRecording = false
+                self.poseImageView.gameStart = false
                 self.view.backgroundColor = .systemBlue
                 switchTime = 10
             }else{
                 self.isRecording = true
+                self.poseImageView.gameStart = true
                 self.view.backgroundColor = .white
                 switchTime = 20
             }
@@ -435,6 +474,7 @@ class VideoViewController: UIViewController {
         
         if self.time == 0 && !self.countDown { self.view.backgroundColor = .white }
     }
+    var damageC = 0
     func damageCounter(){//３秒以上、スコアが低い状態続いたらハート失う
         if !isRecording {return}
         if damageC == 3 {
@@ -442,9 +482,28 @@ class VideoViewController: UIViewController {
                 heart1.isHidden = true
             }else {
                 heart2.isHidden = true
+                damageC = 0
             }
         }
         damageC += 1
+    }
+    
+    var jumpC = 2
+    var isMiss = false
+    func difficultBonus(){//jumpタスクがtrueになってから２秒以内に達成できなければ、スコア加算されない
+        if isMiss {
+            difBonus = 1.0
+            if jumpC == 0 {isMiss = false; jumpC = 2}
+            jumpC -= 1
+        }else if poseImageView.jump {
+            difBonus = Float(difficult)
+            if jumpC <= 0 { isMiss = true; jumpC = 3; }//ここにミスった時のBGM
+            jumpC -= 1
+        }else{
+            difBonus = Float(difficult)
+            jumpC = 2
+        }
+        
     }
     
 }
@@ -576,20 +635,25 @@ extension VideoViewController: PoseNetDelegate {
     func culculateScore(pose: Pose, prePose: Pose) -> Pose{
         //スコアの測定計算
         if !isRecording {return pose}
-        Joint.Name.allCases.forEach {name in
-            
-            if pose.joints[name] != nil && prePose.joints[name] != nil{
-                if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
-                    let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
-                    let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
-                    let sum = Float(disY + disX)/100*timesBonus
-                    
-                    if scoreMax/2 < sum {
-                        damageC = 0
-                        if scoreMax < sum { scoreMax = sum }
-                    }
-                    score += sum
+        for i in 0...12 {
+            let part = Joint.scoreParts[i]
+            guard let newPose = pose.joints[part] else {continue}
+            guard let prePose = prePose.joints[part] else {continue}
+            if newPose.confidence > 0.1 && prePose.confidence > 0.1 {
+                var partBonus: Float = 0.2
+                if i < 4 { partBonus = 0.5 }
+                else if i < 8 { partBonus = 0.8 }
+                let disX = abs(newPose.position.x - prePose.position.x)
+                let disY = abs(newPose.position.y - prePose.position.y)
+                let sum = Float(disY + disX)/100 * partBonus * timesBonus * difBonus
+                
+
+                if scoreMax/2 < sum {
+                    damageC = 0
+                    if scoreMax < sum { scoreMax = sum }
                 }
+                score += sum
+                
             }
         }
         return pose
@@ -597,9 +661,12 @@ extension VideoViewController: PoseNetDelegate {
     func check(pose: Pose,size: CGSize) -> Bool{
         //return false
         //地面に手をついた時だけは信頼性を無視
-        if pose[.leftWrist].position.y > size.height*7/8 && pose[.rightWrist].position.y > size.height*7/8 {
-            return false
+        if isRecording && !poseImageView.jump {
+            if pose[.leftWrist].position.y > size.height*7/8 && pose[.rightWrist].position.y > size.height*7/8 {
+                return false
+            }
         }
+        
         let list = [pose[.leftAnkle],pose[.rightAnkle],
                     pose[.leftWrist],pose[.rightWrist],
                     pose[.nose]
