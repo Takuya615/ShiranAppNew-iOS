@@ -52,7 +52,7 @@ class SystemSounds{
         }
     }
     
-    static func attack(_ sender : Any) {
+    static func attack(){//(_ sender : Any) {
         var soundIdRing:SystemSoundID = 3
         if let soundUrl:NSURL = NSURL(fileURLWithPath:
             Bundle.main.path(forResource: "attack", ofType:"mp3")!) as NSURL?{

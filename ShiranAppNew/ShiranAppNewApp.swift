@@ -46,6 +46,7 @@ class AppState: ObservableObject {
     @Published var isVideoPlayer = false
     @Published var isPlayerView = false
     @Published var isSettingView = false
+    @Published var isOpinionView = false
     
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
     @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController -82
@@ -61,7 +62,7 @@ class AppState: ObservableObject {
     init() {
         if !coachMark1 {
             isVideoPlayer = true
-            UserDefaults.standard.set(1, forKey: Keys.difficult.rawValue)
+            UserDefaults.standard.set(2, forKey: Keys.difficult.rawValue)
             
         }//{isExplainView = true}
         if Auth.auth().currentUser != nil {

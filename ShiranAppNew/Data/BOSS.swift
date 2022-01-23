@@ -46,6 +46,36 @@ class BOSS {
     }*/
     
     func enemyList() -> [boss]{
+        let time = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
+        if time < 10 {
+            return[
+                boss.init(image: "enemy1", name: "スライム", maxHp: 50.0, encount: 0, bonus: 50),
+                boss.init(image: "enemy1", name: "スライム", maxHp: 60.0, encount: 0, bonus: 60),
+                boss.init(image: "enemy1", name: "スライム", maxHp: 70.0, encount: 0, bonus: 70),
+                boss.init(image: "enemy1", name: "スライム", maxHp: 70.0, encount: 0, bonus: 80),
+                boss.init(image: "enemy1", name: "スライム", maxHp: 70.0, encount: 0, bonus: 90),
+                boss.init(image: "enemy2", name: "おばけ", maxHp: 80.0, encount: 0, bonus: 80),
+                boss.init(image: "enemy2", name: "おばけ", maxHp: 90.0, encount: 0, bonus: 90),
+                boss.init(image: "enemy3", name: "コブラ", maxHp: 100.0, encount: 0, bonus: 100),
+            ]
+        }else if time > 30 {
+            return[
+             boss.init(image: "enemy2", name: "おばけ", maxHp: 100.0, encount: 0, bonus: 100),
+             boss.init(image: "enemy2", name: "おばけ", maxHp: 110.0, encount: 0, bonus: 110),
+             boss.init(image: "enemy2", name: "おばけ", maxHp: 120.0, encount: 0, bonus: 120),
+             boss.init(image: "enemy2", name: "おばけ", maxHp: 130.0, encount: 0, bonus: 130),
+             
+             boss.init(image: "enemy3", name: "コブラ", maxHp: 170.0, encount: 0, bonus: 170),
+             boss.init(image: "enemy3", name: "コブラ", maxHp: 180.0, encount: 0, bonus: 180),
+             boss.init(image: "enemy3", name: "コブラ", maxHp: 190.0, encount: 0, bonus: 190),
+             boss.init(image: "enemy3", name: "コブラ", maxHp: 200.0, encount: 0, bonus: 200),
+             
+             boss.init(image: "enemy4", name: "あばれ牛", maxHp: 500.0, encount: 0, bonus: 500),
+             boss.init(image: "enemy5", name: "あばれグマ", maxHp: 1000.0, encount: 0, bonus: 1000),
+            ]
+            
+        }
+        
         return [
             boss.init(image: "enemy1", name: "スライム", maxHp: 50.0, encount: 0, bonus: 50),
             boss.init(image: "enemy1", name: "スライム", maxHp: 60.0, encount: 0, bonus: 60),

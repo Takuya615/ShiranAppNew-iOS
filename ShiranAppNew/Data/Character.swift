@@ -64,7 +64,7 @@ class CharacterModel: ObservableObject {
 
 Exp ＋３００p
 """),
-        Character(level: 2,score: 0, image: "char_dog", name: "わんわん",
+        Character(level: 3,score: 0, image: "char_dog", name: "わんわん",
                   scr: """
 
 こんな人に特にオススメ
@@ -76,7 +76,7 @@ Exp ＋３００p
 
 デイリーのスコア 1.2倍
 """),
-        Character(level: 3,score: 800, image: "char_rabbit", name: "ニト",
+        Character(level: 5,score: 800, image: "char_rabbit", name: "ニト",
                   scr: """
 
 なにかを始める前に、’段取り’や’効率’をあれこれ意識してしまって、「めんどくさい」と感じたことはありませんか？？
@@ -200,6 +200,7 @@ struct actCharacterView: View {
         var body: some View{
             VStack{
                 HStack{Spacer(); Button("\n❌とじる"){cM.itemOpen = false}}.padding()
+                Text(self.char.name).font(.title)
                 Image(self.char.image)
                     .resizable()
                     .frame(width: 150.0, height: 150.0, alignment: .leading)
@@ -289,11 +290,11 @@ struct actCharacterView: View {
                     .frame(width: 150.0, height: 150.0, alignment: .leading)
                 Text("\(char.name)の力を借りますか？？")
                 Spacer()
-                Button("借りる"){
+                Button("実行できたら\nここをタップ"){
                     let canUse = cM.useCharacter(item: char)
                     if canUse {
-                        EventAnalytics.doneQuest()
-                        text = DataCounter.updateLv(score: char.score).3//mes(score: char.score, str: "")
+                        //EventAnalytics.doneQuest()
+                        text = DataCounter.updateLv(score: char.score).1//mes(score: char.score, str: "")
                         self.scoreUp = true
                     }else{
                         cM.itemOpen = false

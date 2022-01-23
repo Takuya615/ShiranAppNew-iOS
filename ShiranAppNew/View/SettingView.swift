@@ -28,16 +28,16 @@ struct SettingView: View {
             }
             .pickerStyle(SegmentedPickerStyle())    // セグメントピッカースタイルの指定
             .frame(width: 400)
-            .onAppear(perform: {if selection == 6 {selection = 2} else {selection -= 1}})
+            .onAppear(perform: {selection -= 1})
             .onDisappear(perform: {
-                if selection == 2 {selection = 6} else {selection += 1}
+                selection += 1
                 UserDefaults.standard.set(selection, forKey: Keys.difficult.rawValue)
             })
             
             switch selection {
-            case 0 : Text("　\n　ノーマルモード\n自分の好きなエクササイズを自由に行えるという点が最大のメリットです。")
-            case 1 : Text("　\n　ハードモード\nこのアプリ本来の難易度。スコアがイージーの２倍")
-            default: Text("　\n　ベリーハードモード\nスコアがノーマルの４倍普段からトレーニングをされており、デイリーの制限時間を早く伸ばしたいという方にお勧め")
+            case 0 : Text("　\n　ノーマルモード\n　好きな運動してください。AIが体の動きから自動でスコアを計算してくれます。\n自分で自由に行えるという点が、このモードのいいところです。")
+            case 1 : Text("　\n　ハードモード\n　バーピージャンプでスコアをかせげるモードです。このアプリ本来の難易度です。\nスコアがノーマルモードの２倍になります。")
+            default: Text("　\n　ベリーハードモード\n　かかえこみバーピージャンプに挑戦するモードです。ハードモードより高く跳ばなければ得点になりません。\nスコアがノーマルモードの３倍です。\n普段からトレーニングをされており、デイリーの制限時間を早く伸ばしたいという方にお勧めです。")
             }
             Spacer()
         }

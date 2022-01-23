@@ -51,7 +51,7 @@ struct ExplainAppView: View {
                 }).sheet(isPresented: self.$btn0, content: {
                     PlayerView()
                 })
-                Button(action: {
+                /*Button(action: {
                     self.btn01.toggle()
                 }, label: {
                     HStack{
@@ -61,7 +61,7 @@ struct ExplainAppView: View {
                     }
                 }).sheet(isPresented: self.$btn01, content: {
                     PlayerView2()
-                })
+                })*/
                 Button("アプリの流れ"){
                     self.btn1.toggle()
                 }.sheet(isPresented: self.$btn1, content: {
@@ -100,7 +100,7 @@ struct ExplainAppView_Previews: PreviewProvider {
 
 struct PlayerView: View {
     @EnvironmentObject var appState: AppState
-    let url = Bundle.main.path(forResource: "introduce", ofType: "MP4")
+    let url = Bundle.main.path(forResource: "introduce", ofType: "mov")
     var body: some View {
         let player = AVPlayer(url: URL(fileURLWithPath: url!))
         VideoPlayer(player: player)
@@ -143,8 +143,18 @@ struct PlayerViewClimb: View {
         }
     }
 }
-
-
+struct PlayerViewHiit: View {
+    let url = Bundle.main.path(forResource: "q_hiit", ofType: "mov")
+    var body: some View {
+        let player = AVPlayer(url: URL(fileURLWithPath: url!))
+        VStack{
+            Image(systemName: "chevron.compact.down")
+                .resizable().frame(width: 100, height: 20, alignment: .top).padding().foregroundColor(.gray)
+            VideoPlayer(player: player)
+                        .onAppear() {player.play()}
+        }
+    }
+}
 /// ２番めのView
 struct Explanation1: View {
     var body: some View {

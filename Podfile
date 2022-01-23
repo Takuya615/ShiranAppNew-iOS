@@ -10,6 +10,7 @@ target 'ShiranAppNew' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
   pod 'Instructions'
+  pod 'mailcore2-ios'
 
   # Pods for ShiranAppNew
 

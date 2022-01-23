@@ -254,7 +254,7 @@ class QuestCameraViewController: UIViewController {
                     
                     //リザルト表示
                     //var alert: UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
-                    let alert = self.questCameraView.dataCounter.showQuestResult(
+                    let alert = DataCounter.showQuestResult(
                         view: self.questCameraView, qType: self.qType,qScore: self.poseImageView.qScore)
                     
                     self.present(alert, animated: true, completion: nil)
@@ -341,7 +341,7 @@ extension QuestCameraViewController: PoseNetDelegate {
         self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
         self.view.addSubview(poseImageView)
         
-        self.scoreBoad.text = "Score \(Int(score))"//スコア更新
+        //self.scoreBoad.text = "Score \(Int(score))"//スコア更新
         if qType == 2 { self.poseImageView.qScore = Int(score) }
         prePose = culculateScore(pose: pose, prePose: prePose)
         

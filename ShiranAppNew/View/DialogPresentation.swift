@@ -61,23 +61,23 @@ struct DialogContent1: View {
                        label: {Text("❎閉じる")})
             }
             if !page {
+                Text("デイリーチャレンジ").font(.title)
                 Image("enemy1")
                     .resizable()
                     .frame(width: 100.0, height: 100.0, alignment: .leading)
-                Text("デイリー").font(.title)
-                Text("毎日はじめの１回だけ").foregroundColor(.red)
+                Text("毎日、その日の")
+                Text("はじめの１回だけ").foregroundColor(.red)
                 Text("モンスターがあらわれます")
-                
-                
-                Button(action: { page = true }, label: {Text("\n次へ\n")})
+                Button(action: { page = true }, label: {Text("\nつぎへ\n")})
             }else{
+                Text("デイリーチャレンジ").font(.title)
                 Image("enemy1")
                     .resizable()
                     .frame(width: 100.0, height: 100.0, alignment: .leading)
-                Text("デイリー").font(.title)
-                Text("\n彼らは、")
-                Text("あなたのなまけ心の化身です").foregroundColor(.red)
+                Text("\n彼らはあなたの")
+                Text("なまけ心の化身です").foregroundColor(.red)
                 Text("今すぐ撃退しましょう！！\n")
+                Button(action: { page = false }, label: {Text("\nまえへ\n")})
             }
             
             
@@ -91,7 +91,7 @@ struct DialogContent1: View {
 
 struct DialogContent2: View {
     @Binding var isPresented: Bool
-    @State var page1 = false
+    @State var page1 = 1
     @EnvironmentObject var appState: AppState
     
     var body: some View {
@@ -101,15 +101,21 @@ struct DialogContent2: View {
                 Button(action: {isPresented = false},
                        label: {Text("❎とじる")})
             }
-            if page1 {
-                //Text("クエスト").font(.title)
-                Text("\nクエストをこなすと、コインや経験値を集めることもできます。")
+            if page1 == 3 {
+                Text("クエスト").font(.title)
+                //Text("\nクエストをこなすと、コインや経験値を集めることもできます。")
+                Text("\nデイリーのほか、クエスト（ミニゲーム）で遊ぶこともできます。\n")//.foregroundColor(.red)
                 Text("\n↓ の「クエスト」をタップ\n").foregroundColor(.red)
+                Button(action: { page1 = 1 }, label: {Text("\nもどる\n")})
                 
-            }else{
+            }else if page1 == 2{
+                Text("難易度の調整").font(.title)
+                Text("\nバーピーはカンタンすぎる？\n右上のメニューボタン→設定で難易度を変えることもできます。").font(.body)
+                Button(action: { page1 = 3 }, label: {Text("\n次へ\n")})
+            }else if page1 == 1{
                 Text("おめでとう！！").font(.title)
-                Text("\n今日のあなたは、\nじぶんの怠惰を克服しました！\n\nしかし、日に日にモンスターも強くなっていきます").font(.body)
-                Button(action: { page1 = true }, label: {Text("\n次へ\n")})
+                Text("\n今日のあなたは、\nじぶんの怠惰を克服しました！\n\n短い時間でも毎日こなして、まずは「毎日する」という意識をクセにしましょう").font(.body)
+                Button(action: { page1 = 2 }, label: {Text("\n次へ\n")})
             }
             
         }

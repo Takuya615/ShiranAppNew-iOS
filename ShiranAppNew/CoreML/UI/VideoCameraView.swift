@@ -40,7 +40,7 @@ class VideoViewController: UIViewController {
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     
     var state: Int = DataCounter.setDailyState()//  diff.dayの数値
-    //let qType = UserDefaults.standard.integer(forKey: DataCounter().questType)
+    let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
     
     var count = 0
     var recordButton: UIButton!
@@ -50,7 +50,6 @@ class VideoViewController: UIViewController {
     
     var scoreBoad: UILabel!
     var score:Float = 0.0
-    var scoreMax: Float = UserDefaults.standard.float(forKey: Keys.scoreMax.rawValue)
     var prePose: Pose! = Pose()
     var timesBonus: Float = 1.0
     var difBonus: Float = 1.0
@@ -66,15 +65,11 @@ class VideoViewController: UIViewController {
     var switchTime = 20
     var rest = false
     
-    //var nHeart = 2
-    var heart1: UIImageView!
-    var heart2: UIImageView!
-    
     //コーチマーク用
     /*var coachController = CoachMarksController()
     var messages:[String] = []
     var views: [UIView] = []*/
-    let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)
+    let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//1 2 3
     var exiteBoss: boss? = BOSS().isExist()
     var bossHPbar: UIProgressView!
     var bossImage: UIImageView!
@@ -98,17 +93,12 @@ class VideoViewController: UIViewController {
             fatalError("Failed to load model. \(error.localizedDescription)")
         }
         poseNet.delegate = self
-        //poseDetect.delegate = self
-        
-        if state > 0{//デイリー
-            //if exiteBoss != nil { view.backgroundColor = .black; isBoss = true }
-            let db = Firestore.firestore().collection("users").whereField("name", isEqualTo: "つむ")
-            db.getDocuments() { (querySnapshot, err) in
-                if err != nil {return}
-                guard let poseList: [Int] = querySnapshot!.documents[0].data()["poseList"] as? [Int] else{print("フレンドリストなし");return}
-                self.friPoseList = poseList
-            }
-        }
+        /*let db = Firestore.firestore().collection("users").whereField("name", isEqualTo: "つむ")
+        db.getDocuments() { (querySnapshot, err) in
+            if err != nil {return}
+            guard let poseList: [Int] = querySnapshot!.documents[0].data()["poseList"] as? [Int] else{print("フレンドリストなし");return}
+            self.friPoseList = poseList
+        }*/
         
         timesBonus = CharacterModel.useTaskHelper()
         
@@ -149,7 +139,7 @@ class VideoViewController: UIViewController {
         self.session = nil
         
         if !countDown {
-            DataCounter().saveMyPose(poseList: myPoseList)
+            //DataCounter().saveMyPose(poseList: myPoseList)　　　　　　　　　　　　　　　自分ポーズを保存！！
             //let save = SaveVideo().environmentObject(DataCounter())
             //SaveVideo().saveData(score: Int(score)/100)
             //self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
@@ -246,50 +236,34 @@ class VideoViewController: UIViewController {
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         self.view.addSubview(backButton)
         
-        heart1 = UIImageView(image: UIImage(systemName: "heart.fill"))
-        heart1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        heart1.layer.position = CGPoint(x: rect.width/2 + 75, y: 25)
-        self.view.addSubview(heart1)
-        heart2 = UIImageView(image: UIImage(systemName: "heart.fill"))
-        heart2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        heart2.layer.position = CGPoint(x: rect.width/2 + 105, y: 25)
-        self.view.addSubview(heart2)
-        
-        
         
         /*let heart2 = UIImageView(image: UIImage(systemName: "heart.fill"))
         heart2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         heart2.layer.position = CGPoint(x: rect.width/2 + 100, y: 25)
         self.view.addSubview(heart2)*/
         
-        if state > 0 {
-            //let alert1 = BOSS().showBOSS(boss: exiteBoss!)
-            //self.present(alert1, animated: true, completion: nil)
-            
-            self.bossHPbar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 30))
-            self.bossHPbar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
-            self.bossHPbar.progressTintColor = .gray
-            self.bossHPbar.backgroundColor = .red
-            //self.bossHPbar.setProgress(bossHPbar.progress, animated: true)
-            self.bossHPbar.transform = CGAffineTransform(scaleX: 1.0, y: 10.0)
-            self.bossHPbar.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-            self.bossHPbar.isHidden = true
-            self.view.addSubview(self.bossHPbar)
-            self.bossImage = UIImageView(image: UIImage(named: exiteBoss!.image))
-            self.bossImage.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-            self.bossImage.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-            self.view.addSubview(bossImage)
-
-        }else{
-            self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
-            self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-            self.scoreBoad.text = "Score"
-            self.scoreBoad.textColor = UIColor.blue
-            //self.scoreBoad.backgroundColor = UIColor.red
-            self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
-            self.scoreBoad.isHidden = true
-            self.view.addSubview(self.scoreBoad)
-        }
+        self.bossHPbar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 30))
+        self.bossHPbar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
+        self.bossHPbar.progressTintColor = .gray
+        self.bossHPbar.backgroundColor = .red
+        //self.bossHPbar.setProgress(bossHPbar.progress, animated: true)
+        self.bossHPbar.transform = CGAffineTransform(scaleX: 1.0, y: 10.0)
+        self.bossHPbar.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+        self.bossHPbar.isHidden = true
+        self.view.addSubview(self.bossHPbar)
+        self.bossImage = UIImageView(image: UIImage(named: exiteBoss!.image))
+        self.bossImage.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        self.bossImage.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+        self.view.addSubview(bossImage)
+        
+        self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
+        self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+        self.scoreBoad.text = "Score"
+        self.scoreBoad.textColor = UIColor.blue
+        //self.scoreBoad.backgroundColor = UIColor.red
+        self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
+        self.scoreBoad.isHidden = true
+        self.view.addSubview(self.scoreBoad)
         
         // recording button
         self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
@@ -303,7 +277,8 @@ class VideoViewController: UIViewController {
         self.view.addSubview(recordButton)//subView 0
         
         if !AppState().coachMark2 {
-            let alert: UIAlertController = UIAlertController(title: "カベに立てかけ、\n↓のSTARTをタップ", message: "", preferredStyle:  UIAlertController.Style.alert)
+            let alert: UIAlertController = UIAlertController(
+                title: "カベに立てかけ、\n↓のSTARTをタップ\n（初回は時間が5秒だけです）", message: "", preferredStyle:  UIAlertController.Style.alert)
             let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
                 (action: UIAlertAction!) -> Void in
                 UserDefaults.standard.set(true, forKey: "CoachMark2 ")
@@ -330,7 +305,13 @@ class VideoViewController: UIViewController {
     @objc func onClickRecordButton(sender: UIButton) {
         var Ring = false
         self.recordButton.isHidden = true
-        if state > 0 {self.bossHPbar.isHidden = false} else {self.scoreBoad.isHidden = false}
+        if state > 0 {
+            self.bossHPbar.isHidden = false
+            self.view.backgroundColor =  UIColor.init(red: 255/255, green: 102/255, blue: 102/255, alpha: 80/100)
+        } else {
+            self.scoreBoad.isHidden = false
+            self.bossImage.isHidden = true
+        }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             if self.time == 0 {
                 if self.countDown{
@@ -344,77 +325,21 @@ class VideoViewController: UIViewController {
                     SystemSounds.buttonVib("")
                     SystemSounds.buttonSampleWav("")
                     //SystemSounds().EndVideoRecording()
+                    self.view.backgroundColor = .white
                     self.isRecording = false
                     self.poseImageView.gameStart = false// PoseImageView終了
                     timer.invalidate()//timerの終了
                     if self.state > 0 {//　デイリー
-                        DataCounter.updateDate(diff: self.state)
-                        var h = 0
-                        if self.heart1.isHidden {h += 1}
-                        if self.heart2.isHidden {h += 1}
-                        //self.videoCameraView.dataCounter.scoreCounter()//デイリー処理
-                        let data = DataCounter.showDailyResult(view: self.videoCameraView, bonus: self.timesBonus, killList: self.killList,lostHeart: h)
-                        let alert = data.0
-                        let pV = data.1
-                        var pro: Float = data.2
-                        let frac: Float = data.3
-                        var re: Int = data.4
-                        
-                        let pV2 = data.5
-                        var pro2: Float = data.6
-                        let frac2: Float = data.7
-                        var re2: Int = data.8
-                        alert.view.addSubview(pV)
-                        alert.view.addSubview(pV2)
-                        self.present(alert, animated: true, completion: nil)
-                        
-                        DispatchQueue.global().async {
-                            repeat{
-                                pro += 0.00001
-                                DispatchQueue.main.async(flags: .barrier, execute: {
-                                    if re > 0 && pro > 0.99 {
-                                        SystemSounds.attack("")
-                                        pro = 0.0
-                                        re -= 1
-                                        pV.progress = 0.0
-                                    }
-                                    pV.setProgress(Float(pro), animated: true)
-                                })
-                                if re == 0 && pro > frac { break }
-                            }while pro < 1.0
+                        if self.qType == -1{
+                            let alert = DataCounter.showQuestResult2(view: self.videoCameraView, qType: 0, qScore: self.killList.count)
+                            //DataCounter.showDailyResult(view: self.videoCameraView, bonus: self.timesBonus, killList: self.killList)
+                            self.present(alert, animated: true, completion: nil)
+                            return
                         }
-                        /*DispatchQueue.global().async {
-                            if re2 < 0{//タスク時間減る
-                                repeat{
-                                    pro2 -= 0.00001
-                                    DispatchQueue.main.async(flags: .barrier, execute: {
-                                        if re2 < -1 && pro2 < 0.01 {
-                                            SystemSounds.attack("")
-                                            pro2 = 1.0
-                                            re2 += 1
-                                            pV2.progress = 1.0
-                                        }
-                                        pV2.setProgress(Float(pro2), animated: true)
-                                    })
-                                    if re2 == -1 && pro2 < frac2 { break }
-                                }while pro2 > 0.0
-                            }else{//通常
-                                repeat{
-                                    pro2 += 0.00001
-                                    DispatchQueue.main.async(flags: .barrier, execute: {
-                                        if re2 > 0 && pro2 > 0.99 {
-                                            SystemSounds.attack("")
-                                            pro2 = 0.0
-                                            re2 -= 1
-                                            pV2.progress = 0.0
-                                        }
-                                        pV2.setProgress(Float(pro2), animated: true)
-                                    })
-                                    if re2 == 0 && pro2 > frac2 { break }
-                                }while pro2 < 1.0
-                            }
-                            
-                        }*/
+                        
+                        DataCounter.updateDate(diff: self.state)
+                        let alert = DataCounter.showDailyResult(view: self.videoCameraView, bonus: self.timesBonus, killList: self.killList)
+                        self.present(alert, animated: true, completion: nil)
                         
                     }else{
                         let alert  = DataCounter.showScoreResult(view: self.videoCameraView,
@@ -435,7 +360,6 @@ class VideoViewController: UIViewController {
                 self.textTimer.text = self.min(time: self.time)
                 self.textTimer.textColor = UIColor.blue
                 self.count20_10()
-                self.damageCounter()
                 self.difficultBonus()
             }
             self.time -= 1
@@ -443,8 +367,9 @@ class VideoViewController: UIViewController {
     }
     
     func taskTime() -> Int{
-        var taskTime: Int = 10//UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
-        //if taskTime < 5 {taskTime = 5}
+        if qType == -1 { return 60 }
+        var taskTime: Int = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
+        if taskTime < 5 {taskTime = 5}
         if taskTime > 240 {taskTime = 240}
         return taskTime
     }
@@ -460,12 +385,19 @@ class VideoViewController: UIViewController {
             if rest {
                 self.isRecording = false
                 self.poseImageView.gameStart = false
-                self.view.backgroundColor = .systemBlue
+                self.bossImage.isHidden = true
+                self.bossHPbar.isHidden = true
+                self.scoreBoad.isHidden = false
+                self.scoreBoad.text = "  きゅうけい"
+                self.view.backgroundColor = UIColor.init(red: 102/255, green: 153/255, blue: 255/255, alpha: 80/100)
                 switchTime = 10
             }else{
                 self.isRecording = true
                 self.poseImageView.gameStart = true
-                self.view.backgroundColor = .white
+                self.bossImage.isHidden = false
+                self.bossHPbar.isHidden = false
+                self.scoreBoad.isHidden = true
+                self.view.backgroundColor = UIColor.init(red: 255/255, green: 102/255, blue: 102/255, alpha: 80/100)
                 switchTime = 20
             }
         }
@@ -473,19 +405,6 @@ class VideoViewController: UIViewController {
         switchTime -= 1
         
         if self.time == 0 && !self.countDown { self.view.backgroundColor = .white }
-    }
-    var damageC = 0
-    func damageCounter(){//３秒以上、スコアが低い状態続いたらハート失う
-        if !isRecording {return}
-        if damageC == 3 {
-            if heart2.isHidden {
-                heart1.isHidden = true
-            }else {
-                heart2.isHidden = true
-                damageC = 0
-            }
-        }
-        damageC += 1
     }
     
     var jumpC = 2
@@ -616,7 +535,7 @@ extension VideoViewController: PoseNetDelegate {
             self.bossHPbar.progress = Float((score + damage) / exiteBoss!.maxHp)
             //モンスターを倒した
             if (score + damage) > exiteBoss!.maxHp{
-                SystemSounds.score_up("")
+                SystemSounds.attack()
                 self.killList.append(exiteBoss!)
                 score = 0
                 exiteBoss = BOSS().newBoss()
@@ -647,11 +566,6 @@ extension VideoViewController: PoseNetDelegate {
                 let disY = abs(newPose.position.y - prePose.position.y)
                 let sum = Float(disY + disX)/100 * partBonus * timesBonus * difBonus
                 
-
-                if scoreMax/2 < sum {
-                    damageC = 0
-                    if scoreMax < sum { scoreMax = sum }
-                }
                 score += sum
                 
             }

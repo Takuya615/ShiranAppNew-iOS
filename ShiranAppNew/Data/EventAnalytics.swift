@@ -21,21 +21,7 @@ class EventAnalytics {
           AnalyticsParameterItemCategory: "Daily"
         ])
     }
-    static func totalAndTask(total:Int,task:Int){
-        if isDebag {return}
-        Analytics.logEvent("totalAndTask", parameters: [
-            AnalyticsParameterItemCategory: "Daily",
-            AnalyticsParameterItemName: "総日数とタスク",
-            "count": "総日\(total)日で タスク時間\(task)秒" as NSObject
-        ])
-    }
-    static func doneDayly(){
-        if isDebag {return}
-        Analytics.logEvent("doneDaily", parameters: [
-            AnalyticsParameterItemCategory: "Daily",
-            AnalyticsParameterItemName: "毎日更新数"
-        ])
-    }
+    
     static func doneNotEveryDay(diff: Int){
         if isDebag {return}
         Analytics.logEvent("doneNotEveryday", parameters: [
@@ -46,25 +32,6 @@ class EventAnalytics {
     }
     
     
-    //DataCounter
-    static func loseEnemy(enemy:String){
-        if isDebag {return}
-        //let total = UserDefaults.standard.integer(forKey: DataCounter().totalDay)
-        let task = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
-        Analytics.logEvent("loseEnemy", parameters: [
-            AnalyticsParameterItemCategory: "Battle",
-            AnalyticsParameterItemName: "負けた数",
-          "count": "\(enemy)タスク\(task)秒負け" as NSObject,
-        ])
-    }
-    //DataCounter
-    static func totalBattle(){
-        if isDebag {return}
-        Analytics.logEvent("totalBattle", parameters: [
-            AnalyticsParameterItemCategory: "Battle",
-            AnalyticsParameterItemName: "総バトル回数"
-        ])
-    }
     //DataCounter
     static func levelUp(level: Int){
         if isDebag {return}
@@ -93,14 +60,6 @@ class EventAnalytics {
         ])
     }
     
-    //ContentView.fouthView  in .alert()
-    static func doneQuest(){
-        if isDebag {return}
-        Analytics.logEvent("doneQuest", parameters: [
-            AnalyticsParameterItemCategory: "Daily",
-            AnalyticsParameterItemName: "クエスト利用数"
-        ])
-    }
     //Character.finish()
     static func doneCharacter(){
         if isDebag {return}
@@ -109,5 +68,43 @@ class EventAnalytics {
             AnalyticsParameterItemName: "キャラクター利用数"
         ])
     }
+    static func difficult(){
+        if isDebag {return}
+        Analytics.logEvent("difficult", parameters: [
+            AnalyticsParameterItemCategory: "Daily",
+            AnalyticsParameterItemName: "キャラクター利用数"
+        ])
+    }
     
+    
+    
+    //ContentView.fouthView  in .alert()
+    static func questDone(){
+        if isDebag {return}
+        Analytics.logEvent("questDone", parameters: [
+            AnalyticsParameterItemCategory: "quest",
+            AnalyticsParameterItemName: "クエスト利用数"
+        ])
+    }
+    static func qCrear1(){
+        if isDebag {return}
+        Analytics.logEvent("qClear1", parameters: [
+            AnalyticsParameterItemCategory: "quest",
+            AnalyticsParameterItemName: "ステージ１のクリア数"
+        ])
+    }
+    static func qCrear2(){
+        if isDebag {return}
+        Analytics.logEvent("qClear2", parameters: [
+            AnalyticsParameterItemCategory: "quest",
+            AnalyticsParameterItemName: "ステージ2のクリア数"
+        ])
+    }
+    static func qCrear3(){
+        if isDebag {return}
+        Analytics.logEvent("qClear3", parameters: [
+            AnalyticsParameterItemCategory: "quest",
+            AnalyticsParameterItemName: "ステージ3のクリア数"
+        ])
+    }
 }

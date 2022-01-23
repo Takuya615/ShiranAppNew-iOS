@@ -35,6 +35,7 @@
 		CE59CC94277B1244007E96C3 /* attack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE59CC93277B1244007E96C3 /* attack.mp3 */; };
 		CE6C8DD027119399007286A4 /* fightEnemy.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */; };
 		CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE6C8DD1271196C8007286A4 /* countdown.mp3 */; };
+		CE7D5002279BB2680055C587 /* UserOpinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7D5001279BB2680055C587 /* UserOpinionView.swift */; };
 		CE82BE7C2728FE790051EA84 /* DialogPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE82BE7B2728FE790051EA84 /* DialogPresentation.swift */; };
 		CE96198226E1AE7F0084F1A7 /* ShiranAppNewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96198126E1AE7F0084F1A7 /* ShiranAppNewApp.swift */; };
 		CE96198626E1AE820084F1A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE96198526E1AE820084F1A7 /* Assets.xcassets */; };
@@ -46,10 +47,11 @@
 		CEB5753E26FC2E96005C5E49 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB5753D26FC2E96005C5E49 /* Character.swift */; };
 		CEBE67E92761B47800DA11B2 /* q_climb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */; };
 		CEBE67EA2761B49400DA11B2 /* q_coin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CEBE67E82761A07900DA11B2 /* q_coin.mp4 */; };
+		CECBA1AA27925DCB00079CCA /* introduce.mov in Resources */ = {isa = PBXBuildFile; fileRef = CECBA1A827925DC800079CCA /* introduce.mov */; };
+		CECBA1AB27925DCB00079CCA /* q_hiit.mov in Resources */ = {isa = PBXBuildFile; fileRef = CECBA1A927925DCB00079CCA /* q_hiit.mov */; };
 		CED69991270560AC006E3AEA /* BOSS.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED69990270560AC006E3AEA /* BOSS.swift */; };
 		CED6999327065EC8006E3AEA /* DataCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED6999227065EC8006E3AEA /* DataCounter.swift */; };
 		CED6B891270D5EE7009BC3F6 /* EventAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */; };
-		CEE45B1926F8CAA7009D6E1F /* introduce.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = CEE45B1826F88340009D6E1F /* introduce.MP4 */; };
 		CEE6FEF827571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CEE6FEF727571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +107,8 @@
 		CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fightEnemy.MP4; sourceTree = "<group>"; };
 		CE6C8DD1271196C8007286A4 /* countdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = countdown.mp3; sourceTree = "<group>"; };
 		CE6F978F26F0E476007CF587 /* ShiranAppNew.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiranAppNew.entitlements; sourceTree = "<group>"; };
+		CE7D5001279BB2680055C587 /* UserOpinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOpinionView.swift; sourceTree = "<group>"; };
+		CE7D5003279BB69D0055C587 /* Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging_Header.h; sourceTree = "<group>"; };
 		CE82BE7B2728FE790051EA84 /* DialogPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogPresentation.swift; sourceTree = "<group>"; };
 		CE96197E26E1AE7F0084F1A7 /* ShiranAppNew.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiranAppNew.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE96198126E1AE7F0084F1A7 /* ShiranAppNewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiranAppNewApp.swift; sourceTree = "<group>"; };
@@ -122,10 +126,11 @@
 		CEB5753D26FC2E96005C5E49 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = q_climb.mp4; sourceTree = "<group>"; };
 		CEBE67E82761A07900DA11B2 /* q_coin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = q_coin.mp4; sourceTree = "<group>"; };
+		CECBA1A827925DC800079CCA /* introduce.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = introduce.mov; sourceTree = "<group>"; };
+		CECBA1A927925DCB00079CCA /* q_hiit.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = q_hiit.mov; sourceTree = "<group>"; };
 		CED69990270560AC006E3AEA /* BOSS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOSS.swift; sourceTree = "<group>"; };
 		CED6999227065EC8006E3AEA /* DataCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCounter.swift; sourceTree = "<group>"; };
 		CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAnalytics.swift; sourceTree = "<group>"; };
-		CEE45B1826F88340009D6E1F /* introduce.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = introduce.MP4; sourceTree = "<group>"; };
 		CEE6FEF727571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoseNetMobileNet100S16FP16.mlmodel; sourceTree = "<group>"; };
 		E6C48DFF81CD90D5D320ADA6 /* Pods-ShiranAppNewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -195,6 +200,7 @@
 				CE43D8C326E1BC540067CDDB /* PlayerView.swift */,
 				CE82BE7B2728FE790051EA84 /* DialogPresentation.swift */,
 				CEA3081627741DDF00D7FDC7 /* SettingView.swift */,
+				CE7D5001279BB2680055C587 /* UserOpinionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -286,6 +292,7 @@
 				CE96198526E1AE820084F1A7 /* Assets.xcassets */,
 				CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */,
 				CE96198726E1AE820084F1A7 /* Preview Content */,
+				CE7D5003279BB69D0055C587 /* Bridging_Header.h */,
 			);
 			path = ShiranAppNew;
 			sourceTree = "<group>";
@@ -319,7 +326,8 @@
 		CECB80AA2762E09C0001565D /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				CEE45B1826F88340009D6E1F /* introduce.MP4 */,
+				CECBA1A827925DC800079CCA /* introduce.mov */,
+				CECBA1A927925DCB00079CCA /* q_hiit.mov */,
 				CE6C8DCF27119399007286A4 /* fightEnemy.MP4 */,
 				CEBE67E72761A06F00DA11B2 /* q_climb.mp4 */,
 				CEBE67E82761A07900DA11B2 /* q_coin.mp4 */,
@@ -455,11 +463,12 @@
 				CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */,
 				CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */,
 				CE25ACE82751CABB00ABDF18 /* score_up.mp3 in Resources */,
-				CEE45B1926F8CAA7009D6E1F /* introduce.MP4 in Resources */,
+				CECBA1AA27925DCB00079CCA /* introduce.mov in Resources */,
 				CE59CC94277B1244007E96C3 /* attack.mp3 in Resources */,
 				CE96198926E1AE820084F1A7 /* Preview Assets.xcassets in Resources */,
 				CE96198626E1AE820084F1A7 /* Assets.xcassets in Resources */,
 				CE9619AD26E1B76B0084F1A7 /* GoogleService-Info.plist in Resources */,
+				CECBA1AB27925DCB00079CCA /* q_hiit.mov in Resources */,
 				CE6C8DD027119399007286A4 /* fightEnemy.MP4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -624,6 +633,7 @@
 				CE23112D276836A8003D49B7 /* QuestCameraView.swift in Sources */,
 				CED6999327065EC8006E3AEA /* DataCounter.swift in Sources */,
 				CE43D8BD26E1BC440067CDDB /* Sounds.swift in Sources */,
+				CE7D5002279BB2680055C587 /* UserOpinionView.swift in Sources */,
 				CEA3081727741DDF00D7FDC7 /* SettingView.swift in Sources */,
 				CE43D8CB26E1BC540067CDDB /* ContentView.swift in Sources */,
 				CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */,
@@ -794,7 +804,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShiranAppNew/ShiranAppNew.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"ShiranAppNew/Preview Content\"";
 				DEVELOPMENT_TEAM = C4FH99N43Y;
@@ -805,9 +815,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.13;
+				MARKETING_VERSION = 1.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Takuya.Tsumura.ShiranAppNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging_Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -821,7 +832,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShiranAppNew/ShiranAppNew.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"ShiranAppNew/Preview Content\"";
 				DEVELOPMENT_TEAM = C4FH99N43Y;
@@ -832,9 +843,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.13;
+				MARKETING_VERSION = 1.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Takuya.Tsumura.ShiranAppNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging_Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

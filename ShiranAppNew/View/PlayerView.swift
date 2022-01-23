@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // Create AVPlayerItem
-        guard let path = Bundle.main.path(forResource: "introduce", ofType: "MP4") else {
+        guard let path = Bundle.main.path(forResource: "introduce", ofType: "mov") else {
             fatalError("Movie file can not find.")
         }
         let fileURL = URL(fileURLWithPath: path)

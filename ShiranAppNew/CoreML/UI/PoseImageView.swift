@@ -245,7 +245,7 @@ class PoseImageView: UIImageView {
         var sta = 1.0
         switch UserDefaults.standard.integer(forKey: Keys.difficult.rawValue) {
         case 2 : sta = 5/6//  Hard Mode
-        case 6 : sta = 4/6//  VeryHard Mode
+        case 3 : sta = 4/6//  VeryHard Mode
         default: return//     Nomal Mode
         }
         if jump {
@@ -336,10 +336,10 @@ class PoseImageView: UIImageView {
         }
         let left = pose[.leftWrist].position
         let l_diff = abs(qPlace.x - left.x) + abs(qPlace.y - left.y)
-        if l_diff < 40 { qPlace = CGPoint(x: -100, y: 0); qScore += 1 }
+        if l_diff < 40 { qPlace = CGPoint(x: -100, y: 0); qScore += 1; SystemSounds.score_up("")}
         let right = pose[.rightWrist].position
         let r_diff = abs(qPlace.x - right.x) + abs(qPlace.y - right.y)
-        if r_diff < 40 { qPlace = CGPoint(x: -100, y: 0); qScore += 1 }
+        if r_diff < 40 { qPlace = CGPoint(x: -100, y: 0); qScore += 1; SystemSounds.score_up("") }
         
         jointRadius = 30
         segmentColor = .red
