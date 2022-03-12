@@ -37,23 +37,23 @@ struct ShopView: View{
                 })
                     .alert(isPresented: $isBought) {
                         if ShopViewModel.checkCanBuy(price: item.coin){
-                            return Alert(title: Text("このアイテムを購入しますか？？"),
+                            return Alert(title: Text(str.doYouBuyIt.rawValue),
                                          message: Text(item.name),
-                                         primaryButton: .cancel(Text("やめる")),
-                                         secondaryButton: .default(Text("購入"), action: {
+                                         primaryButton: .cancel(Text(str.quite.rawValue)),
+                                         secondaryButton: .default(Text(str.purchase.rawValue), action: {
                                 ShopViewModel.buy(article: item)
                                 
                             }))
                         }else{
                             return Alert(
-                                title: Text("お金が足りません..."),
-                                dismissButton: .cancel(Text("もどる"))
+                                title: Text(str.noMoney.rawValue),
+                                dismissButton: .cancel(Text(str.modoru.rawValue))
                             )
                         }
                         
                     }
             }
-            .navigationTitle("ショップ")
+            .navigationTitle(str.shop.rawValue)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){

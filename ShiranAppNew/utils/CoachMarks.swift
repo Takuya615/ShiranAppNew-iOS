@@ -62,7 +62,7 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
         let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
                 coachViews.bodyView.hintLabel.text = self.messages[index] // ここで文章を設定
-                coachViews.bodyView.nextLabel.text = "了解" // 「次へ」などの文章
+        coachViews.bodyView.nextLabel.text = str.ok.rawValue // 「次へ」などの文章
 
                 return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
@@ -76,7 +76,7 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
     }
     
     func setOne(){
-        messages = ["タップ"]
+        messages = [str.tap.rawValue]
         self.firstButton = UIButton(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
         self.firstButton.layer.cornerRadius = 30.0
         let bf = self.firstButton.frame

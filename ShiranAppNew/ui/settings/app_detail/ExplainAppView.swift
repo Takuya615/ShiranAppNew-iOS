@@ -22,20 +22,14 @@ struct ExplainAppView: View {
         HStack{
                 Button(
                     action:{self.appState.isExplainView = false},
-                    label: {Text("  ＜Back").font(.system(size: 20))
+                    label: {Text(str.back.rawValue).font(.system(size: 20))
                         })
                     .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
                         Spacer()
                 }
         VStack{
             Spacer()
-            Text(
-                """
-                これは半年で４分間のHIITを
-                習慣にするためのアプリです。
-                
-                """
-            ).font(.title)
+            Text(str.exp1.rawValue).font(.title)
             .onAppear(perform: { if !appState.coachMark1{btn0 = true}})
             
             
@@ -44,7 +38,7 @@ struct ExplainAppView: View {
                     self.btn0.toggle()
                 }, label: {
                     HStack{
-                        Text("あそびかた")
+                        Text(str.expTitle1.rawValue)
                         Image(systemName: "play.rectangle.fill")
                             .foregroundColor(.red)
                     }
@@ -62,22 +56,22 @@ struct ExplainAppView: View {
                 }).sheet(isPresented: self.$btn01, content: {
                     PlayerView2()
                 })*/
-                Button("アプリの流れ"){
+                Button(str.expTitle2.rawValue){
                     self.btn1.toggle()
                 }.sheet(isPresented: self.$btn1, content: {
                     Explanation1()
                 })
-                Button("HIITってなに？？"){
+                Button(str.expTitle3.rawValue){
                     self.btn2.toggle()
                 }.sheet(isPresented: self.$btn2, content: {
                     Explanation2()
                 })
-                Button("HIITのメリット"){
+                Button(str.expTitle4.rawValue){
                     self.btn3.toggle()
                 }.sheet(isPresented: self.$btn3, content: {
                     Explanation3()
                 })
-                Button("なぜ半年？？"){
+                Button(str.expTitle5.rawValue){
                     self.btn4.toggle()
                 }.sheet(isPresented: self.$btn4, content: {
                     Explanation4()
@@ -89,12 +83,6 @@ struct ExplainAppView: View {
 
         }
         
-    }
-}
-
-struct ExplainAppView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExplainAppView()
     }
 }
 
@@ -158,81 +146,32 @@ struct PlayerViewHiit: View {
 /// ２番めのView
 struct Explanation1: View {
     var body: some View {
-        Text("アプリの流れ").font(.title)
+        Text(str.expTitle2.rawValue).font(.title)
         
-        Text("""
-
-毎日、運動した記録をつけるだけ
-""")
+        Text(str.exp2.rawValue)
             .foregroundColor(.red)
             .bold()
             .font(.system(size: 25, design: .default))
-        Text("""
-            
-            初日はたったの５秒からスタート。
-            
-            ５秒　６秒　７秒　・・・　２４０秒
-            
-            いつの間にか４分間のHIITができるようにまで、成長しています。
-            
-            """)
+        Text(str.exp2_2.rawValue)
     }
 }
 struct Explanation2: View {
     var body: some View {
-        Text("HIITってなに？？").font(.title)
-        Text("""
-            
-            ハイ インテンシティ インターバル トレーニングの略で、
-            
-            　　　20秒　ハードな運動
-            　　　　　　　↓
-            　　　10秒　休む
-            　　　　　　　↓
-            　　　20秒　ハードな運動
-            　　　　　　　↓
-            　　　10秒　休む
-            を繰り返す方法のことです。
-            
-            1分 HIITは、45分 ランニングに匹敵する身体機能アップ効果が確認されています。
-            近年、もっとも効率の良い運動として注目を浴びています。
-            
-            """)
+        Text(str.expTitle3.rawValue).font(.title)
+        Text(str.exp3.rawValue)
     }
 }
 struct Explanation3: View {
     var body: some View {
-        Text("HIITのメリット").font(.title)
+        Text(str.expTitle4.rawValue).font(.title)
         
-        Text("""
-            
-            以下のような効果が科学的に確認されています。
-            ①　ダイエット効果が高い！
-            ②　空腹感がやわらぐ！
-            ③　寿命が伸びる！
-            ④　若返る！
-            ⑤　疲れにくい体になる！
-            ⑥　鬱や不安症にも効く！
-            ⑦　心肺機能が向上！
-            ⑧　基礎代謝が上がる！
-            
-            
-            
-            """)
+        Text(str.exp4.rawValue)
     }
 }
 struct Explanation4: View {
     var body: some View {
-        Text("なぜ半年？？").font(.title)
+        Text(str.expTitle5.rawValue).font(.title)
         
-        Text("""
-            
-            習慣は日を重ねれば重ねるほど強固になります。
-            これまで運動を全くしてこなかった人でも、より確実に身につけられるよう半年間としています。
-            
-            ロンドン大学の研究によると、運動のような負担の大きなタスクを習慣にするには時間がかかり、最大254日（８ヶ月強）かかる人もいたそうです。
-            
-            焦りは禁物
-            """)
+        Text(str.exp5.rawValue)
     }
 }

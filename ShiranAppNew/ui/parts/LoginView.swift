@@ -24,14 +24,6 @@ struct LoginView: View {
     }
 }
 
-
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
-            //.environmentObject(AppState())
-    }
-}
-
 struct LoginSettingView: View {
     @EnvironmentObject var appState: AppState
     @State private var email = ""
@@ -41,7 +33,7 @@ struct LoginSettingView: View {
         VStack{
             HStack{
                             Button(action: {self.appState.isLogin = false},
-                                   label: {Text("  ＜Back").font(.system(size: 20))
+                                   label: {Text(str.back.rawValue).font(.system(size: 20))
                             })
                             Spacer()
                         }
@@ -53,7 +45,7 @@ struct LoginSettingView: View {
             
             Text("\(appState.errorStr)").foregroundColor(.red).font(.body)
             
-            TextField("メールアドレス", text: $email)
+            TextField(str.mailAdress.rawValue, text: $email)
                     .font(.title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.emailAddress)
@@ -61,7 +53,7 @@ struct LoginSettingView: View {
                                 .font(.title)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.alphabet)*/
-            SecureField("パスワード", text: $password)
+            SecureField(str.password.rawValue, text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .font(.title)
                 .keyboardType(.alphabet)
@@ -70,7 +62,7 @@ struct LoginSettingView: View {
             HStack{
                 Spacer()
                 Button(action: {self.appState.isPrivacyPolicy = true}, label: {
-                    Text("プライバシーポリシー")
+                    Text(str.privacy_policy.rawValue)
                 })
                 .padding(.bottom)
                 .frame(height: 20.0)
@@ -79,24 +71,24 @@ struct LoginSettingView: View {
             HStack{
                 Button(action: {
                     if(email.isEmpty || password.isEmpty){
-                        self.appState.errorStr = "メールもしくはパスワードが未入力です"
+                        self.appState.errorStr = str.noInput.rawValue
                     }else{
                         appState.signup(email: email, password: password)
                         appState.isLoading = true
                     }
                 },
-                       label: {Text("新規アカウント作成")
+                       label: {Text(str.makeNewAccount.rawValue)
                 })
                 Spacer()
                 Button(action: {
                     if(email.isEmpty || password.isEmpty){
-                        self.appState.errorStr = "メールもしくはパスワードが未入力です"
+                        self.appState.errorStr = str.noInput.rawValue
                     }else{
                     appState.loginMethod(email: email, password: password)
                     appState.isLoading = true
                     }
                 },
-                       label: {Text("ログイン")})
+                       label: {Text(str.login.rawValue)})
             }.padding(.trailing)
             Spacer()
                 
@@ -113,7 +105,7 @@ struct NameSettingView: View {
         VStack{
             HStack{
                             Button(action: {self.appState.isNamed = false},
-                                   label: {Text("  ＜Back").font(.system(size: 20))
+                                   label: {Text(str.back.rawValue).font(.system(size: 20))
                             })
                             Spacer()
                         }
@@ -125,7 +117,7 @@ struct NameSettingView: View {
             
             Text("\(appState.errorStr)").foregroundColor(.red).font(.body)
             
-            TextField("ニックネームを決めてください", text: $name)
+            TextField(str.selectName.rawValue, text: $name)
                     .font(.title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.default)
@@ -133,28 +125,28 @@ struct NameSettingView: View {
             HStack{
                 Spacer()
                 Button(action: {
-                    if name.isEmpty {appState.errorStr = "名前を入力してください"; return}
+                    if name.isEmpty {appState.errorStr = str.fixName.rawValue; return}
                     appState.isLoading = true
                     let db = Firestore.firestore()
                     
                     db.collection("users").whereField("name", isEqualTo: name)
                         .getDocuments() { (querySnapshot, err) in
                             if let err = err {
-                                appState.errorStr = "不明なエラー\n通信環境の良いところで、もう１度お試しください"
-                                print("エらーError getting documents: \(err)")
+                                appState.errorStr = str.sendMailError.rawValue
+                                print("Error getting documents: \(err)")
                             } else {
                                 if querySnapshot!.documents.isEmpty {
                                     appState.saveDetails(name: name)
                                 }else {
                                     appState.isLoading = false
-                                    appState.errorStr = "同じ名前を使っているユーザーがみつかりました\n別の名前に変更してください"
+                                    appState.errorStr = str.sameNameError.rawValue
                                 }
                                 
                             }
                     }
                     
                 },
-                       label: {Text("決定")})
+                       label: {Text(str.select.rawValue)})
             }.padding(.trailing)
             Spacer()
         }

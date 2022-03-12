@@ -395,7 +395,7 @@ class PoseImageView: UIImageView {
         var newflg = 1
         if diff<0 {newflg = 1}else{newflg = -1}
         if newflg != flg {//足が切り替わった
-            print("切り替わった")
+            //print("切り替わった")
             flg = newflg
             co = 0.0
         }

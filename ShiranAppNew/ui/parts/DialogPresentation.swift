@@ -58,26 +58,26 @@ struct DialogContent1: View {
                     isPresented = false
                     self.appState.coachMarkf = true
                 },
-                       label: {Text("❎閉じる")})
+                       label: {Text(str.close.rawValue)})
             }
             if !page {
-                Text("デイリーチャレンジ").font(.title)
+                Text(str.daylyChallenge.rawValue).font(.title)
                 Image("enemy1")
                     .resizable()
                     .frame(width: 100.0, height: 100.0, alignment: .leading)
-                Text("毎日、その日の")
-                Text("はじめの１回だけ").foregroundColor(.red)
-                Text("モンスターがあらわれます")
-                Button(action: { page = true }, label: {Text("\nつぎへ\n")})
+                Text(str.dialog1_1_1.rawValue)
+                Text(str.dialog1_1_2.rawValue).foregroundColor(.red)
+                Text(str.dialog1_1_3.rawValue)
+                Button(action: { page = true }, label: {Text(str.next.rawValue)})
             }else{
-                Text("デイリーチャレンジ").font(.title)
+                Text(str.daylyChallenge.rawValue).font(.title)
                 Image("enemy1")
                     .resizable()
                     .frame(width: 100.0, height: 100.0, alignment: .leading)
-                Text("\n彼らはあなたの")
-                Text("なまけ心の化身です").foregroundColor(.red)
-                Text("今すぐ撃退しましょう！！\n")
-                Button(action: { page = false }, label: {Text("\nまえへ\n")})
+                Text(str.dialog1_2_1.rawValue)
+                Text(str.dialog1_2_2.rawValue).foregroundColor(.red)
+                Text(str.dialog1_2_3.rawValue)
+                Button(action: { page = false }, label: {Text(str.forword.rawValue)})
             }
             
             
@@ -99,23 +99,23 @@ struct DialogContent2: View {
             HStack{
                 Spacer()
                 Button(action: {isPresented = false},
-                       label: {Text("❎とじる")})
+                       label: {Text(str.close.rawValue)})
             }
             if page1 == 3 {
-                Text("クエスト").font(.title)
+                Text(str.quest.rawValue).font(.title)
                 //Text("\nクエストをこなすと、コインや経験値を集めることもできます。")
-                Text("\nデイリーのほか、クエスト（ミニゲーム）で遊ぶこともできます。\n")//.foregroundColor(.red)
-                Text("\n↓ の「クエスト」をタップ\n").foregroundColor(.red)
-                Button(action: { page1 = 1 }, label: {Text("\nもどる\n")})
+                Text(str.dialog2_1_1.rawValue)//.foregroundColor(.red)
+                Text(str.dialog2_1_2.rawValue).foregroundColor(.red)
+                Button(action: { page1 = 1 }, label: {Text(str.forword.rawValue)})
                 
             }else if page1 == 2{
-                Text("難易度の調整").font(.title)
-                Text("\nバーピーはカンタンすぎる？\n右上のメニューボタン→設定で難易度を変えることもできます。").font(.body)
-                Button(action: { page1 = 3 }, label: {Text("\n次へ\n")})
+                Text(str.dialog2_2_1.rawValue).font(.title)
+                Text(str.dialog2_2_2.rawValue).font(.body)
+                Button(action: { page1 = 3 }, label: {Text(str.next.rawValue)})
             }else if page1 == 1{
-                Text("おめでとう！！").font(.title)
-                Text("\n今日のあなたは、\nじぶんの怠惰を克服しました！\n\n短い時間でも毎日こなして、まずは「毎日する」という意識をクセにしましょう").font(.body)
-                Button(action: { page1 = 2 }, label: {Text("\n次へ\n")})
+                Text(str.dialog2_3_1.rawValue).font(.title)
+                Text(str.dialog2_3_2.rawValue).font(.body)
+                Button(action: { page1 = 2 }, label: {Text(str.next.rawValue)})
             }
             
         }

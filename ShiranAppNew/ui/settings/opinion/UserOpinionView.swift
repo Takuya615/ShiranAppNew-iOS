@@ -11,16 +11,16 @@ struct UserOpinionView: View {
     @EnvironmentObject var appState: AppState
     @State var text: String = ""
     @State var progress = false
-    @State var attention: String = "※このメッセージは個人を特定できるものではありません。そのため、返信も致しかねます。"
+    @State var attention: String = str.userOpinion1.rawValue
     var body: some View {
         VStack {
             HStack{
                 Button(action: {self.appState.isOpinionView = false},
-                       label: {Text("  ＜Back").font(.system(size: 20))})
+                       label: {Text(str.back.rawValue).font(.system(size: 20))})
                 Spacer()
             }
-            Text("\n✉️ ご意見・ご感想").font(.title)
-            Text("「もっとこうして欲しい」「こうなったら嬉しい」といった、みなさまのご要望をお聞かせください。\n").font(.body)
+            Text(str.userOpinion2.rawValue).font(.title)
+            Text(str.userOpinion3.rawValue).font(.body)
             
             TextEditor(text: $text)
                 .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
@@ -36,7 +36,7 @@ struct UserOpinionView: View {
                     if progress {
                         ProgressView()
                     }else{
-                        Text("送信")
+                        Text(str.sendMail.rawValue)
                             .font(.title)
                             .foregroundColor(.pink)
                             .frame(width: 100, height: 40, alignment: .center)
@@ -75,9 +75,9 @@ struct UserOpinionView: View {
         }*/
         
         let builder = MCOMessageBuilder()
-        builder.header.to = [MCOAddress(displayName: "運営", mailbox: master_mail) as Any]
-        builder.header.from = MCOAddress(displayName: "ユーザー", mailbox: master_mail)
-        builder.header.subject = "クライアント　フィードバック"
+        builder.header.to = [MCOAddress(displayName:str.messageTo.rawValue, mailbox: master_mail) as Any]
+        builder.header.from = MCOAddress(displayName: str.messageFrom.rawValue, mailbox: master_mail)
+        builder.header.subject = str.messageTitle.rawValue
         builder.htmlBody = message
         
         let rfc822Data = builder.data()
@@ -85,7 +85,7 @@ struct UserOpinionView: View {
         sendOperation?.start { (error) -> Void in
             if (error != nil) {
                 self.progress = false
-                self.attention = "エラー：通信環境をお確かめのうえ、もう一度お願いします。"
+                self.attention = str.userOpinionError.rawValue
                 //NSLog("エラーError sending email: \(String(describing: error))")
             } else {
                 self.appState.isOpinionView = false
@@ -95,8 +95,3 @@ struct UserOpinionView: View {
     }
 }
 
-struct UserOpinionView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserOpinionView()
-    }
-}

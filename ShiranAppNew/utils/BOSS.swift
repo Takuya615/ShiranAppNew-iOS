@@ -21,9 +21,9 @@ class BOSS {
     }
 
     func showBOSS(boss:boss) -> UIAlertController{
-        let message = "STARTすると、下にテキHPがでます\n０になるまで運動しましょう"
+        let message = str.dialogBossText.rawValue
         let alert: UIAlertController = UIAlertController(title: boss.name, message:  message, preferredStyle:  UIAlertController.Style.alert)
-        let confirmAction: UIAlertAction = UIAlertAction(title: "チャレンジ", style: UIAlertAction.Style.default, handler:{
+        let confirmAction: UIAlertAction = UIAlertAction(title: str.challenge.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
         })
         alert.addAction(confirmAction)

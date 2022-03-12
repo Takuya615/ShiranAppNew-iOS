@@ -22,8 +22,8 @@ struct QuestView: View{
     var body: some View {
         NavigationView{
             if stage+1 == stageOnNow {
-                Text("あと⭐️\(neededStar)コでステージ解放")
-                    .navigationTitle("ステージ\(stageOnNow)")
+                Text(str.questViewText1.rawValue + String(neededStar) + str.questViewText2.rawValue)
+                    .navigationTitle(str.stage.rawValue + String(stageOnNow))
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar{
                         ToolbarItem(placement: .navigationBarLeading){
@@ -65,10 +65,10 @@ struct QuestView: View{
                             }
                         }
                     }).alert(isPresented: $showAlert) {
-                        return Alert(title: Text("チャレンジしますか？"),
+                        return Alert(title: Text(str.tryChallenge.rawValue),
                                      message: Text(item.text),
-                                     primaryButton: .cancel(Text("やめる")),
-                                     secondaryButton: .default(Text("チャレンジ"), action: {
+                                     primaryButton: .cancel(Text(str.quite.rawValue)),
+                                     secondaryButton: .default(Text(str.challenge.rawValue), action: {
                             UserDefaults.standard.set(item.number, forKey: Keys.questNum.rawValue)
                             UserDefaults.standard.set(item.type,forKey: Keys.questType.rawValue)
                             UserDefaults.standard.set(item.goal, forKey: Keys.qGoal.rawValue)
@@ -89,7 +89,7 @@ struct QuestView: View{
                 setStage()
                 //if !self.appState.coachOpenQuest{dialogPresentation.show(content: .contentDetail4(isPresented: $dialogPresentation.isPresented))}
             })
-            .navigationTitle("ステージ\(stageOnNow)")
+            .navigationTitle(str.stage.rawValue.rawValue + String(stageOnNow))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){

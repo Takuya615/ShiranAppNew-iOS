@@ -40,7 +40,7 @@ struct CharacterView: View {
                         Image(systemName: "questionmark.circle.fill")
                             .resizable()
                             .frame(width: 80.0, height: 80.0, alignment: .leading)
-                        Text("レベル\(item.level)で解放").font(.title)
+                        Text(str.characterViewText1.rawValue + String(item.level) + str.characterViewText2.rawValue).font(.title)
                     }
                 }
                 
@@ -50,7 +50,7 @@ struct CharacterView: View {
              dialogPresentation.show(content: .contentDetail3(isPresented: $dialogPresentation.isPresented))
              }
              })*/
-            .navigationTitle("スケット")
+            .navigationTitle(str.suketto.rawValue)
             .navigationBarTitleDisplayMode(.inline)
         }.navigationViewStyle(StackNavigationViewStyle())
         //.customDialog(presentaionManager: dialogPresentation)
