@@ -12,15 +12,6 @@ target 'ShiranAppNew' do
   pod 'Instructions'
   pod 'mailcore2-ios'
 
-  # Pods for ShiranAppNew
-
-  target 'ShiranAppNewTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'ShiranAppNewUITests' do
-    # Pods for testing
-  end
+ 
 
 end

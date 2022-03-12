@@ -74,17 +74,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ShiranAppNew-ShiranAppNewUITests.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-ShiranAppNew.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-ShiranAppNewTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
