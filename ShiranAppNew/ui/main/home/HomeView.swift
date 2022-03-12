@@ -36,7 +36,7 @@ struct HomeView: View{
 //                            .foregroundColor(.blue)
 //                    }
 //                }
-                StatasView()
+                StatusView()
                  
                 if self.appState.showWanWan {
                     Image("char_dog")
@@ -65,13 +65,13 @@ struct HomeView: View{
                             appState.isSettingView = true
                         }) {
                             Text(str.set.rawValue)
-                            Image(systemName: "gear")//"gearshape")歯車まーく
+                            Image(systemName: "gear")//"gearshape")
                         }
                         Button(action: {
                             appState.isExplainView = true
                         }) {
                             Text(str.detailApp.rawValue)
-                            Image(systemName: "info.circle")//"gearshape")歯車まーく
+                            Image(systemName: "info.circle")//"gearshape")
                         }
                         /*
                          if self.appState.isinAccount {
@@ -125,7 +125,7 @@ struct HomeView: View{
                          UserDefaults.standard.removeAll()
                          exit(0)
                          }) {
-                         Text("リセット")
+                             Text(str.reset.rawValue)
                          Image(systemName: "shield")
                          }
                          
@@ -133,7 +133,7 @@ struct HomeView: View{
                          let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
                          UserDefaults.standard.set(LastTimeDay, forKey: Keys._LastTimeDay.rawValue)
                          }) {
-                         Text("１日リセット")
+                             Text(str.oneDayReset.rawValue)
                          Image(systemName: "shield")
                          }
                          
@@ -172,17 +172,74 @@ struct HomeView: View{
 }
 
 
-struct StatasView: View {
+struct StatusView: View {
     var body: some View {
-        Path { path in
-            path.move(to: CGPoint(x: 100, y: 0))
-            path.addLine(to: CGPoint(x: 200, y: 200))
-            path.addLine(to: CGPoint(x: 0, y: 200))
-            path.addLine(to: CGPoint(x: 100, y: 0))
+        let bounds = UIScreen.main.bounds
+        let xt = 3
+        let xp = 0
+        let yt = 3
+        let yp = 100
+        let ps = 20
+        let pr = ps / 2
+        ZStack{
+            Path { path in
+                path.addLines([
+                    CGPoint(x: 35*xt+xp, y: 130*yt+yp),
+                    CGPoint(x: 40*xt+xp, y: 90*yt+yp),
+                    CGPoint(x: 45*xt+xp, y: 55*yt+yp),
+                    CGPoint(x: 85*xt+xp, y: 55*yt+yp),
+                    CGPoint(x: 90*xt+xp, y: 90*yt+yp),
+                    CGPoint(x: 95*xt+xp, y: 130*yt+yp)
+                ])
+                path.addLines([
+                    CGPoint(x: 50*xt+xp, y: 200*yt+yp),
+                    CGPoint(x: 50*xt+xp, y: 160*yt+yp),
+                    CGPoint(x: 50*xt+xp, y: 120*yt+yp),
+                    CGPoint(x: 80*xt+xp, y: 120*yt+yp),
+                    CGPoint(x: 80*xt+xp, y: 160*yt+yp),
+                    CGPoint(x: 80*xt+xp, y: 200*yt+yp)
+                ])
+                path.move(to: CGPoint(x: 45*xt+xp, y: 55*yt+yp))
+                path.addLine(to: CGPoint(x: 50*xt+xp, y: 120*yt+yp))
+                path.move(to: CGPoint(x: 85*xt+xp, y: 55*yt+yp))
+                path.addLine(to: CGPoint(x: 80*xt+xp, y: 120*yt+yp))
+                
+            }
+            .stroke(lineWidth: 2)
+            .fill(Color.green)
+            .frame(width: bounds.width, height: bounds.height)
+            
+            
+            Path { path in
+                path.addEllipse(in: CGRect(x:35*xt+xp-pr, y: 130*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:40*xt+xp-pr, y: 90*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:45*xt+xp-pr, y: 55*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:85*xt+xp-pr, y: 55*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:90*xt+xp-pr, y: 90*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:95*xt+xp-pr, y: 130*yt+yp-pr, width: ps, height: ps))
+                
+                
+                path.addEllipse(in: CGRect(x:50*xt+xp-pr, y: 200*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:50*xt+xp-pr, y: 160*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:50*xt+xp-pr, y: 120*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:80*xt+xp-pr, y: 120*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:80*xt+xp-pr, y: 160*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:80*xt+xp-pr, y: 200*yt+yp-pr, width: ps, height: ps))
+            }
+            .fill(Color.yellow)
+            .frame(width: bounds.width, height: bounds.height)
+            
+            
         }
-        .stroke(lineWidth: 20)
-        .fill(Color.red)
-        .frame(width: 200, height: 200)
+        
+        
     }
 }
- 
+
+
+struct CircleCheck_Previews: PreviewProvider {
+    static var previews: some View {
+        StatusView()
+    }
+}
+

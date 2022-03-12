@@ -227,7 +227,7 @@ class VideoViewController: UIViewController {
         self.view.addSubview(textTimer)//subView 1
         
         let backButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 50))
-        backButton.setTitle("< Back", for: .normal)
+        backButton.setTitle(str.home.rawValue, for: .normal)
         backButton.setTitleColor(UIColor.blue, for: .normal)
         backButton.backgroundColor = UIColor.clear
         backButton.center = CGPoint(x: 45, y: 25)
@@ -258,7 +258,7 @@ class VideoViewController: UIViewController {
         
         self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
         self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-        self.scoreBoad.text = "Score"
+        self.scoreBoad.text = str.score.rawValue
         self.scoreBoad.textColor = UIColor.blue
         //self.scoreBoad.backgroundColor = UIColor.red
         self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
@@ -270,7 +270,7 @@ class VideoViewController: UIViewController {
         self.recordButton.backgroundColor = UIColor.orange
         self.recordButton.layer.masksToBounds = true
         self.recordButton.layer.cornerRadius = self.recordButton.frame.width/2
-        self.recordButton.setTitle("START", for: .normal)
+        self.recordButton.setTitle(str.start.rawValue, for: .normal)
         //self.recordButton.layer.cornerRadius = 20
         self.recordButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 42)
         self.recordButton.addTarget(self, action: #selector(self.onClickRecordButton(sender:)), for: .touchUpInside)
@@ -278,7 +278,7 @@ class VideoViewController: UIViewController {
         
         if !AppState().coachMark2 {
             let alert: UIAlertController = UIAlertController(
-                title: "カベに立てかけ、\n↓のSTARTをタップ\n（初回は時間が5秒だけです）", message: "", preferredStyle:  UIAlertController.Style.alert)
+                title: str.coachMarck2text.rawValue, message: "", preferredStyle:  UIAlertController.Style.alert)
             let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
                 (action: UIAlertAction!) -> Void in
                 UserDefaults.standard.set(true, forKey: "CoachMark2 ")
@@ -321,7 +321,6 @@ class VideoViewController: UIViewController {
                     self.poseImageView.gameStart = true//PoseImageview はじめ
                     self.time = self.taskTime() //                           本編スタート
                 }else{
-                    print("撮影終了")
                     SystemSounds.buttonVib("")
                     SystemSounds.buttonSampleWav("")
                     //SystemSounds().EndVideoRecording()
@@ -388,7 +387,7 @@ class VideoViewController: UIViewController {
                 self.bossImage.isHidden = true
                 self.bossHPbar.isHidden = true
                 self.scoreBoad.isHidden = false
-                self.scoreBoad.text = "  きゅうけい"
+                self.scoreBoad.text = str.rest.rawValue
                 self.view.backgroundColor = UIColor.init(red: 102/255, green: 153/255, blue: 255/255, alpha: 80/100)
                 switchTime = 10
             }else{
@@ -543,7 +542,7 @@ extension VideoViewController: PoseNetDelegate {
             }
             //self.bossHPbar.setProgress(self.bossHPbar.progress, animated: true)
         }else{
-            self.scoreBoad.text = "Score \(Int(score))"//スコア更新
+            self.scoreBoad.text = str.score2.rawValue + String(Int(score))
             //if qType == 2 { self.poseImageView.qScore = Int(score) }
         }
         

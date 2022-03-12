@@ -19,5 +19,18 @@ enum str: String {
     case privacy_policy = "プライバシーポリシー"
     case twitter = "ツイッター"
     case opinion = "ご意見"
+    case reset = "リセット"
+    case oneDayReset = "１日リセット"
+
+
+    case coachMarck2text = "カベに立てかけ、\n↓のSTARTをタップ\n（初回は時間が5秒だけです)"
+    case back = "< Back"
+    case score = "Score"
+    case start = "START"
+    
+    case rest = "  きゅうけい"
+    case score2 = "スコア"
+
+    
     
 }

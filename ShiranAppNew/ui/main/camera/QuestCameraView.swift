@@ -176,7 +176,7 @@ class QuestCameraViewController: UIViewController {
         self.view.addSubview(textTimer)//subView 1
         
         let backButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 50))
-        backButton.setTitle("< Back", for: .normal)
+        backButton.setTitle(str.back.rawValue, for: .normal)
         backButton.setTitleColor(UIColor.blue, for: .normal)
         backButton.backgroundColor = UIColor.clear
         backButton.center = CGPoint(x: 45, y: 25)
@@ -201,7 +201,7 @@ class QuestCameraViewController: UIViewController {
         self.recordButton.backgroundColor = UIColor.orange
         self.recordButton.layer.masksToBounds = true
         self.recordButton.layer.cornerRadius = self.recordButton.frame.width/2
-        self.recordButton.setTitle("START", for: .normal)
+        self.recordButton.setTitle(str.start.rawValue, for: .normal)
         //self.recordButton.layer.cornerRadius = 20
         self.recordButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 42)
         self.recordButton.addTarget(self, action: #selector(self.onClickRecordButton(sender:)), for: .touchUpInside)
@@ -244,7 +244,6 @@ class QuestCameraViewController: UIViewController {
                     self.poseImageView.gameStart = true//クエストはじめ
                     self.time = self.taskTime() //                           本編スタート
                 }else{
-                    print("撮影終了")
                     SystemSounds.buttonVib("")
                     SystemSounds.buttonSampleWav("")
                     //SystemSounds().EndVideoRecording()

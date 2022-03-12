@@ -1,9 +1,9 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Implementation details of a view that visualizes the detected poses.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ Implementation details of a view that visualizes the detected poses.
+ */
 
 import UIKit
 
@@ -21,7 +21,7 @@ class PoseImageView: UIImageView {
         let jointA: Joint.Name
         let jointB: Joint.Name
     }
-
+    
     /// An array of joint-pairs that define the lines of a pose's wireframe drawing.
     static let jointSegments = [
         // The connected joints that are on the left side of the body.
@@ -40,7 +40,7 @@ class PoseImageView: UIImageView {
         JointSegment(jointA: .leftShoulder, jointB: .rightShoulder),
         JointSegment(jointA: .leftHip, jointB: .rightHip)
     ]
-
+    
     /// The width of the line connecting two joints.
     @IBInspectable var segmentLineWidth: CGFloat = 8
     /// The color of the line connecting two joints.
@@ -71,44 +71,44 @@ class PoseImageView: UIImageView {
     }
     
     /*static func showDial() -> UIImage {
-        //let dstImageSize = CGSize(width: frame.width, height: frame.height)
-        let frame = CGSize(width: 250, height: 500)
-        let dstImageFormat = UIGraphicsImageRendererFormat()
-        dstImageFormat.scale = 1
-        
-        let renderer = UIGraphicsImageRenderer(size: frame,format: dstImageFormat)
-        let dstImage = renderer.image { rendererContext in
-            let cgContext = rendererContext.cgContext
-            UIGraphicsPushContext(cgContext)
-            let font = UIFont.systemFont(ofSize: 30)
-            let string = NSAttributedString(string: "あいうえお", attributes: [NSAttributedString.Key.font: font])
-            string.draw(at: CGPoint(x: frame.width/2, y: frame.height/2))
-            UIGraphicsPopContext()
-            /*draw(image: frame, in: cgContext)
-            let cg = UIImage(named: "picto")?.cgImage
-            cgContext.saveGState()
-            cgContext.scaleBy(x: 1.0, y: -1.0)
-            let drawingRect = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height*9/10)
-            cgContext.setAlpha(0.5)
-            cgContext.draw(cg!, in: drawingRect)
-            cgContext.restoreGState()*/
-        }
-        return dstImage
-    }*/
+     //let dstImageSize = CGSize(width: frame.width, height: frame.height)
+     let frame = CGSize(width: 250, height: 500)
+     let dstImageFormat = UIGraphicsImageRendererFormat()
+     dstImageFormat.scale = 1
+     
+     let renderer = UIGraphicsImageRenderer(size: frame,format: dstImageFormat)
+     let dstImage = renderer.image { rendererContext in
+     let cgContext = rendererContext.cgContext
+     UIGraphicsPushContext(cgContext)
+     let font = UIFont.systemFont(ofSize: 30)
+     let string = NSAttributedString(string: "あいうえお", attributes: [NSAttributedString.Key.font: font])
+     string.draw(at: CGPoint(x: frame.width/2, y: frame.height/2))
+     UIGraphicsPopContext()
+     /*draw(image: frame, in: cgContext)
+      let cg = UIImage(named: "picto")?.cgImage
+      cgContext.saveGState()
+      cgContext.scaleBy(x: 1.0, y: -1.0)
+      let drawingRect = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height*9/10)
+      cgContext.setAlpha(0.5)
+      cgContext.draw(cg!, in: drawingRect)
+      cgContext.restoreGState()*/
+     }
+     return dstImage
+     }*/
     
     func show(state: Int,qType: Int,prePose: Pose,pose: Pose,friPose: Pose, on frame: CGImage) -> UIImage {
         
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
-
+        
         dstImageFormat.scale = 1
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,
                                                format: dstImageFormat)
-
+        
         let dstImage = renderer.image { rendererContext in
             // Draw the current frame as the background for the new image.
             draw(image: frame, in: rendererContext.cgContext)
-
+            
             //drawText(image:frame,score: score, in: rendererContext.cgContext)
             changeSkin()
             for segment in PoseImageView.jointSegments {
@@ -135,28 +135,28 @@ class PoseImageView: UIImageView {
             }else{//デイリー　（フレンド）
                 daily(pose: pose, size: dstImageSize, in: rendererContext.cgContext)
                 /*if friPose[.nose].position.x != 0 {
-                    segmentColor = .blue
-                    jointColor = .blue
-                    for joint in friPose.joints.values.filter({ $0.isValid }) {
-                        draw(circle: joint, in: rendererContext.cgContext)
-                    }
-                    drawHead(circle: friPose[.nose], in: rendererContext.cgContext)
-                    for segment in PoseImageView.jointSegments {
-                        let jointA = friPose[segment.jointA]
-                        let jointB = friPose[segment.jointB]
-                        guard jointA.isValid, jointB.isValid else {continue}
-                        drawLine(from: jointA,
-                                    to: jointB,
-                                    in: rendererContext.cgContext)
-                    }
+                 segmentColor = .blue
+                 jointColor = .blue
+                 for joint in friPose.joints.values.filter({ $0.isValid }) {
+                 draw(circle: joint, in: rendererContext.cgContext)
+                 }
+                 drawHead(circle: friPose[.nose], in: rendererContext.cgContext)
+                 for segment in PoseImageView.jointSegments {
+                 let jointA = friPose[segment.jointA]
+                 let jointB = friPose[segment.jointB]
+                 guard jointA.isValid, jointB.isValid else {continue}
+                 drawLine(from: jointA,
+                 to: jointB,
+                 in: rendererContext.cgContext)
+                 }
                  }*/
             }
         }
-
+        
         image = dstImage
         return dstImage
     }
-
+    
     /// Vertically flips and draws the given image.
     ///
     /// - parameters:
@@ -172,7 +172,7 @@ class PoseImageView: UIImageView {
         cgContext.draw(image, in: drawingRect)
         cgContext.restoreGState()
     }
-
+    
     /// Draws a line between two joints.
     ///
     /// - parameters:
@@ -180,16 +180,16 @@ class PoseImageView: UIImageView {
     ///     - childJoint: A valid joint whose position is used as the end of the line.
     ///     - cgContext: The rendering context.
     private func drawLine(from parentJoint: Joint,
-                  to childJoint: Joint,
-                  in cgContext: CGContext) {
+                          to childJoint: Joint,
+                          in cgContext: CGContext) {
         cgContext.setStrokeColor(segmentColor.cgColor)
         cgContext.setLineWidth(segmentLineWidth)
-
+        
         cgContext.move(to: parentJoint.position)
         cgContext.addLine(to: childJoint.position)
         cgContext.strokePath()
     }
-
+    
     /// Draw a circle in the location of the given joint.
     ///
     /// - parameters:
@@ -221,7 +221,10 @@ class PoseImageView: UIImageView {
     private func drawText(image: CGImage,score: CGFloat, in cgContext: CGContext){
         UIGraphicsPushContext(cgContext)
         let font = UIFont.systemFont(ofSize: 30)
-        let string = NSAttributedString(string: "Score \(Int(score) / 100)", attributes: [NSAttributedString.Key.font: font])
+        let string = NSAttributedString(
+            string: str.score.rawValue + String(Int(score) / 100),
+            attributes: [NSAttributedString.Key.font : font]
+        )
         string.draw(at: CGPoint(x: image.width*1/10, y: image.height*9/10))
         UIGraphicsPopContext()
     }
@@ -284,36 +287,36 @@ class PoseImageView: UIImageView {
                 //if lh+lk+la+rh+rk+ra < 3.0 {SystemSounds().buttonVib("")}
                 
                 /*let angleR = angle(firstLandmark: pose[.rightShoulder],
-                                   midLandmark: pose[.rightElbow],
-                                   lastLandmark: rightW)
-                let angleL = angle(firstLandmark: pose[.leftShoulder],
-                                   midLandmark: pose[.leftElbow],
-                                   lastLandmark: leftW)
-                if angleL < 150 || angleR < 90 {
-                    
-                }*/
+                 midLandmark: pose[.rightElbow],
+                 lastLandmark: rightW)
+                 let angleL = angle(firstLandmark: pose[.leftShoulder],
+                 midLandmark: pose[.leftElbow],
+                 lastLandmark: leftW)
+                 if angleL < 150 || angleR < 90 {
+                 
+                 }*/
                 
             }
         }
         
     }
     func angle(
-          firstLandmark: Joint,
-          midLandmark: Joint,
-          lastLandmark: Joint
-      ) -> CGFloat {
-          let radians: CGFloat =
-              atan2(lastLandmark.position.y - midLandmark.position.y,
-                        lastLandmark.position.x - midLandmark.position.x) -
-                atan2(firstLandmark.position.y - midLandmark.position.y,
-                        firstLandmark.position.x - midLandmark.position.x)
-          var degrees = radians * 180.0 / .pi
-          degrees = abs(degrees) // Angle should never be negative
-          if degrees > 180.0 {
-              degrees = 360.0 - degrees // Always get the acute representation of the angle
-          }
-          return degrees
-      }
+        firstLandmark: Joint,
+        midLandmark: Joint,
+        lastLandmark: Joint
+    ) -> CGFloat {
+        let radians: CGFloat =
+        atan2(lastLandmark.position.y - midLandmark.position.y,
+              lastLandmark.position.x - midLandmark.position.x) -
+        atan2(firstLandmark.position.y - midLandmark.position.y,
+              firstLandmark.position.x - midLandmark.position.x)
+        var degrees = radians * 180.0 / .pi
+        degrees = abs(degrees) // Angle should never be negative
+        if degrees > 180.0 {
+            degrees = 360.0 - degrees // Always get the acute representation of the angle
+        }
+        return degrees
+    }
     
     
     
@@ -424,8 +427,8 @@ class PoseImageView: UIImageView {
 }
 
 extension UIImage {
-
-
+    
+    
     //上下反転
     func flipVertical() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
@@ -438,7 +441,7 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return flipHorizontalImage!
     }
-
+    
     //左右反転
     func flipHorizontal() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
@@ -451,5 +454,5 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return flipHorizontalImage!
     }
-
+    
 }

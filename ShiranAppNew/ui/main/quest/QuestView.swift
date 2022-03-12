@@ -19,7 +19,6 @@ struct QuestView: View{
     @State var neededStar: Int = 0//残りの星の必要な数
     @State var onVideo: Bool = false
     
-    
     var body: some View {
         NavigationView{
             if stage+1 == stageOnNow {
