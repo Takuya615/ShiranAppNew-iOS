@@ -1,10 +1,5 @@
-//
-//  Strings.swift
-//  ShiranAppNew
-//
-//  Created by user on 2022/02/19.
-//
 
+//＊PrivacyPolicyViewの文字列は未設定
 //import Foundation
 
 enum str: String {
@@ -21,8 +16,7 @@ enum str: String {
     case opinion = "ご意見"
     case reset = "リセット"
     case oneDayReset = "１日リセット"
-
-
+    
     case coachMarck2text = "カベに立てかけ、\n↓のSTARTをタップ\n（初回は時間が5秒だけです)"
     case back = "< Back"
     case ok = "OK"
@@ -31,6 +25,22 @@ enum str: String {
     case start = "START"
     case rest = "  きゅうけい"
     case score2 = "スコア"
+    case p = "p"
+    case co = "コ"
+    case m = "m"
+    case sec = "秒"
+    
+    case finishDayly = "(デイリー達成済み)"
+    case assist = "スケット補正　×"
+    case kill = "   たおした数　"
+    case rewardCoin = " 獲得コイン　"
+    case rewardDistance = " 移動距離 "
+    case rewardExp = "Exp 獲得 "
+    case questCompAll = " クエスト　コンプリート！"
+    case questComp066 = " 2/3　達成"
+    case questComp033 = " 1/3　達成"
+    case levelUp = "レベルアップ！！ "
+    case limitTime = "制限時間　"
     
     case questViewText1 = "あと⭐️"
     case questViewText2 = "コでステージ解放"

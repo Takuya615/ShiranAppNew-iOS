@@ -150,12 +150,12 @@ class DataCounter: ObservableObject {
     //リザルト画面３つ。　何もなし　デイリー　クエスト
     static func showScoreResult(view: VideoCameraView,score:Float,bonus:Float) -> UIAlertController{
         //saveData(score: Int(score))//スコアリストにセーブ（必要ない？？）
-        let title = "Score \(Int(score))p"
-        var message = "(デイリー達成済み)"
-        if bonus != 1.0 {message += "(\nスケット補正　×\(bonus))"}
+        let title = str.score.rawValue + String(Int(score)) + str.p.rawValue
+        var message = str.finishDayly.rawValue
+        if bonus != 1.0 {message += "\n" + str.assist.rawValue + String(Int(bonus))}
         let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
         //alert.view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+        let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
             view.isVideo = false
         })
@@ -165,7 +165,7 @@ class DataCounter: ObservableObject {
     static func showDailyResult(view: VideoCameraView,bonus:Float,killList:[boss]) -> (UIAlertController){
         let alert: UIAlertController = UIAlertController(title: "\n\n\n\n\n\n\n\n", message:  "",
                                                          preferredStyle:  UIAlertController.Style.alert)
-        let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+        let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
             view.isVideo = false
         })
@@ -174,7 +174,7 @@ class DataCounter: ObservableObject {
         var exp = 0
         var wid = 0
         let lav = UILabel(frame: CGRect(x: 10, y: 15, width: 200, height: 20))
-        lav.text = "   たおした数　\(killList.count)!!"
+        lav.text = str.kill.rawValue + String(killList.count)
         alert.view.addSubview(lav)
         
         for kill in killList {
@@ -226,21 +226,21 @@ class DataCounter: ObservableObject {
         var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
         
         switch qType {
-        case 0:title = "\n たおした数　\(qScore) コ\n"
-        case 1:title += "\n 獲得コイン　\(qScore) コ\n"
-        case 2:title = "\n スコア　\(qScore)p \n"
-        case 3,4:title += "\n移動距離 \(qScore)m\n"
+        case 0:title = "\n" + str.kill.rawValue + String(qScore) + str.co.rawValue + "\n"
+        case 1:title += "\n" + str.rewardCoin.rawValue + String(qScore) + str.co.rawValue + "\n"
+        case 2:title = "\n " + str.score2.rawValue + String(qScore) + str.p.rawValue + "\n"
+        case 3,4:title += "\n" + str.rewardDistance.rawValue + String(qScore) + str.m.rawValue + "\n"
         default:title = ""
         }
-        if qScore >= qGoal[2] {qsl[qNum] = 3;title += " クエスト　コンプリート！\n"}
-        else if qScore >= qGoal[1] {qsl[qNum] = 2;title += " 2/3　達成\n"}
-        else if qScore >= qGoal[0] {qsl[qNum] = 1;title += " 1/3　達成\n"}
+        if qScore >= qGoal[2] {qsl[qNum] = 3;title += str.questCompAll.rawValue + "\n"}
+        else if qScore >= qGoal[1] {qsl[qNum] = 2;title += str.questComp066.rawValue + "\n"}
+        else if qScore >= qGoal[0] {qsl[qNum] = 1;title += str.questComp033.rawValue + "\n"}
         
         UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
         UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
         UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
         alert.title = title
-        let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+        let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
             view.isVideo = false
         })
@@ -249,20 +249,20 @@ class DataCounter: ObservableObject {
     }
     static func showQuestResult2(view: VideoCameraView,qType: Int, qScore: Int) -> UIAlertController{
         let alert :UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
-        var title = "\n たおした数　\(qScore) \n"
+        var title = "\n" + str.kill.rawValue + String(qScore) + "\n"
         let qNum: Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
         let qGoal: [Int] = UserDefaults.standard.array(forKey: Keys.qGoal.rawValue) as! [Int]
         var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
         
-        if qScore >= qGoal[2] {qsl[qNum] = 3;title += " クエスト　コンプリート！\n"}
-        else if qScore >= qGoal[1] {qsl[qNum] = 2;title += " 2/3　達成\n"}
-        else if qScore >= qGoal[0] {qsl[qNum] = 1;title += " 1/3　達成\n"}
+        if qScore >= qGoal[2] {qsl[qNum] = 3;title += str.questCompAll.rawValue + "\n"}
+        else if qScore >= qGoal[1] {qsl[qNum] = 2;title += str.questComp066.rawValue + "\n"}
+        else if qScore >= qGoal[0] {qsl[qNum] = 1;title += str.questComp033.rawValue + "\n"}
         
         UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
         UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
         UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
         alert.title = title
-        let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+        let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
             view.isVideo = false
         })
@@ -323,10 +323,10 @@ class DataCounter: ObservableObject {
         let af = Float(exp+score-table[newLv-1]) / Float(table[newLv]-table[newLv-1])
         var message = ""
         if newLv == preLv{
-            message = "Exp 獲得 \(score)p "
+            message = str.rewardExp.rawValue + String(score) + str.p.rawValue
         }else{
             EventAnalytics.levelUp(level: newLv)
-            message = "レベルアップ！！ \(preLv) → \(newLv)"
+            message = str.levelUp.rawValue + String(preLv) + "→" + String(newLv)
         }
         
         return (af,message)
@@ -364,9 +364,9 @@ class DataCounter: ObservableObject {
         let after = Float(expTT+score-table[an-1]*2/3 ) / Float(table[an]*2/3 - table[an-1]*2/3 )// 0.0 - 1.0
         var text = ""
         if an == bn {
-            text = "制限時間　\(lastTime)秒"
+            text = str.limitTime.rawValue + String(lastTime) + str.sec.rawValue
         }else {
-            text = "\(lastTime)秒 → \(lastTime + (tt * (an-bn)))秒！！"
+            text = String(lastTime) + str.sec.rawValue + "→" + String(lastTime + (tt * (an-bn))) + str.sec.rawValue
         }
         //print("before\(before) ,after\(after) ,lebel \(an-bn)")
         UserDefaults.standard.set(lastTime + (tt * (an-bn)), forKey: Keys.taskTime.rawValue)
