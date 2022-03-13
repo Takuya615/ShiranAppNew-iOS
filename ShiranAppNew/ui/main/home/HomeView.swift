@@ -235,11 +235,90 @@ struct StatusView: View {
         
     }
 }
-
+struct StatusView2: View {
+    var body: some View {
+        let bounds = UIScreen.main.bounds
+        let w = bounds.width
+        let h = bounds.height
+        let xt = 1
+        let xp = 0
+        let yt = 1
+        let yp = 0
+        let ps = 20
+        let pr = ps / 2
+        
+        
+        let leftShoulder=CGPoint(x: w*0.6, y: h*0.25)
+        let rightShoulder=CGPoint(x: w*0.4, y: h*0.25)
+        let leftElbow=CGPoint(x: w*0.63, y: h*0.35)
+        let rightElbow=CGPoint(x: w*0.38, y: h*0.35)
+        let leftWrist=CGPoint(x: w*0.65, y: h*0.5)
+        let rightWrist=CGPoint(x: w*0.35, y: h*0.5)
+        let leftHip=CGPoint(x: w*0.58, y: h*0.5)
+        let rightHip=CGPoint(x: w*0.42, y: h*0.5)
+        let leftKnee=CGPoint(x: w*0.6, y: h*0.65)
+        let rightKnee=CGPoint(x: w*0.4, y: h*0.65)
+        let leftAnkle=CGPoint(x: w*0.6, y: h*0.75)
+        let rightAnkle=CGPoint(x: w*0.4, y: h*0.75)
+        
+        ZStack{
+            Path { path in
+                path.addLines([
+                    rightWrist,
+                    rightElbow,
+                    rightShoulder,
+                    leftShoulder,
+                    leftElbow,
+                    leftWrist
+                ])
+                path.addLines([
+                    rightAnkle,
+                    rightKnee,
+                    rightHip,
+                    leftHip,
+                    leftKnee,
+                    leftAnkle
+                ])
+                path.move(to: rightShoulder)
+                path.addLine(to: rightHip)
+                path.move(to: leftShoulder)
+                path.addLine(to: leftHip)
+                
+            }
+            .stroke(lineWidth: 2)
+            .fill(Color.green)
+            .frame(width: bounds.width, height: bounds.height)
+            
+            
+            Path { path in
+                path.addEllipse(in: CGRect(x:35*xt+xp-pr, y: 130*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:40*xt+xp-pr, y: 90*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:45*xt+xp-pr, y: 55*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:85*xt+xp-pr, y: 55*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:90*xt+xp-pr, y: 90*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:95*xt+xp-pr, y: 130*yt+yp-pr, width: ps, height: ps))
+                
+                
+                path.addEllipse(in: CGRect(x:50*xt+xp-pr, y: 200*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:50*xt+xp-pr, y: 160*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:50*xt+xp-pr, y: 120*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:80*xt+xp-pr, y: 120*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:80*xt+xp-pr, y: 160*yt+yp-pr, width: ps, height: ps))
+                path.addEllipse(in: CGRect(x:80*xt+xp-pr, y: 200*yt+yp-pr, width: ps, height: ps))
+            }
+            .fill(Color.yellow)
+            .frame(width: bounds.width, height: bounds.height)
+            
+            
+        }
+        
+        
+    }
+}
 
 struct CircleCheck_Previews: PreviewProvider {
     static var previews: some View {
-        StatusView()
+        StatusView2()
     }
 }
 

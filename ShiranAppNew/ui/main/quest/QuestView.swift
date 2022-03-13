@@ -89,7 +89,7 @@ struct QuestView: View{
                 setStage()
                 //if !self.appState.coachOpenQuest{dialogPresentation.show(content: .contentDetail4(isPresented: $dialogPresentation.isPresented))}
             })
-            .navigationTitle(str.stage.rawValue.rawValue + String(stageOnNow))
+            .navigationTitle(str.stage.rawValue + String(stageOnNow))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){

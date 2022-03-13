@@ -44,7 +44,7 @@ enum str: String {
 
     case doYouBuyIt = "このアイテムを購入しますか？？"
     case purchase = "購入"
-    case noManey = "お金が足りません..."
+    case noMoney = "お金が足りません..."
     case modoru = "もどる"
     
     case normal = "ノーマル"
