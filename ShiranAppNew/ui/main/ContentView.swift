@@ -37,6 +37,8 @@ struct ContentView: View {
             SettingView()
         }else if self.appState.isOpinionView{
             UserOpinionView()
+        }else if self.appState.isItemSelectView{
+            ItemSelectView()
         }else {
             ZStack{
                 if self.appState.coachMarkf { CoachMarkView() }

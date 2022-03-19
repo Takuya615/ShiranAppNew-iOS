@@ -47,6 +47,7 @@ class AppState: ObservableObject {
     @Published var isPlayerView = false
     @Published var isSettingView = false
     @Published var isOpinionView = false
+    @Published var isItemSelectView = false
     
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
     @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController -82

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C487DF427DF6D7C00D807E3 /* ItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */; };
 		7FAEDB78D8FD5FE373130AAA /* Pods_ShiranAppNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */; };
 		CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE04B411270C04AF00F21059 /* cheers.mp3 */; };
 		CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */; };
@@ -67,6 +68,7 @@
 		19952098D76C964EA17B04F0 /* Pods-ShiranAppNew-ShiranAppNewUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew-ShiranAppNewUITests.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew-ShiranAppNewUITests/Pods-ShiranAppNew-ShiranAppNewUITests.release.xcconfig"; sourceTree = "<group>"; };
 		242450BC5328E37D4F3BF182 /* Pods-ShiranAppNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew/Pods-ShiranAppNew.debug.xcconfig"; sourceTree = "<group>"; };
 		26A3157912BDEF62C9667874 /* Pods_ShiranAppNew_ShiranAppNewUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNew_ShiranAppNewUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelectView.swift; sourceTree = "<group>"; };
 		643182000FA48A12898BB36F /* Pods-ShiranAppNewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83D47980BB6380F61B6ED32E /* Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew-ShiranAppNewUITests/Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				CE71D98B27C08C6A00408AD7 /* app_detail */,
 				CE71D98A27C08C2600408AD7 /* privacyprolicy */,
 				CE71D98827C08BFC00408AD7 /* opinion */,
+				2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */,
 			);
 			path = settings;
 			sourceTree = "<group>";
@@ -594,6 +597,7 @@
 				CE71D99927C096FA00408AD7 /* CharacterView.swift in Sources */,
 				CE71D98F27C091BD00408AD7 /* Colors.swift in Sources */,
 				CE43D8BA26E1BC440067CDDB /* CoachMarks.swift in Sources */,
+				2C487DF427DF6D7C00D807E3 /* ItemSelectView.swift in Sources */,
 				CEE6FEF827571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel in Sources */,
 				CE71D99327C092BB00408AD7 /* QuestView.swift in Sources */,
 				CE54230826E6DF27002550D4 /* PoseImageView.swift in Sources */,

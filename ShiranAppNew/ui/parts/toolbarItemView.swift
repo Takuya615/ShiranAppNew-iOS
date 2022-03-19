@@ -70,22 +70,22 @@ struct toolbarItemView: View {
              }*/
             
             
-             Button(action: {
-             UserDefaults.standard.removeAll()
-             exit(0)
-             }) {
-                 Text(str.reset.rawValue)
-             Image(systemName: "shield")
-             }
-             
-             Button(action: {
-             let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-             UserDefaults.standard.set(LastTimeDay, forKey: Keys._LastTimeDay.rawValue)
-             }) {
-                 Text(str.oneDayReset.rawValue)
-             Image(systemName: "shield")
-             }
-             
+            Button(action: {
+                UserDefaults.standard.removeAll()
+                exit(0)
+            }) {
+                Text(str.reset.rawValue)
+                Image(systemName: "shield")
+            }
+            
+            Button(action: {
+                let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+                UserDefaults.standard.set(LastTimeDay, forKey: Keys._LastTimeDay.rawValue)
+            }) {
+                Text(str.oneDayReset.rawValue)
+                Image(systemName: "shield")
+            }
+            
             /*
              @IBAction func share() {
              //share(上の段)から遷移した際にシェアするアイテム
@@ -101,5 +101,4 @@ struct toolbarItemView: View {
         }
         .padding(EdgeInsets(top: 20, leading: 0, bottom: 8, trailing: 10))
     }
-    
 }
