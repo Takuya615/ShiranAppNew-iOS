@@ -10,7 +10,7 @@ import SwiftUI
 struct ItemSelectView: View {
     @EnvironmentObject var appState: AppState
     private var columns: [GridItem] = Array(repeating: .init(.flexible(minimum: 5), spacing: CGFloat(0.0) ), count: 3)
-    @State var setItem = "face1"
+    @State var setItem = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue) ?? ""
     
     var body: some View {
         let items = ["face1","face2","face3","face4","face5"]
@@ -31,6 +31,7 @@ struct ItemSelectView: View {
                     ForEach((0...4), id: \.self) { num in
                         Image(decorative: items[num])
                             .onTapGesture {
+                                UserDefaults.standard.set(items[num], forKey: Keys.itemFace.rawValue)
                                 setItem = items[num]
                             }
                     }

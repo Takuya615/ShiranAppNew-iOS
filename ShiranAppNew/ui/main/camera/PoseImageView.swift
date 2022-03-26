@@ -13,7 +13,7 @@ class PoseImageView: UIImageView {
     var gameStart = false
     var qScore = 0
     var qPlace:CGPoint = CGPoint(x: -100, y: 0)
-    
+    let headImage: String? = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue)
     
     
     /// A data structure used to describe a visual connection between two joints.
@@ -111,6 +111,7 @@ class PoseImageView: UIImageView {
             
             //drawText(image:frame,score: score, in: rendererContext.cgContext)
             changeSkin()
+            drawHead(circle: pose[.nose], in: rendererContext.cgContext)
             for segment in PoseImageView.jointSegments {
                 let jointA = pose[segment.jointA]
                 let jointB = pose[segment.jointB]
@@ -205,17 +206,19 @@ class PoseImageView: UIImageView {
     }
     
     private func drawHead(circle joint: Joint, in cgContext: CGContext) {
-        //if joint.name != .nose {return}
         jointRadius = 30
-        //cgContext.setFillColor(jointColor.cgColor)
-        cgContext.setStrokeColor(jointColor.cgColor)
-        let rectangle = CGRect(x: joint.position.x - jointRadius, y: joint.position.y - jointRadius,
-                               width: jointRadius * 2, height: jointRadius * 2)
-        cgContext.setLineWidth(9)
-        cgContext.strokeEllipse(in: rectangle)
-        cgContext.drawPath(using: .stroke)
+        guard let image: UIImage = UIImage(named: headImage ?? "") else {print("エラー1");return}
+        let fix: UIImage = CameraCommon.inversionImage(image: image)
+        guard let cg: CGImage = fix.cgImage else{print("エラー２"); return}
+        cgContext.saveGState()
+        let rectangle = CGRect(
+            x: Int(joint.position.x-CGFloat(cg.width/2)),
+            y: Int(joint.position.y-CGFloat(cg.height/2)),
+            width: cg.width,
+            height: cg.width)
+        cgContext.draw(cg, in: rectangle)
+        cgContext.restoreGState()
         jointRadius = 9
-        //val kadomaruShikaku = UIBezierPath(roundedRect: CGRect(x: 100, y: 100, width: 100, height: 100), cornerRadius: 10)
     }
     
     private func drawText(image: CGImage,score: CGFloat, in cgContext: CGContext){

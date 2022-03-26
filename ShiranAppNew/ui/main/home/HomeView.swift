@@ -13,30 +13,34 @@ struct HomeView: View{
     @State var isOpenSideMenu = false
     
     var body: some View {
+        let bounds = UIScreen.main.bounds
+        let width = bounds.width
+        let height = bounds.height
         NavigationView{
             VStack{
-                //                HStack{
-                //                    VStack{
-                //                        Text(str.count_retry.rawValue)
-                //                            .font(.system(size: 20, weight: .black, design: .default))
-                //                            .foregroundColor(.blue)
-                //
-                //                        Text(String(self.dataCounter.continuedRetryCounter))
-                //                            .font(.system(size: 100, weight: .black, design: .default))
-                //                            .frame(width: 170, height: 200, alignment: .center)
-                //                            .foregroundColor(.blue)
-                //                    }
-                //                    VStack{
-                //                        Text(str.count_continue.rawValue)
-                //                            .font(.system(size: 20, weight: .black, design: .default))
-                //                            .foregroundColor(.blue)
-                //                        Text(String(self.dataCounter.continuedDayCounter))
-                //                            .font(.system(size: 100, weight: .black, design: .default))
-                //                            .frame(width: 170, height: 200, alignment: .center)
-                //                            .foregroundColor(.blue)
-                //                    }
-                //                }
-                StatusView()
+                HStack{
+                    VStack{
+                        Text(str.count_retry.rawValue)
+                            .font(.system(size: 20, weight: .black, design: .default))
+                            .foregroundColor(.blue)
+                        
+                        Text(String(self.dataCounter.continuedRetryCounter))
+                            .font(.system(size: 50, weight: .black, design: .default))
+                            .frame(width: 100, height: 20, alignment: .center)
+                            .foregroundColor(.blue)
+                    }
+                    VStack{
+                        Text(str.count_continue.rawValue)
+                            .font(.system(size: 20, weight: .black, design: .default))
+                            .foregroundColor(.blue)
+                        Text(String(self.dataCounter.continuedDayCounter))
+                            .font(.system(size: 50, weight: .black, design: .default))
+                            .frame(width: 100, height: 20, alignment: .center)
+                            .foregroundColor(.blue)
+                    }
+                }
+                StatusView(w: width/2, h: height*0.7)
+                    .frame(width: width/2, height: height*0.7, alignment: .center)
                 
                 if self.appState.showWanWan {
                     Image("char_dog")
@@ -83,36 +87,47 @@ struct HomeView: View{
 
 
 struct StatusView: View {
+    var w: CGFloat
+    var h: CGFloat
     @EnvironmentObject var appState: AppState
+    
     var body: some View {
         
         let faceImage: String = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue) ?? ""
-        let gloabImage: String = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue) ?? ""
-        let shoseImage: String = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue) ?? ""
-        let jointColor: String = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue) ?? ""
-        let jColor: String = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue) ?? ""
-        
-        let bounds = UIScreen.main.bounds
-        let w = bounds.width
-        let h = bounds.height
+//        let bounds = UIScreen.main.bounds
+//        let w = bounds.width
+//        let h = bounds.height
         let ps: CGFloat = 20
         let c = ps/2
         let lw: CGFloat = 5
-        let leftShoulder=CGPoint(x: w*0.61, y: h*0.38)
-        let rightShoulder=CGPoint(x: w*0.39, y: h*0.38)
-        let leftElbow=CGPoint(x: w*0.7, y: h*0.48)
-        let rightElbow=CGPoint(x: w*0.3, y: h*0.48)
-        let leftWrist=CGPoint(x: w*0.75, y: h*0.58)
-        let rightWrist=CGPoint(x: w*0.25, y: h*0.58)
-        let leftHip=CGPoint(x: w*0.58, y: h*0.58)
-        let rightHip=CGPoint(x: w*0.42, y: h*0.58)
-        let leftKnee=CGPoint(x: w*0.6, y: h*0.71)
-        let rightKnee=CGPoint(x: w*0.4, y: h*0.71)
-        let leftAnkle=CGPoint(x: w*0.6, y: h*0.83)
-        let rightAnkle=CGPoint(x: w*0.4, y: h*0.83)
+        let leftShoulder=CGPoint(x: w*0.71, y: h*0.25)
+        let rightShoulder=CGPoint(x: w*0.29, y: h*0.25)
+        let leftElbow=CGPoint(x: w*0.8, y: h*0.38)
+        let rightElbow=CGPoint(x: w*0.2, y: h*0.38)
+        let leftWrist=CGPoint(x: w*0.85, y: h*0.51)
+        let rightWrist=CGPoint(x: w*0.15, y: h*0.51)
+        let leftHip=CGPoint(x: w*0.68, y: h*0.55)
+        let rightHip=CGPoint(x: w*0.32, y: h*0.55)
+        let leftKnee=CGPoint(x: w*0.7, y: h*0.7)
+        let rightKnee=CGPoint(x: w*0.3, y: h*0.7)
+        let leftAnkle=CGPoint(x: w*0.7, y: h*0.9)
+        let rightAnkle=CGPoint(x: w*0.3, y: h*0.9)
         
         
         ZStack{
+            Image(decorative:faceImage)
+                .resizable()
+                .offset(x: 3, y:-h*0.36)
+                .frame(width: w/3, height: w/3, alignment: .center)
+            
+            Rectangle()
+                .onTapGesture {
+                    self.appState.isItemSelectView = true
+                }
+                .foregroundColor(Color.gray.opacity(0.1))
+                .frame(width:w*0.9, height: h*0.9)
+            
+            
             Path { path in
                 path.addLines([
                     rightWrist,
@@ -160,20 +175,6 @@ struct StatusView: View {
             .fill(Color.yellow)
             .frame(width: w, height: h)
             
-            Image(decorative: "face2")//faceImage)
-                .resizable()
-                .offset(x: 2, y:-h*0.18)
-                .frame(width: 70.0, height: 70.0, alignment: .center)
-            
-            Rectangle()
-                .onTapGesture {
-                    self.appState.isItemSelectView = true
-                }
-                .foregroundColor(Color.black.opacity(0.1))
-                .frame(width:w/2, height: h*0.6)
-                .offset(x: 0, y: h*0.05)
-
-            
         }
         
         
@@ -182,7 +183,40 @@ struct StatusView: View {
 
 
 struct CircleCheck_Previews: PreviewProvider {
+    @EnvironmentObject var dataCounter: DataCounter
     static var previews: some View {
-        StatusView()
+        let bounds = UIScreen.main.bounds
+        let w = bounds.width
+        let h = bounds.height
+        //StatusView()
+        VStack{
+            HStack{
+                VStack{
+                    Text(str.count_retry.rawValue)
+                        .font(.system(size: 20, weight: .black, design: .default))
+                        .foregroundColor(.blue)
+                    
+                    Text(String("0"))
+                        .font(.system(size: 50, weight: .black, design: .default))
+                        .frame(width: 100, height: 20, alignment: .center)
+                        .foregroundColor(.blue)
+                }
+                VStack{
+                    Text(str.count_continue.rawValue)
+                        .font(.system(size: 20, weight: .black, design: .default))
+                        .foregroundColor(.blue)
+                    Text(String("0"))
+                        .font(.system(size: 50, weight: .black, design: .default))
+                        .frame(width: 100, height: 20, alignment: .center)
+                        .foregroundColor(.blue)
+                }
+            }
+            
+            StatusView(w: w/2, h: h/2)
+                .frame(width: w/2, height: h/2, alignment: .center)
+            
+            
+        }
+        
     }
 }
