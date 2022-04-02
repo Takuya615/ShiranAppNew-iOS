@@ -22,7 +22,7 @@ struct QuestViewModel {
     
     static func showQuests(stageOnNow: Int) -> [Quest]{
         let quests:[Quest] = [
-            Quest(number: 1,type: 1,goal: [4,7,9],time: 10,name: "コイン集め", text: "制限時間以内に、画面上のコインを5コ集める"),
+            Quest(number: 1,type: 1,goal: [3,4,5],time: 10,name: "コイン集め", text: "制限時間以内に、画面上のコインを5コ集める"),
             Quest(number: 2,type: 2,goal: [100,230,350],time: 10,name: "とにかく動け！", text: "制限時間以内に、スコア 350以上のはげしい運動をする"),
             
             

@@ -110,8 +110,9 @@ class PoseImageView: UIImageView {
             draw(image: frame, in: rendererContext.cgContext)
             
             //drawText(image:frame,score: score, in: rendererContext.cgContext)
+            
             changeSkin()
-            drawHead(circle: pose[.nose], in: rendererContext.cgContext)
+            drawHead(pose: pose,size: dstImageSize, in: rendererContext.cgContext)
             for segment in PoseImageView.jointSegments {
                 let jointA = pose[segment.jointA]
                 let jointB = pose[segment.jointB]
@@ -165,8 +166,7 @@ class PoseImageView: UIImageView {
     ///     - cgContext: The rendering context.
     private func draw(image: CGImage, in cgContext: CGContext) {
         cgContext.saveGState()
-        // The given image is assumed to be upside down; therefore, the context
-        // is flipped before rendering the image.
+        // The given image is assumed to be upside down; therefore, the context is flipped before rendering the image.
         cgContext.scaleBy(x: 1.0, y: -1.0)
         // Render the image, adjusting for the scale transformation performed above.
         let drawingRect = CGRect(x: 0, y: -image.height, width: image.width, height: image.height)
@@ -197,7 +197,7 @@ class PoseImageView: UIImageView {
     ///     - circle: A valid joint whose position is used as the circle's center.
     ///     - cgContext: The rendering context.
     private func draw(circle joint: Joint, in cgContext: CGContext) {
-        if joint.name == .nose {return}
+        if joint.name == .nose || joint.name == .rightEar || joint.name == .leftEar {return}
         cgContext.setFillColor(jointColor.cgColor)
         let rectangle = CGRect(x: joint.position.x - jointRadius, y: joint.position.y - jointRadius,
                                width: jointRadius * 2, height: jointRadius * 2)
@@ -205,20 +205,21 @@ class PoseImageView: UIImageView {
         cgContext.drawPath(using: .fill)
     }
     
-    private func drawHead(circle joint: Joint, in cgContext: CGContext) {
-        jointRadius = 30
-        guard let image: UIImage = UIImage(named: headImage ?? "") else {print("エラー1");return}
-        let fix: UIImage = CameraCommon.inversionImage(image: image)
-        guard let cg: CGImage = fix.cgImage else{print("エラー２"); return}
+    private func drawHead(pose: Pose,size: CGSize, in cgContext: CGContext) {
+        //jointRadius = 30
+        guard let image: UIImage = UIImage(named: headImage ?? "") else {return}
+        guard let cg: CGImage = image.cgImage else {return}
+        let long = abs(pose.joints[.rightShoulder]!.position.x - pose.joints[.leftShoulder]!.position.x)*1.5
         cgContext.saveGState()
+        cgContext.scaleBy(x: 1.0, y: -1.0)//reverce affect
         let rectangle = CGRect(
-            x: Int(joint.position.x-CGFloat(cg.width/2)),
-            y: Int(joint.position.y-CGFloat(cg.height/2)),
-            width: cg.width,
-            height: cg.width)
+            x: Int(pose[.nose].position.x-long/2),
+            y: -Int(pose[.nose].position.y+long/2),
+            width: Int(long),
+            height: Int(long))
         cgContext.draw(cg, in: rectangle)
         cgContext.restoreGState()
-        jointRadius = 9
+        //jointRadius = 9
     }
     
     private func drawText(image: CGImage,score: CGFloat, in cgContext: CGContext){
@@ -351,10 +352,11 @@ class PoseImageView: UIImageView {
         segmentColor = .red
         //cgContext.setFillColor(jointColor.cgColor)
         //cgContext.setStrokeColor(jointColor.cgColor)
-        let rectangle = CGRect(x: qPlace.x - jointRadius, y: qPlace.y - jointRadius,
+        let rectangle = CGRect(x: qPlace.x - jointRadius, y: -qPlace.y - jointRadius,
                                width: jointRadius * 3, height: jointRadius * 3)
         //let drawingRect = CGRect(x: 0, y: -image.height, width: image.width, height: image.height)
-        let cgImage = UIImage(named: "coin")?.flipVertical().cgImage
+        let cgImage = UIImage(named: "coin")?.cgImage//flipVertical().cgImage
+        cgContext.scaleBy(x: 1.0, y: -1.0)
         cgContext.draw(cgImage!, in: rectangle)
         //cgContext.restoreGState()
         
@@ -408,54 +410,55 @@ class PoseImageView: UIImageView {
         
         qPlace.y += sTime
         qScore += Int(sTime/10)
-        let back = UIImage(named: "skate_back")?.flipVertical().cgImage
-        let rectangle = CGRect(x:0, y:0, width:size.width, height:size.height/2)
+        let back = UIImage(named: "skate_back")?.cgImage//flipVertical().cgImage
+        let rectangle = CGRect(x:0, y:-size.height, width:size.width, height:size.height/2)
         cgContext.setAlpha(0.5)
+        cgContext.scaleBy(x: 1.0, y: -1.0)
         cgContext.draw(back!, in: rectangle)
         
         cgContext.setFillColor(CGColor(red: 0.9, green: 1.0, blue: 1.0, alpha: 0.8))
         cgContext.fill(CGRect(x: 0, y: size.height*1/2, width: size.width, height: size.height/2))
         
-        let cgImage = UIImage(named: "icerock")?.flipVertical().cgImage
+        let cgImage = UIImage(named: "icerock")?.cgImage//flipVertical().cgImage
         let si = 200-qPlace.y//画像サイズ
         //if size.height*2/3 > size.height - si - qPlace.y {print("リセット"); qPlace = CGPoint(x: 0,y: 0)}
         if si < 0 {qPlace = CGPoint(x: 0,y: 0); leftside = !leftside}
         var r = qPlace.y/2
         if !leftside { r = size.width - 200 + qPlace.y/2 }
-        let rectangle2 = CGRect(x: r , y:size.height-100 - qPlace.y, width:si, height:si)
+        let rectangle2 = CGRect(x: r , y:-size.height+100 + qPlace.y, width:si, height:si)
         cgContext.setAlpha(0.9)
         cgContext.draw(cgImage!, in: rectangle2)
     }
     
 }
-
-extension UIImage {
-    
-    
-    //上下反転
-    func flipVertical() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-        let imageRef = self.cgImage
-        let context = UIGraphicsGetCurrentContext()
-        context?.translateBy(x: 0, y:  0)
-        context?.scaleBy(x: 1.0, y: 1.0)
-        context?.draw(imageRef!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        let flipHorizontalImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return flipHorizontalImage!
-    }
-    
-    //左右反転
-    func flipHorizontal() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-        let imageRef = self.cgImage
-        let context = UIGraphicsGetCurrentContext()
-        context?.translateBy(x: size.width, y:  size.height)
-        context?.scaleBy(x: -1.0, y: -1.0)
-        context?.draw(imageRef!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        let flipHorizontalImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return flipHorizontalImage!
-    }
-    
-}
+//
+//extension UIImage {
+//
+//
+//    //上下反転
+//    func flipVertical() -> UIImage {
+//        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+//        let imageRef = self.cgImage
+//        let context = UIGraphicsGetCurrentContext()
+//        context?.translateBy(x: 0, y:  0)
+//        context?.scaleBy(x: 1.0, y: 1.0)
+//        context?.draw(imageRef!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+//        let flipHorizontalImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return flipHorizontalImage!
+//    }
+//
+//    //左右反転
+//    func flipHorizontal() -> UIImage {
+//        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+//        let imageRef = self.cgImage
+//        let context = UIGraphicsGetCurrentContext()
+//        context?.translateBy(x: size.width, y:  size.height)
+//        context?.scaleBy(x: -1.0, y: -1.0)
+//        context?.draw(imageRef!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+//        let flipHorizontalImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return flipHorizontalImage!
+//    }
+//
+//}

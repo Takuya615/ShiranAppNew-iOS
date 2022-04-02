@@ -49,7 +49,7 @@ struct Pose {
     private(set) var joints: [Joint.Name: Joint] = [
         .nose: Joint(name: .nose),
         //.leftEye: Joint(name: .leftEye),
-        //.leftEar: Joint(name: .leftEar),
+        .leftEar: Joint(name: .leftEar),
         .leftShoulder: Joint(name: .leftShoulder),
         .leftElbow: Joint(name: .leftElbow),
         .leftWrist: Joint(name: .leftWrist),
@@ -57,7 +57,7 @@ struct Pose {
         .leftKnee: Joint(name: .leftKnee),
         .leftAnkle: Joint(name: .leftAnkle),
         //.rightEye: Joint(name: .rightEye),
-        //.rightEar: Joint(name: .rightEar),
+        .rightEar: Joint(name: .rightEar),
         .rightShoulder: Joint(name: .rightShoulder),
         .rightElbow: Joint(name: .rightElbow),
         .rightWrist: Joint(name: .rightWrist),
