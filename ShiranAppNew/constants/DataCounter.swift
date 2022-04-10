@@ -235,7 +235,7 @@ class DataCounter: ObservableObject {
         if qScore >= qGoal[2] {qsl[qNum] = 3;title += str.questCompAll.rawValue + "\n"}
         else if qScore >= qGoal[1] {qsl[qNum] = 2;title += str.questComp066.rawValue + "\n"}
         else if qScore >= qGoal[0] {qsl[qNum] = 1;title += str.questComp033.rawValue + "\n"}
-        
+        print("クエストリスト更新\(qsl)")
         UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
         UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
         UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
@@ -257,7 +257,7 @@ class DataCounter: ObservableObject {
         if qScore >= qGoal[2] {qsl[qNum] = 3;title += str.questCompAll.rawValue + "\n"}
         else if qScore >= qGoal[1] {qsl[qNum] = 2;title += str.questComp066.rawValue + "\n"}
         else if qScore >= qGoal[0] {qsl[qNum] = 1;title += str.questComp033.rawValue + "\n"}
-        
+        print("クエストリスト更新\(qsl)")
         UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
         UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
         UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)

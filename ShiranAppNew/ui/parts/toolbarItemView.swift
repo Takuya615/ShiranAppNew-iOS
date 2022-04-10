@@ -72,6 +72,7 @@ struct toolbarItemView: View {
             
             Button(action: {
                 UserDefaults.standard.removeAll()
+                UserDefaults.standard.set(400, forKey: Keys.coin.rawValue)
                 exit(0)
             }) {
                 Text(str.reset.rawValue)

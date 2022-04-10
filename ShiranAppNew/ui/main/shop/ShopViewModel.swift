@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 
-struct Skin: Identifiable {
-    var id = UUID()     // ユニークなIDを自動で設定
+struct Skin: Identifiable,Codable {
+    var id: Int//String = "aa"//UUID()     // ユニークなIDを自動で設定
     var name: String
     var image: String
-    var num: Int
     var coin: Int
-    
+    var x: CGFloat?
+    var y: CGFloat?
 }
 
 struct ShopViewModel{
@@ -27,32 +27,55 @@ struct ShopViewModel{
         return true
     }
     
-    static func buy(article:Skin){
+    static func buy(article:Skin) -> Int{
         var coin = UserDefaults.standard.integer(forKey: Keys.coin.rawValue)
         coin -= article.coin
-        var items: [String] = UserDefaults.standard.array(forKey: Keys.yourItem.rawValue) as! [String]
-        items.append(article.name)
+        var items: [Int] = UserDefaults.standard.array(forKey: Keys.yourItem.rawValue) as? [Int] ?? [] as [Int]
+        items.append(article.id)
         UserDefaults.standard.set(coin, forKey: Keys.coin.rawValue)
         UserDefaults.standard.set(items, forKey: Keys.yourItem.rawValue)
-        UserDefaults.standard.set(article.image, forKey: Keys.itemFace.rawValue)
+        UserDefaults.standard.setEncoded(article,forKey: Keys.selectSkin.rawValue)
+        return coin
     }
     
+    
+    
     static func itemPrice(article:Skin) -> Int{
-        let items: [String] = UserDefaults.standard.array(forKey: Keys.yourItem.rawValue) as? [String] ?? [] as [String]
-        for item in items {
-            if item == article.name {
-                return 0
-            }
-        }
+        //        let items: [Skin] = UserDefaults.standard.array(forKey: Keys.yourItem.rawValue) as? [Skin] ?? [] as [Skin]
+        //        for item in items {
+        //            if item == article.name {
+        //                return 0
+        //            }
+        //        }
         return article.coin
     }
     
-    static let skins:[Skin] = [
-        Skin(name: "face1",image: "face1",num: 001,coin: 55),
-        Skin(name: "face2",image: "face2",num: 002,coin: 11),
-        Skin(name: "face3",image: "face3",num: 003,coin: 22),
-        Skin(name: "face4",image: "face4",num: 004,coin: 33),
-        Skin(name: "face5",image: "face5",num: 005,coin: 44),
-        
+    static func getMoney(coin:Int){
+        UserDefaults.standard.set(coin, forKey: Keys.coin.rawValue)
+    }
+    
+    static var skins: [Skin] = [
+        Skin(id: 0,name: "item1",image: "item1",coin: 55,y: 2.0),
+        Skin(id: 1,name: "item2",image: "item2",coin: 11,y: 3.0),
+        Skin(id: 2,name: "item3",image: "item3",coin: 22,y: 4.0),
+        Skin(id: 3,name: "item4",image: "item4",coin: 33,y: -2.0),
+        Skin(id: 4,name: "item5",image: "item5",coin: 44,y: -4.0),
     ]
+    
+    static func getSkins() -> [Skin]{
+        guard let gotItems: [Int] = UserDefaults.standard.array(forKey: Keys.yourItem.rawValue )as? [Int] else {return skins}
+        var sList = skins
+        var count = 0
+//        print("ああああ")
+//        print(gotItems)
+//        print(gotItems.sorted())
+        for num in gotItems.sorted() {
+//            print(num)
+//            print("->")
+//            print(num-count)
+            sList.remove(at: num-count)
+            count += 1
+        }
+        return sList
+    }
 }

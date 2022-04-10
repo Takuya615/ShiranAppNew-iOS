@@ -8,6 +8,19 @@
 import Foundation
 enum Keys: String {
     // Key
+    
+    case firstUseBounus = "getDiamonds"
+    
+    //tutorial
+    case CoachMark1 = "CoachMark1"
+    case CoachMark2 = "CoachMark2"
+    case CoachMark3 = "CoachMark3"
+    case CoachMark4 = "CoachMark4"
+    case OpenQuest = "OpenQuest"
+    case OpenChar = "OpenChar"
+    case OpenShop = "OpenShop"
+    case CoachMarkf = "CoachMarkf"
+    
     case daylyState = "DailyState"
     case totalDay = "totalDay"
     case continuedDay = "cDay"
@@ -30,13 +43,17 @@ enum Keys: String {
     case damage = "BOSS_Damege"
     case myName = "MyName"
     
+    //quest
     case questNum = "QuestNumber"
     case questType = "QuestType"
     case qGoal = "QuestGoalScore"
     case qTime = "QuestTime"
     case qsl = "QuestStarsList"
+    case updatedStage = "updatedStage"
+    
+    //skin
     case skin = "SkinNumber"
-    case yourItem = "YourItem"
-    case itemFace = "ItemFace"
+    case yourItem = "YourItems"
+    case selectSkin = "SelectSkin"
     
 }

@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		2C487DF427DF6D7C00D807E3 /* ItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */; };
 		2C7BA19427EE99C80016D3B7 /* QuestCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */; };
-		2C90999727E6DC1F00B3EF6D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90999627E6DC1F00B3EF6D /* Extension.swift */; };
 		2C90999927E85F1B00B3EF6D /* VideoCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */; };
+		2CBE56D32801C23400273DF1 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBE56D22801C23400273DF1 /* Extension.swift */; };
 		7FAEDB78D8FD5FE373130AAA /* Pods_ShiranAppNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */; };
 		CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE04B411270C04AF00F21059 /* cheers.mp3 */; };
 		CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */; };
@@ -73,8 +73,8 @@
 		26A3157912BDEF62C9667874 /* Pods_ShiranAppNew_ShiranAppNewUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNew_ShiranAppNewUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelectView.swift; sourceTree = "<group>"; };
 		2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCameraViewModel.swift; sourceTree = "<group>"; };
-		2C90999627E6DC1F00B3EF6D /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCameraViewModel.swift; sourceTree = "<group>"; };
+		2CBE56D22801C23400273DF1 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		643182000FA48A12898BB36F /* Pods-ShiranAppNewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83D47980BB6380F61B6ED32E /* Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew-ShiranAppNewUITests/Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 				CE71D97A27C081C000408AD7 /* Incentive.swift */,
 				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
 				CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */,
-				2C90999627E6DC1F00B3EF6D /* Extension.swift */,
+				2CBE56D22801C23400273DF1 /* Extension.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -606,13 +606,13 @@
 				CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */,
 				CE43D8B926E1BC440067CDDB /* VideoCameraView.swift in Sources */,
 				CE71D99927C096FA00408AD7 /* CharacterView.swift in Sources */,
-				2C90999727E6DC1F00B3EF6D /* Extension.swift in Sources */,
 				CE71D98F27C091BD00408AD7 /* Colors.swift in Sources */,
 				CE43D8BA26E1BC440067CDDB /* CoachMarks.swift in Sources */,
 				2C487DF427DF6D7C00D807E3 /* ItemSelectView.swift in Sources */,
 				CEE6FEF827571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel in Sources */,
 				CE71D99327C092BB00408AD7 /* QuestView.swift in Sources */,
 				CE54230826E6DF27002550D4 /* PoseImageView.swift in Sources */,
+				2CBE56D32801C23400273DF1 /* Extension.swift in Sources */,
 				CE54231426E6DF27002550D4 /* PoseBuilderConfiguration.swift in Sources */,
 				CE54231726E6DF27002550D4 /* PoseNetInput.swift in Sources */,
 				CE54230D26E6DF27002550D4 /* CGImage+Extension.swift in Sources */,

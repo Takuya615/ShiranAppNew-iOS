@@ -8,6 +8,14 @@
 import Foundation
 import SwiftUI
 
+struct QuestAlertItem: Identifiable {
+    var id = UUID()
+    var title: Text
+    var message: Text
+    var primary : Alert.Button
+    var secondary: Alert.Button
+}
+
 struct Quest: Identifiable {
     var id = UUID()     // ユニークなIDを自動で設定¥
     var number: Int
@@ -19,6 +27,28 @@ struct Quest: Identifiable {
 }
 
 struct QuestViewModel {
+    
+    static func getQuestAlertItem(item: Quest,appState: AppState) -> QuestAlertItem{
+        return QuestAlertItem(
+            title: Text(item.name),
+            message: Text(item.text),
+            primary: Alert.Button.cancel(Text(str.quite.rawValue)),
+            secondary: Alert.Button.default(
+                Text(str.challenge.rawValue),
+                action: {
+                    UserDefaults.standard.set(item.number, forKey: Keys.questNum.rawValue)
+                    UserDefaults.standard.set(item.type,forKey: Keys.questType.rawValue)
+                    UserDefaults.standard.set(item.goal, forKey: Keys.qGoal.rawValue)
+                    UserDefaults.standard.set(item.time, forKey: Keys.qTime.rawValue)
+                    EventAnalytics.questDone()
+                    if item.type == -1 {
+                        appState.isVideo = true
+                    }else{
+                        appState.isQuest = true
+                    }
+                }
+            ))
+    }
     
     static func showQuests(stageOnNow: Int) -> [Quest]{
         let quests:[Quest] = [

@@ -42,12 +42,16 @@ enum str: String {
     case levelUp = "レベルアップ！！ "
     case limitTime = "制限時間　"
     
+    //questView
     case questViewText1 = "あと⭐️"
     case questViewText2 = "コでステージ解放"
     case stage = "ステージ"
     case tryChallenge = "チャレンジしますか？"
     case quite = "やめる"
     case challenge = "チャレンジ"
+    
+    //shopView
+    case noItems = "現在アイテムはありません…"
     
     case characterViewText1 = "レベル"
     case characterViewText2 = "で解放"

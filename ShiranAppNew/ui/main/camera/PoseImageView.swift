@@ -13,8 +13,7 @@ class PoseImageView: UIImageView {
     var gameStart = false
     var qScore = 0
     var qPlace:CGPoint = CGPoint(x: -100, y: 0)
-    let headImage: String? = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue)
-    
+    let selectSkin: Skin? = UserDefaults.standard.decodedObject(Skin.self, forKey:Keys.selectSkin.rawValue)
     
     /// A data structure used to describe a visual connection between two joints.
     struct JointSegment {
@@ -207,16 +206,22 @@ class PoseImageView: UIImageView {
     
     private func drawHead(pose: Pose,size: CGSize, in cgContext: CGContext) {
         //jointRadius = 30
-        guard let image: UIImage = UIImage(named: headImage ?? "") else {return}
+        //guard let image: UIImage = UIImage(named: headImage ?? "") else {return}
+        guard let head: Skin = selectSkin else {return}
+        guard let image: UIImage = UIImage(named: head.image) else {return}
+        let ix:CGFloat = head.x ?? 1.0
+        let iy:CGFloat = head.y ?? 1.0
         guard let cg: CGImage = image.cgImage else {return}
-        let long = abs(pose.joints[.rightShoulder]!.position.x - pose.joints[.leftShoulder]!.position.x)*1.5
+        let long:CGFloat = abs(pose.joints[.rightShoulder]!.position.x - pose.joints[.leftShoulder]!.position.x)*1.5
         cgContext.saveGState()
         cgContext.scaleBy(x: 1.0, y: -1.0)//reverce affect
         let rectangle = CGRect(
-            x: Int(pose[.nose].position.x-long/2),
-            y: -Int(pose[.nose].position.y+long/2),
-            width: Int(long),
-            height: Int(long))
+            x: pose[.nose].position.x-long/2*ix,
+            y: -pose[.nose].position.y+long/2*iy,
+            width: long,
+            height: long
+        )
+        
         cgContext.draw(cg, in: rectangle)
         cgContext.restoreGState()
         //jointRadius = 9

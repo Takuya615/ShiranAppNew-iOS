@@ -93,10 +93,10 @@ struct StatusView: View {
     
     var body: some View {
         
-        let faceImage: String = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue) ?? ""
-//        let bounds = UIScreen.main.bounds
-//        let w = bounds.width
-//        let h = bounds.height
+        let faceImage: String = UserDefaults.standard.decodedObject(Skin.self, forKey: Keys.selectSkin.rawValue)?.image ?? ""
+        //        let bounds = UIScreen.main.bounds
+        //        let w = bounds.width
+        //        let h = bounds.height
         let ps: CGFloat = 20
         let c = ps/2
         let lw: CGFloat = 5
@@ -115,11 +115,12 @@ struct StatusView: View {
         
         
         ZStack{
-            Image(decorative:faceImage)
-                .resizable()
-                .offset(x: 3, y:-h*0.36)
-                .frame(width: w/3, height: w/3, alignment: .center)
-            
+            if !faceImage.isEmpty{
+                Image(decorative:faceImage)
+                    .resizable()
+                    .offset(x: 3, y:-h*0.36)
+                    .frame(width: w/3, height: w/3, alignment: .center)
+            }
             Rectangle()
                 .onTapGesture {
                     self.appState.isItemSelectView = true
@@ -214,9 +215,6 @@ struct CircleCheck_Previews: PreviewProvider {
             
             StatusView(w: w/2, h: h/2)
                 .frame(width: w/2, height: h/2, alignment: .center)
-            
-            
         }
-        
     }
 }

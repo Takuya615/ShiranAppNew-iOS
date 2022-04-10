@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         FirebaseApp.configure()
-        
         return true
     }
 
@@ -49,18 +48,31 @@ class AppState: ObservableObject {
     @Published var isOpinionView = false
     @Published var isItemSelectView = false
     
-    @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: "CoachMark1")//Save on CoachMarks-37
-    @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: "CoachMark2")//Save on ViewController -82
-    @Published var coachMark3: Bool = UserDefaults.standard.bool(forKey: "CoachMark3")
-    @Published var coachMark4: Bool = UserDefaults.standard.bool(forKey: "CoachMark4")
-    @Published var coachOpenQuest: Bool = UserDefaults.standard.bool(forKey: "OpenQuest")
-    @Published var coachOpenChar: Bool = UserDefaults.standard.bool(forKey: "OpenChar")
-    @Published var coachOpenShop: Bool = UserDefaults.standard.bool(forKey: "OpenShop")
-    @Published var coachMarkf: Bool = UserDefaults.standard.bool(forKey: "CoachMarkf")
+    @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMark1.rawValue)//Save on CoachMarks-37
+    @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMark2.rawValue)//Save on ViewController -82
+    @Published var coachMark3: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMark3.rawValue)
+    @Published var coachMark4: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMark4.rawValue)
+    @Published var coachOpenQuest: Bool = UserDefaults.standard.bool(forKey: Keys.OpenQuest.rawValue)
+    @Published var coachOpenChar: Bool = UserDefaults.standard.bool(forKey: Keys.OpenChar.rawValue)
+    @Published var coachOpenShop: Bool = UserDefaults.standard.bool(forKey: Keys.OpenShop.rawValue)
+    @Published var coachMarkf: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMarkf.rawValue)
     
     @Published var showWanWan: Bool = false
-    @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: "getDiamonds")
+    @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: Keys.firstUseBounus.rawValue)
     init() {
+        if EventAnalytics.isDebag {
+            coachMark1 = true
+            UserDefaults.standard.set(true,forKey: Keys.CoachMark1.rawValue)//Save on CoachMarks-37
+            UserDefaults.standard.set(true,forKey: Keys.CoachMark2.rawValue)
+            UserDefaults.standard.set(true,forKey: Keys.CoachMark3.rawValue)
+            UserDefaults.standard.set(true,forKey: Keys.CoachMark4.rawValue)
+            UserDefaults.standard.set(true,forKey: Keys.OpenQuest.rawValue)
+            UserDefaults.standard.set(true,forKey: Keys.OpenChar.rawValue)
+            UserDefaults.standard.set(true,forKey: Keys.OpenShop.rawValue)
+            UserDefaults.standard.set(true,forKey: Keys.CoachMarkf.rawValue)
+        
+        }
+        
         if !coachMark1 {
             isVideoPlayer = true
             UserDefaults.standard.set(2, forKey: Keys.difficult.rawValue)

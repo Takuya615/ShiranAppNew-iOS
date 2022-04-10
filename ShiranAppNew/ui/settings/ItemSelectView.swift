@@ -10,39 +10,49 @@ import SwiftUI
 struct ItemSelectView: View {
     @EnvironmentObject var appState: AppState
     private var columns: [GridItem] = Array(repeating: .init(.flexible(minimum: 5), spacing: CGFloat(0.0) ), count: 3)
-    @State var setItem = UserDefaults.standard.string(forKey: Keys.itemFace.rawValue) ?? ""
+    @State var setItem = UserDefaults.standard.decodedObject(Skin.self, forKey: Keys.selectSkin.rawValue)?.image ?? ""
     
     var body: some View {
-        let items = ["face1","face2","face3","face4","face5"]
-        VStack {
-            HStack{
-                Button(action: {self.appState.isItemSelectView = false},
-                       label: {Text(str.back.rawValue).font(.system(size: 20))
-                })
+        let items: [Int] = UserDefaults.standard.array(forKey: Keys.yourItem.rawValue) as? [Int] ?? [] as [Int]
+        let skins = ShopViewModel.skins
+        if setItem.isEmpty {
+            VStack {
+                HStack{
+                    Button(action: {self.appState.isItemSelectView = false},
+                           label: {Text(str.back.rawValue).font(.system(size: 20))
+                    })
+                    Spacer()
+                }
+                Spacer()
+                Text(str.noItems.rawValue)
                 Spacer()
             }
-            
-            Image(decorative: setItem)//faceImage)
-                .resizable()
-                .frame(width: 100.0, height: 100.0, alignment: .center)
-            
-            ScrollView(.vertical) {
-                LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
-                    ForEach((0...4), id: \.self) { num in
-                        Image(decorative: items[num])
-                            .onTapGesture {
-                                UserDefaults.standard.set(items[num], forKey: Keys.itemFace.rawValue)
-                                setItem = items[num]
-                            }
+        }else{
+            VStack {
+                HStack{
+                    Button(action: {self.appState.isItemSelectView = false},
+                           label: {Text(str.back.rawValue).font(.system(size: 20))
+                    })
+                    Spacer()
+                }
+                Image(decorative: setItem)//faceImage)
+                    .resizable()
+                    .frame(width: 100.0, height: 100.0, alignment: .center)
+                ScrollView(.vertical) {
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
+                        ForEach((items), id: \.self) { num in
+                            Image(decorative: skins[num].image)
+                                .resizable()
+                                .frame(width: 100, height: 100, alignment: .center)
+                                .onTapGesture {
+                                    //UserDefaults.standard.set(skins[num].image, forKey: Keys.itemFace.rawValue)
+                                    UserDefaults.standard.setEncoded(skins[num], forKey: Keys.selectSkin.rawValue)
+                                    setItem = skins[num].image
+                                }
+                        }
                     }
                 }
             }
         }
-    }
-}
-
-struct ItemSelectView_Previews: PreviewProvider {
-    static var previews: some View {
-        ItemSelectView()
     }
 }
