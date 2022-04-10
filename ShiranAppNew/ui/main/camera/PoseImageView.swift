@@ -209,17 +209,17 @@ class PoseImageView: UIImageView {
         //guard let image: UIImage = UIImage(named: headImage ?? "") else {return}
         guard let head: Skin = selectSkin else {return}
         guard let image: UIImage = UIImage(named: head.image) else {return}
-        let ix:CGFloat = head.x ?? 1.0
-        let iy:CGFloat = head.y ?? 1.0
+        let ix:CGFloat = head.x ?? 0.0
+        let iy:CGFloat = head.y ?? 0.0
         guard let cg: CGImage = image.cgImage else {return}
         let long:CGFloat = abs(pose.joints[.rightShoulder]!.position.x - pose.joints[.leftShoulder]!.position.x)*1.5
         cgContext.saveGState()
         cgContext.scaleBy(x: 1.0, y: -1.0)//reverce affect
         let rectangle = CGRect(
-            x: pose[.nose].position.x-long/2*ix,
-            y: -pose[.nose].position.y+long/2*iy,
-            width: long,
-            height: long
+            x: Int(pose[.nose].position.x-long/2-long*ix),
+            y: -Int(pose[.nose].position.y+long/2+long*iy),
+            width: Int(long),
+            height: Int(long)
         )
         
         cgContext.draw(cg, in: rectangle)

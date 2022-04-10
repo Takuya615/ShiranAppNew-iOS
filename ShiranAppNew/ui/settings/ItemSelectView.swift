@@ -45,7 +45,6 @@ struct ItemSelectView: View {
                                 .resizable()
                                 .frame(width: 100, height: 100, alignment: .center)
                                 .onTapGesture {
-                                    //UserDefaults.standard.set(skins[num].image, forKey: Keys.itemFace.rawValue)
                                     UserDefaults.standard.setEncoded(skins[num], forKey: Keys.selectSkin.rawValue)
                                     setItem = skins[num].image
                                 }

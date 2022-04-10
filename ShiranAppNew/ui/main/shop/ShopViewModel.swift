@@ -55,11 +55,12 @@ struct ShopViewModel{
     }
     
     static var skins: [Skin] = [
-        Skin(id: 0,name: "item1",image: "item1",coin: 55,y: 2.0),
-        Skin(id: 1,name: "item2",image: "item2",coin: 11,y: 3.0),
-        Skin(id: 2,name: "item3",image: "item3",coin: 22,y: 4.0),
-        Skin(id: 3,name: "item4",image: "item4",coin: 33,y: -2.0),
-        Skin(id: 4,name: "item5",image: "item5",coin: 44,y: -4.0),
+        Skin(id: 0,name: "シルクハット",image: "face1",coin: 55,y: -0.5),
+        Skin(id: 1,name: "3Dメガネ",image: "face2",coin: 11,y: -0.1),
+        Skin(id: 2,name: "テディベア",image: "face3",coin: 22,y: -0.45),
+        Skin(id: 3,name: "ハット",image: "face4",coin: 33,y: -0.4),
+        Skin(id: 4,name: "アフロ",image: "face5",coin: 44,y: -0.4),
+        Skin(id: 5,name: "ちょんまげ",image: "face6",coin: 33,y: -0.3),
     ]
     
     static func getSkins() -> [Skin]{

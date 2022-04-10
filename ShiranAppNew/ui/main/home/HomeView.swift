@@ -190,31 +190,8 @@ struct CircleCheck_Previews: PreviewProvider {
         let w = bounds.width
         let h = bounds.height
         //StatusView()
-        VStack{
-            HStack{
-                VStack{
-                    Text(str.count_retry.rawValue)
-                        .font(.system(size: 20, weight: .black, design: .default))
-                        .foregroundColor(.blue)
-                    
-                    Text(String("0"))
-                        .font(.system(size: 50, weight: .black, design: .default))
-                        .frame(width: 100, height: 20, alignment: .center)
-                        .foregroundColor(.blue)
-                }
-                VStack{
-                    Text(str.count_continue.rawValue)
-                        .font(.system(size: 20, weight: .black, design: .default))
-                        .foregroundColor(.blue)
-                    Text(String("0"))
-                        .font(.system(size: 50, weight: .black, design: .default))
-                        .frame(width: 100, height: 20, alignment: .center)
-                        .foregroundColor(.blue)
-                }
-            }
+        StatusView(w: w/2, h: h/2)
+            .frame(width: w/2, height: h/2, alignment: .center)
             
-            StatusView(w: w/2, h: h/2)
-                .frame(width: w/2, height: h/2, alignment: .center)
-        }
     }
 }
