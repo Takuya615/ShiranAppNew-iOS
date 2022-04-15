@@ -11,6 +11,7 @@
 		2C7BA19427EE99C80016D3B7 /* QuestCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */; };
 		2C90999927E85F1B00B3EF6D /* VideoCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */; };
 		2CBE56D32801C23400273DF1 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBE56D22801C23400273DF1 /* Extension.swift */; };
+		2CCFAB7028090CCE00F68401 /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCFAB6F28090CCE00F68401 /* CameraModel.swift */; };
 		2CEBD2592802F13100A4CA45 /* Pictogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBD2582802F13100A4CA45 /* Pictogram.swift */; };
 		7FAEDB78D8FD5FE373130AAA /* Pods_ShiranAppNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */; };
 		CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE04B411270C04AF00F21059 /* cheers.mp3 */; };
@@ -76,6 +77,7 @@
 		2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCameraViewModel.swift; sourceTree = "<group>"; };
 		2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCameraViewModel.swift; sourceTree = "<group>"; };
 		2CBE56D22801C23400273DF1 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		2CCFAB6F28090CCE00F68401 /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		2CEBD2582802F13100A4CA45 /* Pictogram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pictogram.swift; sourceTree = "<group>"; };
 		643182000FA48A12898BB36F /* Pods-ShiranAppNewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,6 +327,7 @@
 				CE5422F326E6DF27002550D4 /* PoseImageView.swift */,
 				2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */,
 				2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */,
+				2CCFAB6F28090CCE00F68401 /* CameraModel.swift */,
 			);
 			path = camera;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				CE71D99527C096B800408AD7 /* QuestViewModel.swift in Sources */,
 				CE71D99F27C0974C00408AD7 /* HomeViewModel.swift in Sources */,
 				CE43D8CC26E1BC540067CDDB /* PrivacyPolicyView.swift in Sources */,
+				2CCFAB7028090CCE00F68401 /* CameraModel.swift in Sources */,
 				CE71D99B27C0971100408AD7 /* ShopView.swift in Sources */,
 				CE54230C26E6DF27002550D4 /* CGPoint+Extension.swift in Sources */,
 				CE1337A927DE3B10004AB1A8 /* toolbarItemView.swift in Sources */,

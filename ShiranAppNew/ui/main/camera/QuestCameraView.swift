@@ -7,13 +7,6 @@
 
 import SwiftUI
 import AVFoundation
-import Instructions
-import Vision
-import CoreML
-import UIKit
-import VideoToolbox
-import Firebase
-
 
 //カメラのビュー
 struct QuestCameraView: UIViewControllerRepresentable {
@@ -35,35 +28,7 @@ class QuestCameraViewController: UIViewController {
     private var model : QuestCameraViewModel!
     private var poseNet: PoseNet!
     private var currentFrame: CGImage?
-    // カメラからの入出力データをまとめるセッション
-    var session: AVCaptureSession!
-    // プレビューレイヤ
-    var videoPreviewLayer: AVCaptureVideoPreviewLayer!
-//    
-//    //var state: Int = DataCounter.setDailyState()//  diff.dayの数値
-//    let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
-//    
-//    var count = 0
-//    var recordButton: UIButton!
-//    var isRecording = false
-//    
-//    var scoreBoad: UILabel!
-//    var score:Float = 0.0
-//    var prePose: Pose! = Pose()
-//    var timesBonus: Float = 1.0
-//    var myPoseList: [Int] = []
-//    var friPoseList: [Int] = []
-//    var poseNum: Int = 0
-//    
-//    var time = 4
-//    var timer = Timer()
-//    var textTimer: UILabel!
-//    var countDown = true
-//    
-//    var exiteBoss: boss? = BOSS().isExist()
-//    var bossHPbar: UIProgressView!
-//    var bossImage: UIImageView!
-//    var killList: [boss] = []
+    private var camera: CameraModel!
     
     var questCameraView:QuestCameraView
     init(questCameraView:QuestCameraView) {
@@ -78,72 +43,29 @@ class QuestCameraViewController: UIViewController {
         super.viewDidLoad()
         do {
             poseNet = try PoseNet()
+            poseNet.delegate = self
+            camera = CameraModel(delegate: self)
             model = QuestCameraViewModel(_self: self)
         } catch {
             fatalError("Failed to load model. \(error.localizedDescription)")
         }
-        poseNet.delegate = self
         
     }
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-      UIApplication.shared.isIdleTimerDisabled = true  //この画面をスリープさせない。'
-        self.initCamera()
+        camera.setViewWillAppear()
+        model.setUpCaptureButton()
     }
     override func viewWillDisappear(_ animated: Bool) {
       super.viewWillDisappear(animated)
-      UIApplication.shared.isIdleTimerDisabled = false
+        camera.setViewWillDisappear()
     }
-    
-    /*override func viewDidAppear(_ animated: Bool) {
-        super .viewDidAppear(animated)
-        self.initCamera()
-    }*/
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+        camera.setViewDidDisappear()
         model.isRecording = false
         model.timer.invalidate()
-        self.session.stopRunning()
-        // メモリ解放
-        for output in self.session.outputs {
-            self.session.removeOutput(output as AVCaptureOutput)
-        }
-        for input in self.session.inputs {
-            self.session.removeInput(input as AVCaptureInput)
-        }
-        self.session = nil
-        
     }
-    private func initCamera() {
-        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else{return}
-        do {
-            let input = try AVCaptureDeviceInput(device: videoDevice)
-            let output: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
-            output.videoSettings = [kCVPixelBufferPixelFormatTypeKey : kCVPixelFormatType_32BGRA] as [String : Any]
-            output.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
-            output.alwaysDiscardsLateVideoFrames = true
-
-            self.session = AVCaptureSession()
-            self.session.sessionPreset = .medium
-            if self.session.canAddInput(input) && self.session.canAddOutput(output) {
-                self.session.addInput(input)
-                self.session.addOutput(output)
-
-                self.session.startRunning()
-                model.setUpCaptureButton()
-                // プレビュー開始
-                //self.startPreview()
-            }
-        }
-        catch _ {
-            print("error occurd")
-        }
-    }
-
-    
-    
 }
 
 extension QuestCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate{
