@@ -1,9 +1,3 @@
-//
-//  ViewController2.swift
-//  ShiranApp
-//
-//  Created by user on 2021/08/23.
-//
 
 import SwiftUI
 import AVFoundation
