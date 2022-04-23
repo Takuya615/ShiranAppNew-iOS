@@ -23,7 +23,6 @@ struct ShiranAppNewApp: App {
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
         FirebaseApp.configure()
         return true
     }
@@ -70,7 +69,7 @@ class AppState: ObservableObject {
             UserDefaults.standard.set(true,forKey: Keys.OpenChar.rawValue)
             UserDefaults.standard.set(true,forKey: Keys.OpenShop.rawValue)
             UserDefaults.standard.set(true,forKey: Keys.CoachMarkf.rawValue)
-        
+            UserDefaults.standard.set(2, forKey: Keys.difficult.rawValue)//初期化
         }
         
         if !coachMark1 {

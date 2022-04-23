@@ -4,13 +4,12 @@ import Foundation
 
 class VideoCameraViewModel{
     
-    
     let poseImageView = PoseImageView()
     private var poseNet: PoseNet!
     private var currentFrame: CGImage?
     
-    var state: Int = DataCounter.setDailyState()//  diff.dayの数値
-    let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
+    //var state: Int = DataCounter.setDailyState()//  diff.dayの数値
+    //let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
     
     var count = 0
     var recordButton: UIButton!
@@ -145,13 +144,9 @@ class VideoCameraViewModel{
     @objc func onClickRecordButton(sender: UIButton) {
         var Ring = false
         self.recordButton.isHidden = true
-        if self.state > 0 {
-            self.bossHPbar.isHidden = false
-            _self.view.backgroundColor =  UIColor.init(red: 255/255, green: 102/255, blue: 102/255, alpha: 80/100)
-        } else {
-            self.scoreBoad.isHidden = false
-            self.bossImage.isHidden = true
-        }
+        
+        self.bossHPbar.isHidden = false
+        _self.view.backgroundColor =  UIColor.init(red: 255/255, green: 102/255, blue: 102/255, alpha: 80/100)
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             if self.time == 0 {
                 if self.countDown{
@@ -168,24 +163,10 @@ class VideoCameraViewModel{
                     self.isRecording = false
                     self.poseImageView.gameStart = false// PoseImageView終了
                     timer.invalidate()//timerの終了
-                    if self.state > 0 {//　デイリー
-                        if self.qType == -1{
-                            let alert = DataCounter.showQuestResult2(view: self._self.videoCameraView, qType: 0, qScore: self.killList.count)
-                            //DataCounter.showDailyResult(view: self.videoCameraView, bonus: self.timesBonus, killList: self.killList)
-                            self._self.present(alert, animated: true, completion: nil)
-                            return
-                        }
-                        
-                        DataCounter.updateDate(diff: self.state)
-                        let alert = DataCounter.showDailyResult(view: self._self.videoCameraView, bonus: self.timesBonus, killList: self.killList)
-                        self._self.present(alert, animated: true, completion: nil)
-                        
-                    }else{
-                        let alert  = DataCounter.showScoreResult(view: self._self.videoCameraView,
-                                                                 score: self.score, bonus: self.timesBonus)
-                        self._self.present(alert, animated: true, completion: nil)
-                    }
-                     
+                    
+                    DataCounter.updateDate()
+                    let alert = DataCounter.showDailyResult(view: self._self.videoCameraView, bonus: self.timesBonus, killList: self.killList)
+                    self._self.present(alert, animated: true, completion: nil)
                 }
             }
             if self.countDown {
@@ -206,7 +187,6 @@ class VideoCameraViewModel{
     }
     
     func taskTime() -> Int{
-        if qType == -1 { return 60 }
         var taskTime: Int = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
         if taskTime < 5 {taskTime = 5}
         if taskTime > 240 {taskTime = 240}
@@ -261,10 +241,7 @@ class VideoCameraViewModel{
             difBonus = Float(difficult)
             jumpC = 2
         }
-        
     }
-    
-    
     
     
     //Extension

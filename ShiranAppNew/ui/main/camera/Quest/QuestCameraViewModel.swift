@@ -13,8 +13,9 @@ class QuestCameraViewModel{
     //var pD = OriginalPoseDetection()
     //var poseDetect = PoseDetectionModel()
     let poseImageView = PoseImageView()
+    let questRender = QuestRender()
     //private var poseNet: PoseNet!
-    private var currentFrame: CGImage?
+    //private var currentFrame: CGImage?
        
     //var state: Int = DataCounter.setDailyState()//  diff.dayの数値
     let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
@@ -35,20 +36,17 @@ class QuestCameraViewModel{
     var timer = Timer()
     var textTimer: UILabel!
     var countDown = true
-    
-    var exiteBoss: boss? = BOSS().isExist()
-    var bossHPbar: UIProgressView!
-    var bossImage: UIImageView!
-    var killList: [boss] = []
-    
+//
+//    var exiteBoss: boss? = BOSS().isExist()
+//    var bossHPbar: UIProgressView!
+//    var bossImage: UIImageView!
+//    var killList: [boss] = []
+//
     
     var _self :QuestCameraViewController
     init(_self :QuestCameraViewController){
         self._self = _self
     }
-    
-    
-    
     
     /*private func startPreview() {
      self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.session)
@@ -163,8 +161,7 @@ class QuestCameraViewModel{
                     //リザルト表示
                     //var alert: UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
                     let alert = DataCounter.showQuestResult(
-                        view: self._self.questCameraView, qType: self.qType,qScore: self.poseImageView.qScore)
-                    
+                        view: self._self.questCameraView, qType: self.qType,qScore: self.questRender.qScore)
                     self._self.present(alert, animated: true, completion: nil)
                     
                 }
@@ -218,5 +215,13 @@ class QuestCameraViewModel{
             if l.position.y < 0 || l.position.y > size.height {return true}
         }
         return false
+    }
+    func getPoseImage(pose: Pose,frame: CGImage) -> UIImage{
+        
+        if qType == 2 { questRender.qScore = Int(score) }
+        prePose = culculateScore(pose: pose, prePose: prePose)
+        
+        return poseImageView.showQuest(qRender: questRender,
+            qType: qType, prePose: prePose, pose: pose, on: frame)
     }
 }

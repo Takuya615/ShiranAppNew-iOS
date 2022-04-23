@@ -97,29 +97,13 @@ extension VideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate{
 
 extension VideoViewController: PoseNetDelegate {
     func poseNet(_ poseNet: PoseNet, didPredict predictions: PoseNetOutput) {
-        print("poseNet 1")
         defer { self.currentFrame = nil }
-
-        if self.currentFrame == nil {print("ERRor "); return}
-        //guard let currentFrame = currentFrame else {return}
-
-        
-        /*if isResult {
-            let poseImage = PoseImageView.showDial()
-            let poseImageView = UIImageView(image: poseImage)
-            poseImageView.layer.position = CGPoint(x: self.view.bounds.size.width/2, y:60 + poseImage.size.height/2)
-            //poseImageView.isOpaque = false
-            //self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
-             self.view.addSubview(poseImageView)
-            return
-        }*/
-        print("poseNet creating Pose")
+        if self.currentFrame == nil {return}
         let poseBuilder = PoseBuilder(output: predictions,
                                       configuration: PoseBuilderConfiguration(),
                                       inputImage: self.currentFrame!)
         let pose = poseBuilder.pose
-        let check = model.check(pose: pose, size: self.currentFrame!.size)
-        if check {
+        if model.check(pose: pose, size: self.currentFrame!.size) {
             let poseImage = poseImageView.showMiss(on: self.currentFrame!)
             let poseImageView = UIImageView(image: poseImage)
             poseImageView.layer.position = CGPoint(x: self.view.bounds.size.width/2, y:60 + poseImage.size.height/2)
@@ -158,10 +142,8 @@ extension VideoViewController: PoseNetDelegate {
                 model.friPoseList.removeFirst(26)
             }
         }
-        print("poseNet image print")
         //自分とフレンドの動きを描画
-        let poseImage: UIImage = poseImageView.show(
-            state: model.state, qType: 0,
+        let poseImage: UIImage = poseImageView.showDayly(
             prePose: model.prePose,
             pose: pose,//自分のポーズ
             friPose: fPose,//フレンドのポーズ
@@ -172,27 +154,24 @@ extension VideoViewController: PoseNetDelegate {
         //poseImageView.isOpaque = false
         self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
         self.view.addSubview(poseImageView)
+        
 //        if !isRecording {
 //            self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
 //        }
         
         //スコアやボスの表示
-        if model.state > 0 { //デイリーのばあい
-            let damage: Float = UserDefaults.standard.float(forKey: Keys.damage.rawValue)
-            model.bossHPbar.progress = Float((model.score + damage) / model.exiteBoss!.maxHp)
-            //モンスターを倒した
-            if (model.score + damage) > model.exiteBoss!.maxHp{
-                SystemSounds.attack()
-                model.killList.append(model.exiteBoss!)
-                model.score = 0
-                model.exiteBoss = BOSS().newBoss()
-                model.bossImage.image = UIImage(named: model.exiteBoss!.image)// = UIImageView(image: UIImage(named: exiteBoss!.image))
-            }
-            //self.bossHPbar.setProgress(self.bossHPbar.progress, animated: true)
-        }else{
-            model.scoreBoad.text = str.score2.rawValue + String(Int(model.score))
-            //if qType == 2 { self.poseImageView.qScore = Int(score) }
+        let damage: Float = UserDefaults.standard.float(forKey: Keys.damage.rawValue)
+        model.bossHPbar.progress = Float((model.score + damage) / model.exiteBoss!.maxHp)
+        //モンスターを倒した
+        if (model.score + damage) > model.exiteBoss!.maxHp{
+            SystemSounds.attack()
+            model.killList.append(model.exiteBoss!)
+            model.score = 0
+            model.exiteBoss = BOSS().newBoss()
+            model.bossImage.image = UIImage(named: model.exiteBoss!.image)// = UIImageView(image: UIImage(named: exiteBoss!.image))
         }
+        //self.bossHPbar.setProgress(self.bossHPbar.progress, animated: true)
+        
         model.prePose = model.culculateScore(pose: pose, prePose: model.prePose)
         //prePose = culculateScore(pose: pose, prePose: prePose)
         

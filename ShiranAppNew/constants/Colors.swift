@@ -1,40 +1,26 @@
-//
-//  Colors.swift
-//  ShiranAppNew
-//
-//  Created by user on 2022/02/19.
-//
 
 import Foundation
-enum Colors: String {
-    // Key
-    case daylyState = "DailyState"
-    case totalDay = "totalDay"
-    case continuedDay = "cDay"
-    case continuedWeek = "wDay"
-    case retry = "retry"
-    case _LastTimeDay = "LastTimeDay"
-    case taskTime = "TaskTime"
+import SwiftUI
+
+struct Colors{
+    static let green = UIColor.green
+    static let blue = UIColor.blue
+    static let red = UIColor.red
+    static let orange = UIColor.orange
+    static let yellow = UIColor.yellow
+    static let pink = UIColor.systemPink
+    static let gray = UIColor.darkGray
     
-    case listD = "dateList"
-    case listS = "scoreList"
+    //line for Body
+    static let line0 = CGColor.init(red: 255, green: 255, blue: 0, alpha: 1.0)
+    static let line1 = gray.cgColor
+    static let line2 = pink.cgColor
     
-    case level = "Level"
-    case difficult = "difficultyLevel"
-    case scoreMax = "MomentaryMaxScore"
-    case exp = "ExperiencePoint"
-    case expTT = "ExpForTaskTime"
-    case coin = "Coin"
-    case diamond = "Diamond"
-    case bossNum = "BOSS_ListNumber"
-    case damage = "BOSS_Damege"
-    case myName = "MyName"
+    //dots for Body
+    static let dot0 = CGColor.init(red: 0, green: 255, blue: 0, alpha: 1.0)
+    static let dot1 = gray.cgColor
+    static let dot2 = green.cgColor
     
-    case questNum = "QuestNumber"
-    case questType = "QuestType"
-    case qGoal = "QuestGoalScore"
-    case qTime = "QuestTime"
-    case qsl = "QuestStarsList"
-    case skin = "SkinNumber"
-    
+    //Quest's Color
+    static let quest1 = CGColor.init(red: 255, green: 0, blue: 0, alpha: 1.0)
 }

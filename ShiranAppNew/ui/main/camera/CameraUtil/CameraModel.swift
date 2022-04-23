@@ -57,4 +57,5 @@ class CameraModel{
         }
         self.session = nil
     }
+    
 }

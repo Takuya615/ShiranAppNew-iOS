@@ -10,12 +10,12 @@ import SwiftUI
 struct ItemSelectView: View {
     @EnvironmentObject var appState: AppState
     private var columns: [GridItem] = Array(repeating: .init(.flexible(minimum: 5), spacing: CGFloat(0.0) ), count: 3)
-    @State var setItem = UserDefaults.standard.decodedObject(Skin.self, forKey: Keys.selectSkin.rawValue)?.image ?? ""
+    @State var setItem = Skin.skins[UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)].image
     
     var body: some View {
         let items: [Int] = UserDefaults.standard.array(forKey: Keys.yourItem.rawValue) as? [Int] ?? [] as [Int]
-        let skins = ShopViewModel.skins
-        if setItem.isEmpty {
+        let skins = Skin.skins
+        if items.isEmpty {
             VStack {
                 HStack{
                     Button(action: {self.appState.isItemSelectView = false},
@@ -45,7 +45,7 @@ struct ItemSelectView: View {
                                 .resizable()
                                 .frame(width: 100, height: 100, alignment: .center)
                                 .onTapGesture {
-                                    UserDefaults.standard.setEncoded(skins[num], forKey: Keys.selectSkin.rawValue)
+                                    UserDefaults.standard.set(num, forKey: Keys.selectSkin.rawValue)
                                     setItem = skins[num].image
                                 }
                         }

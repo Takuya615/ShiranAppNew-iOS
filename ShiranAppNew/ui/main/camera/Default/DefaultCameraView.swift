@@ -1,38 +1,26 @@
-//
-//  QuestCameraView.swift
-//  ShiranAppNew
-//
-//  Created by user on 2021/12/14.
-//
 
 import SwiftUI
 import AVFoundation
 
-//カメラのビュー
-struct QuestCameraView: UIViewControllerRepresentable {
+struct DefaultCameraView: UIViewControllerRepresentable {
     @Binding var isVideo: Bool
-    @EnvironmentObject var dataCounter: DataCounter
     func makeUIViewController(context: Context) -> UIViewController {
-        return QuestCameraViewController(questCameraView: self)
+        return DefaultCameraController(cameraView: self)
     }
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
     }
 }
 
-
-class QuestCameraViewController: UIViewController {
-    
-//    //var pD = OriginalPoseDetection()
-//    //var poseDetect = PoseDetectionModel()
-//    let poseImageView = PoseImageView()
-    private var model : QuestCameraViewModel!
+class DefaultCameraController: UIViewController {
+    private var model : DefaultCameraViewModel!
+    let poseImageView = PoseImageView()
     private var poseNet: PoseNet!
     private var currentFrame: CGImage?
     private var camera: CameraModel!
     
-    var questCameraView:QuestCameraView
-    init(questCameraView:QuestCameraView) {
-        self.questCameraView = questCameraView
+    var cameraView:DefaultCameraView
+    init(cameraView:DefaultCameraView) {
+        self.cameraView = cameraView
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
@@ -45,11 +33,18 @@ class QuestCameraViewController: UIViewController {
             poseNet = try PoseNet()
             poseNet.delegate = self
             camera = CameraModel(delegate: self)
-            model = QuestCameraViewModel(_self: self)
+            model = DefaultCameraViewModel(_self: self)
+            /*let db = Firestore.firestore().collection("users").whereField("name", isEqualTo: "つむ")
+             db.getDocuments() { (querySnapshot, err) in
+             if err != nil {return}
+             guard let poseList: [Int] = querySnapshot!.documents[0].data()["poseList"] as? [Int] else{print("フレンドリストなし");return}
+             self.friPoseList = poseList
+             }*/
+            
+            model.timesBonus = CharacterModel.useTaskHelper()
         } catch {
             fatalError("Failed to load model. \(error.localizedDescription)")
         }
-        
     }
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
@@ -65,16 +60,21 @@ class QuestCameraViewController: UIViewController {
         camera.setViewDidDisappear()
         model.isRecording = false
         model.timer.invalidate()
+        if !model.countDown {
+            //DataCounter().saveMyPose(poseList: myPoseList)　　　　　　　　　　　　　　　自分ポーズを保存！！
+            //let save = SaveVideo().environmentObject(DataCounter())
+            //SaveVideo().saveData(score: Int(score)/100)
+            //self.cameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
+        }
+        
     }
 }
 
-extension QuestCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate{
+extension DefaultCameraController: AVCaptureVideoDataOutputSampleBufferDelegate{
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        //print("1フレームごとの処理をここに書く")
-        
         connection.videoOrientation = .portrait//UpsideDown
         connection.isVideoMirrored = true
-        
+
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
         let ciimage : CIImage = CIImage(cvPixelBuffer: imageBuffer)
         let context:CIContext = CIContext.init(options: nil)
@@ -87,25 +87,21 @@ extension QuestCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegat
             currentFrame = cgImage
             poseNet.predict(cgImage)
         }
-        
+
     }
 }
 
 
-extension QuestCameraViewController: PoseNetDelegate {
+extension DefaultCameraController: PoseNetDelegate {
     func poseNet(_ poseNet: PoseNet, didPredict predictions: PoseNetOutput) {
         defer { self.currentFrame = nil }
-
         if self.currentFrame == nil {return}
-        //guard let currentFrame = currentFrame else {return}
-
         let poseBuilder = PoseBuilder(output: predictions,
                                       configuration: PoseBuilderConfiguration(),
                                       inputImage: self.currentFrame!)
         let pose = poseBuilder.pose
-        let check = model.check(pose: pose, size: self.currentFrame!.size)
-        if check {
-            let poseImage = model.poseImageView.showMiss(on: self.currentFrame!)
+        if model.check(pose: pose, size: self.currentFrame!.size){
+            let poseImage = poseImageView.showMiss(on: self.currentFrame!)
             let poseImageView = UIImageView(image: poseImage)
             poseImageView.layer.position = CGPoint(x: self.view.bounds.size.width/2, y:60 + poseImage.size.height/2)
             //poseImageView.isOpaque = false
@@ -113,25 +109,24 @@ extension QuestCameraViewController: PoseNetDelegate {
             self.view.addSubview(poseImageView)
             return
         }
-        //自分とフレンドの動きを描画
-        let poseImage: UIImage = model.poseImageView.show(
-            state: 0, qType: model.qType,
+        
+        let poseImage: UIImage = poseImageView.showDefault(
             prePose: model.prePose,
-            pose: pose,//自分のポーズ
-            friPose: pose,//フレンドのポーズ
+            pose: pose,
             on: self.currentFrame!)
         let size = self.view.bounds.size
         let poseImageView = UIImageView(image: poseImage)
         poseImageView.layer.position = CGPoint(x: size.width/2, y:60 + poseImage.size.height/2)
-        //poseImageView.isOpaque = false
-        self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
+        self.view.subviews.last?.removeFromSuperview()
         self.view.addSubview(poseImageView)
         
-        //self.scoreBoad.text = "Score \(Int(score))"//スコア更新
-        if model.qType == 2 { model.poseImageView.qScore = Int(model.score) }
-        model.prePose = model.culculateScore(pose: pose, prePose: model.prePose)
+        model.culculateScore(pose: pose)//, prePose: model.prePose)
+//        model.scoreBoad.text = str.score2.rawValue + String(Int(model.score))
+//        model.prePose =
+        //prePose = culculateScore(pose: pose, prePose: prePose)
         
     }
+    
     
 }
 

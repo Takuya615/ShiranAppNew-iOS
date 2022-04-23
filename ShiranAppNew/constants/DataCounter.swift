@@ -47,20 +47,20 @@ class DataCounter: ObservableObject {
         User.setValue(diff.day!, forKey: Keys.daylyState.rawValue)
         return diff.day!
     }
-    static func updateDate(diff: Int){
+    static func updateDate(){
         let totalDay: Int = UserDefaults.standard.integer(forKey: Keys.totalDay.rawValue)
         UserDefaults.standard.set(totalDay+1, forKey: Keys.totalDay.rawValue)
         UserDefaults.standard.set(Date(), forKey: Keys._LastTimeDay.rawValue)
         
         let continuedDay = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
         let retry = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)
-        if(diff == 1){
+        if(setDailyState() == 1){
             UserDefaults.standard.set(continuedDay + 1, forKey: Keys.continuedDay.rawValue)
         }else{
             print("記録リセット")
             UserDefaults.standard.set(0, forKey: Keys.continuedDay.rawValue)
             UserDefaults.standard.set(retry + 1, forKey: Keys.retry.rawValue)//値の書き込み　↓表示の更新
-            EventAnalytics.doneNotEveryDay(diff: diff)
+            //EventAnalytics.doneNotEveryDay(diff: diff)
         }
     }
     /*
@@ -148,7 +148,7 @@ class DataCounter: ObservableObject {
     
     
     //リザルト画面３つ。　何もなし　デイリー　クエスト
-    static func showScoreResult(view: VideoCameraView,score:Float,bonus:Float) -> UIAlertController{
+    static func showScoreResult(view: DefaultCameraView,score:Float,bonus:Float) -> UIAlertController{
         //saveData(score: Int(score))//スコアリストにセーブ（必要ない？？）
         let title = str.score.rawValue + String(Int(score)) + str.p.rawValue
         var message = str.finishDayly.rawValue

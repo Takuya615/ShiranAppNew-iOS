@@ -1,27 +1,53 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Implementation details of a structure used to describe a pose.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ Implementation details of a structure used to describe a pose.
+ */
 
 import CoreGraphics
 
 struct Pose {
-
+    static func defaultPose(size: CGSize) -> Pose {
+        let pose: Pose = Pose()
+        let w = size.width
+        let h = size.height
+        pose.joints.values.forEach { joint in
+            var point: CGPoint = .zero
+            switch joint.name {
+            case Joint.Name.nose:         point = CGPoint(x: w*0.5, y: h*0.2);joint.isValid = true
+            case Joint.Name.leftShoulder: point = CGPoint(x: w*0.71, y: h*0.25);joint.isValid = true
+            case Joint.Name.rightShoulder:point = CGPoint(x: w*0.29, y: h*0.25);joint.isValid = true
+            case Joint.Name.leftElbow:    point = CGPoint(x: w*0.8, y: h*0.38);joint.isValid = true
+            case Joint.Name.rightElbow:   point = CGPoint(x: w*0.2, y: h*0.38);joint.isValid = true
+            case Joint.Name.leftWrist:    point = CGPoint(x: w*0.85, y: h*0.51);joint.isValid = true
+            case Joint.Name.rightWrist:   point = CGPoint(x: w*0.15, y: h*0.51);joint.isValid = true
+            case Joint.Name.leftHip:      point = CGPoint(x: w*0.68, y: h*0.55);joint.isValid = true
+            case Joint.Name.rightHip:     point = CGPoint(x: w*0.32, y: h*0.55);joint.isValid = true
+            case Joint.Name.leftKnee:     point = CGPoint(x: w*0.7, y: h*0.7);joint.isValid = true
+            case Joint.Name.rightKnee:    point = CGPoint(x: w*0.3, y: h*0.7);joint.isValid = true
+            case Joint.Name.leftAnkle:    point = CGPoint(x: w*0.7, y: h*0.9);joint.isValid = true
+            case Joint.Name.rightAnkle:   point = CGPoint(x: w*0.3, y: h*0.9);joint.isValid = true
+            default:point = CGPoint();joint.isValid = true
+            }
+            joint.position = point
+        }
+        return pose
+    }
+    
     /// A structure used to describe a parent-child relationship between two joints.
     struct Edge {
         let index: Int
         let parent: Joint.Name
         let child: Joint.Name
-
+        
         init(from parent: Joint.Name, to child: Joint.Name, index: Int) {
             self.index = index
             self.parent = parent
             self.child = child
         }
     }
-
+    
     /// An array of edges used to define the connections between the joints.
     ///
     /// The index relates to the index used to access the associated value within the displacement maps
@@ -44,7 +70,7 @@ struct Pose {
         Edge(from: .rightHip, to: .rightKnee, index: 14),
         Edge(from: .rightKnee, to: .rightAnkle, index: 15)
     ]
-
+    
     /// The joints that make up a pose.
     private(set) var joints: [Joint.Name: Joint] = [
         .nose: Joint(name: .nose),
@@ -65,7 +91,7 @@ struct Pose {
         .rightKnee: Joint(name: .rightKnee),
         .rightAnkle: Joint(name: .rightAnkle)
     ]
-
+    
     var joints2: [Joint.Name] = [
         .nose,
         .leftShoulder,
@@ -75,7 +101,7 @@ struct Pose {
         .leftKnee,
         .leftAnkle,
         
-        .rightShoulder,
+            .rightShoulder,
         .rightElbow,
         .rightWrist,
         .rightHip,
@@ -85,7 +111,7 @@ struct Pose {
     
     /// The confidence score associated with this pose.
     var confidence: Double = 0.0
-
+    
     /// Accesses the joint with the specified name.
     subscript(jointName: Joint.Name) -> Joint {
         get {
@@ -96,7 +122,7 @@ struct Pose {
             joints[jointName] = newValue
         }
     }
-
+    
     /// Returns all edges that link **from** or **to** the specified joint.
     ///
     /// - parameters:
@@ -107,7 +133,7 @@ struct Pose {
             $0.parent == jointName || $0.child == jointName
         }
     }
-
+    
     /// Returns the edge having the specified parent and child  joint names.
     ///
     /// - parameters:

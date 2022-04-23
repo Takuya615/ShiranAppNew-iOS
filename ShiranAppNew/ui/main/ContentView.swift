@@ -22,7 +22,11 @@ struct ContentView: View {
     
     var body: some View {
         Group{if self.appState.isVideo {
-            VideoCameraView(isVideo: $appState.isVideo)
+            if DataCounter.setDailyState() == 0{
+                DefaultCameraView(isVideo: $appState.isVideo)
+            }else{
+                VideoCameraView(isVideo: $appState.isVideo)
+            }
         }else if self.appState.isQuest{
             QuestCameraView(isVideo: $appState.isQuest)
         }else if self.appState.isPrivacyPolicy{
