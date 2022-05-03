@@ -10,13 +10,8 @@ import SwiftUI
 struct PrivacyPolicyView: View {
     @EnvironmentObject var appState: AppState
     var body: some View {
-        HStack{
-                        Button(action: {self.appState.isPrivacyPolicy = false},
-                               label: {Text("  ＜Back").font(.system(size: 20))
-                        })
-                        Spacer()
-                    }
         ScrollView(.vertical){
+            BackKeyView(callBack: {self.appState.isPrivacyPolicy.toggle()})
             Group{
                 Spacer()
                 Text("当社は、個人情報保護方針を定め、個人情報保護の仕組みを構築し、その重要性を認識したうえで、個人情報の保護を徹底致します。")

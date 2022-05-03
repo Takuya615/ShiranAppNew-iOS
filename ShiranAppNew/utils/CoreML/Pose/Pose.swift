@@ -15,20 +15,20 @@ struct Pose {
         pose.joints.values.forEach { joint in
             var point: CGPoint = .zero
             switch joint.name {
-            case Joint.Name.nose:         point = CGPoint(x: w*0.5, y: h*0.2);joint.isValid = true
-            case Joint.Name.leftShoulder: point = CGPoint(x: w*0.71, y: h*0.25);joint.isValid = true
-            case Joint.Name.rightShoulder:point = CGPoint(x: w*0.29, y: h*0.25);joint.isValid = true
-            case Joint.Name.leftElbow:    point = CGPoint(x: w*0.8, y: h*0.38);joint.isValid = true
-            case Joint.Name.rightElbow:   point = CGPoint(x: w*0.2, y: h*0.38);joint.isValid = true
-            case Joint.Name.leftWrist:    point = CGPoint(x: w*0.85, y: h*0.51);joint.isValid = true
-            case Joint.Name.rightWrist:   point = CGPoint(x: w*0.15, y: h*0.51);joint.isValid = true
-            case Joint.Name.leftHip:      point = CGPoint(x: w*0.68, y: h*0.55);joint.isValid = true
-            case Joint.Name.rightHip:     point = CGPoint(x: w*0.32, y: h*0.55);joint.isValid = true
-            case Joint.Name.leftKnee:     point = CGPoint(x: w*0.7, y: h*0.7);joint.isValid = true
-            case Joint.Name.rightKnee:    point = CGPoint(x: w*0.3, y: h*0.7);joint.isValid = true
-            case Joint.Name.leftAnkle:    point = CGPoint(x: w*0.7, y: h*0.9);joint.isValid = true
-            case Joint.Name.rightAnkle:   point = CGPoint(x: w*0.3, y: h*0.9);joint.isValid = true
-            default:point = CGPoint();joint.isValid = true
+            case Joint.Name.nose:         point = CGPoint(x: w*0.5, y: h*0.15);joint.isValid = true
+            case Joint.Name.leftShoulder: point = CGPoint(x: w*0.62, y: h*0.25);joint.isValid = true
+            case Joint.Name.rightShoulder:point = CGPoint(x: w*0.38, y: h*0.25);joint.isValid = true
+            case Joint.Name.leftElbow:    point = CGPoint(x: w*0.73, y: h*0.38);joint.isValid = true
+            case Joint.Name.rightElbow:   point = CGPoint(x: w*0.27, y: h*0.38);joint.isValid = true
+            case Joint.Name.leftWrist:    point = CGPoint(x: w*0.78, y: h*0.51);joint.isValid = true
+            case Joint.Name.rightWrist:   point = CGPoint(x: w*0.26, y: h*0.51);joint.isValid = true
+            case Joint.Name.leftHip:      point = CGPoint(x: w*0.61, y: h*0.55);joint.isValid = true
+            case Joint.Name.rightHip:     point = CGPoint(x: w*0.39, y: h*0.55);joint.isValid = true
+            case Joint.Name.leftKnee:     point = CGPoint(x: w*0.63, y: h*0.7);joint.isValid = true
+            case Joint.Name.rightKnee:    point = CGPoint(x: w*0.37, y: h*0.7);joint.isValid = true
+            case Joint.Name.leftAnkle:    point = CGPoint(x: w*0.63, y: h*0.9);joint.isValid = true
+            case Joint.Name.rightAnkle:   point = CGPoint(x: w*0.37, y: h*0.9);joint.isValid = true
+            default:point = CGPoint();joint.isValid = false
             }
             joint.position = point
         }

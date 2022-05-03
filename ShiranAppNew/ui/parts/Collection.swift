@@ -1,18 +1,14 @@
-//
-//  Face.swift
-//  ShiranAppNew
-//
-//  Created by 津村拓哉 on 2022/04/15.
-//
+
 
 import Foundation
 import SwiftUI
 
-struct Skin: Identifiable,Codable {
+struct Skin:Hashable{
     var id: Int//String = "aa"//UUID()     // ユニークなIDを自動で設定
     var name: String
     var image: String
     var coin: Int
+    var dia: Int?
     var x: CGFloat?
     var y: CGFloat?
     
@@ -24,5 +20,20 @@ struct Skin: Identifiable,Codable {
         Skin(id: 4,name: "ハット",image: "face4",coin: 33,y: -0.4),
         Skin(id: 5,name: "アフロ",image: "face5",coin: 44,y: -0.4),
         Skin(id: 6,name: "ちょんまげ",image: "face6",coin: 33,y: -0.3),
+    ]
+}
+
+
+struct Body:Hashable{
+    var code = UUID()
+    var id: Int//String = "aa"//UUID()     // ユニークなIDを自動で設定
+    var name: String
+    var coin: Int
+    var dia: Int?
+    
+    static var bodys: [Body] = [
+        Body(id: 0,name: "デフォルト",coin: 0),
+        Body(id: 1,name: "ピクトグラム 青",coin: 55),
+        Body(id: 2,name: "ピクトグラム ピンク",coin: 10000001,dia: 10),
     ]
 }

@@ -19,12 +19,7 @@ struct SettingView: View {
     var body: some View {
         
         VStack {
-            HStack{
-                        Button(action: {self.appState.isSettingView = false},
-                               label: {Text(str.back.rawValue).font(.system(size: 20))
-                        })
-                        Spacer()
-                    }
+            BackKeyView(callBack: {self.appState.isSettingView.toggle()})
             Text(str.settingDifficulty.rawValue)
             Picker(selection: $selection,
                    label: Text(str.selectDifficulty.rawValue)) {

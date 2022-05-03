@@ -1,9 +1,3 @@
-//
-//  UserOpinionView.swift
-//  ShiranAppNew
-//
-//  Created by user on 2022/01/22.
-//
 
 import SwiftUI
 
@@ -14,14 +8,9 @@ struct UserOpinionView: View {
     @State var attention: String = str.userOpinion1.rawValue
     var body: some View {
         VStack {
-            HStack{
-                Button(action: {self.appState.isOpinionView = false},
-                       label: {Text(str.back.rawValue).font(.system(size: 20))})
-                Spacer()
-            }
+            BackKeyView(callBack: {self.appState.isOpinionView.toggle()})
             Text(str.userOpinion2.rawValue).font(.title)
             Text(str.userOpinion3.rawValue).font(.body)
-            
             TextEditor(text: $text)
                 .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
                 .overlay(

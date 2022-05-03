@@ -16,7 +16,6 @@ struct CharacterView: View {
     var body: some View {
         NavigationView{
             List(cM.characters){ item in
-                
                 if level >= item.level {
                     Button(action: {
                         self.cM.itemOpen = true
@@ -33,8 +32,6 @@ struct CharacterView: View {
                     }).sheet(isPresented: self.$cM.itemOpen){
                         actCharacterView(char: item, cM: self.cM)
                     }
-                    
-                    
                 }else{
                     HStack{
                         Image(systemName: "questionmark.circle.fill")

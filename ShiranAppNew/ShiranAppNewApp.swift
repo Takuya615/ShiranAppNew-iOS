@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Firebase
+import StoreKit
+import SwiftyStoreKit
 
 @main
 struct ShiranAppNewApp: App {
@@ -24,9 +26,24 @@ struct ShiranAppNewApp: App {
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+            for purchase in purchases {
+                switch purchase.transaction.transactionState {
+                case .purchased, .restored:
+                    if purchase.needsFinishTransaction {
+                        // Deliver content from server, then:
+                        SwiftyStoreKit.finishTransaction(purchase.transaction)
+                    }
+                    // Unlock content
+                case .failed, .purchasing, .deferred:
+                    break // do nothing
+                @unknown default:
+                    break
+                }
+            }
+        }
         return true
     }
-
 }
 
 
@@ -46,6 +63,7 @@ class AppState: ObservableObject {
     @Published var isSettingView = false
     @Published var isOpinionView = false
     @Published var isItemSelectView = false
+    @Published var isPurchaseView = false
     
     @Published var coachMark1: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMark1.rawValue)//Save on CoachMarks-37
     @Published var coachMark2: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMark2.rawValue)//Save on ViewController -82
@@ -133,14 +151,14 @@ class AppState: ObservableObject {
     
     func logout(){
         do {
-          try Auth.auth().signOut()
+            try Auth.auth().signOut()
             print("ログアウトしました")
             self.isinAccount = false
             //self.isLogin = true
         } catch let signOutError as NSError {
             self.isinAccount = true
-          print ("ログアウトできてませんError signing out: %@", signOutError)
-          //UserDefaults.standard.set({true}, forKey:"login")
+            print ("ログアウトできてませんError signing out: %@", signOutError)
+            //UserDefaults.standard.set({true}, forKey:"login")
         }
     }
     
@@ -191,13 +209,13 @@ class AppState: ObservableObject {
         //let db = Firestore.firestore()
         //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
         /*db.collection("users").document(myName).delete() { err in
-            if let err = err {
-                print("さくじょ　Error removing document: \(err)")
-            } else {
-                
-                print("さくじょ　Document successfully removed!")
-            }
-        }*/
+         if let err = err {
+         print("さくじょ　Error removing document: \(err)")
+         } else {
+         
+         print("さくじょ　Document successfully removed!")
+         }
+         }*/
     }
 }
 

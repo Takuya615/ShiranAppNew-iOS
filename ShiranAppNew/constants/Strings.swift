@@ -50,16 +50,20 @@ enum str: String {
     case quite = "やめる"
     case challenge = "チャレンジ"
     
-    //shopView
-    case noItems = "現在アイテムはありません…"
-    
+    //character
     case characterViewText1 = "レベル"
     case characterViewText2 = "で解放"
 
+    //shopView
+    //case noItems = "現在アイテムはありません…"
+    case item = "アクセサリー"
+    case body = "ボディー"
     case doYouBuyIt = "このアイテムを購入しますか？？"
     case purchase = "購入"
-    case noMoney = "お金が足りません..."
-    case modoru = "もどる"
+//    case noMoney = "お金が足りません..."
+//    case modoru = "もどる"
+    //AppPurchaseView
+    case purchaseError = "予期せぬエラー：通信状況をご確認の上、再度お試しください"
     
     case normal = "ノーマル"
     case hard = "ハード"

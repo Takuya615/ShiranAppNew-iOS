@@ -11,7 +11,7 @@ target 'ShiranAppNew' do
   pod 'Firebase/Crashlytics'
   pod 'Instructions'
   pod 'mailcore2-ios'
-
+  pod 'SwiftyStoreKit'
  
 
 end

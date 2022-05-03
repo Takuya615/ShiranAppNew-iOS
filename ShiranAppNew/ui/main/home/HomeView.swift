@@ -33,17 +33,20 @@ struct HomeView: View{
                             .foregroundColor(.blue)
                     }
                 }
-                Image(uiImage:BodyRender.showRender(on: CGSize(width: width, height: height)))
-                //StatusView(w: width/2, h: height*0.7)
-                    .frame(width: width/2, height: height*0.7, alignment: .center)
-                
+                ZStack{
+                    Image(uiImage:BodyRender.showRender())
+                        .resizable()
+                        .frame(width:width/2, height: height*0.6)
+                    Rectangle()
+                        .onTapGesture {self.appState.isItemSelectView = true}
+                        .foregroundColor(Color.gray.opacity(0.1))
+                        .frame(width:width/2, height: height*0.6)
+                }
                 if self.appState.showWanWan {
                     Image("char_dog")
                         .resizable()
                         .frame(width: 80.0, height: 80.0, alignment: .leading)
                 }
-                
-                
             }
             .onAppear(perform: {
                 self.dataCounter.countedLevel = UserDefaults.standard.integer(forKey: Keys.level.rawValue)//データ更新
@@ -70,124 +73,8 @@ struct HomeView: View{
                         Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
                         Text(" \(self.dataCounter.countedDiamond)")
                     }
-                    
                 }
             }
-            
-            
         }.navigationViewStyle(StackNavigationViewStyle())
     }
-    
 }
-
-//
-//struct StatusView: View {
-//    var w: CGFloat
-//    var h: CGFloat
-//    @EnvironmentObject var appState: AppState
-//
-//    var body: some View {
-//        let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
-//
-//        //        let bounds = UIScreen.main.bounds
-//        //        let w = bounds.width
-//        //        let h = bounds.height
-//        let ps: CGFloat = 20
-//        let c = ps/2
-//        let lw: CGFloat = 5
-//        let leftShoulder=CGPoint(x: w*0.71, y: h*0.25)
-//        let rightShoulder=CGPoint(x: w*0.29, y: h*0.25)
-//        let leftElbow=CGPoint(x: w*0.8, y: h*0.38)
-//        let rightElbow=CGPoint(x: w*0.2, y: h*0.38)
-//        let leftWrist=CGPoint(x: w*0.85, y: h*0.51)
-//        let rightWrist=CGPoint(x: w*0.15, y: h*0.51)
-//        let leftHip=CGPoint(x: w*0.68, y: h*0.55)
-//        let rightHip=CGPoint(x: w*0.32, y: h*0.55)
-//        let leftKnee=CGPoint(x: w*0.7, y: h*0.7)
-//        let rightKnee=CGPoint(x: w*0.3, y: h*0.7)
-//        let leftAnkle=CGPoint(x: w*0.7, y: h*0.9)
-//        let rightAnkle=CGPoint(x: w*0.3, y: h*0.9)
-//
-//
-//        ZStack{
-//
-//            Image(decorative:Skin.skins[skinNo].image)
-//                .resizable()
-//                .offset(x: 3, y:-h*0.36)
-//                .frame(width: w/3, height: w/3, alignment: .center)
-//            Rectangle()
-//                .onTapGesture {
-//                    self.appState.isItemSelectView = true
-//                }
-//                .foregroundColor(Color.gray.opacity(0.1))
-//                .frame(width:w*0.9, height: h*0.9)
-//
-//
-//            Path { path in
-//                path.addLines([
-//                    rightWrist,
-//                    rightElbow,
-//                    rightShoulder,
-//                    leftShoulder,
-//                    leftElbow,
-//                    leftWrist
-//                ])
-//                path.addLines([
-//                    rightAnkle,
-//                    rightKnee,
-//                    rightHip,
-//                    leftHip,
-//                    leftKnee,
-//                    leftAnkle
-//                ])
-//                path.move(to: rightShoulder)
-//                path.addLine(to: rightHip)
-//                path.move(to: leftShoulder)
-//                path.addLine(to: leftHip)
-//
-//            }
-//            .stroke(lineWidth: lw)
-//            .fill(Color.green)
-//            .frame(width: w, height: h)
-//
-//
-//
-//            Path { path in
-//                path.addEllipse(in: CGRect(x:leftShoulder.x-c, y: leftShoulder.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:rightShoulder.x-c, y: rightShoulder.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:leftElbow.x-c, y: leftElbow.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:rightElbow.x-c, y: rightElbow.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:leftWrist.x-c, y: leftWrist.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:rightWrist.x-c, y: rightWrist.y-c, width: ps, height: ps))
-//
-//                path.addEllipse(in: CGRect(x:leftHip.x-c, y: leftHip.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:rightHip.x-c, y: rightHip.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:leftKnee.x-c, y: leftKnee.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:rightKnee.x-c, y: rightKnee.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:leftAnkle.x-c, y: leftAnkle.y-c, width: ps, height: ps))
-//                path.addEllipse(in: CGRect(x:rightAnkle.x-c, y: rightAnkle.y-c, width: ps, height: ps))
-//            }
-//            .fill(Color.yellow)
-//            .frame(width: w, height: h)
-//
-//        }
-//
-//
-//    }
-//}
-//
-//
-//struct CircleCheck_Previews: PreviewProvider {
-//    @EnvironmentObject var dataCounter: DataCounter
-//    static var previews: some View {
-//        let bounds = UIScreen.main.bounds
-//        let w = bounds.width
-//        let h = bounds.height
-//        let size = CGSize(width: w, height: h)
-//        Image(uiImage:BodyRender.showRender(on: size))
-//        //StatusView()
-//        //StatusView(w: w/2, h: h/2)
-//            //.frame(width: w/2, height: h/2, alignment: .center)
-//
-//    }
-//}

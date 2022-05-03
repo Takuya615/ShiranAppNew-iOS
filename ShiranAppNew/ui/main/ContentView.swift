@@ -43,6 +43,8 @@ struct ContentView: View {
             UserOpinionView()
         }else if self.appState.isItemSelectView{
             ItemSelectView()
+        }else if self.appState.isPurchaseView{
+            AppPurchaseView()
         }else {
             ZStack{
                 if self.appState.coachMarkf { CoachMarkView() }
@@ -61,22 +63,17 @@ struct ContentView: View {
                     Image(systemName: "homekit")
                     Text(str.home.rawValue)
                 }
-            /*SecondView()
-             .tabItem {
-             Image(systemName: "pencil")
-             Text("活動記録")
-             }*/
             QuestView()
                 .tabItem {
                     Image(systemName: "line.horizontal.star.fill.line.horizontal")
                     Text(str.quest.rawValue)
                 }
             
-            CharacterView()
-                .tabItem {
-                    Image(systemName: "tortoise.fill")
-                    Text(str.suketto.rawValue)
-                }
+//            CharacterView()
+//                .tabItem {
+//                    Image(systemName: "tortoise.fill")
+//                    Text(str.suketto.rawValue)
+//                }
             ShopView()
                 .tabItem {
                     Image(systemName: "bag.fill")
@@ -142,8 +139,6 @@ struct ContentView: View {
                         if self.appState.coachMark3 && !self.appState.coachMark4{
                             dialogPresentation.show(content: .contentDetail2(isPresented: $dialogPresentation.isPresented))
                         }
-                        
-                        
                     })
                 /*.fullScreenCover(isPresented: self.$isVideo, content: {
                  VideoCameraView2(isVideo: $isVideo)
@@ -153,127 +148,3 @@ struct ContentView: View {
     }
     
 }
-
-
-
-
-
-/*
-struct SecondView: View{
-    @EnvironmentObject var appState: AppState
-    struct Videos: Identifiable {
-        var id = UUID()     // ユニークなIDを自動で設定¥
-        var date: String
-        var score: Int
-    }
- @State var videos:[Videos] = []
- 
- var body: some View {
- NavigationView{
- List{
- ForEach(videos){ video in
- HStack{
- Text(video.date)
- Spacer()
- Text("スコア\(video.score)")
- }
- }.onDelete(perform: delete)
- }
- .onAppear(perform: VideoList)
- .navigationTitle("活動記録")
- .navigationBarTitleDisplayMode(.inline)
- }.navigationViewStyle(StackNavigationViewStyle())
- }
- 
- func VideoList() {
- 
- videos = []//reset
- guard let listD = UserDefaults.standard.array(forKey: DataCounter().listD) as? [String] else {return}
- guard let listS = UserDefaults.standard.array(forKey: DataCounter().listS) as? [Int] else {return}
- 
- for num in 0 ..< listS.count {
- videos.append(Videos(date: listD[num], score: listS[num]))
- }
- videos.reverse()
- }
- 
- func delete(at offsets: IndexSet){
- videos.remove(atOffsets: offsets)
- 
- var listD = UserDefaults.standard.array(forKey: DataCounter().listD) as! [String]
- var listS = UserDefaults.standard.array(forKey: DataCounter().listS) as! [Int]
- 
- //let num = offsets.map({$0})
- listD.remove(atOffsets: offsets)
- listS.remove(atOffsets: offsets)
- 
- UserDefaults.standard.setValue(listD, forKey: DataCounter().listD)
- UserDefaults.standard.setValue(listS, forKey: DataCounter().listS)
- 
- }
- 
- 
- }*/
-
-
-
-
-
-    
-    /*
-     var body: some View {
-     NavigationView{
-     List(skins){ video in
-     HStack{
-     Text(video.name)
-     Spacer()
-     Text("コイン\(video.coin)")
-     if dataCounter.countedCoin >= video.coin {
-     Button(action: {
-     self.showAlert = true
-     },
-     label:{
-     Text("購入")
-     //Image("coin").resizable().frame(width: 100.0, height: 100.0, alignment: .leading)
-     }).alert(isPresented: $showAlert) {
-     Alert(title: Text("\(video.name)を購入しますか？"),
-     //message: Text("詳細メッセージです"),
-     primaryButton: .cancel(Text("キャンセル")),
-     secondaryButton: .default(Text("購入する"), action: {
-     UserDefaults.standard.set(video.skinNum, forKey: DataCounter().skin)
-     self.isBought = true
-     dataCounter.countedCoin -= video.coin
-     UserDefaults.standard.set(dataCounter.countedCoin,forKey: dataCounter.coin)
-     }))
-     }
-     
-     }
-     }
-     
-     }.alert(isPresented: $isBought, content: {
-     Alert(title: Text("設定しました！"))
-     })
-     .onAppear(perform: {
-     if !self.appState.coachOpenShop{
-     dialogPresentation.show(content: .contentDetail5(isPresented: $dialogPresentation.isPresented))
-     }
-     })
-     .navigationTitle("ショップ")
-     .navigationBarTitleDisplayMode(.inline)
-     .toolbar{
-     ToolbarItem(placement: .navigationBarLeading){
-     HStack{
-     Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
-     Text(" \(self.dataCounter.countedCoin)")
-     Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
-     Text(" \(self.dataCounter.countedDiamond)")
-     }
-     
-     }
-     }
-     
-     }.navigationViewStyle(StackNavigationViewStyle())
-     .customDialog(presentaionManager: dialogPresentation)
-     }
-    
-}*/

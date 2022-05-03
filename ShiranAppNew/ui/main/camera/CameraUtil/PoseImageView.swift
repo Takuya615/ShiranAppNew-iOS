@@ -7,28 +7,13 @@ class PoseImageView: UIImageView {
     
     var jump = false
     var gameStart = false
-    //var qScore = 0
-    //var qPlace:CGPoint = CGPoint(x: -100, y: 0)
     let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
-    let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
-    
-    
-    
-    /// The width of the line connecting two joints.
-//    @IBInspectable var segmentLineWidth: CGFloat = 8
-//    /// The color of the line connecting two joints.
-//    @IBInspectable var segmentColor: UIColor = UIColor.green//.systemGreen//.systemTeal
-//    /// The radius of the circles drawn for each joint.
-//    @IBInspectable var jointRadius: CGFloat = 9
-//    /// The color of the circles drawn for each joint.
-//    @IBInspectable var jointColor: UIColor = UIColor.yellow//.systemYellow//.systemPink
-    
+    let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
     
     func showMiss(on frame: CGImage) -> UIImage {
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
         dstImageFormat.scale = 1
-        
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             let cgContext = rendererContext.cgContext
@@ -52,8 +37,8 @@ class PoseImageView: UIImageView {
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
-            PoseImageView.drawHead(num: skinNo,pose: pose, in: rendererContext.cgContext)
             BodyRender.show(BodyNo: bodyNo, pose: pose, cgContext: rendererContext.cgContext)
+            PoseImageView.drawHead(num: skinNo,pose: pose, in: rendererContext.cgContext)
         }
         return dstImage
     }
@@ -64,11 +49,9 @@ class PoseImageView: UIImageView {
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
-            PoseImageView.drawHead(num: skinNo,pose: pose, in: rendererContext.cgContext)
             BodyRender.show(BodyNo: bodyNo, pose: pose, cgContext: rendererContext.cgContext)
+            PoseImageView.drawHead(num: skinNo,pose: pose, in: rendererContext.cgContext)
             jump = DaylyRender.daily(jump: jump, gameStart: gameStart, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
-            //DailyRender.daily(pose: pose, size: dstImageSize, in: rendererContext.cgContext)
-           
         }
         return dstImage
     }
@@ -79,8 +62,8 @@ class PoseImageView: UIImageView {
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { context in
             PoseImageView.draw(image: frame, in: context.cgContext)
-            PoseImageView.drawHead(num: skinNo,pose: pose, in: context.cgContext)
             BodyRender.show(BodyNo: bodyNo, pose: pose, cgContext: context.cgContext)
+            PoseImageView.drawHead(num: skinNo,pose: pose, in: context.cgContext)
             qRender.show(pre: prePose, pose: pose, size: dstImageSize, cgContext: context.cgContext)
         }
         return dstImage
@@ -91,21 +74,21 @@ class PoseImageView: UIImageView {
         let jointB: Joint.Name
     }
     static let jointSegments = [
-        // The connected joints that are on the left side of the body.
         JointSegment(jointA: .leftHip, jointB: .leftShoulder),
+        JointSegment(jointA: .rightHip, jointB: .rightShoulder),
+        JointSegment(jointA: .leftShoulder, jointB: .rightShoulder),
+        JointSegment(jointA: .leftHip, jointB: .rightHip),
+        
         JointSegment(jointA: .leftShoulder, jointB: .leftElbow),
         JointSegment(jointA: .leftElbow, jointB: .leftWrist),
         JointSegment(jointA: .leftHip, jointB: .leftKnee),
         JointSegment(jointA: .leftKnee, jointB: .leftAnkle),
-        // The connected joints that are on the right side of the body.
-        JointSegment(jointA: .rightHip, jointB: .rightShoulder),
+        
         JointSegment(jointA: .rightShoulder, jointB: .rightElbow),
         JointSegment(jointA: .rightElbow, jointB: .rightWrist),
         JointSegment(jointA: .rightHip, jointB: .rightKnee),
         JointSegment(jointA: .rightKnee, jointB: .rightAnkle),
-        // The connected joints that cross over the body.
-        JointSegment(jointA: .leftShoulder, jointB: .rightShoulder),
-        JointSegment(jointA: .leftHip, jointB: .rightHip)
+        
     ]
     static func draw(image: CGImage, in cgContext: CGContext) {
         cgContext.saveGState()
@@ -153,26 +136,34 @@ class PoseImageView: UIImageView {
         )
         cgContext.draw(cg, in: rectangle)
         cgContext.restoreGState()
-        //jointRadius = 9
     }
     static func drawPictoHead(color segmentColor:CGColor, pose: Pose, in cgContext: CGContext) {
         guard let nose = pose.joints[.nose]?.position else {return}
         guard let rS = pose.joints[.rightHip]?.position else {return}
         guard let lS = pose.joints[.leftHip]?.position else {return}
-        let jointRadius = abs(rS.x-lS.x)
+        let jointRadius = abs(rS.x-lS.x)*1.5
+        //cgContext.setFillColor(Colors.gray)
+//        let edge = CGRect(x: nose.x - jointRadius*0.5, y: nose.y - jointRadius*0.5,width: jointRadius, height: jointRadius)
+//        cgContext.addEllipse(in: edge)
+//        cgContext.drawPath(using: .fill)
+        //jointRadius -= 10
         cgContext.setFillColor(segmentColor)
-        let rectangle = CGRect(x: nose.x - jointRadius*0.5, y: nose.y - jointRadius*0.6,width: jointRadius, height: jointRadius)
+        let rectangle = CGRect(x: nose.x - jointRadius*0.5, y: nose.y - jointRadius*0.5,width: jointRadius, height: jointRadius)
         cgContext.addEllipse(in: rectangle)
         cgContext.drawPath(using: .fill)
     }
     static func fillBody(wid:CGFloat,color:CGColor,pose:Pose,in cgContext: CGContext){
-        guard let rs = pose.joints[.rightShoulder]?.position else {return}
-        guard let ls = pose.joints[.leftShoulder]?.position else {return}
-        guard let lh = pose.joints[.leftHip]?.position else {return}
-        let rectangle = CGRect(x: rs.x+wid/2, y: rs.y+wid, width: ls.x-rs.x-wid, height: lh.y-rs.y-wid-wid)
+        guard let rs = pose.joints[.rightShoulder] else {return}
+        guard let ls = pose.joints[.leftShoulder] else {return}
+        guard let rh = pose.joints[.rightHip] else {return}
+        guard let lh = pose.joints[.leftHip] else {return}
+        let rectangle = CGRect(x: rs.position.x+wid/2, y: rs.position.y+wid, width: ls.position.x-rs.position.x-wid, height: lh.position.y-rs.position.y-wid-wid)
+        let rectangle2 = CGRect(x: ls.position.x, y: ls.position.y+wid, width: rh.position.x-ls.position.x, height: rh.position.y-ls.position.y-wid-wid)
         cgContext.setFillColor(color)
         cgContext.addRect(rectangle)
+        cgContext.addRect(rectangle2)
         cgContext.drawPath(using: .fillStroke)
+
     }
     
     private func drawText(image: CGImage,score: CGFloat, in cgContext: CGContext){

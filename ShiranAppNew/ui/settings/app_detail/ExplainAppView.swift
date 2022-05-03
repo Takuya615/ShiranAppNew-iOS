@@ -19,19 +19,11 @@ struct ExplainAppView: View {
     @State private var btn5 = false
     
     var body: some View {
-        HStack{
-                Button(
-                    action:{self.appState.isExplainView = false},
-                    label: {Text(str.back.rawValue).font(.system(size: 20))
-                        })
-                    .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
-                        Spacer()
-                }
         VStack{
+            BackKeyView(callBack: {self.appState.isExplainView.toggle()})
             Spacer()
             Text(str.exp1.rawValue).font(.title)
             .onAppear(perform: { if !appState.coachMark1{btn0 = true}})
-            
             
             List{
                 Button(action: {

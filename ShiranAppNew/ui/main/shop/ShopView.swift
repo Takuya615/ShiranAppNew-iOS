@@ -10,61 +10,49 @@ struct ShopView: View{
     @State var showAlert = false
     @State var isBought = false
     @State var products: [Skin] = ShopViewModel.getSkins()
+    @State var products2: [Body] = ShopViewModel.getBodys()
     
     var body: some View {
-        if products.isEmpty {
-            Text(str.noItems.rawValue).font(.title)
-        }else{
-            NavigationView{
-                List(products){ p in
-                    Button(action: { isBought.toggle() }, label: {
-                        HStack{
-                            Image(p.image,bundle: .main)
-                                .resizable()
-                                .frame(width: 90.0, height: 90.0, alignment: .leading)
-                            VStack(alignment: .center){
-                                Text(p.name).font(.title)
-                                HStack{
-                                    Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
-                                    Text(String(ShopViewModel.itemPrice(article: p))).font(.title)
-                                }
-                            }
+        NavigationView{
+            VStack{
+                List{
+                    Section {
+                        ForEach(products, id: \.self){ p in
+                            SkinItemView(p: p, callBack: {
+                                let buyAny = ShopViewModel.buy(parts:"Skin",id: p.id, coin: p.coin, dia: p.dia)
+                                if buyAny.1 {self.dataCounter.countedCoin = buyAny.0}
+                                else{self.dataCounter.countedDiamond = buyAny.0}
+                                delete(id: p.id)})
                         }
-                    })
-                        .alert(isPresented: $isBought) {
-                            if ShopViewModel.checkCanBuy(price: p.coin){
-                                return Alert(title: Text(str.doYouBuyIt.rawValue),
-                                             message: Text(p.name),
-                                             primaryButton: .cancel(Text(str.quite.rawValue)),
-                                             secondaryButton: .default(Text(str.purchase.rawValue), action: {
-                                    
-                                    self.dataCounter.countedCoin = ShopViewModel.buy(article: p)
-                                    delete(id: p.id)
-                                }))
-                            }else{
-                                return Alert(
-                                    title: Text(str.noMoney.rawValue),
-                                    dismissButton: .cancel(Text(str.modoru.rawValue))
-                                )
-                            }
+                    } header: {
+                        Text(str.item.rawValue)
+                    }
+                    Section {
+                        ForEach(products2, id: \.self){ p in
+                            BodyItemView(p: p, callBack: {
+                                let buyAny = ShopViewModel.buy(parts: "Body", id: p.id, coin: p.coin, dia: p.dia)
+                                if buyAny.1 {self.dataCounter.countedCoin = buyAny.0}
+                                else{self.dataCounter.countedDiamond = buyAny.0}
+                                delete2(id: p.id)})
                         }
-                }
-                .navigationTitle(str.shop.rawValue)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar{
-                    ToolbarItem(placement: .navigationBarLeading){
-                        HStack{
-                            Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
-                            Text(" \(self.dataCounter.countedCoin)")
-                            Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
-                            Text(" \(self.dataCounter.countedDiamond)")
-                        }
-                        
+                    } header: {
+                        Text(str.body.rawValue)
                     }
                 }
-                //.onAppear(perform: { products = ShopViewModel.getSkins() })
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarLeading){
+                    HStack{
+                        Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                        Text(" \(self.dataCounter.countedCoin)")
+                        Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                        Text(" \(self.dataCounter.countedDiamond)")
+                    }
+                }
             }
         }
+        //.onAppear(perform: { products.remove(at: 0) })
     }
     func delete(id: Int){
         var num = 0
@@ -75,4 +63,96 @@ struct ShopView: View{
             num += 1
         }
     }
+    func delete2(id: Int){
+        var num = 0
+        for body in products2{
+            if body.id == id {
+                products2.remove(at: num)
+            }
+            num += 1
+        }
+    }
 }
+
+
+struct SkinItemView: View {
+    var p: Skin
+    var callBack: ()->Void
+    @State var isBought = false
+    @EnvironmentObject var appState: AppState
+    var body: some View {
+        Button(action: {
+            if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
+                isBought.toggle()
+            }else{self.appState.isPurchaseView = true}
+        }, label: {
+            HStack{
+                Image(p.image,bundle: .main)
+                    .resizable()
+                    .frame(width: 90.0, height: 90.0, alignment: .center)
+                VStack{
+                    Text(p.name).font(.title)
+                    if(p.dia != nil){
+                        HStack(alignment: .center){
+                            Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                            Text(String(p.dia!)).font(.title)
+                        }
+                    }else{
+                        HStack(alignment: .center){
+                            Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                            Text(String(p.coin)).font(.title)
+                        }
+                    }
+                }
+            }
+        })
+        .alert(isPresented: $isBought) {
+            return Alert(title: Text(str.doYouBuyIt.rawValue),
+                         message: Text(p.name),
+                         primaryButton: .cancel(Text(str.quite.rawValue)),
+                         secondaryButton: .default(Text(str.purchase.rawValue),
+                         action: {callBack()}))
+        }
+    }
+}
+struct BodyItemView: View {
+    var p: Body
+    var callBack: () -> Void
+    @State var isBought = false
+    @EnvironmentObject var appState: AppState
+    var body: some View {
+        Button(action: {
+            if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
+                isBought.toggle()
+            }else{self.appState.isPurchaseView = true}
+        }, label: {
+            HStack{
+                Image(uiImage:BodyRender.showRender(skin: 0, body: p.id))
+                    .resizable()
+                    .frame(width: 50.0, height: 100.0, alignment: .leading)
+                VStack{
+                    Text(p.name).font(.title)
+                    if(p.dia != nil){
+                        HStack(alignment: .center){
+                            Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                            Text(String(p.dia!)).font(.title)
+                        }
+                    }else{
+                        HStack(alignment: .center){
+                            Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                            Text(String(p.coin)).font(.title)
+                        }
+                    }
+                }
+            }
+        })
+        .alert(isPresented: $isBought) {
+            return Alert(title: Text(str.doYouBuyIt.rawValue),
+                         message: Text(p.name),
+                         primaryButton: .cancel(Text(str.quite.rawValue)),
+                         secondaryButton: .default(Text(str.purchase.rawValue),
+                         action: {callBack()}))
+        }
+    }
+}
+
