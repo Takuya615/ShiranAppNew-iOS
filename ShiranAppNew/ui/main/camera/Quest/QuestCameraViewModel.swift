@@ -172,7 +172,7 @@ class QuestCameraViewModel{
     
     func taskTime() -> Int{
         //if self.qType == 0 {}
-        var taskTime: Int = 10//UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
+        var taskTime: Int = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
         if taskTime < 5 {taskTime = 5}
         if taskTime > 240 {taskTime = 240}
         return taskTime

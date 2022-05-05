@@ -1,9 +1,3 @@
-//
-//  ContentView.swift
-//  ShiranApp
-//
-//  Created by user on 2021/07/19.
-//
 
 import SwiftUI
 import Firebase
@@ -50,19 +44,18 @@ struct ContentView: View {
                 if self.appState.coachMarkf { CoachMarkView() }
                 fragment
                 //if dataCounter.countedDiamond == 0 { dia }
-                fab
-                
             }
         }
         }
     }
     var fragment:some View {
         TabView {
+            
             HomeView()
                 .tabItem {
                     Image(systemName: "homekit")
                     Text(str.home.rawValue)
-                }
+            }
             QuestView()
                 .tabItem {
                     Image(systemName: "line.horizontal.star.fill.line.horizontal")
@@ -112,39 +105,5 @@ struct ContentView: View {
      }
      }
      }*/
-    var fab: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                Button(action:{
-                    EventAnalytics.tapFab()
-                    self.appState.isVideo = true
-                    self.appState.coachMark1 = true
-                    UserDefaults.standard.set(true, forKey: "CoachMark1")
-                }, label: {
-                    Image(systemName: "flame")//"video.fill.badge.plus")
-                        .foregroundColor(.white)
-                        .font(.system(size: 40))
-                })
-                    .frame(width: 60, height: 60, alignment: .center)
-                    .background(Color.orange)
-                    .cornerRadius(30.0)
-                    .shadow(color: .gray, radius: 3, x: 3, y: 3)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 60.0, trailing: 16.0))
-                    .onAppear(perform: {
-                        if self.appState.coachMark1 && !self.appState.coachMark3 {
-                            dialogPresentation.show(content: .contentDetail1(isPresented: $dialogPresentation.isPresented))
-                        }
-                        if self.appState.coachMark3 && !self.appState.coachMark4{
-                            dialogPresentation.show(content: .contentDetail2(isPresented: $dialogPresentation.isPresented))
-                        }
-                    })
-                /*.fullScreenCover(isPresented: self.$isVideo, content: {
-                 VideoCameraView2(isVideo: $isVideo)
-                 })*/
-            }.customDialog(presentaionManager: dialogPresentation)
-        }
-    }
     
 }

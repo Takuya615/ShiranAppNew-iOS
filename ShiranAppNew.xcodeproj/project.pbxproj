@@ -10,6 +10,7 @@
 		2C43027E280BBED800EB8866 /* QuestRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43027D280BBED800EB8866 /* QuestRender.swift */; };
 		2C487DF427DF6D7C00D807E3 /* ItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */; };
 		2C544FCC281F8BBA00C99758 /* BackKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C544FCB281F8BBA00C99758 /* BackKeyView.swift */; };
+		2C544FD1282250D200C99758 /* fabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C544FD0282250D200C99758 /* fabView.swift */; };
 		2C7BA19427EE99C80016D3B7 /* QuestCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */; };
 		2C90999927E85F1B00B3EF6D /* VideoCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */; };
 		2CCCDF04281CB97C0001A3EC /* AppPurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCDF03281CB97C0001A3EC /* AppPurchaseView.swift */; };
@@ -83,6 +84,7 @@
 		2C43027D280BBED800EB8866 /* QuestRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestRender.swift; sourceTree = "<group>"; };
 		2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelectView.swift; sourceTree = "<group>"; };
 		2C544FCB281F8BBA00C99758 /* BackKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackKeyView.swift; sourceTree = "<group>"; };
+		2C544FD0282250D200C99758 /* fabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fabView.swift; sourceTree = "<group>"; };
 		2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCameraViewModel.swift; sourceTree = "<group>"; };
 		2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCameraViewModel.swift; sourceTree = "<group>"; };
 		2CCCDF03281CB97C0001A3EC /* AppPurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPurchaseView.swift; sourceTree = "<group>"; };
@@ -182,6 +184,17 @@
 			path = CameraUtil;
 			sourceTree = "<group>";
 		};
+		2C544FCF28220B8E00C99758 /* ToolBar */ = {
+			isa = PBXGroup;
+			children = (
+				CEA3081627741DDF00D7FDC7 /* SettingView.swift */,
+				CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */,
+				CE43D8C626E1BC540067CDDB /* PrivacyPolicyView.swift */,
+				CE7D5001279BB2680055C587 /* UserOpinionView.swift */,
+			);
+			path = ToolBar;
+			sourceTree = "<group>";
+		};
 		2CCFAB712809338100F68401 /* Default */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,7 +283,6 @@
 				CE71D99027C091DF00408AD7 /* Keys.swift */,
 				CE71D98E27C091BD00408AD7 /* Colors.swift */,
 				CE71D98C27C091AC00408AD7 /* Strings.swift */,
-				CED6999227065EC8006E3AEA /* DataCounter.swift */,
 			);
 			path = constants;
 			sourceTree = "<group>";
@@ -290,6 +302,8 @@
 			children = (
 				CE5422F126E6DF27002550D4 /* CoreML */,
 				CE43D8B326E1BC440067CDDB /* CoachMarks.swift */,
+				CED6999227065EC8006E3AEA /* DataCounter.swift */,
+				2CCFAB7E2809BC0200F68401 /* Collection.swift */,
 				CED69990270560AC006E3AEA /* BOSS.swift */,
 				CE71D97A27C081C000408AD7 /* Incentive.swift */,
 				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
@@ -315,10 +329,8 @@
 		CE71D98027C08B0000408AD7 /* settings */ = {
 			isa = PBXGroup;
 			children = (
-				CE71D98727C08BEF00408AD7 /* setting */,
-				CE71D98B27C08C6A00408AD7 /* app_detail */,
-				CE71D98A27C08C2600408AD7 /* privacyprolicy */,
-				CE71D98827C08BFC00408AD7 /* opinion */,
+				2C544FCF28220B8E00C99758 /* ToolBar */,
+				CE71D98827C08BFC00408AD7 /* Any */,
 			);
 			path = settings;
 			sourceTree = "<group>";
@@ -326,14 +338,11 @@
 		CE71D98127C08B3200408AD7 /* parts */ = {
 			isa = PBXGroup;
 			children = (
-				2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */,
-				2CCFAB7E2809BC0200F68401 /* Collection.swift */,
 				CE43D8C326E1BC540067CDDB /* PlayerView.swift */,
-				CE43D8C126E1BC540067CDDB /* LoginView.swift */,
 				CE82BE7B2728FE790051EA84 /* DialogPresentation.swift */,
 				CE1337A827DE3B0F004AB1A8 /* toolbarItemView.swift */,
-				2CCCDF03281CB97C0001A3EC /* AppPurchaseView.swift */,
 				2C544FCB281F8BBA00C99758 /* BackKeyView.swift */,
+				2C544FD0282250D200C99758 /* fabView.swift */,
 			);
 			path = parts;
 			sourceTree = "<group>";
@@ -385,36 +394,14 @@
 			path = camera;
 			sourceTree = "<group>";
 		};
-		CE71D98727C08BEF00408AD7 /* setting */ = {
+		CE71D98827C08BFC00408AD7 /* Any */ = {
 			isa = PBXGroup;
 			children = (
-				CEA3081627741DDF00D7FDC7 /* SettingView.swift */,
+				CE43D8C126E1BC540067CDDB /* LoginView.swift */,
+				2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */,
+				2CCCDF03281CB97C0001A3EC /* AppPurchaseView.swift */,
 			);
-			path = setting;
-			sourceTree = "<group>";
-		};
-		CE71D98827C08BFC00408AD7 /* opinion */ = {
-			isa = PBXGroup;
-			children = (
-				CE7D5001279BB2680055C587 /* UserOpinionView.swift */,
-			);
-			path = opinion;
-			sourceTree = "<group>";
-		};
-		CE71D98A27C08C2600408AD7 /* privacyprolicy */ = {
-			isa = PBXGroup;
-			children = (
-				CE43D8C626E1BC540067CDDB /* PrivacyPolicyView.swift */,
-			);
-			path = privacyprolicy;
-			sourceTree = "<group>";
-		};
-		CE71D98B27C08C6A00408AD7 /* app_detail */ = {
-			isa = PBXGroup;
-			children = (
-				CE04E57C26E9D0CE00872352 /* ExplainAppView.swift */,
-			);
-			path = app_detail;
+			path = Any;
 			sourceTree = "<group>";
 		};
 		CE96197526E1AE7F0084F1A7 = {
@@ -631,6 +618,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C544FD1282250D200C99758 /* fabView.swift in Sources */,
 				CEB5753E26FC2E96005C5E49 /* CharacterModel.swift in Sources */,
 				CE54231326E6DF27002550D4 /* PoseBuilder.swift in Sources */,
 				CE71D99527C096B800408AD7 /* QuestViewModel.swift in Sources */,

@@ -141,7 +141,7 @@ class PoseImageView: UIImageView {
         guard let nose = pose.joints[.nose]?.position else {return}
         guard let rS = pose.joints[.rightHip]?.position else {return}
         guard let lS = pose.joints[.leftHip]?.position else {return}
-        let jointRadius = abs(rS.x-lS.x)*1.5
+        let jointRadius = abs(rS.x-lS.x)
         //cgContext.setFillColor(Colors.gray)
 //        let edge = CGRect(x: nose.x - jointRadius*0.5, y: nose.y - jointRadius*0.5,width: jointRadius, height: jointRadius)
 //        cgContext.addEllipse(in: edge)

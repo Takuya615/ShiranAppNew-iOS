@@ -14,12 +14,12 @@ struct Skin:Hashable{
     
     static var skins: [Skin] = [
         Skin(id: 0,name: "",image: "face0",coin: 0),
-        Skin(id: 1,name: "シルクハット",image: "face1",coin: 55,y: -0.5),
-        Skin(id: 2,name: "3Dメガネ",image: "face2",coin: 11,y: -0.1),
-        Skin(id: 3,name: "テディベア",image: "face3",coin: 22,y: -0.45),
-        Skin(id: 4,name: "ハット",image: "face4",coin: 33,y: -0.4),
-        Skin(id: 5,name: "アフロ",image: "face5",coin: 44,y: -0.4),
-        Skin(id: 6,name: "ちょんまげ",image: "face6",coin: 33,y: -0.3),
+        Skin(id: 1,name: "シルクハット",image: "face1",coin: 20,y: -0.5),
+        Skin(id: 2,name: "3Dメガネ",image: "face2",coin: 30,y: -0.1),
+        Skin(id: 3,name: "テディベア",image: "face3",coin: 40,y: -0.45),
+        Skin(id: 4,name: "ハット",image: "face4",coin: 50,y: -0.4),
+        Skin(id: 5,name: "アフロ",image: "face5",coin: 60,y: -0.4),
+        Skin(id: 6,name: "ちょんまげ",image: "face6",coin: 70,y: -0.3),
     ]
 }
 
@@ -33,7 +33,7 @@ struct Body:Hashable{
     
     static var bodys: [Body] = [
         Body(id: 0,name: "デフォルト",coin: 0),
-        Body(id: 1,name: "ピクトグラム 青",coin: 55),
+        Body(id: 1,name: "ピクトグラム 青",coin: 200),
         Body(id: 2,name: "ピクトグラム ピンク",coin: 10000001,dia: 10),
     ]
 }

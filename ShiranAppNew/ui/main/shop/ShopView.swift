@@ -17,12 +17,12 @@ struct ShopView: View{
             VStack{
                 List{
                     Section {
-                        ForEach(products, id: \.self){ p in
-                            SkinItemView(p: p, callBack: {
-                                let buyAny = ShopViewModel.buy(parts:"Skin",id: p.id, coin: p.coin, dia: p.dia)
+                        ForEach(0..<products.count, id: \.self){ i in
+                            SkinItemView(num:i, p: products[i], callBack: {
+                                let buyAny = ShopViewModel.buy(parts:"Skin",id: products[i].id, coin: products[i].coin, dia: products[i].dia)
                                 if buyAny.1 {self.dataCounter.countedCoin = buyAny.0}
                                 else{self.dataCounter.countedDiamond = buyAny.0}
-                                delete(id: p.id)})
+                                delete(id: products[i].id)})
                         }
                     } header: {
                         Text(str.item.rawValue)
@@ -76,42 +76,52 @@ struct ShopView: View{
 
 
 struct SkinItemView: View {
+    var num: Int
     var p: Skin
     var callBack: ()->Void
     @State var isBought = false
     @EnvironmentObject var appState: AppState
     var body: some View {
-        Button(action: {
-            if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
-                isBought.toggle()
-            }else{self.appState.isPurchaseView = true}
-        }, label: {
-            HStack{
-                Image(p.image,bundle: .main)
-                    .resizable()
-                    .frame(width: 90.0, height: 90.0, alignment: .center)
-                VStack{
-                    Text(p.name).font(.title)
-                    if(p.dia != nil){
-                        HStack(alignment: .center){
-                            Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
-                            Text(String(p.dia!)).font(.title)
-                        }
-                    }else{
-                        HStack(alignment: .center){
-                            Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
-                            Text(String(p.coin)).font(.title)
+        if num == 0{
+            Button(action: {
+                if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
+                    isBought.toggle()
+                }else{self.appState.isPurchaseView = true}
+            }, label: {
+                HStack{
+                    Image(p.image,bundle: .main)
+                        .resizable()
+                        .frame(width: 90.0, height: 90.0, alignment: .center)
+                    VStack{
+                        Text(p.name).font(.title)
+                        if(p.dia != nil){
+                            HStack(alignment: .center){
+                                Image("diamonds").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                                Text(String(p.dia!)).font(.title)
+                            }
+                        }else{
+                            HStack(alignment: .center){
+                                Image("coin").resizable().frame(width: 30.0, height: 30.0, alignment: .leading)
+                                Text(String(p.coin)).font(.title)
+                            }
                         }
                     }
                 }
+            })
+            .alert(isPresented: $isBought) {
+                return Alert(title: Text(str.doYouBuyIt.rawValue),
+                             message: Text(p.name),
+                             primaryButton: .cancel(Text(str.quite.rawValue)),
+                             secondaryButton: .default(Text(str.purchase.rawValue),
+                                                       action: {callBack()}))
             }
-        })
-        .alert(isPresented: $isBought) {
-            return Alert(title: Text(str.doYouBuyIt.rawValue),
-                         message: Text(p.name),
-                         primaryButton: .cancel(Text(str.quite.rawValue)),
-                         secondaryButton: .default(Text(str.purchase.rawValue),
-                         action: {callBack()}))
+        }else{
+            HStack{
+                Image(systemName: "questionmark.circle.fill")
+                    .resizable()
+                    .frame(width: 40.0, height: 40.0, alignment: .leading)
+                Text(p.name).font(.title)
+            }
         }
     }
 }

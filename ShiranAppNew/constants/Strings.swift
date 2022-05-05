@@ -16,6 +16,7 @@ enum str: String {
     case opinion = "ご意見"
     case reset = "リセット"
     case oneDayReset = "１日リセット"
+    case cheat = "チート"
     
     case coachMarck2text = "カベに立てかけ、\n↓のSTARTをタップ\n（初回は時間が5秒だけです)"
     case back = "< Back"
@@ -63,6 +64,8 @@ enum str: String {
 //    case noMoney = "お金が足りません..."
 //    case modoru = "もどる"
     //AppPurchaseView
+    case coin = "コイン"
+    case diamond = "ダイアモンド"
     case purchaseError = "予期せぬエラー：通信状況をご確認の上、再度お試しください"
     
     case normal = "ノーマル"

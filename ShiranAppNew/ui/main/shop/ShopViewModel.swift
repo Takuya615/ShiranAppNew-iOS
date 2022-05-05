@@ -54,6 +54,7 @@ struct ShopViewModel{
     
     static func getSkins() -> [Skin]{
         let gotItems: [Int] = UserDefaults.standard.array(forKey:Keys.yourItem.rawValue)as? [Int] ?? [0] as [Int]
+        //let bought: Int = UserDefaults.standard.integer(forKey:Keys.boughtSkin.rawValue)
         var sList = Skin.skins
         var count = 0
         for num in gotItems.sorted() {

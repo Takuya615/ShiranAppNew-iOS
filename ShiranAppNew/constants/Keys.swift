@@ -52,6 +52,7 @@ enum Keys: String {
     case updatedStage = "updatedStage"
     
     //skin
+    //case boughtSkin = "BoughtSkinNumber"
     case yourItem = "YourItems"
     case selectSkin = "SelectSkin"
     

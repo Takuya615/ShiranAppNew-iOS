@@ -26,7 +26,7 @@ struct AppPurchaseView: View {
                             }
                         }
                     } header: {
-                        Text(str.rewardCoin.rawValue)
+                        Text(str.coin.rawValue)
                     }
                     Section {
                         ForEach(products2){ p in
@@ -43,7 +43,7 @@ struct AppPurchaseView: View {
                             }
                         }
                     } header: {
-                        Text(str.dialogBossText.rawValue)
+                        Text(str.diamond.rawValue)
                     }
                 }
             }

@@ -28,7 +28,7 @@ class DataCounter: ObservableObject {
             //continuedDayCounter = 0
             User.set(5, forKey: Keys.taskTime.rawValue)
             //updateTaskTime(total: -1)
-            User.setValue(-1, forKey: Keys.daylyState.rawValue)
+            //User.setValue(-1, forKey: Keys.daylyState.rawValue)
             return -1
         }
         let cal = Calendar(identifier: .gregorian)
@@ -39,20 +39,19 @@ class DataCounter: ObservableObject {
         print("todayDC:\(todayDC)")
         print("dt1DC:\(lastDC)")
         print("差は \(diff.day!) 日")
-        User.setValue(diff.day!, forKey: Keys.daylyState.rawValue)
+        //User.setValue(diff.day!, forKey: Keys.daylyState.rawValue)
         return diff.day!
     }
     static func updateDate(){
         let totalDay: Int = UserDefaults.standard.integer(forKey: Keys.totalDay.rawValue)
         UserDefaults.standard.set(totalDay+1, forKey: Keys.totalDay.rawValue)
         UserDefaults.standard.set(Date(), forKey: Keys._LastTimeDay.rawValue)
-        
-        let continuedDay = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
-        let retry = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)
-        if(setDailyState() == 1){
+        if(setDailyState() < 1){
+            let continuedDay = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
             UserDefaults.standard.set(continuedDay + 1, forKey: Keys.continuedDay.rawValue)
         }else{
             print("記録リセット")
+            let retry = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)
             UserDefaults.standard.set(0, forKey: Keys.continuedDay.rawValue)
             UserDefaults.standard.set(retry + 1, forKey: Keys.retry.rawValue)//値の書き込み　↓表示の更新
             //EventAnalytics.doneNotEveryDay(diff: diff)
@@ -158,7 +157,7 @@ class DataCounter: ObservableObject {
         return alert
     }
     static func showDailyResult(view: VideoCameraView,bonus:Float,killList:[boss]) -> (UIAlertController){
-        let alert: UIAlertController = UIAlertController(title: "\n\n\n\n\n\n\n\n", message:  "",
+        let alert: UIAlertController = UIAlertController(title: "\n\n\n\n\n\n\n\n\n", message:  "",
                                                          preferredStyle:  UIAlertController.Style.alert)
         let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
@@ -171,7 +170,6 @@ class DataCounter: ObservableObject {
         let lav = UILabel(frame: CGRect(x: 10, y: 15, width: 200, height: 20))
         lav.text = str.kill.rawValue + String(killList.count)
         alert.view.addSubview(lav)
-        
         for kill in killList {
             let myInputImage = CIImage(image: UIImage(named: kill.image)!)
             let imageView = UIImageView(frame: CGRect(x:10+wid, y:40, width:40, height:40))
@@ -185,25 +183,28 @@ class DataCounter: ObservableObject {
             alert.view.addSubview(imageView)
             exp += kill.bonus
         }
+        let lav1 = UILabel(frame: CGRect(x: 10, y: 85 , width: 200, height: 30))
+        lav1.text = str.rewardCoin.rawValue + "  " + String(incentive(dataCounter: view.self.dataCounter).getCoin()) + "G"
+        alert.view.addSubview(lav1)
         
-        let resultLv = updateLv(score: exp)
+        let resultLv = updateLv(score: exp,data: view.self.dataCounter)
         //let message = resultLv.3//DataCounter.mes(score: exp, str: "")
-        let lav2 = UILabel(frame: CGRect(x: 10, y: 85 , width: 200, height: 20))
+        let lav2 = UILabel(frame: CGRect(x: 10, y: 115 , width: 200, height: 20))
         lav2.text = resultLv.1//message
         alert.view.addSubview(lav2)
         let progressLV = UIProgressView(progressViewStyle: .default)
-        progressLV.frame = CGRect(x: 10, y: 110 , width: 200, height: 20)
+        progressLV.frame = CGRect(x: 10, y: 140 , width: 200, height: 20)
         progressLV.progress = resultLv.0
         progressLV.setProgress(resultLv.0, animated: true)
         progressLV.tintColor = UIColor.blue
         alert.view.addSubview(progressLV)
     
         let result = DataCounter.updateTT(score: exp)//初期値、末期値、何回プログレスバーを更新するかInt
-        let lav3 = UILabel(frame: CGRect(x: 10, y: 140 , width: 400, height: 20))
+        let lav3 = UILabel(frame: CGRect(x: 10, y: 170 , width: 400, height: 20))
         lav3.text = result.2//"制限時間が\(taskTime)秒に伸びました！"
         alert.view.addSubview(lav3)
         let progressView = UIProgressView(progressViewStyle: .default)
-        progressView.frame = CGRect(x: 10, y: 165 , width: 200, height: 20)
+        progressView.frame = CGRect(x: 10, y: 195 , width: 200, height: 20)
         progressView.progress = result.0
         progressView.setProgress(result.0, animated: true)
         progressView.tintColor = UIColor.blue
@@ -227,31 +228,21 @@ class DataCounter: ObservableObject {
         case 3,4:title += "\n" + str.rewardDistance.rawValue + String(qScore) + str.m.rawValue + "\n"
         default:title = ""
         }
-        if qScore >= qGoal[2] {qsl[qNum] = 3;title += str.questCompAll.rawValue + "\n"}
-        else if qScore >= qGoal[1] {qsl[qNum] = 2;title += str.questComp066.rawValue + "\n"}
-        else if qScore >= qGoal[0] {qsl[qNum] = 1;title += str.questComp033.rawValue + "\n"}
-        print("クエストリスト更新\(qsl)")
-        UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
-        UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
-        UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
-        alert.title = title
-        let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
-            (action: UIAlertAction!) -> Void in
-            view.isVideo = false
-        })
-        alert.addAction(confirmAction)
-        return alert
-    }
-    static func showQuestResult2(view: VideoCameraView,qType: Int, qScore: Int) -> UIAlertController{
-        let alert :UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
-        var title = "\n" + str.kill.rawValue + String(qScore) + "\n"
-        let qNum: Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
-        let qGoal: [Int] = UserDefaults.standard.array(forKey: Keys.qGoal.rawValue) as! [Int]
-        var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
+        var re = 0
+        if qScore >= qGoal[2] {qsl[qNum]=3; re=3; title += str.questCompAll.rawValue + "\n"}
+        else if qScore >= qGoal[1] {qsl[qNum]=2; re=2; title += str.questComp066.rawValue + "\n"}
+        else if qScore >= qGoal[0] {qsl[qNum]=1; re=1; title += str.questComp033.rawValue + "\n"}
         
-        if qScore >= qGoal[2] {qsl[qNum] = 3;title += str.questCompAll.rawValue + "\n"}
-        else if qScore >= qGoal[1] {qsl[qNum] = 2;title += str.questComp066.rawValue + "\n"}
-        else if qScore >= qGoal[0] {qsl[qNum] = 1;title += str.questComp033.rawValue + "\n"}
+        for i in 1 ... 3 {
+            let imageView = UIImageView(frame: CGRect(x:15+50*i, y:0, width:40, height:40))
+            if re < i {
+                imageView.image = UIImage(systemName: "star")
+            }else{
+                imageView.image = UIImage(systemName: "star.fill")
+            }
+            alert.view.addSubview(imageView)
+        }
+        
         print("クエストリスト更新\(qsl)")
         UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
         UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
@@ -264,6 +255,28 @@ class DataCounter: ObservableObject {
         alert.addAction(confirmAction)
         return alert
     }
+//    static func showQuestResult2(view: VideoCameraView,qType: Int, qScore: Int) -> UIAlertController{
+//        let alert :UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
+//        var title = "\n" + str.kill.rawValue + String(qScore) + "\n"
+//        let qNum: Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
+//        let qGoal: [Int] = UserDefaults.standard.array(forKey: Keys.qGoal.rawValue) as! [Int]
+//        var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
+//
+//        if qScore >= qGoal[2] {qsl[qNum] = 3;title += str.questCompAll.rawValue + "\n"}
+//        else if qScore >= qGoal[1] {qsl[qNum] = 2;title += str.questComp066.rawValue + "\n"}
+//        else if qScore >= qGoal[0] {qsl[qNum] = 1;title += str.questComp033.rawValue + "\n"}
+//        print("22222クエストリスト更新\(qsl)")
+//        UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
+//        UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
+//        UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
+//        alert.title = title
+//        let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
+//            (action: UIAlertAction!) -> Void in
+//            view.isVideo = false
+//        })
+//        alert.addAction(confirmAction)
+//        return alert
+//    }
     /*
     //Lv
     static func mes(score: Int,str: String) -> String{
@@ -299,14 +312,11 @@ class DataCounter: ObservableObject {
     }
     */
     
-    static func updateLv(score: Int) -> (Float,String){
-        //let levelTable = [200,480,870,1320,1830,2400,3030,3720,4470,5280,6150,7080,8070,9120,10230,11400,
-        //12630,13920,15270,16680,18150,19680,21270,22920,24630,26400,27930,29220,30570,31980,33480]
-        let exp: Int = UserDefaults.standard.integer(forKey: Keys.exp.rawValue)//読み込み
-        let preLv: Int = UserDefaults.standard.integer(forKey: Keys.level.rawValue)//読み込み
+    static func updateLv(score: Int,data: DataCounter) -> (Float,String){
+        let exp: Int = UserDefaults.standard.integer(forKey: Keys.exp.rawValue)
+        let preLv: Int = UserDefaults.standard.integer(forKey: Keys.level.rawValue)
         var newLv = preLv
-        
-        for i in 1...table.count-1 {
+        for i in 1..<table.count {
             if table[i] > exp+score {
                 newLv = i
                 break
@@ -314,16 +324,15 @@ class DataCounter: ObservableObject {
         }
         UserDefaults.standard.set(exp+score, forKey: Keys.exp.rawValue)
         UserDefaults.standard.set(newLv, forKey: Keys.level.rawValue)
-        
         let af = Float(exp+score-table[newLv-1]) / Float(table[newLv]-table[newLv-1])
         var message = ""
         if newLv == preLv{
-            message = str.rewardExp.rawValue + String(score) + str.p.rawValue
+            message = str.rewardExp.rawValue + " " + String(exp+score-table[newLv-1]) + " / " + String(table[newLv]-table[newLv-1])
         }else{
             EventAnalytics.levelUp(level: newLv)
-            message = str.levelUp.rawValue + String(preLv) + "→" + String(newLv)
+            message = str.levelUp.rawValue + String(preLv) + " → " + String(newLv)
+            data.countedLevel = newLv
         }
-        
         return (af,message)
     }
     
@@ -383,7 +392,7 @@ class DataCounter: ObservableObject {
         }
     }
     
-    static let table: [Int] = [100,600,960,1320,1740,2160,2640,3120,3660,4200,4800,5400,6060,6720,7440,8160,8940,9720,10560,11400,12300,13200,14160,15120,16140,17160,18240,19320,20460,21600,22800,24000,25260,26520,27840,29160,30540,31920,33360,34800,36300,37800,39360,40920,42540,44160,45840,47520,49260,51000,52800,54600,55860,57120,58440,59760,61140,62520,63960,65400,66960,68520,70200,71880,73680,75480,77400,79320,81360,83400,85560,87720,90000,92280,94680,97080,99600,102120,104760,107400,110160,112920,115800,118680,121680,124680,127200,129720,132360,135000,137820,140640,143640,146640,149820,153000,156360,159720,163260,166800,170520,174240,178140,182040,186120,190200,193860,197520,201360,205200,209220,213240,217440,221640,226020,230400,234960,239520,244260,249000,253980,258960,264180,269400,274260,279120,284220,289320,294660,300000,305580,311160,316980,322800,328860,334920,341220,347520,354060,360600,366780,372960,379380,385800,392460,399120,406020,412920,420060,427200,434640,442080,449820,457560,465000,472440,480180,487920,495960,504000,512340,520680,529320,537960,546900,555840,564480,573120,582060,591000,600240,609480,619020,628560,638400,648240,658140
+    static let table: [Int] = [0,100,600,960,1320,1740,2160,2640,3120,3660,4200,4800,5400,6060,6720,7440,8160,8940,9720,10560,11400,12300,13200,14160,15120,16140,17160,18240,19320,20460,21600,22800,24000,25260,26520,27840,29160,30540,31920,33360,34800,36300,37800,39360,40920,42540,44160,45840,47520,49260,51000,52800,54600,55860,57120,58440,59760,61140,62520,63960,65400,66960,68520,70200,71880,73680,75480,77400,79320,81360,83400,85560,87720,90000,92280,94680,97080,99600,102120,104760,107400,110160,112920,115800,118680,121680,124680,127200,129720,132360,135000,137820,140640,143640,146640,149820,153000,156360,159720,163260,166800,170520,174240,178140,182040,186120,190200,193860,197520,201360,205200,209220,213240,217440,221640,226020,230400,234960,239520,244260,249000,253980,258960,264180,269400,274260,279120,284220,289320,294660,300000,305580,311160,316980,322800,328860,334920,341220,347520,354060,360600,366780,372960,379380,385800,392460,399120,406020,412920,420060,427200,434640,442080,449820,457560,465000,472440,480180,487920,495960,504000,512340,520680,529320,537960,546900,555840,564480,573120,582060,591000,600240,609480,619020,628560,638400,648240,658140
     ]
     //200,480,870,1320,1830,2400,3030,3720,4470,5280,6150,7080,8070,9120,10230,11400,
 }

@@ -1,9 +1,4 @@
-//
-//  QuestView.swift
-//  ShiranAppNew
-//
-//  Created by user on 2022/02/19.
-//
+
 
 import SwiftUI
 
@@ -40,7 +35,7 @@ struct QuestView: View{
                     HStack{
                         Text(item.name)
                         switch item.number {
-                        case 1: Text("▶️").onTapGesture(perform: {onVideo.toggle()}).sheet(isPresented: $onVideo, content: {PlayerViewCoin()})//ExplainAppView
+                        case 1: Text("▶️").onTapGesture(perform: {onVideo.toggle()}).sheet(isPresented: $onVideo, content: {PlayerViewCoin()})
                         case 3: Text("▶️").onTapGesture(perform: {onVideo.toggle()}).sheet(isPresented: $onVideo, content: {PlayerViewHiit()})
                         case 6: Text("▶️").onTapGesture(perform: {onVideo.toggle()}).sheet(isPresented: $onVideo, content: {PlayerViewClimb()})
                             
@@ -101,20 +96,20 @@ struct QuestView: View{
         //.customDialog(presentaionManager: dialogPresentation)
     }
     func setStage(){
-        var qsl = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
+        let qsl = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
         var num = 0//もっている星の数
         for i in qsl { num += i }
-        var addQ = 2
+        //var addQ = 2
         switch num {
-        case 5...12 : stage = 2; stageOnNow = 2; neededStar = 13-num; addQ = 3
-        case 13...21 : stage = 3; stageOnNow = 3; neededStar = 22-num; addQ = 3
-        case 22...100 : stage = 4; stageOnNow = 4; neededStar = 101-num; addQ = 4
+        case 5...12 : stage = 2; stageOnNow = 2; neededStar = 13-num;// addQ = 3
+        case 13...21 : stage = 3; stageOnNow = 3; neededStar = 22-num;// addQ = 3
+        case 22...100 : stage = 4; stageOnNow = 4; neededStar = 101-num;// addQ = 4
         default: neededStar = 5-num// stage 1
         }
         if stage > updated_stage {//新ステージ解放時。　星の数を記録するリストを更新する
             UserDefaults.standard.set(stage, forKey: Keys.updatedStage.rawValue)
-            for _ in 1 ... addQ{ qsl.append(0) }
-            UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
+            //for _ in 1 ... addQ{ qsl.append(0) }
+            //UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
             switch stage {
             case 2: EventAnalytics.qCrear1()
             case 3: EventAnalytics.qCrear2()

@@ -222,7 +222,6 @@ class VideoCameraViewModel{
         }
         if switchTime == 3 {SystemSounds.countDown("")}
         switchTime -= 1
-        
         if self.time == 0 && !self.countDown { _self.view.backgroundColor = .white }
     }
     
@@ -242,7 +241,6 @@ class VideoCameraViewModel{
             jumpC = 2
         }
     }
-    
     
     //Extension
     func culculateScore(pose: Pose, prePose: Pose) -> Pose{
@@ -274,7 +272,6 @@ class VideoCameraViewModel{
                 return false
             }
         }
-        
         let list = [pose[.leftAnkle],pose[.rightAnkle],
                     pose[.leftWrist],pose[.rightWrist],
                     pose[.nose]

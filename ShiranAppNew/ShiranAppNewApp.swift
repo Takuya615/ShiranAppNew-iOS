@@ -1,9 +1,3 @@
-//
-//  ShiranAppNewApp.swift
-//  ShiranAppNew
-//
-//  Created by user on 2021/09/03.
-//
 
 import SwiftUI
 import Firebase
@@ -75,7 +69,7 @@ class AppState: ObservableObject {
     @Published var coachMarkf: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMarkf.rawValue)
     
     @Published var showWanWan: Bool = false
-    @Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: Keys.firstUseBounus.rawValue)
+    //@Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: Keys.firstUseBounus.rawValue)
     init() {
         if EventAnalytics.isDebag {
             coachMark1 = true
@@ -87,20 +81,18 @@ class AppState: ObservableObject {
             UserDefaults.standard.set(true,forKey: Keys.OpenChar.rawValue)
             UserDefaults.standard.set(true,forKey: Keys.OpenShop.rawValue)
             UserDefaults.standard.set(true,forKey: Keys.CoachMarkf.rawValue)
-            UserDefaults.standard.set(2, forKey: Keys.difficult.rawValue)//初期化
+            UserDefaults.standard.register(defaults: [Keys.level.rawValue: 1])
+            UserDefaults.standard.register(defaults: [Keys.difficult.rawValue: 2])
         }
-        
         if !coachMark1 {
             isVideoPlayer = true
-            UserDefaults.standard.set(2, forKey: Keys.difficult.rawValue)
-            
+            UserDefaults.standard.register(defaults: [Keys.level.rawValue: 1])
+            UserDefaults.standard.register(defaults: [Keys.difficult.rawValue: 2])
         }//{isExplainView = true}
         if Auth.auth().currentUser != nil {
             self.isinAccount = true//trueなら　アカウント設定 　false　ならログアウトボタンに切り替わる
             //self.isLogin = true
         }
-        //UserDefaults.standard.set(10, forKey: "Level")
-        
     }
     
     func signup(email:String, password:String){//email:String,password:String

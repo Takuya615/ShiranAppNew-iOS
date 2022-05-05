@@ -72,7 +72,6 @@ struct toolbarItemView: View {
             
             Button(action: {
                 UserDefaults.standard.removeAll()
-                UserDefaults.standard.set(400, forKey: Keys.coin.rawValue)
                 exit(0)
             }) {
                 Text(str.reset.rawValue)
@@ -86,7 +85,14 @@ struct toolbarItemView: View {
                 Text(str.oneDayReset.rawValue)
                 Image(systemName: "shield")
             }
-            
+            Button(action: {
+                UserDefaults.standard.set(1000, forKey: Keys.diamond.rawValue)
+                UserDefaults.standard.set(10000, forKey: Keys.coin.rawValue)
+                //UserDefaults.standard.set([3,3,3,3], forKey: Keys.qsl.rawValue)
+            }) {
+                Text(str.cheat.rawValue)
+                Image(systemName: "shield")
+            }
             /*
              @IBAction func share() {
              //share(上の段)から遷移した際にシェアするアイテム

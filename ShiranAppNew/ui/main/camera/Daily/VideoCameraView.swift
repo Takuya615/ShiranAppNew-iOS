@@ -4,7 +4,7 @@ import AVFoundation
 
 struct VideoCameraView: UIViewControllerRepresentable {
     @Binding var isVideo: Bool
-    //@EnvironmentObject var dataCounter: DataCounter
+    @EnvironmentObject var dataCounter: DataCounter
     func makeUIViewController(context: Context) -> UIViewController {
         return VideoViewController(videoCameraView: self)
     }
@@ -13,7 +13,6 @@ struct VideoCameraView: UIViewControllerRepresentable {
 }
 
 class VideoViewController: UIViewController {
-    
     private var model : VideoCameraViewModel!
     let poseImageView = PoseImageView()
     private var poseNet: PoseNet!
@@ -62,12 +61,12 @@ class VideoViewController: UIViewController {
         camera.setViewDidDisappear()
         model.isRecording = false
         model.timer.invalidate()
-        if !model.countDown {
+        //if !model.countDown {
             //DataCounter().saveMyPose(poseList: myPoseList)　　　　　　　　　　　　　　　自分ポーズを保存！！
             //let save = SaveVideo().environmentObject(DataCounter())
             //SaveVideo().saveData(score: Int(score)/100)
             //self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
-        }
+        //}
         
     }
 }

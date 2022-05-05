@@ -294,7 +294,7 @@ struct actCharacterView: View {
                     let canUse = cM.useCharacter(item: char)
                     if canUse {
                         //EventAnalytics.doneQuest()
-                        text = DataCounter.updateLv(score: char.score).1//mes(score: char.score, str: "")
+                        text = DataCounter.updateLv(score: char.score, data: DataCounter()).1//mes(score: char.score, str: "")
                         self.scoreUp = true
                     }else{
                         cM.itemOpen = false
