@@ -6,7 +6,6 @@ struct QuestView: View{
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var dataCounter: DataCounter
     @State var dialogPresentation = DialogPresentation()
-    @State var showAlert = false
     @State var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
     @State var updated_stage: Int = UserDefaults.standard.integer(forKey: Keys.updatedStage.rawValue)
     @State var stage :Int = 1//星の数で開けるステージを限定
@@ -29,23 +28,19 @@ struct QuestView: View{
                         }
                     }
             }
-            
             List(QuestViewModel.showQuests(stageOnNow: stageOnNow)){ item in
                 VStack{
                     HStack{
                         Text(item.name)
                         switch item.number {
-                        case 1: Text("▶️").onTapGesture(perform: {onVideo.toggle()}).sheet(isPresented: $onVideo, content: {PlayerViewCoin()})
-                        case 3: Text("▶️").onTapGesture(perform: {onVideo.toggle()}).sheet(isPresented: $onVideo, content: {PlayerViewHiit()})
-                        case 6: Text("▶️").onTapGesture(perform: {onVideo.toggle()}).sheet(isPresented: $onVideo, content: {PlayerViewClimb()})
-                            
+                        case 0: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
+                        case 2: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
+                        case 5: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
                         default: Text("")
                         }
                     }
-                    
                     Button(action: {
                         alertItem = QuestViewModel.getQuestAlertItem(item: item, appState: appState)
-                        self.showAlert = true
                     }, label: {
                         HStack{
                             Spacer()
@@ -62,16 +57,12 @@ struct QuestView: View{
                         }
                     })
                 }
-                
             }
-            
-            .alert(item: $alertItem, content: {item in
-                return Alert(title: item.title, message: item.message, primaryButton: item.primary, secondaryButton: item.secondary)
+            .alert(item: $alertItem, content: {alert in
+                return Alert(title: alert.title, message: alert.message, primaryButton: alert.primary, secondaryButton: alert.secondary)
             })
-            .onAppear(perform: {
-                setStage()
-                //if !self.appState.coachOpenQuest{dialogPresentation.show(content: .contentDetail4(isPresented: $dialogPresentation.isPresented))}
-            })
+            .sheet(isPresented: $onVideo, content: {PlayerViewQuest(page: stageOnNow)})
+            .onAppear(perform: { setStage() })
             .navigationTitle(str.stage.rawValue + String(stageOnNow))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
@@ -88,36 +79,23 @@ struct QuestView: View{
                             stageOnNow += 1
                         }) { Image(systemName: "arrowtriangle.right.fill") }
                     }
-                    
                 }
             }
-            
         }.navigationViewStyle(StackNavigationViewStyle())
         //.customDialog(presentaionManager: dialogPresentation)
     }
     func setStage(){
-        let qsl = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
-        var num = 0//もっている星の数
-        for i in qsl { num += i }
-        //var addQ = 2
-        switch num {
-        case 5...12 : stage = 2; stageOnNow = 2; neededStar = 13-num;// addQ = 3
-        case 13...21 : stage = 3; stageOnNow = 3; neededStar = 22-num;// addQ = 3
-        case 22...100 : stage = 4; stageOnNow = 4; neededStar = 101-num;// addQ = 4
-        default: neededStar = 5-num// stage 1
+        qsl = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
+        while qsl.count < QuestViewModel.stageManager.count { qsl.append(0) }
+        let num = qsl.reduce(0, +)
+        var a = (3*QuestViewModel.getStageNum(stage: stage+1)*85/100) - num
+        while a < 1 {
+            stage += 1
+            stageOnNow += 1
+            a = (3*QuestViewModel.getStageNum(stage: stage+1)*85/100) - num
         }
-        if stage > updated_stage {//新ステージ解放時。　星の数を記録するリストを更新する
-            UserDefaults.standard.set(stage, forKey: Keys.updatedStage.rawValue)
-            //for _ in 1 ... addQ{ qsl.append(0) }
-            //UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
-            switch stage {
-            case 2: EventAnalytics.qCrear1()
-            case 3: EventAnalytics.qCrear2()
-            case 4: EventAnalytics.qCrear3()
-            default : return
-            }
-            
-        }
+        neededStar = a
+        UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
     }
     
 }

@@ -70,7 +70,7 @@ class QuestCameraViewModel{
         
         //TimerBoard
         self.textTimer = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
-        self.textTimer.text = self.min(time: self.taskTime())
+        self.textTimer.text = CameraModel.min(time: CameraModel.taskTime())
         self.textTimer.textColor = UIColor.blue
         self.textTimer.backgroundColor = .white
         self.textTimer.font = UIFont.systemFont(ofSize: 50)
@@ -138,10 +138,9 @@ class QuestCameraViewModel{
                 self.textTimer.textColor = UIColor.orange
                 
             }else{
-                self.textTimer.text = self.min(time: self.time)
+                self.textTimer.text = CameraModel.min(time: self.time)
                 self.textTimer.textColor = UIColor.blue
             }
-            
             
             if self.time == 0 {
                 if self.countDown{
@@ -149,7 +148,7 @@ class QuestCameraViewModel{
                     self.countDown = false
                     self.isRecording = true
                     self.poseImageView.gameStart = true//クエストはじめ
-                    self.time = self.taskTime() //                           本編スタート
+                    self.time = CameraModel.taskTime() //                           本編スタート
                 }else{
                     SystemSounds.buttonVib("")
                     SystemSounds.buttonSampleWav("")
@@ -160,8 +159,7 @@ class QuestCameraViewModel{
                     
                     //リザルト表示
                     //var alert: UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
-                    let alert = DataCounter.showQuestResult(
-                        view: self._self.questCameraView, qType: self.qType,qScore: self.questRender.qScore)
+                    let alert = DataCounter.showQuestResult(qType: self.qType,qScore: self.questRender.qScore,completion: {self._self.questCameraView.isVideo = false})
                     self._self.present(alert, animated: true, completion: nil)
                     
                 }
@@ -170,39 +168,24 @@ class QuestCameraViewModel{
         })
     }
     
-    func taskTime() -> Int{
-        //if self.qType == 0 {}
-        var taskTime: Int = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
-        if taskTime < 5 {taskTime = 5}
-        if taskTime > 240 {taskTime = 240}
-        return taskTime
-    }
-    func min(time: Int) -> String{
-        if time<60 {return String(time)}
-        let min = time/60
-        let sec = time%60
-        return String("\(min):\(sec)")
-    }
-    
-    
     
     //Extension
-    func culculateScore(pose: Pose, prePose: Pose) -> Pose{
-        //スコアの測定計算
-        if !isRecording {return pose}
-        Joint.Name.allCases.forEach {name in
-            
-            if pose.joints[name] != nil && prePose.joints[name] != nil{
-                if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
-                    let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
-                    let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
-                    let sum = Float(disY + disX)/100*timesBonus
-                    score += sum
-                }
-            }
-        }
-        return pose
-    }
+//    func culculateScore(pose: Pose, prePose: Pose) -> Pose{
+//        //スコアの測定計算
+//        if !isRecording {return pose}
+//        Joint.Name.allCases.forEach {name in
+//
+//            if pose.joints[name] != nil && prePose.joints[name] != nil{
+//                if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
+//                    let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
+//                    let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
+//                    let sum = Float(disY + disX)/100*timesBonus
+//                    score += sum
+//                }
+//            }
+//        }
+//        return pose
+//    }
     func check(pose: Pose,size: CGSize) -> Bool{
         //return false
         let list = [pose[.leftAnkle],pose[.rightAnkle],
@@ -218,10 +201,12 @@ class QuestCameraViewModel{
     }
     func getPoseImage(pose: Pose,frame: CGImage) -> UIImage{
         
-        if qType == 2 { questRender.qScore = Int(score) }
-        prePose = culculateScore(pose: pose, prePose: prePose)
-        
-        return poseImageView.showQuest(qRender: questRender,
-            qType: qType, prePose: prePose, pose: pose, on: frame)
+//        if qType == 2 {
+//            prePose = culculateScore(pose: pose, prePose: prePose)
+//            questRender.qScore = Int(score)
+//        }
+        let image = poseImageView.showQuest(qRender: questRender,qType: qType, prePose: prePose, pose: pose, on: frame)
+        prePose = pose
+        return image
     }
 }

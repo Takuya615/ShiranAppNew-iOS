@@ -1,14 +1,9 @@
-//
-//  PlayerView.swift
-//  aaa
-//
-//  Created by user on 2021/06/29.
-//
 
 
 import UIKit
 import AVFoundation
 import SwiftUI
+import AVKit
 
 struct VideoPlayerView: UIViewControllerRepresentable {
     @EnvironmentObject var appState: AppState
@@ -34,8 +29,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Create AVPlayerItem
         guard let path = Bundle.main.path(forResource: "introduce", ofType: "mov") else {
             fatalError("Movie file can not find.")
         }
@@ -114,5 +107,50 @@ extension UIImage {
         UIGraphicsEndImageContext()
 
         return resizedImage
+    }
+}
+
+
+struct PlayerView: View {
+    @EnvironmentObject var appState: AppState
+    let url = Bundle.main.path(forResource: "introduce", ofType: "mov")
+    var body: some View {
+        let player = AVPlayer(url: URL(fileURLWithPath: url!))
+        VideoPlayer(player: player)
+            .onDisappear(perform: {
+                if !appState.coachMark1 {self.appState.isExplainView = false}
+            })
+        //.onAppear() {player.play()}
+    }
+}
+struct PlayerView2: View {
+    let url = Bundle.main.path(forResource: "fightEnemy", ofType: "MP4")
+    var body: some View {
+        let player = AVPlayer(url: URL(fileURLWithPath: url!))
+        VideoPlayer(player: player)
+            .onAppear() {player.play()}
+    }
+}
+struct PlayerViewQuest: View {
+    var page: Int
+    var url = Bundle.main.path(forResource: "q_coin", ofType: "mp4")
+    init(page: Int){
+        self.page = page
+        switch self.page {
+        case 1: url = Bundle.main.path(forResource: "q_coin", ofType: "mp4")
+        case 2: url = Bundle.main.path(forResource: "q_hiit", ofType: "mov")
+        case 3: url = Bundle.main.path(forResource: "q_climb", ofType: "mp4")
+        default: url = Bundle.main.path(forResource: "q_coin", ofType: "mp4")
+        }
+    }
+    var body: some View {
+        let player = AVPlayer(url: URL(fileURLWithPath: url!))
+        VStack{
+            Image(systemName: "chevron.compact.down")
+                .resizable().frame(width: 100, height: 20, alignment: .top).padding().foregroundColor(.gray)
+            VideoPlayer(player: player)
+                .onAppear() {player.play()}
+        }
+        
     }
 }

@@ -1,12 +1,5 @@
-//
-//  ExplainAppView.swift
-//  ShiranAppNew
-//
-//  Created by user on 2021/09/09.
-//
 
 import SwiftUI
-import AVKit
 
 struct ExplainAppView: View {
     @EnvironmentObject var appState: AppState
@@ -15,16 +8,13 @@ struct ExplainAppView: View {
     @State private var btn1 = false
     @State private var btn2 = false
     @State private var btn3 = false
-    @State private var btn4 = false
-    @State private var btn5 = false
     
     var body: some View {
         VStack{
             BackKeyView(callBack: {self.appState.isExplainView.toggle()})
             Spacer()
             Text(str.exp1.rawValue).font(.title)
-            .onAppear(perform: { if !appState.coachMark1{btn0 = true}})
-            
+                .onAppear(perform: { if !appState.coachMark1{btn0 = true}})
             List{
                 Button(action: {
                     self.btn0.toggle()
@@ -38,16 +28,16 @@ struct ExplainAppView: View {
                     PlayerView()
                 })
                 /*Button(action: {
-                    self.btn01.toggle()
-                }, label: {
-                    HStack{
-                        Text("敵モンスターの倒しかた")
-                        Image(systemName: "play.rectangle.fill")
-                            .foregroundColor(.red)
-                    }
-                }).sheet(isPresented: self.$btn01, content: {
-                    PlayerView2()
-                })*/
+                 self.btn01.toggle()
+                 }, label: {
+                 HStack{
+                 Text("敵モンスターの倒しかた")
+                 Image(systemName: "play.rectangle.fill")
+                 .foregroundColor(.red)
+                 }
+                 }).sheet(isPresented: self.$btn01, content: {
+                 PlayerView2()
+                 })*/
                 Button(str.expTitle2.rawValue){
                     self.btn1.toggle()
                 }.sheet(isPresented: self.$btn1, content: {
@@ -63,79 +53,14 @@ struct ExplainAppView: View {
                 }.sheet(isPresented: self.$btn3, content: {
                     Explanation3()
                 })
-                Button(str.expTitle5.rawValue){
-                    self.btn4.toggle()
-                }.sheet(isPresented: self.$btn4, content: {
-                    Explanation4()
-                })
-            
-                
                 
             }
-
+            
         }
         
     }
 }
 
-struct PlayerView: View {
-    @EnvironmentObject var appState: AppState
-    let url = Bundle.main.path(forResource: "introduce", ofType: "mov")
-    var body: some View {
-        let player = AVPlayer(url: URL(fileURLWithPath: url!))
-        VideoPlayer(player: player)
-            .onDisappear(perform: {
-                if !appState.coachMark1 {self.appState.isExplainView = false}
-            })
-            //.onAppear() {player.play()}
-    }
-}
-struct PlayerView2: View {
-    let url = Bundle.main.path(forResource: "fightEnemy", ofType: "MP4")
-    var body: some View {
-        let player = AVPlayer(url: URL(fileURLWithPath: url!))
-        VideoPlayer(player: player)
-            .onAppear() {player.play()}
-    }
-}
-struct PlayerViewCoin: View {
-    let url = Bundle.main.path(forResource: "q_coin", ofType: "mp4")
-    var body: some View {
-        let player = AVPlayer(url: URL(fileURLWithPath: url!))
-        VStack{
-            Image(systemName: "chevron.compact.down")
-                .resizable().frame(width: 100, height: 20, alignment: .top).padding().foregroundColor(.gray)
-            VideoPlayer(player: player)
-                        .onAppear() {player.play()}
-        }
-        
-    }
-}
-struct PlayerViewClimb: View {
-    let url = Bundle.main.path(forResource: "q_climb", ofType: "mp4")
-    var body: some View {
-        let player = AVPlayer(url: URL(fileURLWithPath: url!))
-        VStack{
-            Image(systemName: "chevron.compact.down")
-                .resizable().frame(width: 100, height: 20, alignment: .top).padding().foregroundColor(.gray)
-            VideoPlayer(player: player)
-                        .onAppear() {player.play()}
-        }
-    }
-}
-struct PlayerViewHiit: View {
-    let url = Bundle.main.path(forResource: "q_hiit", ofType: "mov")
-    var body: some View {
-        let player = AVPlayer(url: URL(fileURLWithPath: url!))
-        VStack{
-            Image(systemName: "chevron.compact.down")
-                .resizable().frame(width: 100, height: 20, alignment: .top).padding().foregroundColor(.gray)
-            VideoPlayer(player: player)
-                        .onAppear() {player.play()}
-        }
-    }
-}
-/// ２番めのView
 struct Explanation1: View {
     var body: some View {
         Text(str.expTitle2.rawValue).font(.title)
@@ -158,12 +83,5 @@ struct Explanation3: View {
         Text(str.expTitle4.rawValue).font(.title)
         
         Text(str.exp4.rawValue)
-    }
-}
-struct Explanation4: View {
-    var body: some View {
-        Text(str.expTitle5.rawValue).font(.title)
-        
-        Text(str.exp5.rawValue)
     }
 }

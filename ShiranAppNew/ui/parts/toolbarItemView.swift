@@ -1,9 +1,3 @@
-//
-//  toolbarItemView.swift
-//  ShiranAppNew
-//
-//  Created by user on 2022/03/13.
-//
 
 import SwiftUI
 struct toolbarItemView: View {
@@ -38,7 +32,6 @@ struct toolbarItemView: View {
              Image(systemName: "person")
              }
              }*/
-            
             Button(action: {
                 appState.isPrivacyPolicy = true
             }) {
@@ -59,48 +52,32 @@ struct toolbarItemView: View {
                 Text(str.opinion.rawValue)
                 Image(systemName: "rectangle.and.pencil.and.ellipsis")
             }
-            /*
-             Button(action: {
-             guard let writeReviewURL = URL(string: "https://apps.apple.com/us/app/%E3%81%97%E3%82%89%E3%82%93%E3%83%97%E3%83%AA/id1584268203")
-             else { fatalError("Expected a valid URL") }
-             UIApplication.shared.open(writeReviewURL)
-             }) {
-             Text("アプリを評価する")
-             Image(systemName: "rectangle.and.pencil.and.ellipsis")
-             }*/
             
-            
-            Button(action: {
-                UserDefaults.standard.removeAll()
-                exit(0)
-            }) {
-                Text(str.reset.rawValue)
-                Image(systemName: "shield")
+            if EventAnalytics.isDebag {
+                Button(action: {
+                    UserDefaults.standard.removeAll()
+                    exit(0)
+                }) {
+                    Text(str.reset.rawValue)
+                    Image(systemName: "shield")
+                }
+                Button(action: {
+                    let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+                    UserDefaults.standard.set(LastTimeDay, forKey: Keys._LastTimeDay.rawValue)
+                }) {
+                    Text(str.oneDayReset.rawValue)
+                    Image(systemName: "shield")
+                }
+                Button(action: {
+                    UserDefaults.standard.set(1000, forKey: Keys.diamond.rawValue)
+                    UserDefaults.standard.set(10000, forKey: Keys.coin.rawValue)
+                    UserDefaults.standard.set([3,3, 3,3,3, 0,0,0,0, 0,0,0,0], forKey: Keys.qsl.rawValue)
+                }) {
+                    Text(str.cheat.rawValue)
+                    Image(systemName: "shield")
+                }
             }
             
-            Button(action: {
-                let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-                UserDefaults.standard.set(LastTimeDay, forKey: Keys._LastTimeDay.rawValue)
-            }) {
-                Text(str.oneDayReset.rawValue)
-                Image(systemName: "shield")
-            }
-            Button(action: {
-                UserDefaults.standard.set(1000, forKey: Keys.diamond.rawValue)
-                UserDefaults.standard.set(10000, forKey: Keys.coin.rawValue)
-                //UserDefaults.standard.set([3,3,3,3], forKey: Keys.qsl.rawValue)
-            }) {
-                Text(str.cheat.rawValue)
-                Image(systemName: "shield")
-            }
-            /*
-             @IBAction func share() {
-             //share(上の段)から遷移した際にシェアするアイテム
-             let activityItems: [Any] = [shareText, shareUrl]
-             let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: [LINEActivity(message: shareText), TwitterActivity(message: shareText)])
-             self.present(activityViewController, animated: true, completion: nil)
-             }
-             */
         }label: {
             Image(systemName: "line.horizontal.3")
                 .resizable()

@@ -44,7 +44,7 @@ struct DaylyRender{
             let leftW = pose[.leftWrist]
             let rightW = pose[.rightWrist]
             
-            if leftW.position.y > size.height*7/8 && rightW.position.y > size.height*7/8 {
+            if leftW.position.y > size.height*5/6 && rightW.position.y > size.height*5/6 {
                 let lh = pose[.leftHip].confidence
                 let lk = pose[.leftKnee].confidence
                 let la = pose[.leftAnkle].confidence
@@ -55,7 +55,6 @@ struct DaylyRender{
                     //qScore+=1
                     SystemSounds.score_up("")
                     return true
-                    
                 }
                 //if lh+lk+la+rh+rk+ra < 3.0 {SystemSounds().buttonVib("")}
                 /*let angleR = angle(firstLandmark: pose[.rightShoulder],
@@ -97,10 +96,9 @@ struct DaylyRender{
 class QuestRender{
     var qScore: Int = 0
     private var qPlace :CGPoint = CGPoint()
-    private let questNo:Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
-    
+    //private let questNo:Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
     func show(pre:Pose, pose:Pose,size: CGSize,cgContext:CGContext){
-        switch questNo {
+        switch UserDefaults.standard.integer(forKey: Keys.questType .rawValue) {
         case 1: quest1(pose: pose, size: size, in: cgContext)
         case 3: quest3(pre: pre, pose: pose, size: size, in: cgContext)
         case 4: quest4(pre: pre, pose: pose, size: size, in: cgContext)
@@ -115,9 +113,9 @@ class QuestRender{
         //var qPlace = pre
 
         if qPlace.y == 0 {
-            let places: [CGPoint] = [CGPoint(x: size.width/6,y: size.height*1/6),
-                                     CGPoint(x: size.width/6,y: size.height*3/6),
-                                     CGPoint(x: size.width/6,y: size.height*5/6),
+            let places: [CGPoint] = [CGPoint(x: size.width*2/6,y: size.height*1/6),
+                                     CGPoint(x: size.width*2/6,y: size.height*3/6),
+                                     CGPoint(x: size.width*2/6,y: size.height*5/6),
                                      CGPoint(x: size.width*3/6,y: size.height*1/6),
                                      CGPoint(x: size.width*3/6,y: size.height*3/6),
                                      CGPoint(x: size.width*3/6,y: size.height*5/6),
@@ -144,7 +142,6 @@ class QuestRender{
     
     //climbing
     func quest3(pre: Pose,pose: Pose,size: CGSize, in cgContext: CGContext){
-
         let leftE = pose[.leftElbow].position.y - pre[.leftElbow].position.y
         let rightE = pose[.rightElbow].position.y - pre[.rightElbow].position.y
         let leftK = pose[.leftKnee].position.y - pre[.leftKnee].position.y
@@ -158,9 +155,7 @@ class QuestRender{
         cgContext.setAlpha(0.5)
         cgContext.draw(cgImage!, in: rectangle)
         cgContext.draw(cgImage!,in: rectangle2)
-
         if qPlace.y > size.height {qPlace.y = 0}
-
     }
     
     //skating

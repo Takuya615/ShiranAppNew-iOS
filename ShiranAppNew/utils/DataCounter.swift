@@ -20,26 +20,17 @@ class DataCounter: ObservableObject {
         //let LastTimeDay = Calendar.current.date(byAdding: .day, value: -1, to: today)!
         let LastTimeDay: Date? = User.object(forKey: Keys._LastTimeDay.rawValue) as? Date
         if LastTimeDay == nil{
-            print("記念すべき第一回目")
             User.set(0, forKey: Keys.totalDay.rawValue)//総日数
             User.set(0, forKey: Keys.continuedDay.rawValue)//継続日数
             let lastDay: Date? = Calendar.current.date(byAdding: .day, value: -1, to: today)
             User.set(lastDay, forKey: Keys._LastTimeDay.rawValue)//デイリー更新(初回はもう一度遊べるようにする)
-            //continuedDayCounter = 0
             User.set(5, forKey: Keys.taskTime.rawValue)
-            //updateTaskTime(total: -1)
-            //User.setValue(-1, forKey: Keys.daylyState.rawValue)
             return -1
         }
         let cal = Calendar(identifier: .gregorian)
         let todayDC = Calendar.current.dateComponents([.year, .month,.day], from: today)
         let lastDC = Calendar.current.dateComponents([.year, .month,.day], from: LastTimeDay!)
         let diff: DateComponents = cal.dateComponents([.day], from: lastDC, to: todayDC)
-        //guard let diff = di else {return diff.day}
-        print("todayDC:\(todayDC)")
-        print("dt1DC:\(lastDC)")
-        print("差は \(diff.day!) 日")
-        //User.setValue(diff.day!, forKey: Keys.daylyState.rawValue)
         return diff.day!
     }
     static func updateDate(){
@@ -142,7 +133,7 @@ class DataCounter: ObservableObject {
     
     
     //リザルト画面３つ。　何もなし　デイリー　クエスト
-    static func showScoreResult(view: DefaultCameraView,score:Float,bonus:Float) -> UIAlertController{
+    static func showScoreResult(score:Float,bonus:Float, completion: @escaping ()->Void) -> UIAlertController{
         //saveData(score: Int(score))//スコアリストにセーブ（必要ない？？）
         let title = str.score.rawValue + String(Int(score)) + str.p.rawValue
         var message = str.finishDayly.rawValue
@@ -151,17 +142,21 @@ class DataCounter: ObservableObject {
         //alert.view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
-            view.isVideo = false
+            completion()
         })
         alert.addAction(confirmAction)
         return alert
     }
-    static func showDailyResult(view: VideoCameraView,bonus:Float,killList:[boss]) -> (UIAlertController){
+    func showDailyResult(bonus:Float,killList:[boss], completion: @escaping ()->Void) -> (UIAlertController){
+        if UserDefaults.standard.integer(forKey: Keys.questType.rawValue) == -1 {
+            return DataCounter.showQuestResult(qType: -1, qScore: killList.count, completion: completion)
+        }
+        DataCounter.updateDate()
         let alert: UIAlertController = UIAlertController(title: "\n\n\n\n\n\n\n\n\n", message:  "",
                                                          preferredStyle:  UIAlertController.Style.alert)
         let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
-            view.isVideo = false
+            completion()
         })
         alert.addAction(confirmAction)
         
@@ -184,10 +179,10 @@ class DataCounter: ObservableObject {
             exp += kill.bonus
         }
         let lav1 = UILabel(frame: CGRect(x: 10, y: 85 , width: 200, height: 30))
-        lav1.text = str.rewardCoin.rawValue + "  " + String(incentive(dataCounter: view.self.dataCounter).getCoin()) + "G"
+        lav1.text = str.rewardCoin.rawValue + "  " + String(incentive(dataCounter: self).getCoin()) + "G"
         alert.view.addSubview(lav1)
         
-        let resultLv = updateLv(score: exp,data: view.self.dataCounter)
+        let resultLv = DataCounter.updateLv(score: exp,data: self)
         //let message = resultLv.3//DataCounter.mes(score: exp, str: "")
         let lav2 = UILabel(frame: CGRect(x: 10, y: 115 , width: 200, height: 20))
         lav2.text = resultLv.1//message
@@ -214,15 +209,15 @@ class DataCounter: ObservableObject {
         return alert
     }
     
-    static func showQuestResult(view: QuestCameraView,qType: Int, qScore: Int) -> UIAlertController{
+    static func showQuestResult(qType: Int, qScore: Int, completion: @escaping ()->Void) -> UIAlertController{
         let alert :UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
         var title = ""
         let qNum: Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
         let qGoal: [Int] = UserDefaults.standard.array(forKey: Keys.qGoal.rawValue) as! [Int]
         var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
-        
+        print("qType \(qType)  score \(qScore)")
         switch qType {
-        case 0:title = "\n" + str.kill.rawValue + String(qScore) + str.co.rawValue + "\n"
+        case -1:title = "\n" + str.kill.rawValue + String(qScore) + str.tai.rawValue + "\n"
         case 1:title += "\n" + str.rewardCoin.rawValue + String(qScore) + str.co.rawValue + "\n"
         case 2:title = "\n " + str.score2.rawValue + String(qScore) + str.p.rawValue + "\n"
         case 3,4:title += "\n" + str.rewardDistance.rawValue + String(qScore) + str.m.rawValue + "\n"
@@ -242,15 +237,11 @@ class DataCounter: ObservableObject {
             }
             alert.view.addSubview(imageView)
         }
-        
-        print("クエストリスト更新\(qsl)")
-        UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
-        UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
         UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
         alert.title = title
         let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) -> Void in
-            view.isVideo = false
+            completion()
         })
         alert.addAction(confirmAction)
         return alert

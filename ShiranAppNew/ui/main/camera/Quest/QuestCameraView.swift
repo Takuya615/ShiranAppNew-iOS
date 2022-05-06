@@ -1,9 +1,3 @@
-//
-//  QuestCameraView.swift
-//  ShiranAppNew
-//
-//  Created by user on 2021/12/14.
-//
 
 import SwiftUI
 import AVFoundation
@@ -62,9 +56,9 @@ class QuestCameraViewController: UIViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        camera.setViewDidDisappear()
         model.isRecording = false
         model.timer.invalidate()
+        camera.setViewDidDisappear()
     }
 }
 

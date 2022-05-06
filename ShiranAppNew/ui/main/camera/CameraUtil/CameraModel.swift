@@ -41,7 +41,7 @@ class CameraModel{
 
                 self.session.startRunning()
             }
-        } catch _ {print("error occurd")}
+        } catch _ {return}
     }
     func setViewWillDisappear() {
         UIApplication.shared.isIdleTimerDisabled = false
@@ -56,6 +56,23 @@ class CameraModel{
             self.session.removeInput(input as AVCaptureInput)
         }
         self.session = nil
+        UserDefaults.standard.set(0, forKey: Keys.qTime.rawValue)
+        UserDefaults.standard.set(0, forKey: Keys.questNum.rawValue)
+        UserDefaults.standard.set(0, forKey: Keys.questType.rawValue)
     }
     
+    static func taskTime() -> Int{
+        let qT = UserDefaults.standard.integer(forKey: Keys.qTime.rawValue)
+        if qT != 0 { return qT }
+        var taskTime: Int = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
+        if taskTime < 5 {taskTime = 5}
+        if taskTime > 240 {taskTime = 240}
+        return taskTime
+    }
+    static func min(time: Int) -> String{
+        if time<60 {return String(time)}
+        let min = time/60
+        let sec = time%60
+        return String("\(min):\(sec)")
+    }
 }

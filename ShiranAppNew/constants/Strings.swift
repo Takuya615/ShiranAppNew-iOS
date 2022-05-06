@@ -27,6 +27,7 @@ enum str: String {
     case rest = "  きゅうけい"
     case score2 = "スコア"
     case p = "p"
+    case tai = "体"
     case co = "コ"
     case m = "m"
     case sec = "秒"
@@ -122,10 +123,9 @@ enum str: String {
     case expTitle2 = "アプリの流れ"
     case expTitle3 = "HIITってなに？？"
     case expTitle4 = "HIITのメリット"
-    case expTitle5 = "なぜ半年？？"
 
     case exp1 = """
-    これは半年で４分間のHIITを
+    これは４分間のHIITを
     習慣にするためのアプリです。
     
     """
@@ -179,15 +179,6 @@ enum str: String {
 
 
         """
-    case exp5 =
-    """
-
-        習慣は日を重ねれば重ねるほど強固になります。
-        これまで運動を全くしてこなかった人でも、より確実に身につけられるよう半年間としています。
-
-        ロンドン大学の研究によると、運動のような負担の大きなタスクを習慣にするには時間がかかり、最大254日（８ヶ月強）かかる人もいたそうです。
-
-        焦りは禁物
-        """
+    
     
 }

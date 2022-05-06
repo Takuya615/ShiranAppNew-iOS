@@ -14,7 +14,7 @@ struct VideoCameraView: UIViewControllerRepresentable {
 
 class VideoViewController: UIViewController {
     private var model : VideoCameraViewModel!
-    let poseImageView = PoseImageView()
+    //let poseImageView = PoseImageView()
     private var poseNet: PoseNet!
     private var currentFrame: CGImage?
     private var camera: CameraModel!
@@ -103,7 +103,7 @@ extension VideoViewController: PoseNetDelegate {
                                       inputImage: self.currentFrame!)
         let pose = poseBuilder.pose
         if model.check(pose: pose, size: self.currentFrame!.size) {
-            let poseImage = poseImageView.showMiss(on: self.currentFrame!)
+            let poseImage = model.poseImageView.showMiss(on: self.currentFrame!)
             let poseImageView = UIImageView(image: poseImage)
             poseImageView.layer.position = CGPoint(x: self.view.bounds.size.width/2, y:60 + poseImage.size.height/2)
             //poseImageView.isOpaque = false
@@ -142,7 +142,7 @@ extension VideoViewController: PoseNetDelegate {
             }
         }
         //自分とフレンドの動きを描画
-        let poseImage: UIImage = poseImageView.showDayly(
+        let poseImage: UIImage = model.poseImageView.showDayly(
             prePose: model.prePose,
             pose: pose,//自分のポーズ
             friPose: fPose,//フレンドのポーズ
@@ -172,6 +172,7 @@ extension VideoViewController: PoseNetDelegate {
         //self.bossHPbar.setProgress(self.bossHPbar.progress, animated: true)
         
         model.prePose = model.culculateScore(pose: pose, prePose: model.prePose)
+        //model.prePose = pose
         //prePose = culculateScore(pose: pose, prePose: prePose)
         
     }

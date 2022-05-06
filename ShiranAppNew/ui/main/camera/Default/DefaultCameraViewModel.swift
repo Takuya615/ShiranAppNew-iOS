@@ -8,8 +8,6 @@ class DefaultCameraViewModel{
     private var poseNet: PoseNet!
     private var currentFrame: CGImage?
     
-    //var state: Int = DataCounter.setDailyState()//  diff.dayの数値
-    //let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
     
     var count = 0
     var recordButton: UIButton!
@@ -53,7 +51,7 @@ class DefaultCameraViewModel{
         let rect = _self.view.bounds.size
         //TimerBoard
         self.textTimer = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
-        self.textTimer.text = self.min(time: self.taskTime())
+        self.textTimer.text = CameraModel.min(time: CameraModel.taskTime())
         self.textTimer.textColor = UIColor.blue
         self.textTimer.backgroundColor = .white
         self.textTimer.font = UIFont.systemFont(ofSize: 50)
@@ -153,7 +151,7 @@ class DefaultCameraViewModel{
                     self.countDown = false
                     self.isRecording = true
                     self.poseImageView.gameStart = true//PoseImageview はじめ
-                    self.time = self.taskTime() //                           本編スタート
+                    self.time = CameraModel.taskTime() //                           本編スタート
                 }else{
                     SystemSounds.buttonVib("")
                     SystemSounds.buttonSampleWav("")
@@ -163,8 +161,7 @@ class DefaultCameraViewModel{
                     self.poseImageView.gameStart = false// PoseImageView終了
                     timer.invalidate()//timerの終了
                     
-                    let alert  = DataCounter.showScoreResult(view: self._self.cameraView,
-                                                                 score: self.score, bonus: self.timesBonus)
+                    let alert  = DataCounter.showScoreResult(score: self.score,bonus: self.timesBonus,completion: {self._self.cameraView.isVideo = false})
                     self._self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -176,7 +173,7 @@ class DefaultCameraViewModel{
                 self.textTimer.text = String(self.time)
                 self.textTimer.textColor = UIColor.orange
             }else{
-                self.textTimer.text = self.min(time: self.time)
+                self.textTimer.text = CameraModel.min(time: self.time)
                 self.textTimer.textColor = UIColor.blue
                 self.count20_10()
                 self.difficultBonus()
@@ -185,18 +182,6 @@ class DefaultCameraViewModel{
         })
     }
     
-    func taskTime() -> Int{
-        var taskTime: Int = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
-        if taskTime < 5 {taskTime = 5}
-        if taskTime > 240 {taskTime = 240}
-        return taskTime
-    }
-    func min(time: Int) -> String{
-        if time<60 {return String(time)}
-        let min = time/60
-        let sec = time%60
-        return String("\(min):\(sec)")
-    }
     func count20_10(){
         if switchTime == 0 {
             rest = !rest
