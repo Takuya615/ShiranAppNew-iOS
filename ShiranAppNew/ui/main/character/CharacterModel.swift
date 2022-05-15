@@ -23,7 +23,7 @@ class Character: Identifiable {
     }
 }
 class CharacterModel: ObservableObject {
-    
+
     func useCharacter(item: Character) -> Bool {
         let user = UserDefaults.standard
         //let charText = user.object(forKey:item.image) as? String
@@ -36,7 +36,7 @@ class CharacterModel: ObservableObject {
         }
         return false
     }
-    
+
     static func useTaskHelper() -> Float{
         let user = UserDefaults.standard
         guard let wanwan = user.object(forKey: "char_dog") as? Date else {return 1.0}
@@ -48,7 +48,7 @@ class CharacterModel: ObservableObject {
         if abs(diff.minute!) < 16 { return 1.2 }
         return 1.0
     }
-    
+
     @Published var itemOpen = false
     @Published var characters: [Character] = [
         Character(level: 1, score: 300, image: "char_kame", name: "かめ",
@@ -89,24 +89,24 @@ Exp ＋8００p
 
 """)
     ]
-    
-    
+
+
 }
 
 
 
 struct actCharacterView: View {
-    
+
     var char: Character
     @ObservedObject var cM: CharacterModel
-    
+
     @State var text: String = ""
     @State var scoreUp: Bool = false
     @State var page = 1
     @State var nowPage = 1
     @State var charaView = Spacer()
-    
-    
+
+
     var body: some View{
         VStack{
             switch char.name {
@@ -114,7 +114,7 @@ struct actCharacterView: View {
             case "ニト": nito(nowPage: nowPage, char: char,cM: cM).onAppear(perform: {page = 6})
             default: kame(nowPage: nowPage, char: char,cM: cM).onAppear(perform: {page = 5})
             }
-            
+
             Spacer()
             HStack{
                 Spacer()
@@ -133,16 +133,16 @@ struct actCharacterView: View {
             }
         }
     }
-    
+
     /*struct a:View{
         var nowPage:Int
         var char: Character
         @ObservedObject var cM: CharacterModel
         var body: some View{
-            
+
         }
     }*/
-    
+
     //各キャラのView
     struct kame:View{
         var nowPage:Int
@@ -192,7 +192,7 @@ struct actCharacterView: View {
             }
         }
     }
-    
+
     //画面要素
     struct charaIntro:View{
         var char: Character
@@ -208,7 +208,7 @@ struct actCharacterView: View {
                 Text(self.char.scr)
                 Text("")
                 //Button(action: {self.itemTap = false}, label: {Text("閉じる")})
-                
+
             }
         }
     }
@@ -264,7 +264,7 @@ struct actCharacterView: View {
                             let setDC = Calendar.current.dateComponents([.hour,.minute], from: setDate)
                             text = "設定時間　\(setDC.hour!):\(setDC.minute!)"
                         }
-                        
+
                     })
                 Text(text)
                 Button("決定"){
@@ -273,10 +273,10 @@ struct actCharacterView: View {
                     UserDefaults.standard.set(selectionDate, forKey: self.char.image)
                 }.font(.title).padding()
             }
-            
+
         }
     }
-    
+
     struct finish:View{
         var char: Character
         @ObservedObject var cM: CharacterModel
@@ -299,7 +299,7 @@ struct actCharacterView: View {
                     }else{
                         cM.itemOpen = false
                     }
-                    
+
                 }
                 .font(.title)
                 .padding()
@@ -317,7 +317,7 @@ struct actCharacterView: View {
             }
         }
     }
-    
+
 }
 extension UIApplication {
     func closeKeyboard() {

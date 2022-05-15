@@ -13,6 +13,11 @@ struct QuestView: View{
     @State var neededStar: Int = 0//残りの星の必要な数
     @State var onVideo: Bool = false
     @State var alertItem: QuestAlertItem?
+    @State var timer :Timer?
+    @State var charg: Int = 0
+    @State private var image1: Image = Image(systemName: "heart.fill")
+    @State private var image2: Image = Image(systemName: "heart.fill")
+    @State private var image3: Image = Image(systemName: "heart.fill")
     
     var body: some View {
         NavigationView{
@@ -28,41 +33,53 @@ struct QuestView: View{
                         }
                     }
             }
-            List(QuestViewModel.showQuests(stageOnNow: stageOnNow)){ item in
-                VStack{
-                    HStack{
-                        Text(item.name)
-                        switch item.number {
-                        case 0: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
-                        case 2: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
-                        case 5: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
-                        default: Text("")
-                        }
-                    }
-                    Button(action: {
-                        alertItem = QuestViewModel.getQuestAlertItem(item: item, appState: appState)
-                    }, label: {
+            VStack{
+                HStack{
+                    Text("+ \(CameraModel.min(time: charg))")
+                    if 1 > charg { image1.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
+                    if 301 > charg { image2.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
+                    if 601 > charg { image3.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
+                }
+                List(QuestViewModel.showQuests(stageOnNow: stageOnNow)){ item in
+                    VStack{
                         HStack{
-                            Spacer()
-                            ForEach(1..<4) { i in
-                                if qsl[item.number] >= i {
-                                    Image(systemName: "star.fill").resizable()
-                                        .frame(width: 50.0, height: 50.0, alignment: .leading)
-                                }else{
-                                    Image(systemName: "star").resizable()
-                                        .frame(width: 50.0, height: 50.0, alignment: .leading)
-                                }
-                                Spacer()
+                            Text(item.name)
+                            switch item.number {
+                            case 0: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
+                            case 2: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
+                            case 5: Text("▶️").onTapGesture(perform: {onVideo.toggle()})
+                            default: Text("")
                             }
                         }
-                    })
+                        Button(action: {
+                            alertItem = QuestViewModel.getQuestAlertItem(item: item, appState: appState,charg: charg)
+                        }, label: {
+                            HStack{
+                                Spacer()
+                                ForEach(1..<4) { i in
+                                    if qsl[item.number] >= i {
+                                        Image(systemName: "star.fill").resizable()
+                                            .frame(width: 50.0, height: 50.0, alignment: .leading)
+                                    }else{
+                                        Image(systemName: "star").resizable()
+                                            .frame(width: 50.0, height: 50.0, alignment: .leading)
+                                    }
+                                    Spacer()
+                                }
+                            }
+                        })
+                    }
                 }
             }
             .alert(item: $alertItem, content: {alert in
+                if charg > 600 {
+                    return Alert(title:Text(str.emptyHeart.rawValue),message: nil,dismissButton: Alert.Button.cancel(Text(str.quite.rawValue)))
+                }
                 return Alert(title: alert.title, message: alert.message, primaryButton: alert.primary, secondaryButton: alert.secondary)
             })
             .sheet(isPresented: $onVideo, content: {PlayerViewQuest(page: stageOnNow)})
             .onAppear(perform: { setStage() })
+            .onDisappear(perform: { timer?.invalidate() })
             .navigationTitle(str.stage.rawValue + String(stageOnNow))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
@@ -96,6 +113,11 @@ struct QuestView: View{
         }
         neededStar = a
         UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
+        
+        charg = QuestViewModel.setTimer()
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if charg > 0 {charg -= 1} else {timer.invalidate()}
+        }
     }
     
 }

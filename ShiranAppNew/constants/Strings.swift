@@ -51,6 +51,7 @@ enum str: String {
     case tryChallenge = "チャレンジしますか？"
     case quite = "やめる"
     case challenge = "チャレンジ"
+    case emptyHeart = "スタミナ❤️が不足しています"
     
     //character
     case characterViewText1 = "レベル"

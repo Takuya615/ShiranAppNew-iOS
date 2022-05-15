@@ -68,7 +68,7 @@ struct QuestViewModel {
     }
     
     
-    static func getQuestAlertItem(item: Quest,appState: AppState) -> QuestAlertItem{
+    static func getQuestAlertItem(item: Quest,appState: AppState, charg: Int) -> QuestAlertItem{
         return QuestAlertItem(
             title: Text(item.name),
             message: Text(item.text),
@@ -80,6 +80,8 @@ struct QuestViewModel {
                     UserDefaults.standard.set(item.type,forKey: Keys.questType.rawValue)
                     UserDefaults.standard.set(item.goal, forKey: Keys.qGoal.rawValue)
                     UserDefaults.standard.set(item.time, forKey: Keys.qTime.rawValue)
+                    UserDefaults.standard.set(Date(), forKey: Keys.lastOpenedScreen.rawValue)
+                    UserDefaults.standard.set(charg + 300, forKey: Keys.chargTime.rawValue)
                     EventAnalytics.questDone()
                     if item.type == -1 {
                         appState.isVideo = true
@@ -88,5 +90,16 @@ struct QuestViewModel {
                     }
                 }
             ))
+    }
+    
+    static func setTimer() -> Int {
+        guard let lastOpenedScreen: Date = UserDefaults.standard.object(forKey: Keys.lastOpenedScreen.rawValue) as? Date else {return 0}
+        let cal = Calendar(identifier: .gregorian)
+        let todayDC = Calendar.current.dateComponents([.year,.month,.day,.minute,.second], from: Date())
+        let lastDC = Calendar.current.dateComponents([.year,.month,.day,.minute,.second], from: lastOpenedScreen)
+        let pastSec: DateComponents = cal.dateComponents([.second], from: lastDC, to: todayDC)
+        let chage = UserDefaults.standard.integer(forKey: Keys.chargTime.rawValue)
+        if chage - pastSec.second! <= 0 {return 0}
+        return chage - pastSec.second!
     }
 }

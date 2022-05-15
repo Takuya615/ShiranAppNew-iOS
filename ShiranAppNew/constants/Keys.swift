@@ -50,6 +50,8 @@ enum Keys: String {
     case qTime = "QuestTime"
     case qsl = "QuestStarsList"
     case updatedStage = "updatedStage"
+    case chargTime = "ChargLong"
+    case lastOpenedScreen = "LastOpenedScreen"
     
     //skin
     //case boughtSkin = "BoughtSkinNumber"
