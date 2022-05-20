@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C43027E280BBED800EB8866 /* QuestRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43027D280BBED800EB8866 /* QuestRender.swift */; };
+		2C443B6F2830BF9300B22575 /* DaylyRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C443B6E2830BF9300B22575 /* DaylyRender.swift */; };
 		2C487DF427DF6D7C00D807E3 /* ItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */; };
 		2C544FCC281F8BBA00C99758 /* BackKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C544FCB281F8BBA00C99758 /* BackKeyView.swift */; };
 		2C544FD1282250D200C99758 /* fabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C544FD0282250D200C99758 /* fabView.swift */; };
@@ -82,6 +83,7 @@
 		242450BC5328E37D4F3BF182 /* Pods-ShiranAppNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew/Pods-ShiranAppNew.debug.xcconfig"; sourceTree = "<group>"; };
 		26A3157912BDEF62C9667874 /* Pods_ShiranAppNew_ShiranAppNewUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNew_ShiranAppNewUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C43027D280BBED800EB8866 /* QuestRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestRender.swift; sourceTree = "<group>"; };
+		2C443B6E2830BF9300B22575 /* DaylyRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaylyRender.swift; sourceTree = "<group>"; };
 		2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelectView.swift; sourceTree = "<group>"; };
 		2C544FCB281F8BBA00C99758 /* BackKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackKeyView.swift; sourceTree = "<group>"; };
 		2C544FD0282250D200C99758 /* fabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fabView.swift; sourceTree = "<group>"; };
@@ -178,8 +180,9 @@
 			children = (
 				2CCFAB6F28090CCE00F68401 /* CameraModel.swift */,
 				CE5422F326E6DF27002550D4 /* PoseImageView.swift */,
-				2CCFAB7C2809BA7500F68401 /* BodyRender.swift */,
+				2C443B6E2830BF9300B22575 /* DaylyRender.swift */,
 				2C43027D280BBED800EB8866 /* QuestRender.swift */,
+				2CCFAB7C2809BA7500F68401 /* BodyRender.swift */,
 			);
 			path = CameraUtil;
 			sourceTree = "<group>";
@@ -659,6 +662,7 @@
 				CE43D8CB26E1BC540067CDDB /* ContentView.swift in Sources */,
 				2C90999927E85F1B00B3EF6D /* VideoCameraViewModel.swift in Sources */,
 				CE54231626E6DF27002550D4 /* PoseNet.swift in Sources */,
+				2C443B6F2830BF9300B22575 /* DaylyRender.swift in Sources */,
 				CE04E57D26E9D0CE00872352 /* ExplainAppView.swift in Sources */,
 				CE43D8B926E1BC440067CDDB /* VideoCameraView.swift in Sources */,
 				2C544FCC281F8BBA00C99758 /* BackKeyView.swift in Sources */,

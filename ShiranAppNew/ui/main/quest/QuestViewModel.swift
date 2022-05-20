@@ -22,7 +22,7 @@ struct Quest: Identifiable {
 }
 
 struct QuestViewModel {
-    static var stageManager = [1,1, 2,2,2, 3,3,3,3, 4,4,4,4]
+    static var stageManager = [1,1, 2,2,2, 3,3,3,3, 4,4,4,4,4]
     static var quests:[Quest] = [
         Quest(number: 0,type: 1,goal: [3,4,5],time: 10,name: "コイン集め", text: "制限時間以内に、画面上のコインを5コ集める"),
         Quest(number: 1,type: 2,goal: [100,230,350],time: 10,name: "とにかく動け！", text: "制限時間以内に、スコア 350以上のはげしい運動をする"),
@@ -44,6 +44,7 @@ struct QuestViewModel {
         Quest(number: 10,type: 2,goal: [400,500,550],time: 10,name: "とにかく動け！", text: "制限時間以内に、スコア 550以上のはげしい運動をする"),
         Quest(number: 11,type: 3,goal: [150,200,250],time: 10,name: "ボルダリング", text: "制限時間以内に、250m　登りきる"),
         Quest(number: 12, type: -1, goal: [15,21,30], time: 180, name: "HIIT(ヒート)体験版", text: "画面が赤い時だけ全力で動きましょう。\n180秒以内にモンスターを30体たおす"),
+        Quest(number: 13, type: 5, goal: [15,21,30], time: 10, name: "テスト", text: "あああ"),
         //Quest(number: 12,type: 4,goal: [8,15,25],name: "スケート", text: "制限時間以内に、25m　滑りきる"),
     ]
     
@@ -94,12 +95,18 @@ struct QuestViewModel {
     
     static func setTimer() -> Int {
         guard let lastOpenedScreen: Date = UserDefaults.standard.object(forKey: Keys.lastOpenedScreen.rawValue) as? Date else {return 0}
-        let cal = Calendar(identifier: .gregorian)
-        let todayDC = Calendar.current.dateComponents([.year,.month,.day,.minute,.second], from: Date())
-        let lastDC = Calendar.current.dateComponents([.year,.month,.day,.minute,.second], from: lastOpenedScreen)
-        let pastSec: DateComponents = cal.dateComponents([.second], from: lastDC, to: todayDC)
-        let chage = UserDefaults.standard.integer(forKey: Keys.chargTime.rawValue)
-        if chage - pastSec.second! <= 0 {return 0}
-        return chage - pastSec.second!
+        //let cal =
+//        let todayDC = Calendar.current.dateComponents([.year,.month,.day,.minute,.second], from: Date())
+//        let lastDC = Calendar.current.dateComponents([.year,.month,.day,.minute,.second], from: lastOpenedScreen)
+//        let pastSec: DateComponents = cal.dateComponents([.second], from: todayDC, to: lastDC)
+//        print("todayDC = \(todayDC),,,,lastDC = \(lastDC),,,,pastSec = \(pastSec)")
+
+        let dt = Date()
+        let  diff = Calendar.current.dateComponents([.second], from: lastOpenedScreen, to: dt)
+        print("dt = \(dt),,,,lastDC = \(lastOpenedScreen),,,,deiff1  = \(diff)")
+        
+        let charge = UserDefaults.standard.integer(forKey: Keys.chargTime.rawValue)
+        if charge - diff.second! <= 0 {return 0}
+        return charge - diff.second!
     }
 }

@@ -15,10 +15,6 @@ struct QuestCameraView: UIViewControllerRepresentable {
 
 
 class QuestCameraViewController: UIViewController {
-    
-//    //var pD = OriginalPoseDetection()
-//    //var poseDetect = PoseDetectionModel()
-//    let poseImageView = PoseImageView()
     private var model : QuestCameraViewModel!
     private var poseNet: PoseNet!
     private var currentFrame: CGImage?
@@ -64,11 +60,8 @@ class QuestCameraViewController: UIViewController {
 
 extension QuestCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate{
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        //print("1フレームごとの処理をここに書く")
-        
-        connection.videoOrientation = .portrait//UpsideDown
+        connection.videoOrientation = .portrait
         connection.isVideoMirrored = true
-        
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
         let ciimage : CIImage = CIImage(cvPixelBuffer: imageBuffer)
         let context:CIContext = CIContext.init(options: nil)
@@ -88,30 +81,22 @@ extension QuestCameraViewController: PoseNetDelegate {
     func poseNet(_ poseNet: PoseNet, didPredict predictions: PoseNetOutput) {
         defer { self.currentFrame = nil }
         if self.currentFrame == nil {return}
-        //guard let currentFrame = currentFrame else {return}
-
-        let poseBuilder = PoseBuilder(output: predictions,
-                                      configuration: PoseBuilderConfiguration(),
-                                      inputImage: self.currentFrame!)
-        let pose = poseBuilder.pose
-        if model.check(pose: pose, size: self.currentFrame!.size) {
-            let poseImage = model.poseImageView.showMiss(on: self.currentFrame!)
+        let pose = PoseBuilder(output: predictions,configuration: PoseBuilderConfiguration(),inputImage: self.currentFrame!).pose
+        
+        if CameraModel.check(pose: pose, size: self.currentFrame!.size,isRecording: model.isRecording, jump: nil) {
+            let poseImage = PoseImageView.showMiss(on: self.currentFrame!)
             let poseImageView = UIImageView(image: poseImage)
             poseImageView.layer.position = CGPoint(x: self.view.bounds.size.width/2, y:60 + poseImage.size.height/2)
-            //poseImageView.isOpaque = false
             self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
             self.view.addSubview(poseImageView)
-            return
+        }else{
+            let poseImage: UIImage = model.getPoseImage(pose: pose, frame: self.currentFrame!)
+            let size = self.view.bounds.size
+            let poseImageView = UIImageView(image: poseImage)
+            poseImageView.layer.position = CGPoint(x: size.width/2, y:60 + poseImage.size.height/2)
+            self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
+            self.view.addSubview(poseImageView)
         }
-        
-        let poseImage: UIImage = model.getPoseImage(pose: pose, frame: self.currentFrame!)
-        let size = self.view.bounds.size
-        let poseImageView = UIImageView(image: poseImage)
-        poseImageView.layer.position = CGPoint(x: size.width/2, y:60 + poseImage.size.height/2)
-        //poseImageView.isOpaque = false
-        self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
-        self.view.addSubview(poseImageView)
-        
         
     }
     

@@ -14,7 +14,7 @@ struct QuestView: View{
     @State var onVideo: Bool = false
     @State var alertItem: QuestAlertItem?
     @State var timer :Timer?
-    @State var charg: Int = 0
+    @State var charge: Int = 0
     @State private var image1: Image = Image(systemName: "heart.fill")
     @State private var image2: Image = Image(systemName: "heart.fill")
     @State private var image3: Image = Image(systemName: "heart.fill")
@@ -35,10 +35,10 @@ struct QuestView: View{
             }
             VStack{
                 HStack{
-                    Text("+ \(CameraModel.min(time: charg))")
-                    if 1 > charg { image1.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
-                    if 301 > charg { image2.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
-                    if 601 > charg { image3.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
+                    Text("+ \(CameraModel.min(time: charge))")
+                    if 1 > charge { image1.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
+                    if 301 > charge { image2.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
+                    if 601 > charge { image3.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
                 }
                 List(QuestViewModel.showQuests(stageOnNow: stageOnNow)){ item in
                     VStack{
@@ -52,7 +52,7 @@ struct QuestView: View{
                             }
                         }
                         Button(action: {
-                            alertItem = QuestViewModel.getQuestAlertItem(item: item, appState: appState,charg: charg)
+                            alertItem = QuestViewModel.getQuestAlertItem(item: item, appState: appState,charg: charge)
                         }, label: {
                             HStack{
                                 Spacer()
@@ -72,7 +72,7 @@ struct QuestView: View{
                 }
             }
             .alert(item: $alertItem, content: {alert in
-                if charg > 600 {
+                if charge > 600 {
                     return Alert(title:Text(str.emptyHeart.rawValue),message: nil,dismissButton: Alert.Button.cancel(Text(str.quite.rawValue)))
                 }
                 return Alert(title: alert.title, message: alert.message, primaryButton: alert.primary, secondaryButton: alert.secondary)
@@ -114,9 +114,9 @@ struct QuestView: View{
         neededStar = a
         UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)
         
-        charg = QuestViewModel.setTimer()
+        charge = QuestViewModel.setTimer()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            if charg > 0 {charg -= 1} else {timer.invalidate()}
+            if charge > 0 {charge -= 1} else {timer.invalidate()}
         }
     }
     

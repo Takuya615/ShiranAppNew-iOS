@@ -43,7 +43,6 @@ class PurchaseUtil {
     let appBundleId = "com.Takuya.Tsumura.ShiranAppNew.consumable"
     func getInfo(_ purchase: String) {
         SwiftyStoreKit.retrieveProductsInfo([appBundleId + "." + purchase]) { result in
-            print("リザルト　\(result)");
             if result.retrievedProducts.first != nil {
                 let products = result.retrievedProducts.sorted { (firstProduct, secondProduct) -> Bool in
                     return firstProduct.price.doubleValue < secondProduct.price.doubleValue
@@ -52,9 +51,9 @@ class PurchaseUtil {
                     print(product)
                 }
             } else if result.invalidProductIDs.first != nil {
-                print("Invalid product identifierあいでぃー : \(result.invalidProductIDs)")
+                print(result.invalidProductIDs)
             } else {
-                print("Errorエラエラえらー: \(result.error.debugDescription)")
+                print(result.error.debugDescription)
             }
         }
     }

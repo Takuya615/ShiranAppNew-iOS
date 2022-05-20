@@ -41,7 +41,6 @@ class DataCounter: ObservableObject {
             let continuedDay = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
             UserDefaults.standard.set(continuedDay + 1, forKey: Keys.continuedDay.rawValue)
         }else{
-            print("記録リセット")
             let retry = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)
             UserDefaults.standard.set(0, forKey: Keys.continuedDay.rawValue)
             UserDefaults.standard.set(retry + 1, forKey: Keys.retry.rawValue)//値の書き込み　↓表示の更新
@@ -215,7 +214,7 @@ class DataCounter: ObservableObject {
         let qNum: Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
         let qGoal: [Int] = UserDefaults.standard.array(forKey: Keys.qGoal.rawValue) as! [Int]
         var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
-        print("qType \(qType)  score \(qScore)")
+        //print("qType \(qType)  score \(qScore)")
         switch qType {
         case -1:title = "\n" + str.kill.rawValue + String(qScore) + str.tai.rawValue + "\n"
         case 1:title += "\n" + str.rewardCoin.rawValue + String(qScore) + str.co.rawValue + "\n"
@@ -376,9 +375,9 @@ class DataCounter: ObservableObject {
             "poseList": poseList
         ]) { err in
             if let err = err {
-                print("エラー　Error adding document: \(err)")
+                //print("エラー　Error adding document: \(err)")
             } else {
-                print("PoseListの保存成功！！")
+                //print("PoseListの保存成功！！")
             }
         }
     }

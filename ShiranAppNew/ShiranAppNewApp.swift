@@ -94,15 +94,13 @@ class AppState: ObservableObject {
             //self.isLogin = true
         }
     }
-    
+
     func signup(email:String, password:String){//email:String,password:String
         Auth.auth().createUser(withEmail: email, password: password) { [weak self]authResult, error in
             guard self != nil else {
                 self?.isLoading = false
                 return
             }
-            print("登録メアドは\(email)")
-            print("登録パスワードは\(password)")
             if authResult != nil && error == nil{
                 self?.isLoading = false
                 self?.errorStr = ""
@@ -115,18 +113,16 @@ class AppState: ObservableObject {
                 self?.errorStr = "アカウント作成に失敗しました"
             }
         }
-        
+
     }
-    
-    
+
+
     func loginMethod(email:String, password:String){
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard self != nil else {
                 self?.isLoading = false
                 return
             }
-            print("ログインメルアドは\(email)")
-            print("ログインパスワードは\(password)")
             if error == nil{
                 //self?.isLoading = false
                 self?.errorStr = ""
@@ -140,7 +136,7 @@ class AppState: ObservableObject {
             //self?.appState.isLogin = true
         }
     }
-    
+
     func logout(){
         do {
             try Auth.auth().signOut()
@@ -153,7 +149,7 @@ class AppState: ObservableObject {
             //UserDefaults.standard.set({true}, forKey:"login")
         }
     }
-    
+
     func saveDetails(name: String){
         //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
         let id = Auth.auth().currentUser!.uid
@@ -178,7 +174,7 @@ class AppState: ObservableObject {
             }
         }
     }
-    
+
     func existName(){
         let id = Auth.auth().currentUser!.uid
         let db = Firestore.firestore().collection("users").whereField("id", isEqualTo: id)
@@ -197,14 +193,14 @@ class AppState: ObservableObject {
     }
     
     func reset(){
-        
+
         //let db = Firestore.firestore()
         //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
         /*db.collection("users").document(myName).delete() { err in
          if let err = err {
          print("さくじょ　Error removing document: \(err)")
          } else {
-         
+
          print("さくじょ　Document successfully removed!")
          }
          }*/

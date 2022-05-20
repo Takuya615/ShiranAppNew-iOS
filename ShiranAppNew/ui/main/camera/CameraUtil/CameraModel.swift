@@ -1,9 +1,4 @@
-//
-//  CameraModel.swift
-//  ShiranAppNew
-//
-//  Created by 津村拓哉 on 2022/04/15.
-//
+
 
 import SwiftUI
 import AVFoundation
@@ -15,7 +10,7 @@ class CameraModel{
     }
     var session: AVCaptureSession!// カメラからの入出力データをまとめるセッション
     func setViewWillAppear() {
-      UIApplication.shared.isIdleTimerDisabled = true  //この画面をスリープさせない。
+        UIApplication.shared.isIdleTimerDisabled = true  //この画面をスリープさせない。
         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else{return}
         // FPSの設定
         //videoDevice.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: 30)
@@ -38,7 +33,7 @@ class CameraModel{
             if self.session.canAddInput(input) && self.session.canAddOutput(output) {
                 self.session.addInput(input)
                 self.session.addOutput(output)
-
+                
                 self.session.startRunning()
             }
         } catch _ {return}
@@ -74,5 +69,26 @@ class CameraModel{
         let min = time/60
         let sec = time%60
         return String("\(min):\(sec)")
+    }
+    
+    static func check(pose: Pose,size: CGSize, isRecording:Bool, jump:Bool?) -> Bool{
+        //return false
+        if jump != nil {
+            //地面に手をついた時だけは信頼性を無視
+            if isRecording && !jump! {
+                if pose[.leftWrist].position.y > size.height*7/8 && pose[.rightWrist].position.y > size.height*7/8 {
+                    return false
+                }
+            }
+        }
+        
+        for l in [pose[.leftAnkle],pose[.rightAnkle],pose[.leftWrist],pose[.rightWrist],pose[.nose]] {
+            if l.confidence < 0.1 {return true}
+            if l.position.x < 0 || l.position.x > size.width {return true}
+            if l.position.y < 0 || l.position.y > size.height {return true}
+        }
+        return false
+        
+        
     }
 }

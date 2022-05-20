@@ -4,44 +4,31 @@ import Foundation
 
 class DefaultCameraViewModel{
     
-    let poseImageView = PoseImageView()
-    private var poseNet: PoseNet!
-    private var currentFrame: CGImage?
-    
-    
-    var count = 0
-    var recordButton: UIButton!
-    
-    var isRecording = false
+    var countDown = true
+    var rest = false
+    var jump = false
     var isResult = false
+    var isRecording = false
     
+    var recordButton: UIButton!
     var scoreBoad: UILabel!
+    var textTimer: UILabel!
+    
+    var poseNum: Int = 0
     var score:Float = 0.0
-    var prePose: Pose! = Pose()
     var timesBonus: Float = 1.0
     var difBonus: Float = 1.0
     var myPoseList: [Int] = []
     var friPoseList: [Int] = []
-    var poseNum: Int = 0
-    
     var time = 3
-    var timer = Timer()
-    var textTimer: UILabel!
-    var countDown = true
-    
     var switchTime = 20
-    var rest = false
+    var timer = Timer()
+    var prePose: Pose! = Pose()
     
-    //コーチマーク用
-    /*var coachController = CoachMarksController()
-    var messages:[String] = []
-    var views: [UIView] = []*/
+    let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
+    let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
     let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//1 2 3
-    var exiteBoss: boss? = BOSS().isExist()
-//    var bossHPbar: UIProgressView!
-//    var bossImage: UIImageView!
-//    var killList: [boss] = []
- 
+
     var _self :DefaultCameraController
     init(_self :DefaultCameraController){
         self._self = _self
@@ -56,7 +43,7 @@ class DefaultCameraViewModel{
         self.textTimer.backgroundColor = .white
         self.textTimer.font = UIFont.systemFont(ofSize: 50)
         self.textTimer.textAlignment = NSTextAlignment.center
-        self.textTimer.center = CGPoint(x: rect.width/2, y: 25)//rect.height*0.01)
+        self.textTimer.center = CGPoint(x: rect.width/2, y: 25)
         self.textTimer.layer.borderColor = UIColor.blue.cgColor
         self.textTimer.layer.borderWidth = 2
         self.textTimer.layer.masksToBounds = true
@@ -68,30 +55,8 @@ class DefaultCameraViewModel{
         backButton.setTitleColor(UIColor.blue, for: .normal)
         backButton.backgroundColor = UIColor.clear
         backButton.center = CGPoint(x: 45, y: 25)
-        //backButton.layer.cornerRadius = 5
-        //backButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 80)
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         _self.view.addSubview(backButton)
-        
-        
-        /*let heart2 = UIImageView(image: UIImage(systemName: "heart.fill"))
-        heart2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        heart2.layer.position = CGPoint(x: rect.width/2 + 100, y: 25)
-        self.view.addSubview(heart2)*/
-        
-//        self.bossHPbar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 30))
-//        self.bossHPbar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
-//        self.bossHPbar.progressTintColor = .gray
-//        self.bossHPbar.backgroundColor = .red
-//        //self.bossHPbar.setProgress(bossHPbar.progress, animated: true)
-//        self.bossHPbar.transform = CGAffineTransform(scaleX: 1.0, y: 10.0)
-//        self.bossHPbar.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-//        self.bossHPbar.isHidden = true
-//        _self.view.addSubview(self.bossHPbar)
-//        self.bossImage = UIImageView(image: UIImage(named: exiteBoss!.image))
-//        self.bossImage.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-//        self.bossImage.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-//        _self.view.addSubview(bossImage)
         
         self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
         self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
@@ -143,14 +108,12 @@ class DefaultCameraViewModel{
         var Ring = false
         self.recordButton.isHidden = true
         self.scoreBoad.isHidden = false
-//        self.bossImage.isHidden = true
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             if self.time == 0 {
                 if self.countDown{
                     //   moment of 0 Sec
                     self.countDown = false
                     self.isRecording = true
-                    self.poseImageView.gameStart = true//PoseImageview はじめ
                     self.time = CameraModel.taskTime() //                           本編スタート
                 }else{
                     SystemSounds.buttonVib("")
@@ -158,9 +121,7 @@ class DefaultCameraViewModel{
                     //SystemSounds().EndVideoRecording()
                     self._self.view.backgroundColor = .white
                     self.isRecording = false
-                    self.poseImageView.gameStart = false// PoseImageView終了
                     timer.invalidate()//timerの終了
-                    
                     let alert  = DataCounter.showScoreResult(score: self.score,bonus: self.timesBonus,completion: {self._self.cameraView.isVideo = false})
                     self._self.present(alert, animated: true, completion: nil)
                 }
@@ -187,18 +148,12 @@ class DefaultCameraViewModel{
             rest = !rest
             if rest {
                 self.isRecording = false
-                self.poseImageView.gameStart = false
-//                self.bossImage.isHidden = true
-//                self.bossHPbar.isHidden = true
                 self.scoreBoad.isHidden = false
                 self.scoreBoad.text = str.rest.rawValue
                 _self.view.backgroundColor = UIColor.init(red: 102/255, green: 153/255, blue: 255/255, alpha: 80/100)
                 switchTime = 10
             }else{
                 self.isRecording = true
-                self.poseImageView.gameStart = true
-//                self.bossImage.isHidden = false
-//                self.bossHPbar.isHidden = false
                 self.scoreBoad.isHidden = true
                 _self.view.backgroundColor = UIColor.init(red: 255/255, green: 102/255, blue: 102/255, alpha: 80/100)
                 switchTime = 20
@@ -209,7 +164,6 @@ class DefaultCameraViewModel{
         
         if self.time == 0 && !self.countDown { _self.view.backgroundColor = .white }
     }
-    
     var jumpC = 2
     var isMiss = false
     func difficultBonus(){//jumpタスクがtrueになってから２秒以内に達成できなければ、スコア加算されない
@@ -217,7 +171,7 @@ class DefaultCameraViewModel{
             difBonus = 1.0
             if jumpC == 0 {isMiss = false; jumpC = 2}
             jumpC -= 1
-        }else if poseImageView.jump {
+        }else if jump {
             difBonus = Float(difficult)
             if jumpC <= 0 { isMiss = true; jumpC = 3; }//ここにミスった時のBGM
             jumpC -= 1
@@ -227,9 +181,6 @@ class DefaultCameraViewModel{
         }
         
     }
-    
-    
-    
     
     //Extension
     func culculateScore(pose: Pose){
@@ -252,26 +203,6 @@ class DefaultCameraViewModel{
             }
         }
         prePose = pose
-    }
-    func check(pose: Pose,size: CGSize) -> Bool{
-        //return false
-        //地面に手をついた時だけは信頼性を無視
-        if isRecording && !poseImageView.jump {
-            if pose[.leftWrist].position.y > size.height*7/8 && pose[.rightWrist].position.y > size.height*7/8 {
-                return false
-            }
-        }
-        
-        let list = [pose[.leftAnkle],pose[.rightAnkle],
-                    pose[.leftWrist],pose[.rightWrist],
-                    pose[.nose]
-        ]
-        for l in list {
-            if l.confidence < 0.1 {return true}
-            if l.position.x < 0 || l.position.x > size.width {return true}
-            if l.position.y < 0 || l.position.y > size.height {return true}
-        }
-        return false
     }
 }
 

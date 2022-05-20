@@ -1,70 +1,39 @@
-//
-//  QuestCameraViewModel.swift
-//  ShiranAppNew
-//
-//  Created by 津村拓哉 on 2022/03/26.
-//
+
 
 import Foundation
 import SwiftUI
 
 class QuestCameraViewModel{
     
-    //var pD = OriginalPoseDetection()
-    //var poseDetect = PoseDetectionModel()
-    let poseImageView = PoseImageView()
-    let questRender = QuestRender()
-    //private var poseNet: PoseNet!
-    //private var currentFrame: CGImage?
-       
-    //var state: Int = DataCounter.setDailyState()//  diff.dayの数値
-    let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
-    
-    var count = 0
-    var recordButton: UIButton!
+    var countDown = true
     var isRecording = false
     
+    var recordButton: UIButton!
     var scoreBoad: UILabel!
-    var score:Float = 0.0
-    var prePose: Pose! = Pose()
-    var timesBonus: Float = 1.0
+    var textTimer: UILabel!
+    var boltGaugebar: UIProgressView!
+    
+    var poseNum: Int = 0
     var myPoseList: [Int] = []
     var friPoseList: [Int] = []
-    var poseNum: Int = 0
-    
     var time = 4
     var timer = Timer()
-    var textTimer: UILabel!
-    var countDown = true
-//
-//    var exiteBoss: boss? = BOSS().isExist()
-//    var bossHPbar: UIProgressView!
-//    var bossImage: UIImageView!
-//    var killList: [boss] = []
-//
+    
+    //forQuestRender
+    var prePose: Pose! = Pose()
+    var render: QuestRender = QuestRender()
+    var qScore: CGFloat = 0.0
+    
+    let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
+    let qGoal: [Int] = UserDefaults.standard.array(forKey: Keys.qGoal.rawValue) as! [Int]
+    let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
+    let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
     
     var _self :QuestCameraViewController
     init(_self :QuestCameraViewController){
         self._self = _self
     }
     
-    /*private func startPreview() {
-     self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.session)
-     self.videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-     
-     self.view.layer.addSublayer(videoPreviewLayer)
-     self.setUpCaptureButton()
-     DispatchQueue.global(qos: .userInitiated).async {
-     self.session.startRunning()
-     DispatchQueue.main.async {
-     let frame = self.view.bounds
-     self.videoPreviewLayer.frame = CGRect(x: 10, y: 0,
-     width: frame.width - 20,
-     height: frame.height)//self.view.bounds
-     }
-     }
-     
-     }*/
     func setUpCaptureButton(){
         let rect = _self.view.bounds.size
         
@@ -75,7 +44,7 @@ class QuestCameraViewModel{
         self.textTimer.backgroundColor = .white
         self.textTimer.font = UIFont.systemFont(ofSize: 50)
         self.textTimer.textAlignment = NSTextAlignment.center
-        self.textTimer.center = CGPoint(x: rect.width/2, y: 25)//rect.height*0.01)
+        self.textTimer.center = CGPoint(x: rect.width/2, y: 25)
         self.textTimer.layer.borderColor = UIColor.blue.cgColor
         self.textTimer.layer.borderWidth = 2
         self.textTimer.layer.masksToBounds = true
@@ -87,21 +56,23 @@ class QuestCameraViewModel{
         backButton.setTitleColor(UIColor.blue, for: .normal)
         backButton.backgroundColor = UIColor.clear
         backButton.center = CGPoint(x: 45, y: 25)
-        //backButton.layer.cornerRadius = 5
-        //backButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 80)
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         _self.view.addSubview(backButton)
         
-        /*
-         self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
-         self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-         self.scoreBoad.text = "Score"
-         self.scoreBoad.textColor = UIColor.blue
-         //self.scoreBoad.backgroundColor = UIColor.red
-         self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
-         self.scoreBoad.isHidden = true
-         self.view.addSubview(self.scoreBoad)
-         */
+        if qType == 2 {
+            self.boltGaugebar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 30))
+            self.boltGaugebar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
+            self.boltGaugebar.progressTintColor = .yellow
+            self.boltGaugebar.backgroundColor = .gray
+            //self.bossHPbar.setProgress(bossHPbar.progress, animated: true)
+            self.boltGaugebar.transform = CGAffineTransform(scaleX: 1.0, y: 10.0)
+            self.boltGaugebar.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+            _self.view.addSubview(self.boltGaugebar)
+            let boltImage = UIImageView(image: UIImage(systemName: "bolt.fill"))
+            boltImage.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            boltImage.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+            _self.view.addSubview(boltImage)
+        }
         
         // recording button
         self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
@@ -147,19 +118,16 @@ class QuestCameraViewModel{
                     //   moment of 0 Sec
                     self.countDown = false
                     self.isRecording = true
-                    self.poseImageView.gameStart = true//クエストはじめ
                     self.time = CameraModel.taskTime() //                           本編スタート
                 }else{
                     SystemSounds.buttonVib("")
                     SystemSounds.buttonSampleWav("")
                     //SystemSounds().EndVideoRecording()
                     self.isRecording = false
-                    self.poseImageView.gameStart = true//クエストゲーム終了
                     timer.invalidate()//timerの終了
                     
                     //リザルト表示
-                    //var alert: UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
-                    let alert = DataCounter.showQuestResult(qType: self.qType,qScore: self.questRender.qScore,completion: {self._self.questCameraView.isVideo = false})
+                    let alert = DataCounter.showQuestResult(qType: self.qType,qScore: Int(self.qScore),completion: {self._self.questCameraView.isVideo = false})
                     self._self.present(alert, animated: true, completion: nil)
                     
                 }
@@ -170,43 +138,26 @@ class QuestCameraViewModel{
     
     
     //Extension
-//    func culculateScore(pose: Pose, prePose: Pose) -> Pose{
-//        //スコアの測定計算
-//        if !isRecording {return pose}
-//        Joint.Name.allCases.forEach {name in
-//
-//            if pose.joints[name] != nil && prePose.joints[name] != nil{
-//                if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
-//                    let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
-//                    let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
-//                    let sum = Float(disY + disX)/100*timesBonus
-//                    score += sum
-//                }
-//            }
-//        }
-//        return pose
-//    }
-    func check(pose: Pose,size: CGSize) -> Bool{
-        //return false
-        let list = [pose[.leftAnkle],pose[.rightAnkle],
-                    pose[.leftWrist],pose[.rightWrist],
-                    pose[.nose]
-        ]
-        for l in list {
-            if l.confidence < 0.1 {return true}
-            if l.position.x < 0 || l.position.x > size.width {return true}
-            if l.position.y < 0 || l.position.y > size.height {return true}
-        }
-        return false
-    }
     func getPoseImage(pose: Pose,frame: CGImage) -> UIImage{
-        
-//        if qType == 2 {
-//            prePose = culculateScore(pose: pose, prePose: prePose)
-//            questRender.qScore = Int(score)
-//        }
-        let image = poseImageView.showQuest(qRender: questRender,qType: qType, prePose: prePose, pose: pose, on: frame)
+        showHPbar(pose: pose)
+        let image = PoseImageView.showQuest(
+            model: self,
+            pose: pose, on: frame)
         prePose = pose
         return image
+    }
+    func showHPbar(pose: Pose){
+        //スコアの測定計算
+        if !self.isRecording || qType != 2 {return}
+        Joint.Name.allCases.forEach {name in
+            if pose.joints[name] != nil && prePose.joints[name] != nil{
+                if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
+                    let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
+                    let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
+                    self.qScore += (disY+disX)/100
+                    boltGaugebar.progress = Float(qScore) / Float(qGoal[2])
+                }
+            }
+        }
     }
 }

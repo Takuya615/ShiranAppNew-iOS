@@ -5,12 +5,7 @@ import UIKit
 @IBDesignable
 class PoseImageView: UIImageView {
     
-    var jump = false
-    var gameStart = false
-    let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
-    let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
-    
-    func showMiss(on frame: CGImage) -> UIImage {
+    static func showMiss(on frame: CGImage) -> UIImage {
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
         dstImageFormat.scale = 1
@@ -29,42 +24,41 @@ class PoseImageView: UIImageView {
         return dstImage
     }
     
-    
-    func showDefault(prePose: Pose,pose: Pose,on frame: CGImage) -> UIImage {
+    static func showDefault(model: DefaultCameraViewModel,prePose: Pose,pose: Pose,on frame: CGImage) -> UIImage {
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
         dstImageFormat.scale = 1
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
-            BodyRender.show(BodyNo: bodyNo, pose: pose, cgContext: rendererContext.cgContext)
-            PoseImageView.drawHead(num: skinNo,pose: pose, in: rendererContext.cgContext)
+            BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
+            PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
         }
         return dstImage
     }
-    func showDayly(prePose: Pose,pose: Pose,friPose: Pose, on frame: CGImage) -> UIImage {
+    static func showDayly(model: VideoCameraViewModel,pose: Pose,friPose: Pose?, on frame: CGImage) -> UIImage {
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
         dstImageFormat.scale = 1
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
-            BodyRender.show(BodyNo: bodyNo, pose: pose, cgContext: rendererContext.cgContext)
-            PoseImageView.drawHead(num: skinNo,pose: pose, in: rendererContext.cgContext)
-            jump = DaylyRender.daily(jump: jump, gameStart: gameStart, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
+            BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
+            PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
+            DaylyRender.daily(model: model,pose: pose, size: dstImageSize, in: rendererContext.cgContext)
         }
         return dstImage
     }
-    func showQuest(qRender:QuestRender,qType: Int,prePose: Pose,pose: Pose, on frame: CGImage) -> UIImage {
+    static func showQuest(model: QuestCameraViewModel,pose: Pose, on frame: CGImage) -> UIImage {
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
         dstImageFormat.scale = 1
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { context in
             PoseImageView.draw(image: frame, in: context.cgContext)
-            BodyRender.show(BodyNo: bodyNo, pose: pose, cgContext: context.cgContext)
-            PoseImageView.drawHead(num: skinNo,pose: pose, in: context.cgContext)
-            qRender.show(pre: prePose, pose: pose, size: dstImageSize, cgContext: context.cgContext)
+            BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: context.cgContext)
+            PoseImageView.drawHead(num: model.skinNo,pose: pose, in: context.cgContext)
+            model.render.show(model: model, pose: pose, size: dstImageSize, cgContext: context.cgContext)
         }
         return dstImage
     }
@@ -166,7 +160,7 @@ class PoseImageView: UIImageView {
 
     }
     
-    private func drawText(image: CGImage,score: CGFloat, in cgContext: CGContext){
+    static private func drawText(image: CGImage,score: CGFloat, in cgContext: CGContext){
         UIGraphicsPushContext(cgContext)
         let font = UIFont.systemFont(ofSize: 30)
         let string = NSAttributedString(

@@ -40,7 +40,6 @@ enum Keys: String {
     case coin = "Coin"
     case diamond = "Diamond"
     case bossNum = "BOSS_ListNumber"
-    case damage = "BOSS_Damege"
     case myName = "MyName"
     
     //quest

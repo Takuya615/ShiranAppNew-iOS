@@ -98,82 +98,60 @@ extension VideoViewController: PoseNetDelegate {
     func poseNet(_ poseNet: PoseNet, didPredict predictions: PoseNetOutput) {
         defer { self.currentFrame = nil }
         if self.currentFrame == nil {return}
-        let poseBuilder = PoseBuilder(output: predictions,
-                                      configuration: PoseBuilderConfiguration(),
-                                      inputImage: self.currentFrame!)
-        let pose = poseBuilder.pose
-        if model.check(pose: pose, size: self.currentFrame!.size) {
-            let poseImage = model.poseImageView.showMiss(on: self.currentFrame!)
+        let pose = PoseBuilder(output: predictions,configuration: PoseBuilderConfiguration(),inputImage: self.currentFrame!).pose
+
+        if CameraModel.check(pose: pose, size: self.currentFrame!.size,isRecording: model.isRecording, jump: model.jump) {
+            let poseImage = PoseImageView.showMiss(on: self.currentFrame!)
             let poseImageView = UIImageView(image: poseImage)
             poseImageView.layer.position = CGPoint(x: self.view.bounds.size.width/2, y:60 + poseImage.size.height/2)
             //poseImageView.isOpaque = false
             self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
             self.view.addSubview(poseImageView)
-            return
+        }else{
+            //フレンドの描画部分
+//            let fPose = Pose()
+//            if !model.countDown{
+//                let namelist = Pose().joints2
+//                //自分のポーズを保存
+//                for i in 0 ... namelist.count-1 {
+//                    if pose[namelist[i]].isValid {
+//                        model.myPoseList.append(Int(pose[namelist[i]].position.x))
+//                        model.myPoseList.append(Int(pose[namelist[i]].position.y))
+//                    }else{
+//                        model.myPoseList.append(-1); model.myPoseList.append(-1)
+//                    }
+//                }
+//                //友達のポーズを引っ張ってきてプレイ！
+//                if !model.friPoseList.isEmpty {
+//                    var n = 0
+//                    for i in stride(from: 0, to: 26, by: 2) {
+//                        if model.friPoseList[i] > -1 {
+//                            fPose[namelist[n]].isValid = true
+//                            fPose[namelist[n]].position = CGPoint(x: model.friPoseList[i], y: model.friPoseList[i+1])
+//                            if model.isRecording {//フレンドのスコアを追加する
+//                                model.score += Float(abs(model.friPoseList[i] - model.friPoseList[i+26])) / 100
+//                            }
+//
+//                        }
+//                        n += 1
+//                    }
+//                    model.friPoseList.removeFirst(26)
+//                }
+//            }
+            //自分とフレンドの動きを描画
+            let poseImage: UIImage = PoseImageView.showDayly(
+                model: model,
+                pose: pose,//自分のポーズ
+                friPose: nil,//fPose,//フレンドのポーズ
+                on: self.currentFrame!)
+            let size = self.view.bounds.size
+            let poseImageView = UIImageView(image: poseImage)
+            poseImageView.layer.position = CGPoint(x: size.width/2, y:60 + poseImage.size.height/2)
+            self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
+            self.view.addSubview(poseImageView)
+            
+            model.damageManager(pose: pose)
         }
-        //フレンドの描画部分
-        let fPose = Pose()
-        if !model.countDown{
-            let namelist = Pose().joints2
-            //自分のポーズを保存
-            for i in 0 ... namelist.count-1 {
-                if pose[namelist[i]].isValid {
-                    model.myPoseList.append(Int(pose[namelist[i]].position.x))
-                    model.myPoseList.append(Int(pose[namelist[i]].position.y))
-                }else{
-                    model.myPoseList.append(-1); model.myPoseList.append(-1)
-                }
-            }
-            //友達のポーズを引っ張ってきてプレイ！
-            if !model.friPoseList.isEmpty {
-                var n = 0
-                for i in stride(from: 0, to: 26, by: 2) {
-                    if model.friPoseList[i] > -1 {
-                        fPose[namelist[n]].isValid = true
-                        fPose[namelist[n]].position = CGPoint(x: model.friPoseList[i], y: model.friPoseList[i+1])
-                        if model.isRecording {//フレンドのスコアを追加する
-                            model.score += Float(abs(model.friPoseList[i] - model.friPoseList[i+26])) / 100
-                        }
-                        
-                    }
-                    n += 1
-                }
-                model.friPoseList.removeFirst(26)
-            }
-        }
-        //自分とフレンドの動きを描画
-        let poseImage: UIImage = model.poseImageView.showDayly(
-            prePose: model.prePose,
-            pose: pose,//自分のポーズ
-            friPose: fPose,//フレンドのポーズ
-            on: self.currentFrame!)
-        let size = self.view.bounds.size
-        let poseImageView = UIImageView(image: poseImage)
-        poseImageView.layer.position = CGPoint(x: size.width/2, y:60 + poseImage.size.height/2)
-        //poseImageView.isOpaque = false
-        self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
-        self.view.addSubview(poseImageView)
-        
-//        if !isRecording {
-//            self.view.subviews.last?.removeFromSuperview()//直近のsubViewだけ、描画のリセット
-//        }
-        
-        //スコアやボスの表示
-        let damage: Float = UserDefaults.standard.float(forKey: Keys.damage.rawValue)
-        model.bossHPbar.progress = Float((model.score + damage) / model.exiteBoss!.maxHp)
-        //モンスターを倒した
-        if (model.score + damage) > model.exiteBoss!.maxHp{
-            SystemSounds.attack()
-            model.killList.append(model.exiteBoss!)
-            model.score = 0
-            model.exiteBoss = BOSS().newBoss()
-            model.bossImage.image = UIImage(named: model.exiteBoss!.image)// = UIImageView(image: UIImage(named: exiteBoss!.image))
-        }
-        //self.bossHPbar.setProgress(self.bossHPbar.progress, animated: true)
-        
-        model.prePose = model.culculateScore(pose: pose, prePose: model.prePose)
-        //model.prePose = pose
-        //prePose = culculateScore(pose: pose, prePose: prePose)
         
     }
     

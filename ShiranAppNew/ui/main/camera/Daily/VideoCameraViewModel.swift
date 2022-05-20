@@ -3,42 +3,38 @@ import SwiftUI
 import Foundation
 
 class VideoCameraViewModel{
-    
-    let poseImageView = PoseImageView()
-    private var poseNet: PoseNet!
-    private var currentFrame: CGImage?
-    var count = 0
-    var recordButton: UIButton!
-    
-    var isRecording = false
+    //コーチマーク用
+    /*var coachController = CoachMarksController()
+     var messages:[String] = []
+     var views: [UIView] = []*/
+    var rest = false
+    var jump = false
+    var countDown = true
     var isResult = false
+    var isRecording = false
     
+    var textTimer: UILabel!
+    var recordButton: UIButton!
     var scoreBoad: UILabel!
+    var bossHPbar: UIProgressView!
+    var bossImage: UIImageView!
+    
+    var poseNum: Int = 0
+    var switchTime = 20
     var score:Float = 0.0
-    var prePose: Pose! = Pose()
     var timesBonus: Float = 1.0
     var difBonus: Float = 1.0
     var myPoseList: [Int] = []
     var friPoseList: [Int] = []
-    var poseNum: Int = 0
-    
     var time = 3
     var timer = Timer()
-    var textTimer: UILabel!
-    var countDown = true
-    
-    var switchTime = 20
-    var rest = false
-    
-    //コーチマーク用
-    /*var coachController = CoachMarksController()
-    var messages:[String] = []
-    var views: [UIView] = []*/
-    let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//1 2 3
-    var exiteBoss: boss? = BOSS().isExist()
-    var bossHPbar: UIProgressView!
-    var bossImage: UIImageView!
+    var prePose: Pose! = Pose()
     var killList: [boss] = []
+    var exiteBoss: boss? = BOSS().isExist()
+    
+    let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
+    let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
+    let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//1 2 3
  
     var _self :VideoViewController
     init(_self :VideoViewController){
@@ -93,9 +89,8 @@ class VideoCameraViewModel{
         
         self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
         self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-        self.scoreBoad.text = str.score.rawValue
+        self.scoreBoad.text = str.rest.rawValue
         self.scoreBoad.textColor = UIColor.blue
-        //self.scoreBoad.backgroundColor = UIColor.red
         self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
         self.scoreBoad.isHidden = true
         _self.view.addSubview(self.scoreBoad)
@@ -149,7 +144,6 @@ class VideoCameraViewModel{
                     //   moment of 0 Sec
                     self.countDown = false
                     self.isRecording = true
-                    self.poseImageView.gameStart = true//PoseImageview はじめ
                     self.time = CameraModel.taskTime() //                           本編スタート
                 }else{
                     SystemSounds.buttonVib("")
@@ -157,7 +151,6 @@ class VideoCameraViewModel{
                     //SystemSounds().EndVideoRecording()
                     self._self.view.backgroundColor = .white
                     self.isRecording = false
-                    self.poseImageView.gameStart = false// PoseImageView終了
                     timer.invalidate()//timerの終了
                     
                     let alert = self._self.videoCameraView.dataCounter.showDailyResult(bonus: self.timesBonus, killList: self.killList,completion: {self._self.videoCameraView.isVideo = false})
@@ -185,16 +178,13 @@ class VideoCameraViewModel{
             rest = !rest
             if rest {
                 self.isRecording = false
-                self.poseImageView.gameStart = false
                 self.bossImage.isHidden = true
                 self.bossHPbar.isHidden = true
                 self.scoreBoad.isHidden = false
-                self.scoreBoad.text = str.rest.rawValue
                 _self.view.backgroundColor = UIColor.init(red: 102/255, green: 153/255, blue: 255/255, alpha: 80/100)
                 switchTime = 10
             }else{
                 self.isRecording = true
-                self.poseImageView.gameStart = true
                 self.bossImage.isHidden = false
                 self.bossHPbar.isHidden = false
                 self.scoreBoad.isHidden = true
@@ -214,7 +204,7 @@ class VideoCameraViewModel{
             difBonus = 1.0
             if jumpC == 0 {isMiss = false; jumpC = 2}
             jumpC -= 1
-        }else if poseImageView.jump {
+        }else if jump {
             difBonus = Float(difficult)
             if jumpC <= 0 { isMiss = true; jumpC = 3; }//ここにミスった時のBGM
             jumpC -= 1
@@ -225,9 +215,22 @@ class VideoCameraViewModel{
     }
     
     //Extension
-    func culculateScore(pose: Pose, prePose: Pose) -> Pose{
+    func damageManager(pose: Pose){
+        //スコアやボスの表示
+        bossHPbar.progress = Float((score) / exiteBoss!.maxHp)
+        //モンスターを倒した
+        if score > exiteBoss!.maxHp{
+            SystemSounds.attack()
+            killList.append(exiteBoss!)
+            score = 0
+            exiteBoss = BOSS().newBoss()
+            bossImage.image = UIImage(named: exiteBoss!.image)
+        }
+        culculateScore(pose: pose)
+    }
+    func culculateScore(pose: Pose){
         //スコアの測定計算
-        if !isRecording {return pose}
+        if !isRecording {return}
         for i in 0...12 {
             let part = Joint.scoreParts[i]
             guard let newPose = pose.joints[part] else {continue}
@@ -238,28 +241,10 @@ class VideoCameraViewModel{
                 else if i < 8 { partBonus = 0.8 }
                 let disX = abs(newPose.position.x - prePose.position.x)
                 let disY = abs(newPose.position.y - prePose.position.y)
-                let sum = Float(disY + disX)/100 * partBonus * timesBonus * difBonus
-                
+                let sum = Float(disY + disX)/100 * partBonus * timesBonus * difBonus// デイリー特有　条件ごとにスコアボーナスがつく
                 score += sum
-                
             }
         }
-        return pose
-    }
-    func check(pose: Pose,size: CGSize) -> Bool{
-        //return false
-        //地面に手をついた時だけは信頼性を無視
-        if isRecording && !poseImageView.jump {
-            if pose[.leftWrist].position.y > size.height*7/8 && pose[.rightWrist].position.y > size.height*7/8 {
-                return false
-            }
-        }
-        //let list = [pose[.leftAnkle],pose[.rightAnkle],pose[.leftWrist],pose[.rightWrist],pose[.nose]]
-        for l in [pose[.leftAnkle],pose[.rightAnkle],pose[.leftWrist],pose[.rightWrist],pose[.nose]] {
-            if l.confidence < 0.1 {return true}
-            if l.position.x < 0 || l.position.x > size.width {return true}
-            if l.position.y < 0 || l.position.y > size.height {return true}
-        }
-        return false
+        prePose = pose
     }
 }
