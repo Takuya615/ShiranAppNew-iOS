@@ -42,6 +42,7 @@ struct ContentView: View {
         }else {
             ZStack{
                 if self.appState.coachMarkf { CoachMarkView() }
+                
                 fragment
                 //if dataCounter.countedDiamond == 0 { dia }
             }

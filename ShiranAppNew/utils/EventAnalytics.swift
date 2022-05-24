@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 import FirebaseAnalytics
 
-class EventAnalytics {
+struct EventAnalytics {
     
     static let isDebag = true
     

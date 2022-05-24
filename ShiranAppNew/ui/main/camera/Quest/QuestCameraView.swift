@@ -42,12 +42,12 @@ class QuestCameraViewController: UIViewController {
         
     }
     override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
+        super.viewWillAppear(animated)
         camera.setViewWillAppear()
         model.setUpCaptureButton()
     }
     override func viewWillDisappear(_ animated: Bool) {
-      super.viewWillDisappear(animated)
+        super.viewWillDisappear(animated)
         camera.setViewWillDisappear()
     }
     override func viewDidDisappear(_ animated: Bool) {

@@ -9,6 +9,7 @@ target 'ShiranAppNew' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
+  pod 'FirebaseRemoteConfig'
   pod 'Instructions'
   pod 'mailcore2-ios'
   pod 'SwiftyStoreKit'

@@ -95,16 +95,8 @@ struct QuestViewModel {
     
     static func setTimer() -> Int {
         guard let lastOpenedScreen: Date = UserDefaults.standard.object(forKey: Keys.lastOpenedScreen.rawValue) as? Date else {return 0}
-        //let cal =
-//        let todayDC = Calendar.current.dateComponents([.year,.month,.day,.minute,.second], from: Date())
-//        let lastDC = Calendar.current.dateComponents([.year,.month,.day,.minute,.second], from: lastOpenedScreen)
-//        let pastSec: DateComponents = cal.dateComponents([.second], from: todayDC, to: lastDC)
-//        print("todayDC = \(todayDC),,,,lastDC = \(lastDC),,,,pastSec = \(pastSec)")
-
         let dt = Date()
         let  diff = Calendar.current.dateComponents([.second], from: lastOpenedScreen, to: dt)
-        print("dt = \(dt),,,,lastDC = \(lastOpenedScreen),,,,deiff1  = \(diff)")
-        
         let charge = UserDefaults.standard.integer(forKey: Keys.chargTime.rawValue)
         if charge - diff.second! <= 0 {return 0}
         return charge - diff.second!

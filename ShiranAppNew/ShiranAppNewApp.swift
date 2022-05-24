@@ -3,6 +3,7 @@ import SwiftUI
 import Firebase
 import StoreKit
 import SwiftyStoreKit
+import Foundation
 
 @main
 struct ShiranAppNewApp: App {
@@ -67,10 +68,10 @@ class AppState: ObservableObject {
     @Published var coachOpenChar: Bool = UserDefaults.standard.bool(forKey: Keys.OpenChar.rawValue)
     @Published var coachOpenShop: Bool = UserDefaults.standard.bool(forKey: Keys.OpenShop.rawValue)
     @Published var coachMarkf: Bool = UserDefaults.standard.bool(forKey: Keys.CoachMarkf.rawValue)
-    
     @Published var showWanWan: Bool = false
     //@Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: Keys.firstUseBounus.rawValue)
     init() {
+        ABRemoteConfig.setRemoteConfig()
         if EventAnalytics.isDebag {
             coachMark1 = true
             UserDefaults.standard.set(true,forKey: Keys.CoachMark1.rawValue)//Save on CoachMarks-37
@@ -94,7 +95,7 @@ class AppState: ObservableObject {
             //self.isLogin = true
         }
     }
-
+    
     func signup(email:String, password:String){//email:String,password:String
         Auth.auth().createUser(withEmail: email, password: password) { [weak self]authResult, error in
             guard self != nil else {
@@ -113,10 +114,10 @@ class AppState: ObservableObject {
                 self?.errorStr = "アカウント作成に失敗しました"
             }
         }
-
+        
     }
-
-
+    
+    
     func loginMethod(email:String, password:String){
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard self != nil else {
@@ -136,7 +137,7 @@ class AppState: ObservableObject {
             //self?.appState.isLogin = true
         }
     }
-
+    
     func logout(){
         do {
             try Auth.auth().signOut()
@@ -149,7 +150,7 @@ class AppState: ObservableObject {
             //UserDefaults.standard.set({true}, forKey:"login")
         }
     }
-
+    
     func saveDetails(name: String){
         //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
         let id = Auth.auth().currentUser!.uid
@@ -174,7 +175,7 @@ class AppState: ObservableObject {
             }
         }
     }
-
+    
     func existName(){
         let id = Auth.auth().currentUser!.uid
         let db = Firestore.firestore().collection("users").whereField("id", isEqualTo: id)
@@ -193,14 +194,14 @@ class AppState: ObservableObject {
     }
     
     func reset(){
-
+        
         //let db = Firestore.firestore()
         //guard let myName = UserDefaults.standard.string(forKey: DataCounter().myName) else {return}
         /*db.collection("users").document(myName).delete() { err in
          if let err = err {
          print("さくじょ　Error removing document: \(err)")
          } else {
-
+         
          print("さくじょ　Document successfully removed!")
          }
          }*/
