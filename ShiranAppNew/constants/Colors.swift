@@ -9,10 +9,11 @@ struct Colors{
     static let orange = UIColor.orange
     static let yellow = UIColor.yellow
     static let pink = UIColor.systemPink
-    
+    static let gray = UIColor.darkGray
+
     
     //line for Body
-    static let gray = UIColor.darkGray.cgColor
+    static let cgGray = gray.cgColor
     static let line0 = yellow.cgColor
     static let line1 = blue.cgColor
     static let line2 = pink.cgColor
@@ -23,5 +24,9 @@ struct Colors{
     static let dot2 = pink.cgColor
     
     //Quest's Color
-    static let quest1 = red.cgColor
+    static let cgRed = red.cgColor
+    static let cgYellow = yellow.cgColor
+    static let cgBlue = blue.cgColor
+    static let cgPink = pink.cgColor
+    static let cgGreen = green.cgColor
 }

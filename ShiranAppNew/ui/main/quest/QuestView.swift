@@ -36,9 +36,9 @@ struct QuestView: View{
             VStack{
                 HStack{
                     Text("+ \(CameraModel.min(time: charge))")
-                    if 1 > charge { image1.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
-                    if 301 > charge { image2.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
-                    if 601 > charge { image3.resizable().frame(width: 20.0, height: 20.0, alignment: .leading)}
+                    if 1 > charge { image1.resizable().frame(width: 20.0, height: 20.0, alignment: .leading).foregroundColor(Color(Colors.pink))}
+                    if 301 > charge { image2.resizable().frame(width: 20.0, height: 20.0, alignment: .leading).foregroundColor(Color(Colors.pink))}
+                    if 601 > charge { image3.resizable().frame(width: 20.0, height: 20.0, alignment: .leading).foregroundColor(Color(Colors.pink))}
                 }
                 List(QuestViewModel.showQuests(stageOnNow: stageOnNow)){ item in
                     VStack{
@@ -59,10 +59,10 @@ struct QuestView: View{
                                 ForEach(1..<4) { i in
                                     if qsl[item.number] >= i {
                                         Image(systemName: "star.fill").resizable()
-                                            .frame(width: 50.0, height: 50.0, alignment: .leading)
+                                            .frame(width: 50.0, height: 50.0, alignment: .leading).foregroundColor(Color(Colors.orange))
                                     }else{
                                         Image(systemName: "star").resizable()
-                                            .frame(width: 50.0, height: 50.0, alignment: .leading)
+                                            .frame(width: 50.0, height: 50.0, alignment: .leading).foregroundColor(Color(Colors.orange))
                                     }
                                     Spacer()
                                 }

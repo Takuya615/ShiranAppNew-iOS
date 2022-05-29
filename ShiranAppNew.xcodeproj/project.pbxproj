@@ -308,15 +308,15 @@
 			isa = PBXGroup;
 			children = (
 				CE5422F126E6DF27002550D4 /* CoreML */,
-				CE43D8B326E1BC440067CDDB /* CoachMarks.swift */,
-				CED6999227065EC8006E3AEA /* DataCounter.swift */,
-				2CCFAB7E2809BC0200F68401 /* Collection.swift */,
-				CED69990270560AC006E3AEA /* BOSS.swift */,
-				CE71D97A27C081C000408AD7 /* Incentive.swift */,
-				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
-				CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */,
-				2CCCDF07281E16C60001A3EC /* PurchaseUtil.swift */,
 				2C9E041D2839D9C300EB9CC8 /* ABRemoteConfig.swift */,
+				CED69990270560AC006E3AEA /* BOSS.swift */,
+				CE43D8B326E1BC440067CDDB /* CoachMarks.swift */,
+				2CCFAB7E2809BC0200F68401 /* Collection.swift */,
+				CED6999227065EC8006E3AEA /* DataCounter.swift */,
+				CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */,
+				CE71D97A27C081C000408AD7 /* Incentive.swift */,
+				2CCCDF07281E16C60001A3EC /* PurchaseUtil.swift */,
+				CE43D8B626E1BC440067CDDB /* Sounds.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";

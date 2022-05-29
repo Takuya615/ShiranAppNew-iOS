@@ -218,7 +218,7 @@ class DataCounter: ObservableObject {
         switch qType {
         case -1:title = "\n" + str.kill.rawValue + String(qScore) + str.tai.rawValue + "\n"
         case 1:title += "\n" + str.rewardCoin.rawValue + String(qScore) + str.co.rawValue + "\n"
-        case 2:title = "\n " + str.score2.rawValue + String(qScore) + str.p.rawValue + "\n"
+        case 2,5,6,7:title = "\n " + str.score2.rawValue + String(qScore) + str.p.rawValue + "\n"
         case 3,4:title += "\n" + str.rewardDistance.rawValue + String(qScore) + str.m.rawValue + "\n"
         default:title = ""
         }
@@ -374,11 +374,7 @@ class DataCounter: ObservableObject {
         db.updateData([
             "poseList": poseList
         ]) { err in
-            if let err = err {
-                //print("エラー　Error adding document: \(err)")
-            } else {
-                //print("PoseListの保存成功！！")
-            }
+            if let err = err { print(err) }
         }
     }
     

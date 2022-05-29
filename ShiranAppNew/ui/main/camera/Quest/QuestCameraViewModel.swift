@@ -59,19 +59,22 @@ class QuestCameraViewModel{
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         _self.view.addSubview(backButton)
         
-        if qType == 2 {
-            self.boltGaugebar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 30))
-            self.boltGaugebar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
-            self.boltGaugebar.progressTintColor = .yellow
-            self.boltGaugebar.backgroundColor = .gray
-            //self.bossHPbar.setProgress(bossHPbar.progress, animated: true)
-            self.boltGaugebar.transform = CGAffineTransform(scaleX: 1.0, y: 10.0)
-            self.boltGaugebar.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-            _self.view.addSubview(self.boltGaugebar)
-            let boltImage = UIImageView(image: UIImage(systemName: "bolt.fill"))
-            boltImage.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-            boltImage.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-            _self.view.addSubview(boltImage)
+        self.boltGaugebar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 30))
+        self.boltGaugebar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
+        self.boltGaugebar.progressTintColor = .yellow
+        self.boltGaugebar.backgroundColor = .gray
+        //self.bossHPbar.setProgress(bossHPbar.progress, animated: true)
+        self.boltGaugebar.transform = CGAffineTransform(scaleX: 1.0, y: 10.0)
+        self.boltGaugebar.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+        let boltImage = UIImageView(image: UIImage(systemName: "bolt.fill")?.withTintColor(.green))
+        boltImage.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        boltImage.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+        for i in [2,5,6,7] {
+            if qType == i {
+                _self.view.addSubview(self.boltGaugebar)
+                _self.view.addSubview(boltImage)
+                break
+            }
         }
         
         // recording button
@@ -84,7 +87,6 @@ class QuestCameraViewModel{
         self.recordButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 42)
         self.recordButton.addTarget(self, action: #selector(self.onClickRecordButton(sender:)), for: .touchUpInside)
         _self.view.addSubview(recordButton)//subView 0
-        
         
         let der = UILabel()// あとで消す用のUIView
         _self.view.addSubview(der)
@@ -139,25 +141,12 @@ class QuestCameraViewModel{
     
     //Extension
     func getPoseImage(pose: Pose,frame: CGImage) -> UIImage{
-        showHPbar(pose: pose)
         let image = PoseImageView.showQuest(
             model: self,
             pose: pose, on: frame)
         prePose = pose
+        if !self.isRecording {return image}
+        boltGaugebar.progress = Float(qScore) / Float(qGoal[2])
         return image
-    }
-    func showHPbar(pose: Pose){
-        //スコアの測定計算
-        if !self.isRecording || qType != 2 {return}
-        Joint.Name.allCases.forEach {name in
-            if pose.joints[name] != nil && prePose.joints[name] != nil{
-                if pose.joints[name]!.confidence > 0.1 && prePose.joints[name]!.confidence > 0.1 {
-                    let disX = abs(pose.joints[name]!.position.x - prePose.joints[name]!.position.x)
-                    let disY = abs(pose.joints[name]!.position.y - prePose.joints[name]!.position.y)
-                    self.qScore += (disY+disX)/100
-                    boltGaugebar.progress = Float(qScore) / Float(qGoal[2])
-                }
-            }
-        }
     }
 }
