@@ -12,7 +12,6 @@ struct fabView: View {
             HStack {
                 Spacer()
                 Button(action:{
-                    EventAnalytics.tapFab()
                     self.appState.isVideo = true
                     self.appState.coachMark1 = true
                     UserDefaults.standard.set(true, forKey: "CoachMark1")

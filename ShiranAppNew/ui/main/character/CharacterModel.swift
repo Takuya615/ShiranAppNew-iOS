@@ -1,9 +1,4 @@
-//
-//  Character.swift
-//  ShiranAppNew
-//
-//  Created by user on 2021/09/23.
-//
+
 
 import SwiftUI
 
@@ -293,7 +288,6 @@ struct actCharacterView: View {
                 Button("実行できたら\nここをタップ"){
                     let canUse = cM.useCharacter(item: char)
                     if canUse {
-                        //EventAnalytics.doneQuest()
                         text = DataCounter.updateLv(score: char.score, data: DataCounter()).1//mes(score: char.score, str: "")
                         self.scoreUp = true
                     }else{

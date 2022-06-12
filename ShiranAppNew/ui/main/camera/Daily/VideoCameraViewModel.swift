@@ -34,11 +34,12 @@ class VideoCameraViewModel{
     
     let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
     let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
-    let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//1 2 3
+    let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)+1//1 2 3
  
     var _self :VideoViewController
     init(_self :VideoViewController){
         self._self = _self
+        EventAnalytics.action_setting(type: str.daylyChallenge.rawValue)
     }
     
     func setUpCaptureButton(){

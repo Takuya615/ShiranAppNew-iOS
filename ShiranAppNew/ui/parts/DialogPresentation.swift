@@ -1,9 +1,4 @@
 //
-//  DialogPresentation.swift
-//  ShiranAppNew
-//
-//  Created by user on 2021/10/27.
-//
 
 import SwiftUI
 

@@ -32,6 +32,7 @@ class QuestCameraViewModel{
     var _self :QuestCameraViewController
     init(_self :QuestCameraViewController){
         self._self = _self
+        EventAnalytics.action_setting(type: str.quest.rawValue)
     }
     
     func setUpCaptureButton(){
@@ -141,9 +142,7 @@ class QuestCameraViewModel{
     
     //Extension
     func getPoseImage(pose: Pose,frame: CGImage) -> UIImage{
-        let image = PoseImageView.showQuest(
-            model: self,
-            pose: pose, on: frame)
+        let image = PoseImageView.showQuest(model: self,pose: pose, on: frame)
         prePose = pose
         if !self.isRecording {return image}
         boltGaugebar.progress = Float(qScore) / Float(qGoal[2])

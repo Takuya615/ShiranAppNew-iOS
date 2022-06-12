@@ -1,20 +1,14 @@
-//
-//  SettingView.swift
-//  ShiranAppNew
-//
-//  Created by user on 2021/12/23.
-//
 
 import SwiftUI
 
 struct SettingView: View {
     
     @EnvironmentObject var appState: AppState
-    let difficults = [
+    @State private var selection = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//0,1,2
+    static let difficults = [
         str.normal.rawValue,
         str.hard.rawValue,
         str.veryHard.rawValue]
-    @State private var selection = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)
     
     var body: some View {
         
@@ -23,13 +17,13 @@ struct SettingView: View {
             Text(str.settingDifficulty.rawValue)
             Picker(selection: $selection,
                    label: Text(str.selectDifficulty.rawValue)) {
-                ForEach(0 ..< difficults.count) { i in Text(self.difficults[i])}
+                ForEach(0 ..< 3) { i in Text(SettingView.difficults[i])}
             }
             .pickerStyle(SegmentedPickerStyle())    // セグメントピッカースタイルの指定
             .frame(width: 400)
-            .onAppear(perform: {selection -= 1})
+            //.onAppear(perform: {selection -= 1})
             .onDisappear(perform: {
-                selection += 1
+                //selection += 1
                 UserDefaults.standard.set(selection, forKey: Keys.difficult.rawValue)
             })
             

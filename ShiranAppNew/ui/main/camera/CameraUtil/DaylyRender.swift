@@ -17,8 +17,8 @@ struct DaylyRender{
     static func daily(model: VideoCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         var sta = 1.0
         switch UserDefaults.standard.integer(forKey: Keys.difficult.rawValue) {
-        case 2 : sta = 5/6//  Hard Mode
-        case 3 : sta = 4/6//  VeryHard Mode
+        case 1 : sta = 5/6//  Hard Mode
+        case 2 : sta = 4/6//  VeryHard Mode
         default: return //     Nomal Mode
         }
         if model.jump {

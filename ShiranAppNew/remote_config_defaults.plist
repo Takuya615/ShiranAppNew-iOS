@@ -2,7 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>ExtraStages</key>
-  <string>100</string>
+	<key>exist_quest</key>
+	<string>true</string>
+	<key>exist_interval_heart</key>
+	<string>true</string>
+	<key>edit_level</key>
+	<string>1.0</string>
+	<key>edit_task_time</key>
+	<string>0.7</string>
+	<key>edit_coin_rate</key>
+	<string>1.0</string>
+	<key>edit_quest_goal</key>
+	<string>1.0</string>
+	<key>edit_quest_time</key>
+	<string>1.0</string>
+	<key>edit_quest_re_heart_interval</key>
+	<string>300</string>
 </dict>
 </plist>

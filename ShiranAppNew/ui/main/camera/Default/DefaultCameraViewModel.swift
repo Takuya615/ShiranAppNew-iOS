@@ -27,11 +27,12 @@ class DefaultCameraViewModel{
     
     let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
     let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
-    let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//1 2 3
+    let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)+1//1 2 3
 
     var _self :DefaultCameraController
     init(_self :DefaultCameraController){
         self._self = _self
+        EventAnalytics.action_setting(type: str.def.rawValue)
     }
     
     func setUpCaptureButton(){

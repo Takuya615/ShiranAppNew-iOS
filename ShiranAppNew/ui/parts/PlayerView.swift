@@ -132,16 +132,9 @@ struct PlayerView2: View {
     }
 }
 struct PlayerViewQuest: View {
-    var page: Int
     var url = Bundle.main.path(forResource: "q_coin", ofType: "mp4")
-    init(page: Int){
-        self.page = page
-        switch self.page {
-        case 1: url = Bundle.main.path(forResource: "q_coin", ofType: "mp4")
-        case 2: url = Bundle.main.path(forResource: "q_hiit", ofType: "mov")
-        case 3: url = Bundle.main.path(forResource: "q_climb", ofType: "mp4")
-        default: url = Bundle.main.path(forResource: "q_coin", ofType: "mp4")
-        }
+    init(url: String?){
+        self.url = url
     }
     var body: some View {
         let player = AVPlayer(url: URL(fileURLWithPath: url!))

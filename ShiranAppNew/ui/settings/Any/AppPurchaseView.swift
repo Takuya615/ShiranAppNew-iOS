@@ -18,7 +18,7 @@ struct AppPurchaseView: View {
                                 Text(String(p.coin))
                                 Spacer()
                                 Button("¥ \(p.enn)"){
-                                    PurchaseUtil().purchase(p.product,callBack: {
+                                    PurchaseUtil().purchase(p.product,enn:p.enn,callBack: {
                                         self.dataCounter.countedCoin += p.coin
                                         UserDefaults.standard.set(self.dataCounter.countedCoin, forKey: Keys.coin.rawValue)
                                     },callError: {showingAlert=true})
@@ -35,7 +35,7 @@ struct AppPurchaseView: View {
                                 Text(String(p.coin))
                                 Spacer()
                                 Button("¥ \(p.enn)"){
-                                    PurchaseUtil().purchase(p.product,callBack: {
+                                    PurchaseUtil().purchase(p.product,enn:p.enn,callBack: {
                                         self.dataCounter.countedDiamond += p.coin
                                         UserDefaults.standard.set(self.dataCounter.countedDiamond, forKey: Keys.diamond.rawValue)
                                     },callError: {showingAlert=true})

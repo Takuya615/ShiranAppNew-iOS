@@ -1,15 +1,24 @@
-//
-//  Keys.swift
-//  ShiranAppNew
-//
-//  Created by user on 2022/02/19.
-//
+
 
 import Foundation
 enum Keys: String {
     // Key
     
     case firstUseBounus = "getDiamonds"
+    
+    //RemoteConfig
+    case exist_quest = "exist_quest"
+    case exist_interval_heart = "exist_interval_heart"
+    
+    case rcLevel = "edit_level"
+    case rcAddTT = "edit_task_time"
+    case rcCoinRate = "edit_coin_rate"
+    case rcQTime = "edit_quest_time"
+    case rcQGoal = "edit_quest_goal"
+    case rcQReHeart = "edit_quest_re_heart_interval"//"RemoteConfig_Quest_interval_time_for_recover_heart"    
+    //case rcDiaRate = "RemoteConfig_diamond_rate"
+    //case rcQMaxHeart = "RemoteConfig_Quest_max_heart"
+    
     
     //tutorial
     case CoachMark1 = "CoachMark1"

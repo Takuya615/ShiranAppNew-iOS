@@ -59,10 +59,11 @@ class PurchaseUtil {
     }
     
     
-    func purchase(_ purchase: String,callBack: @escaping () -> Void,callError: @escaping () -> Void){
-        SwiftyStoreKit.purchaseProduct(appBundleId + "." + purchase, atomically: false) { result in
+    func purchase(_ name: String,enn: Int,callBack: @escaping () -> Void,callError: @escaping () -> Void){
+        SwiftyStoreKit.purchaseProduct(appBundleId + "." + name, atomically: false) { result in
             if case .success(let purchase) = result {
-                callBack()
+                callBack()                
+                EventAnalytics.in_app_purchase(item: name, price: enn)
                 if purchase.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(purchase.transaction)
                 }

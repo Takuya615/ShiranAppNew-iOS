@@ -11,7 +11,7 @@ class QuestRender{
         case 1: quest1(model:model,pose: pose, size: size, in: cgContext)
         case 3: quest3(model:model,pre: model.prePose, pose: pose, size: size, in: cgContext)
         case 2: quest2(model: model, pose: pose)
-        case 4: quest4(model:model, pose: pose, size: size, in: cgContext)
+        //case 4: quest4(model:model, pose: pose, size: size, in: cgContext)
         case 5: quest5(model:model, pose: pose, size: size, in: cgContext)
         case 6: quest6(model:model, pose: pose, size: size, in: cgContext)
         case 7: quest7(model:model, pose: pose, size: size, in: cgContext)
@@ -91,48 +91,6 @@ class QuestRender{
         if qPlace.y > size.height {qPlace.y = 0}
     }
     
-    //skating
-    private var co:CGFloat = 0.0
-    private var sTime: CGFloat = 0.0
-    private var leftside = true
-    func quest4(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
-        
-        let leftA = pose[.leftKnee].position
-        let rightA = pose[.rightKnee].position
-        let diff = leftA.y - rightA.y
-        var newflg = 1.0
-        if diff<0 {newflg = 1}else{newflg = -1}
-        if newflg != flg {//足が切り替わった
-            //print("切り替わった")
-            flg = newflg
-            co = 0.0
-        }
-        sTime = -0.4*co*co + 4.0*co + 1.0
-        if sTime < 0.0 || 20 > abs(diff) {sTime = 0.0}
-        co += 1.0
-        
-        qPlace.y += sTime
-        model.qScore += sTime/10
-        let back = UIImage(named: "skate_back")?.cgImage//flipVertical().cgImage
-        let rectangle = CGRect(x:0, y:-size.height, width:size.width, height:size.height/2)
-        cgContext.setAlpha(0.5)
-        cgContext.scaleBy(x: 1.0, y: -1.0)
-        cgContext.draw(back!, in: rectangle)
-        
-        cgContext.setFillColor(CGColor(red: 0.9, green: 1.0, blue: 1.0, alpha: 0.8))
-        cgContext.fill(CGRect(x: 0, y: size.height*1/2, width: size.width, height: size.height/2))
-        
-        let cgImage = UIImage(named: "icerock")?.cgImage//flipVertical().cgImage
-        let si = 200-qPlace.y//画像サイズ
-        //if size.height*2/3 > size.height - si - qPlace.y {print("リセット"); qPlace = CGPoint(x: 0,y: 0)}
-        if si < 0 {qPlace = CGPoint(x: 0,y: 0); leftside = !leftside}
-        var r = qPlace.y/2
-        if !leftside { r = size.width - 200 + qPlace.y/2 }
-        let rectangle2 = CGRect(x: r , y:-size.height+100 + qPlace.y, width:si, height:si)
-        cgContext.setAlpha(0.9)
-        cgContext.draw(cgImage!, in: rectangle2)
-    }
-    
     func quest5(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         let rectangle = CGRect(x: flg, y: 0, width: size.width/2, height: size.height)
         cgContext.setAlpha(0.2)
@@ -195,42 +153,6 @@ class QuestRender{
         }
     }
     
-//    func quest6(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
-//        let udRect = CGRect(x: size.width/4 - qPlace.x/2, y: size.height*6/8, width: qPlace.x, height: qPlace.x)
-//        let rlRect = CGRect(x: size.width*3/4 - qPlace.y/2, y: size.height*6/8, width: qPlace.y, height: qPlace.y)
-//        cgContext.setFillColor(Colors.cgGreen)
-//        cgContext.setAlpha(0.5)
-//        if flg == 0 {
-//            cgContext.fill(udRect)
-//            qPlace = CGPoint(x: size.width/5,y: size.width/10)
-//        }else{
-//            cgContext.fill(rlRect)
-//            qPlace = CGPoint(x: size.width/10,y: size.width/5)
-//        }
-//        cgContext.setAlpha(1.0)
-//        cgContext.draw( UIImage(systemName: "arrow.up.and.down.circle")!.cgImage! ,in: udRect)
-//        cgContext.draw( UIImage(systemName: "arrow.left.and.right.circle")!.cgImage! ,in: rlRect)
-//
-//
-//        if !model.isRecording {return}
-//        Joint.Name.allCases.forEach {name in
-//            if pose.joints[name] != nil && model.prePose.joints[name] != nil{
-//                if pose.joints[name]!.confidence > 0.1 && model.prePose.joints[name]!.confidence > 0.1 {
-//                    let disY = abs(pose.joints[name]!.position.y - model.prePose.joints[name]!.position.y)
-//                    let disX = abs(pose.joints[name]!.position.x - model.prePose.joints[name]!.position.x)
-//                    if flg == 0 {
-//                        model.qScore -= disX/50
-//                        model.qScore += disY/50
-//                    }else{
-//                        model.qScore += disX/50
-//                        model.qScore -= disY/50
-//
-//                    }
-//                }
-//            }
-//        }
-//        randomAct(callBack: {flg = 100},callBack2: {flg = 0})
-//    }
     func quest7(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         
         let rectangle = CGRect(x: flg, y: flg2, width: size.width/2, height: size.height/2)
@@ -289,70 +211,6 @@ class QuestRender{
             }
         }
     }
-//    func quest7(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
-//
-//        randomAct(callBack: {
-//            flg = size.width/2
-//            if Bool.random() {
-//                flg2 = 100
-//            }else{
-//                flg2 = 0
-//            }
-//        },callBack2: {
-//            flg = 0
-//            if Bool.random() {
-//                flg2 = 100
-//            }else{
-//                flg2 = 0
-//            }
-//        })
-//
-//        let rectangle = CGRect(x: flg, y: 0, width: size.width/2, height: size.height)
-//        cgContext.setAlpha(0.2)
-//        cgContext.setFillColor(Colors.cgGreen)
-//        cgContext.fill(rectangle)
-//
-//        let udRect = CGRect(x: size.width/4 - qPlace.x/2, y: size.height*6/8, width: qPlace.x, height: qPlace.x)
-//        let rlRect = CGRect(x: size.width*3/4 - qPlace.y/2, y: size.height*6/8, width: qPlace.y, height: qPlace.y)
-//        cgContext.setFillColor(Colors.cgGreen)
-//        cgContext.setAlpha(0.5)
-//        if flg2 == 0 {
-//            cgContext.fill(udRect)
-//            qPlace = CGPoint(x: size.width/5,y: size.width/10)
-//        }else{
-//            cgContext.fill(rlRect)
-//            qPlace = CGPoint(x: size.width/10,y: size.width/5)
-//        }
-//        cgContext.setAlpha(1.0)
-//        cgContext.draw( UIImage(named: "picto")!.cgImage! ,in: udRect)
-//        cgContext.draw( UIImage(named: "picto")!.cgImage! ,in: rlRect)
-//
-//
-//        if !model.isRecording {return}
-//        Joint.Name.allCases.forEach {name in
-//            if pose.joints[name] != nil && model.prePose.joints[name] != nil{
-//                if pose.joints[name]!.confidence > 0.1 && model.prePose.joints[name]!.confidence > 0.1 {
-//                    let disX = abs(pose.joints[name]!.position.x - model.prePose.joints[name]!.position.x)
-//                    let disY = abs(pose.joints[name]!.position.y - model.prePose.joints[name]!.position.y)
-//                    //print("範囲\(flg)~\(flg + size.width/2)、今のポジションは\(pose.joints[name]!.position.x )")
-//                    if flg < pose.joints[name]!.position.x && pose.joints[name]!.position.x < flg + size.width/2 {
-//                        if flg2 == 0 {
-//                            model.qScore -= disX/100
-//                            model.qScore += disY/100
-//                        }else{
-//                            model.qScore += disX/100
-//                            model.qScore -= disY/100
-//
-//                        }
-//                    }else{
-//                        model.qScore -= (disY+disX)/100
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-    
     
     
 }

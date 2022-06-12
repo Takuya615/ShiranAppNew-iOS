@@ -42,7 +42,6 @@ struct ContentView: View {
         }else {
             ZStack{
                 if self.appState.coachMarkf { CoachMarkView() }
-                
                 fragment
                 //if dataCounter.countedDiamond == 0 { dia }
             }
@@ -56,18 +55,19 @@ struct ContentView: View {
                 .tabItem {
                     Image(systemName: "homekit")
                     Text(str.home.rawValue)
-            }
+                }
             QuestView()
                 .tabItem {
                     Image(systemName: "line.horizontal.star.fill.line.horizontal")
                     Text(str.quest.rawValue)
                 }
             
-//            CharacterView()
-//                .tabItem {
-//                    Image(systemName: "tortoise.fill")
-//                    Text(str.suketto.rawValue)
-//                }
+            
+            //            CharacterView()
+            //                .tabItem {
+            //                    Image(systemName: "tortoise.fill")
+            //                    Text(str.suketto.rawValue)
+            //                }
             ShopView()
                 .tabItem {
                     Image(systemName: "bag.fill")

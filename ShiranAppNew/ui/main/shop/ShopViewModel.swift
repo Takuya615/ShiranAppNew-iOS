@@ -21,17 +21,21 @@ struct ShopViewModel{
         return true
     }
     
-    static func buy(parts:String,id articleId:Int,coin articleCoin:Int,dia articleDia:Int?) -> (Int,Bool){
+    static func buy(type:String,id articleId:Int,coin articleCoin:Int,dia articleDia:Int?) -> (Int,Bool){
         var your = ""
         var select = ""
-        if parts == "Body" {
+        var name = ""
+        if type == "Body" {
             your = Keys.yourBodys.rawValue
             select = Keys.selectBody.rawValue
+            name = Body.bodys[articleId].name
         }else{
             your = Keys.yourItem.rawValue
             select = Keys.selectSkin.rawValue
+            name = Skin.skins[articleId].name
         }
         if articleDia != nil {
+            EventAnalytics.spend_virtual_currency(item: name, matter: Keys.diamond.rawValue, amount: articleDia!)
             var diamonds = UserDefaults.standard.integer(forKey: Keys.diamond.rawValue)
             diamonds -= articleDia!
             var items: [Int] = UserDefaults.standard.array(forKey: your) as? [Int] ?? [0] as [Int]
@@ -41,6 +45,7 @@ struct ShopViewModel{
             UserDefaults.standard.set(articleId,forKey: select)
             return (diamonds,false)
         }else{
+            EventAnalytics.spend_virtual_currency(item: name, matter: Keys.coin.rawValue, amount: articleCoin)
             var coin = UserDefaults.standard.integer(forKey: Keys.coin.rawValue)
             coin -= articleCoin
             var items: [Int] = UserDefaults.standard.array(forKey: your) as? [Int] ?? [0] as [Int]

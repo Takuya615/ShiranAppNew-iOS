@@ -15,7 +15,7 @@
 		2C7BA19427EE99C80016D3B7 /* QuestCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */; };
 		2C90999927E85F1B00B3EF6D /* VideoCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */; };
 		2C9E041E2839D9C300EB9CC8 /* ABRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E041D2839D9C300EB9CC8 /* ABRemoteConfig.swift */; };
-		2C9E04202839EEA500EB9CC8 /* remote_config_defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C9E041F2839EEA500EB9CC8 /* remote_config_defaults.plist */; };
+		2CA35E90285435A200BE6E78 /* remote_config_defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CA35E8F285435A200BE6E78 /* remote_config_defaults.plist */; };
 		2CCCDF04281CB97C0001A3EC /* AppPurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCDF03281CB97C0001A3EC /* AppPurchaseView.swift */; };
 		2CCCDF06281CCD540001A3EC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CCCDF05281CCD540001A3EC /* StoreKit.framework */; };
 		2CCCDF08281E16C60001A3EC /* PurchaseUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCDF07281E16C60001A3EC /* PurchaseUtil.swift */; };
@@ -92,7 +92,7 @@
 		2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCameraViewModel.swift; sourceTree = "<group>"; };
 		2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCameraViewModel.swift; sourceTree = "<group>"; };
 		2C9E041D2839D9C300EB9CC8 /* ABRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABRemoteConfig.swift; sourceTree = "<group>"; };
-		2C9E041F2839EEA500EB9CC8 /* remote_config_defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = remote_config_defaults.plist; sourceTree = "<group>"; };
+		2CA35E8F285435A200BE6E78 /* remote_config_defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = remote_config_defaults.plist; sourceTree = "<group>"; };
 		2CCCDF03281CB97C0001A3EC /* AppPurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPurchaseView.swift; sourceTree = "<group>"; };
 		2CCCDF05281CCD540001A3EC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2CCCDF07281E16C60001A3EC /* PurchaseUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseUtil.swift; sourceTree = "<group>"; };
@@ -440,7 +440,7 @@
 				CECB80AA2762E09C0001565D /* resource */,
 				CE6F978F26F0E476007CF587 /* ShiranAppNew.entitlements */,
 				CE96198A26E1AE820084F1A7 /* Info.plist */,
-				2C9E041F2839EEA500EB9CC8 /* remote_config_defaults.plist */,
+				2CA35E8F285435A200BE6E78 /* remote_config_defaults.plist */,
 				CE96198526E1AE820084F1A7 /* Assets.xcassets */,
 				CE9619AC26E1B76B0084F1A7 /* GoogleService-Info.plist */,
 				CE96198726E1AE820084F1A7 /* Preview Content */,
@@ -548,7 +548,7 @@
 				CEBE67E92761B47800DA11B2 /* q_climb.mp4 in Resources */,
 				CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */,
 				CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */,
-				2C9E04202839EEA500EB9CC8 /* remote_config_defaults.plist in Resources */,
+				2CA35E90285435A200BE6E78 /* remote_config_defaults.plist in Resources */,
 				CE25ACE82751CABB00ABDF18 /* score_up.mp3 in Resources */,
 				CECBA1AA27925DCB00079CCA /* introduce.mov in Resources */,
 				CE59CC94277B1244007E96C3 /* attack.mp3 in Resources */,

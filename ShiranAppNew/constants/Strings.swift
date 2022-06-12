@@ -180,6 +180,10 @@ enum str: String {
 
 
         """
+    //EventAnalytics 用
+    case def = "デフォルト"
+    case in_app_purchase = "アプリ内課金画面"
+    case select_skin = "スキンの設定画面"
     
     
 }

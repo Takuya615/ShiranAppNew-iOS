@@ -71,7 +71,7 @@ class AppState: ObservableObject {
     @Published var showWanWan: Bool = false
     //@Published var getDiamond: Bool = UserDefaults.standard.bool(forKey: Keys.firstUseBounus.rawValue)
     init() {
-        ABRemoteConfig.setRemoteConfig()
+        Config.setRemoteConfig()
         if EventAnalytics.isDebag {
             coachMark1 = true
             UserDefaults.standard.set(true,forKey: Keys.CoachMark1.rawValue)//Save on CoachMarks-37
@@ -83,12 +83,12 @@ class AppState: ObservableObject {
             UserDefaults.standard.set(true,forKey: Keys.OpenShop.rawValue)
             UserDefaults.standard.set(true,forKey: Keys.CoachMarkf.rawValue)
             UserDefaults.standard.register(defaults: [Keys.level.rawValue: 1])
-            UserDefaults.standard.register(defaults: [Keys.difficult.rawValue: 2])
+            UserDefaults.standard.register(defaults: [Keys.difficult.rawValue: 1])
         }
         if !coachMark1 {
             isVideoPlayer = true
             UserDefaults.standard.register(defaults: [Keys.level.rawValue: 1])
-            UserDefaults.standard.register(defaults: [Keys.difficult.rawValue: 2])
+            UserDefaults.standard.register(defaults: [Keys.difficult.rawValue: 1])
         }//{isExplainView = true}
         if Auth.auth().currentUser != nil {
             self.isinAccount = true//trueなら　アカウント設定 　false　ならログアウトボタンに切り替わる

@@ -19,7 +19,7 @@ struct ShopView: View{
                     Section {
                         ForEach(0..<products.count, id: \.self){ i in
                             SkinItemView(num:i, p: products[i], callBack: {
-                                let buyAny = ShopViewModel.buy(parts:"Skin",id: products[i].id, coin: products[i].coin, dia: products[i].dia)
+                                let buyAny = ShopViewModel.buy(type:"Skin",id: products[i].id, coin: products[i].coin, dia: products[i].dia)
                                 if buyAny.1 {self.dataCounter.countedCoin = buyAny.0}
                                 else{self.dataCounter.countedDiamond = buyAny.0}
                                 delete(id: products[i].id)})
@@ -30,7 +30,7 @@ struct ShopView: View{
                     Section {
                         ForEach(products2, id: \.self){ p in
                             BodyItemView(p: p, callBack: {
-                                let buyAny = ShopViewModel.buy(parts: "Body", id: p.id, coin: p.coin, dia: p.dia)
+                                let buyAny = ShopViewModel.buy(type: "Body", id: p.id, coin: p.coin, dia: p.dia)
                                 if buyAny.1 {self.dataCounter.countedCoin = buyAny.0}
                                 else{self.dataCounter.countedDiamond = buyAny.0}
                                 delete2(id: p.id)})
@@ -51,6 +51,7 @@ struct ShopView: View{
                     }
                 }
             }
+            .onAppear(perform: {EventAnalytics.tap(name: str.shop.rawValue)})
         }
         //.onAppear(perform: { products.remove(at: 0) })
     }
@@ -86,7 +87,7 @@ struct SkinItemView: View {
             Button(action: {
                 if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
                     isBought.toggle()
-                }else{self.appState.isPurchaseView = true}
+                }else{self.appState.isPurchaseView = true;EventAnalytics.tap(name: str.in_app_purchase.rawValue)}
             }, label: {
                 HStack{
                     Image(p.image,bundle: .main)
@@ -134,7 +135,7 @@ struct BodyItemView: View {
         Button(action: {
             if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
                 isBought.toggle()
-            }else{self.appState.isPurchaseView = true}
+            }else{self.appState.isPurchaseView = true;EventAnalytics.tap(name:str.in_app_purchase.rawValue)}
         }, label: {
             HStack{
                 Image(uiImage:BodyRender.showRender(skin: 0, body: p.id))
