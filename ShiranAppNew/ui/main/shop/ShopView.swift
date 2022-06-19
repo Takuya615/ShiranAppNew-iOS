@@ -51,7 +51,7 @@ struct ShopView: View{
                     }
                 }
             }
-            .onAppear(perform: {EventAnalytics.tap(name: str.shop.rawValue)})
+            .onAppear(perform: {EventAnalytics.screen(name: str.shop.rawValue)})
         }
         //.onAppear(perform: { products.remove(at: 0) })
     }
@@ -87,7 +87,7 @@ struct SkinItemView: View {
             Button(action: {
                 if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
                     isBought.toggle()
-                }else{self.appState.isPurchaseView = true;EventAnalytics.tap(name: str.in_app_purchase.rawValue)}
+                }else{self.appState.isPurchaseView = true;EventAnalytics.screen(name: str.in_app_purchase.rawValue)}
             }, label: {
                 HStack{
                     Image(p.image,bundle: .main)
@@ -135,7 +135,7 @@ struct BodyItemView: View {
         Button(action: {
             if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
                 isBought.toggle()
-            }else{self.appState.isPurchaseView = true;EventAnalytics.tap(name:str.in_app_purchase.rawValue)}
+            }else{self.appState.isPurchaseView = true;EventAnalytics.screen(name:str.in_app_purchase.rawValue)}
         }, label: {
             HStack{
                 Image(uiImage:BodyRender.showRender(skin: 0, body: p.id))

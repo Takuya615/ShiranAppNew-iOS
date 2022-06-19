@@ -6,14 +6,14 @@ struct toolbarItemView: View {
         Menu{
             Button(action: {
                 appState.isSettingView = true
-                EventAnalytics.tap(name: str.set.rawValue)
+                EventAnalytics.screen(name: str.set.rawValue)
             }) {
                 Text(str.set.rawValue)
                 Image(systemName: "gear")//"gearshape")
             }
             Button(action: {
                 appState.isExplainView = true
-                EventAnalytics.tap(name: str.detailApp.rawValue)
+                EventAnalytics.screen(name: str.detailApp.rawValue)
             }) {
                 Text(str.detailApp.rawValue)
                 Image(systemName: "info.circle")//"gearshape")
@@ -36,7 +36,7 @@ struct toolbarItemView: View {
              }*/
             Button(action: {
                 appState.isPrivacyPolicy = true
-                EventAnalytics.tap(name: str.privacy_policy.rawValue)
+                EventAnalytics.screen(name: str.privacy_policy.rawValue)
             }) {
                 Text(str.privacy_policy.rawValue)
                 Image(systemName: "shield")
@@ -44,14 +44,14 @@ struct toolbarItemView: View {
             Button(action: {
                 guard let writeReviewURL = URL(string: "https://twitter.com/G0DhdLNn4SftTjc") else { fatalError("Expected a valid URL") }
                 UIApplication.shared.open(writeReviewURL)
-                EventAnalytics.tap(name: str.twitter.rawValue)
+                EventAnalytics.screen(name: str.twitter.rawValue)
             }) {
                 Text(str.twitter.rawValue)
                 Image(systemName: "rectangle.and.pencil.and.ellipsis")
             }
             Button(action: {
                 appState.isOpinionView = true
-                EventAnalytics.tap(name: str.opinion.rawValue)
+                EventAnalytics.screen(name: str.opinion.rawValue)
             }) {
                 Text(str.opinion.rawValue)
                 Image(systemName: "rectangle.and.pencil.and.ellipsis")

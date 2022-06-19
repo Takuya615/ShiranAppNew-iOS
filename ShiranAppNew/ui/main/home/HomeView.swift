@@ -39,7 +39,7 @@ struct HomeView: View{
                             .resizable()
                             .frame(width:width/2, height: height*0.6)
                         Rectangle()
-                            .onTapGesture {self.appState.isItemSelectView = true;EventAnalytics.tap(name: str.select_skin.rawValue)}
+                            .onTapGesture {self.appState.isItemSelectView = true;EventAnalytics.screen(name: str.select_skin.rawValue)}
                             .foregroundColor(Color.gray.opacity(0.1))
                             .frame(width:width/2, height: height*0.6)
                     }
@@ -50,7 +50,7 @@ struct HomeView: View{
                     }
                 }
                 .onAppear(perform: {
-                    EventAnalytics.tap(name: str.home.rawValue)
+                    EventAnalytics.screen(name: str.home.rawValue)
                     self.dataCounter.countedLevel = UserDefaults.standard.integer(forKey: Keys.level.rawValue)//データ更新
                     self.dataCounter.continuedDayCounter = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
                     self.dataCounter.continuedRetryCounter = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)

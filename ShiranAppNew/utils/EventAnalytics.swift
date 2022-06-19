@@ -68,16 +68,11 @@ struct EventAnalytics {
           AnalyticsParameterContent: name,
           AnalyticsParameterContentType: type
           ])
-//        Analytics.logEvent("button_tap", parameters: [
-//            "button_name": name
-//        ])
     }
-    static func tap(name: String){
-        if isDeb {print(name);return}
-        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-          AnalyticsParameterContent: name,
-          AnalyticsParameterContentType: ""
-          ])
+    static func screen(name: String){
+        Analytics.logEvent(AnalyticsEventScreenView,parameters: [
+            AnalyticsParameterScreenName: name,
+            AnalyticsParameterScreenClass: ""])
     }
     
     //推奨イベント

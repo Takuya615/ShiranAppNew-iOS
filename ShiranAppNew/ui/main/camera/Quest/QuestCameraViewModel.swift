@@ -21,8 +21,11 @@ class QuestCameraViewModel{
     
     //forQuestRender
     var prePose: Pose! = Pose()
-    var render: QuestRender = QuestRender()
     var qScore: CGFloat = 0.0
+    var flg = 0.0
+    var flg2 = 0.0
+    var qPlace :CGPoint = CGPoint()
+    
     
     let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
     let qGoal: [Int] = UserDefaults.standard.array(forKey: Keys.qGoal.rawValue) as! [Int]

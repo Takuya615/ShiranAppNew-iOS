@@ -58,7 +58,7 @@ class PoseImageView: UIImageView {
             PoseImageView.draw(image: frame, in: context.cgContext)
             BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: context.cgContext)
             PoseImageView.drawHead(num: model.skinNo,pose: pose, in: context.cgContext)
-            model.render.show(model: model, pose: pose, size: dstImageSize, cgContext: context.cgContext)
+            QuestRender.show(model: model, pose: pose, size: dstImageSize, cgContext: context.cgContext)
         }
         return dstImage
     }

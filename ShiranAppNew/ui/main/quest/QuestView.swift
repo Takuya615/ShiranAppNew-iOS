@@ -110,15 +110,15 @@ struct QuestView: View{
         }
     }
     func setStage(){
-        EventAnalytics.tap(name: str.quest.rawValue)
+        EventAnalytics.screen(name: str.quest.rawValue)
         qsl = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
         while qsl.count < QuestViewModel.stageManager.count { qsl.append(0) }
         let num = qsl.reduce(0, +)
-        var a = (3*QuestViewModel.getStageNum(stage: stage+1)*85/100) - num
+        var a = (3*QuestViewModel.getStageNum(stage: stage+1)*65/100) - num
         while a < 1 {
             stage += 1
             stageOnNow += 1
-            a = (3*QuestViewModel.getStageNum(stage: stage+1)*85/100) - num
+            a = (3*QuestViewModel.getStageNum(stage: stage+1)*65/100) - num
         }
         neededStar = a
         UserDefaults.standard.set(qsl, forKey: Keys.qsl.rawValue)

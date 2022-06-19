@@ -37,16 +37,16 @@ struct QuestViewModel {
         Quest(number: 1,type: 2,goal: [200,350,700],time: 0,name: "とにかく動け！", text: "時間以内に、スコア 700以上のはげしい運動をする"),
         //TT = 8-15
         Quest(number: 2,type: 3,goal: [60,100,150],time: 0,name: "ボルダリング", text: "時間以内に、カベを150m登りきる"),
-        Quest(number: 3, type: 5, goal: [150,300,600], time: 0, name: "パワーチャージ", text: "時間内にエナジーバーを満杯にする"),
+        Quest(number: 3, type: 5, goal: [150,300,600], time: 10, name: "パワーチャージ", text: "時間内にエナジーバーを満杯にする"),
         Quest(number: 4, type: -1, goal: [10,20,25], time: 60, name: "HIIT(ヒート)体験版",text:textHiit(60,25)),
         //TT = 10-20
         Quest(number: 5,type: 3,goal: [80,110,200],time: 0,name: "ボルダリング", text: "時間以内に、カベを200m登りきる"),
         Quest(number: 6, type: -1, goal: [30,40,50], time: 120, name: "HIIT(ヒート)体験版2", text:textHiit(120, 50)),
-        Quest(number: 7, type: 6, goal: [150,300,600], time: 0, name: "パワーチャージ2", text: "時間内にエナジーバーを満杯にする"),
+        Quest(number: 7, type: 6, goal: [150,300,600], time: 10, name: "パワーチャージ2", text: "時間内にエナジーバーを満杯にする"),
         //TT = 13-30
         Quest(number: 8,type: 1,goal: [8,13,30],time: 0,name: "コイン集め", text: "時間以内に、画面上のコインを30コ集める"),
         Quest(number: 9, type: -1, goal: [40,60,70], time: 180, name: "HIIT(ヒート)体験版3", text:textHiit(180, 70)),
-        Quest(number: 10, type: 7, goal: [300,500,1000], time: 0, name: "パワーチャージ3", text: "時間内にエナジーバーを満杯にする"),
+        Quest(number: 10, type: 7, goal: [300,500,1000], time: 10, name: "パワーチャージ3", text: "時間内にエナジーバーを満杯にする"),
         //TT = 15-40
         Quest(number: 11,type: 1,goal: [10,15,40],time: 0,name: "コイン集め", text: "時間以内に、画面上のコインを40コ集める"),
         Quest(number: 12, type: -1, goal: [60,80,95], time: 240, name: "タバタ式 HIIT(ヒート)", text:textHiit(240, 95)),
