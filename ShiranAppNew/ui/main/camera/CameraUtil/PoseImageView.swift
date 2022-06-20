@@ -33,6 +33,7 @@ class PoseImageView: UIImageView {
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
             BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
             PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
+            DaylyRender.def(model: model, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
         }
         return dstImage
     }

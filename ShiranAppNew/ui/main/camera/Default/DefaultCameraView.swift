@@ -34,13 +34,6 @@ class DefaultCameraController: UIViewController {
             poseNet.delegate = self
             camera = CameraModel(delegate: self)
             model = DefaultCameraViewModel(_self: self)
-            /*let db = Firestore.firestore().collection("users").whereField("name", isEqualTo: "つむ")
-             db.getDocuments() { (querySnapshot, err) in
-             if err != nil {return}
-             guard let poseList: [Int] = querySnapshot!.documents[0].data()["poseList"] as? [Int] else{print("フレンドリストなし");return}
-             self.friPoseList = poseList
-             }*/
-            
             model.timesBonus = CharacterModel.useTaskHelper()
         } catch {
             fatalError("Failed to load model. \(error.localizedDescription)")
@@ -58,15 +51,6 @@ class DefaultCameraController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         camera.setViewDidDisappear()
-        model.isRecording = false
-        model.timer.invalidate()
-        if !model.countDown {
-            //DataCounter().saveMyPose(poseList: myPoseList)　　　　　　　　　　　　　　　自分ポーズを保存！！
-            //let save = SaveVideo().environmentObject(DataCounter())
-            //SaveVideo().saveData(score: Int(score)/100)
-            //self.cameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
-        }
-        
     }
 }
 

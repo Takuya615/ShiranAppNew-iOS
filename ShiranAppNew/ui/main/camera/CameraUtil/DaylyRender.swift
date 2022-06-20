@@ -16,9 +16,9 @@ struct DaylyRender{
     //デイリー
     static func daily(model: VideoCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         var sta = 1.0
-        switch UserDefaults.standard.integer(forKey: Keys.difficult.rawValue) {
-        case 1 : sta = 5/6//  Hard Mode
-        case 2 : sta = 4/6//  VeryHard Mode
+        switch model.difficult {
+        case 2 : sta = 5/6//  Hard Mode
+        case 3 : sta = 4/6//  VeryHard Mode
         default: return //     Nomal Mode
         }
         if model.jump {
@@ -64,6 +64,47 @@ struct DaylyRender{
                  
                  }*/
                 
+            }
+        }
+    }
+    //デフォルト
+    static func def(model: DefaultCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
+        var sta = 1.0
+        switch model.difficult {
+        case 2 : sta = 5/6//  Hard Mode
+        case 3 : sta = 4/6//  VeryHard Mode
+        default: return //     Nomal Mode
+        }
+        if model.jump {
+            let rectangle = CGRect(x: 0, y: 0, width: size.width, height: size.height*sta)
+            cgContext.setAlpha(0.2)
+            cgContext.fill(rectangle)
+            if !model.isRecording {return}
+            let left = pose[.leftAnkle].position.y
+            let right = pose[.rightAnkle].position.y
+            if left < size.height*sta && right < size.height*sta {
+                SystemSounds.score_up("")
+                model.jump = false
+            }
+        }else{
+            let rectangle = CGRect(x: 0, y: size.height*7/8, width: size.width, height: size.height/8)
+            cgContext.setAlpha(0.2)
+            cgContext.fill(rectangle)
+            if !model.isRecording {return}
+            let leftW = pose[.leftWrist]
+            let rightW = pose[.rightWrist]
+            
+            if leftW.position.y > size.height*5/6 && rightW.position.y > size.height*5/6 {
+                let lh = pose[.leftHip].confidence
+                let lk = pose[.leftKnee].confidence
+                let la = pose[.leftAnkle].confidence
+                let rh = pose[.rightHip].confidence
+                let rk = pose[.rightKnee].confidence
+                let ra = pose[.rightAnkle].confidence
+                if lh+lk+la+rh+rk+ra < 2.4 {
+                    SystemSounds.score_up("")
+                    model.jump = true
+                }
             }
         }
     }

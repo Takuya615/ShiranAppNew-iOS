@@ -24,7 +24,7 @@ class DataCounter: ObservableObject {
             let lastDay: Date? = Calendar.current.date(byAdding: .day, value: -1, to: today)
             User.set(lastDay, forKey: Keys._LastTimeDay.rawValue)//デイリー更新(初回はもう一度遊べるようにする)
             User.set(5, forKey: Keys.taskTime.rawValue)
-            return -1
+            return 0
         }
         let cal = Calendar(identifier: .gregorian)
         let todayDC = Calendar.current.dateComponents([.year, .month,.day], from: today)
@@ -47,18 +47,19 @@ class DataCounter: ObservableObject {
     }
     
     //リザルト画面３つ。　何もなし　デイリー　クエスト
-    static func showScoreResult(score:Float,bonus:Float, completion: @escaping ()->Void) -> UIAlertController{
+    static func showScoreResult(score:Float,bonus:Float, completion: @escaping ()->Void,retry: @escaping ()->Void) -> UIAlertController{
         //saveData(score: Int(score))//スコアリストにセーブ（必要ない？？）
         EventAnalytics.action_achieve(type: str.def.rawValue, achieve: 0)
-        let title = str.score.rawValue + String(Int(score)) + str.p.rawValue
-        var message = str.finishDayly.rawValue
+        let title = str.score.rawValue + String(Int(score)) + " / 500"
+        var message = ""//str.finishDayly.rawValue
         if bonus != 1.0 {message += "\n" + str.assist.rawValue + String(Int(bonus))}
         let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
         //alert.view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        let cancelAction: UIAlertAction = UIAlertAction.init(title: str.retry.rawValue, style: UIAlertAction.Style.cancel,handler: {
+            (UIAlertAction) in retry()})
         let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
-            (action: UIAlertAction!) -> Void in
-            completion()
-        })
+            (action: UIAlertAction!) -> Void in completion()})
+        alert.addAction(cancelAction)
         alert.addAction(confirmAction)
         return alert
     }

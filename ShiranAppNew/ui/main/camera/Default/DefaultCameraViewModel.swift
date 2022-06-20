@@ -11,7 +11,7 @@ class DefaultCameraViewModel{
     var isRecording = false
     
     var recordButton: UIButton!
-    var scoreBoad: UILabel!
+    var my_score_bar: UIProgressView!
     var textTimer: UILabel!
     
     var poseNum: Int = 0
@@ -21,7 +21,6 @@ class DefaultCameraViewModel{
     var myPoseList: [Int] = []
     var friPoseList: [Int] = []
     var time = 3
-    var switchTime = 20
     var timer = Timer()
     var prePose: Pose! = Pose()
     
@@ -39,7 +38,7 @@ class DefaultCameraViewModel{
         let rect = _self.view.bounds.size
         //TimerBoard
         self.textTimer = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 50))
-        self.textTimer.text = CameraModel.min(time: CameraModel.taskTime())
+        self.textTimer.text = CameraModel.min(time: 10)
         self.textTimer.textColor = UIColor.blue
         self.textTimer.backgroundColor = .white
         self.textTimer.font = UIFont.systemFont(ofSize: 50)
@@ -59,14 +58,14 @@ class DefaultCameraViewModel{
         backButton.addTarget(self, action: #selector(self.onClickBackButton(sender:)), for: .touchUpInside)
         _self.view.addSubview(backButton)
         
-        self.scoreBoad = UILabel(frame: CGRect(x: 0, y: 0, width: rect.width, height: 80))
-        self.scoreBoad.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-        self.scoreBoad.text = str.score.rawValue
-        self.scoreBoad.textColor = UIColor.blue
-        //self.scoreBoad.backgroundColor = UIColor.red
-        self.scoreBoad.font = UIFont.systemFont(ofSize: 50)
-        self.scoreBoad.isHidden = true
-        _self.view.addSubview(self.scoreBoad)
+        self.my_score_bar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 30))
+        self.my_score_bar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
+        self.my_score_bar.progressTintColor = .yellow
+        self.my_score_bar.backgroundColor = .gray
+        self.my_score_bar.transform = CGAffineTransform(scaleX: 1.0, y: 10.0)
+        self.my_score_bar.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
+        self.my_score_bar.isHidden = true
+        _self.view.addSubview(self.my_score_bar)
         
         // recording button
         self.recordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
@@ -108,22 +107,21 @@ class DefaultCameraViewModel{
     @objc func onClickRecordButton(sender: UIButton) {
         var Ring = false
         self.recordButton.isHidden = true
-        self.scoreBoad.isHidden = false
+        self.my_score_bar.isHidden = false
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
             if self.time == 0 {
                 if self.countDown{
                     //   moment of 0 Sec
                     self.countDown = false
                     self.isRecording = true
-                    self.time = CameraModel.taskTime() //                           本編スタート
+                    self.time = 10
                 }else{
                     SystemSounds.buttonVib("")
                     SystemSounds.buttonSampleWav("")
-                    //SystemSounds().EndVideoRecording()
                     self._self.view.backgroundColor = .white
                     self.isRecording = false
                     timer.invalidate()//timerの終了
-                    let alert  = DataCounter.showScoreResult(score: self.score,bonus: self.timesBonus,completion: {self._self.cameraView.isVideo = false})
+                    let alert  = DataCounter.showScoreResult(score: self.score,bonus: self.timesBonus,completion: {self._self.cameraView.isVideo = false},retry: {self.retry()})
                     self._self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -137,37 +135,16 @@ class DefaultCameraViewModel{
             }else{
                 self.textTimer.text = CameraModel.min(time: self.time)
                 self.textTimer.textColor = UIColor.blue
-                self.count20_10()
+                //self.count20_10()
                 self.difficultBonus()
             }
             self.time -= 1
         })
     }
     
-    func count20_10(){
-        if switchTime == 0 {
-            rest = !rest
-            if rest {
-                self.isRecording = false
-                self.scoreBoad.isHidden = false
-                self.scoreBoad.text = str.rest.rawValue
-                _self.view.backgroundColor = UIColor.init(red: 102/255, green: 153/255, blue: 255/255, alpha: 80/100)
-                switchTime = 10
-            }else{
-                self.isRecording = true
-                self.scoreBoad.isHidden = true
-                _self.view.backgroundColor = UIColor.init(red: 255/255, green: 102/255, blue: 102/255, alpha: 80/100)
-                switchTime = 20
-            }
-        }
-        if switchTime == 3 {SystemSounds.countDown("")}
-        switchTime -= 1
-        
-        if self.time == 0 && !self.countDown { _self.view.backgroundColor = .white }
-    }
-    var jumpC = 2
-    var isMiss = false
-    func difficultBonus(){//jumpタスクがtrueになってから２秒以内に達成できなければ、スコア加算されない
+    private var jumpC = 2
+    private var isMiss = false
+    private func difficultBonus(){//jumpタスクがtrueになってから２秒以内に達成できなければ、スコア加算されない
         if isMiss {
             difBonus = 1.0
             if jumpC == 0 {isMiss = false; jumpC = 2}
@@ -180,7 +157,14 @@ class DefaultCameraViewModel{
             difBonus = Float(difficult)
             jumpC = 2
         }
-        
+    }
+    
+    private func retry(){
+        self.recordButton.isHidden = false;
+        self.my_score_bar.isHidden = true;
+        self.time = 3
+        self.countDown = true
+        score = 0
     }
     
     //Extension
@@ -199,8 +183,7 @@ class DefaultCameraViewModel{
                 let disY = abs(newPose.position.y - prePose.position.y)
                 let sum = Float(disY + disX)/100 * partBonus * timesBonus * difBonus
                 score += sum
-                scoreBoad.text = str.score2.rawValue + String(Int(score))
-                
+                my_score_bar.progress = Float((score) / 500)
             }
         }
         prePose = pose

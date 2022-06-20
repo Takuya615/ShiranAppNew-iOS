@@ -136,7 +136,6 @@ class VideoCameraViewModel{
     @objc func onClickRecordButton(sender: UIButton) {
         var Ring = false
         self.recordButton.isHidden = true
-        
         self.bossHPbar.isHidden = false
         _self.view.backgroundColor =  UIColor.init(red: 255/255, green: 102/255, blue: 102/255, alpha: 80/100)
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in

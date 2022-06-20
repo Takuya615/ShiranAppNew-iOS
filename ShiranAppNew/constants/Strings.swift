@@ -21,6 +21,7 @@ enum str: String {
     case coachMarck2text = "カベに立てかけ、\n↓のSTARTをタップ\n（初回は時間が5秒だけです)"
     case back = "< Back"
     case ok = "OK"
+    case retry = "もういちど"
     case tap = "タップ"
     case score = "Score"
     case start = "START"
