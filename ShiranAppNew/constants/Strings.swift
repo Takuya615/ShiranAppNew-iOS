@@ -1,6 +1,5 @@
 
 //＊PrivacyPolicyViewの文字列は未設定
-//import Foundation
 
 enum str: String {
     case home = "ホーム"
@@ -18,7 +17,7 @@ enum str: String {
     case oneDayReset = "１日リセット"
     case cheat = "チート"
     
-    case coachMarck2text = "カベに立てかけ、\n↓のSTARTをタップ\n（初回は時間が5秒だけです)"
+    case coachMarck2text = "カベに立てかけ、\n↓のSTARTをタップ\n"
     case back = "< Back"
     case ok = "OK"
     case retry = "もういちど"
@@ -33,7 +32,6 @@ enum str: String {
     case m = "m"
     case sec = "秒"
     
-    case finishDayly = "(デイリー達成済み)"
     case assist = "スケット補正　×"
     case kill = "   たおした数　"
     case rewardCoin = " 獲得コイン　"
@@ -57,15 +55,15 @@ enum str: String {
     //character
     case characterViewText1 = "レベル"
     case characterViewText2 = "で解放"
-
+    
     //shopView
     //case noItems = "現在アイテムはありません…"
     case item = "アクセサリー"
     case body = "ボディー"
     case doYouBuyIt = "このアイテムを購入しますか？？"
     case purchase = "購入"
-//    case noMoney = "お金が足りません..."
-//    case modoru = "もどる"
+    case noMoney = "お金が足りません..."
+    case modoru = "もどる"
     //AppPurchaseView
     case coin = "コイン"
     case diamond = "ダイアモンド"
@@ -76,7 +74,7 @@ enum str: String {
     case veryHard = "ベリーハード"
     case settingDifficulty = "\nデイリーの難易度を設定します\n"
     case selectDifficulty = "難易度を選択"
-
+    
     case userOpinion1 = "※このメッセージは個人を特定できるものではありません。そのため、返信も致しかねます。"
     case userOpinion2 = "\n✉️ ご意見・ご感想"
     case userOpinion3 = "「もっとこうして欲しい」「こうなったら嬉しい」といった、みなさまのご要望をお聞かせください。\n"
@@ -98,34 +96,45 @@ enum str: String {
     case select = "決定"
     
     case close = "❎閉じる"
-    case forword = "\nまえへ\n"
+    case forword = "\nもどる\n"
     case next = "\nつぎへ\n"
     case daylyChallenge = "デイリーチャレンジ"
     case dialog1_1_1 = "毎日、その日の"
     case dialog1_1_2 = "はじめの１回だけ"
     case dialog1_1_3 = "モンスターがあらわれます"
-    case dialog1_2_1 = "\n彼らはあなたの"
+    case dialog1_2_1 = "かれらはあなたの"
     case dialog1_2_2 = "なまけ心の化身です"
-    case dialog1_2_3 = "今すぐ撃退しましょう！！\n"
-    case dialog2_1_1 = "\nデイリーのほか、クエスト（ミニゲーム）で遊ぶこともできます。\n"
-    case dialog2_1_2 = "\n↓ の「クエスト」をタップ\n"
-    case dialog2_2_1 = "難易度の調整"
-    case dialog2_2_2 = "\nバーピーはカンタンすぎる？\n右上のメニューボタン→設定で難易度を変えることもできます。"
-    case dialog2_3_1 = "おめでとう！！"
-    case dialog2_3_2 = "\n今日のあなたは、\nじぶんの怠惰を克服しました！\n\n短い時間でも毎日こなして、まずは「毎日する」という意識をクセにしましょう"
+    case dialog1_3_1 = "たおすとコインが手にはいり、"
+    case dialog1_3_2 = "あとでスキンと交換できます。"
+    case dialog1_3_3 = "さっそくたおしに行きましょう！！\n"
+    
+    case dialog2_1_1 = "タイムリミット"
+    case dialog2_1_2 = "\nモンスターをたおせる"
+    case dialog2_1_3 = "時間は限られています"
+    case dialog2_2_1 = "\nしかし、毎日続けていくと"
+    case dialog2_2_2 = "少しずつタイムリミットが"
+    case dialog2_2_3 = "のびていきます。"
+    case dialog2_3_1 = "\n４分間までできるようになることが"
+    case dialog2_3_2 = "このアプリの最終目標です。"
+    
+    //    case dialog2_2_3 = "しかし、月日をかさねるたび、あなたの自制心も鍛えられ"
+    //    case dialog2_2_4 = "より長く、自分のテキと退治できるようになります。"
+    case dialog2_4_1 = "運動のヘンコウ"
+    case dialog2_4_2 = "\nバーピーはカンタンすぎる？\n右上のメニューボタン→設定で難易度を変えることもできます。"
+    case dialog2_4_button = "設定へいどう"
     
     case dialogBossText = "STARTすると、下にテキHPがでます\n０になるまで運動しましょう"
     
     
-    case modeNormal = "　\n　ノーマルモード\n　好きな運動してください。AIが体の動きから自動でスコアを計算してくれます。\n自分で自由に行えるという点が、このモードのいいところです。"
+    case modeNormal = "　\n　ノーマルモード\n　好きな運動してください。AIが体の動きから自動でスコアを計算してくれます。\n自分で決めた好きな運動ができるという点が、このモードのいいところです。"
     case modeHard = "　\n　ハードモード\n　バーピージャンプでスコアをかせげるモードです。このアプリ本来の難易度です。\nスコアがノーマルモードの２倍になります。"
-    case modeVeryHard = "　\n　ベリーハードモード\n　かかえこみバーピージャンプに挑戦するモードです。ハードモードより高く跳ばなければ得点になりません。\nスコアがノーマルモードの３倍です。\n普段からトレーニングをされており、デイリーの制限時間を早く伸ばしたいという方にお勧めです。"
+    case modeVeryHard = "　\n　ベリーハードモード\n　かかえこみバーピージャンプに挑戦するモードです。ハードモードより高く跳ばなければ得点になりません。\nスコアがノーマルモードの３倍です。\n普段からトレーニングをされており、デイリーのタイムリミットを早くのばしたいという方にオススメです。"
     
     case expTitle1 = "あそびかた"
     case expTitle2 = "アプリの流れ"
     case expTitle3 = "HIITってなに？？"
     case expTitle4 = "HIITのメリット"
-
+    
     case exp1 = """
     これは４分間のHIITを
     習慣にするためのアプリです。
@@ -138,49 +147,49 @@ enum str: String {
     """
     case exp2_2 =
     """
-        
-        初日はたったの５秒からスタート。
-        
-        ５秒　６秒　７秒　・・・　２４０秒
-        
-        いつの間にか４分間のHIITができるようにまで、成長しています。
-        
-        """
+    
+    初日はたったの５秒からスタート。
+    
+    ５秒　６秒　７秒　・・・　２４０秒
+    
+    いつの間にか４分間のHIITができるようにまで、成長しています。
+    
+    """
     case exp3 =
     """
-        
-        ハイ インテンシティ インターバル トレーニングの略で、
-        
-        　　　20秒　ハードな運動
-        　　　　　　　↓
-        　　　10秒　休む
-        　　　　　　　↓
-        　　　20秒　ハードな運動
-        　　　　　　　↓
-        　　　10秒　休む
-        を繰り返す方法のことです。
-        
-        1分 HIITは、45分 ランニングに匹敵する身体機能アップ効果が確認されています。
-        近年、もっとも効率の良い運動として注目を浴びています。
-        
-        """
+    
+    ハイ インテンシティ インターバル トレーニングの略で、
+    
+    　　　20秒　ハードな運動
+    　　　　　　　↓
+    　　　10秒　休む
+    　　　　　　　↓
+    　　　20秒　ハードな運動
+    　　　　　　　↓
+    　　　10秒　休む
+    を繰り返す方法のことです。
+    
+    1分 HIITは、45分 ランニングに匹敵する身体機能アップ効果が確認されています。
+    近年、もっとも効率の良い運動として注目を浴びています。
+    
+    """
     
     case exp4 =
     """
-
-        以下のような効果が科学的に確認されています。
-        ①　ダイエット効果が高い！
-        ②　空腹感がやわらぐ！
-        ③　寿命が伸びる！
-        ④　若返る！
-        ⑤　疲れにくい体になる！
-        ⑥　鬱や不安症にも効く！
-        ⑦　心肺機能が向上！
-        ⑧　基礎代謝が上がる！
-
-
-
-        """
+    
+    以下のような効果が科学的に確認されています。
+    ①　ダイエット効果が高い！
+    ②　空腹感がやわらぐ！
+    ③　寿命が伸びる！
+    ④　若返る！
+    ⑤　疲れにくい体になる！
+    ⑥　鬱や不安症にも効く！
+    ⑦　心肺機能が向上！
+    ⑧　基礎代謝が上がる！
+    
+    
+    
+    """
     //EventAnalytics 用
     case def = "デフォルト"
     case in_app_purchase = "アプリ内課金画面"

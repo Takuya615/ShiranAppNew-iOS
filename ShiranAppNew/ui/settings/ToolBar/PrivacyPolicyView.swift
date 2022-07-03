@@ -84,11 +84,6 @@ struct PrivacyPolicyView: View {
                 Spacer()
             }
         }
-    }
-}
-
-struct PrivacyPolicyView_Previews: PreviewProvider {
-    static var previews: some View {
-        PrivacyPolicyView()
+        .onAppear(perform: {EventAnalytics.screen(name: str.privacy_policy.rawValue)})
     }
 }

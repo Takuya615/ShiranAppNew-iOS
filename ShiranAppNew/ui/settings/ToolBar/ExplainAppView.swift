@@ -56,7 +56,7 @@ struct ExplainAppView: View {
                 
             }
             
-        }
+        }.onAppear(perform: {EventAnalytics.screen(name: str.detailApp.rawValue)})
         
     }
 }

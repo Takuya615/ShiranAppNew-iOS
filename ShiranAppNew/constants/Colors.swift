@@ -10,6 +10,7 @@ struct Colors{
     static let yellow = UIColor.yellow
     static let pink = UIColor.systemPink
     static let gray = UIColor.darkGray
+    static let white = UIColor.white
 
     
     //line for Body

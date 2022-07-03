@@ -48,12 +48,12 @@ class VideoViewController: UIViewController {
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
+        super.viewWillAppear(animated)
         camera.setViewWillAppear()
         model.setUpCaptureButton()
     }
     override func viewWillDisappear(_ animated: Bool) {
-      super.viewWillDisappear(animated)
+        super.viewWillDisappear(animated)
         camera.setViewWillDisappear()
     }
     override func viewDidDisappear(_ animated: Bool) {
@@ -62,10 +62,10 @@ class VideoViewController: UIViewController {
         model.isRecording = false
         model.timer.invalidate()
         //if !model.countDown {
-            //DataCounter().saveMyPose(poseList: myPoseList)　　　　　　　　　　　　　　　自分ポーズを保存！！
-            //let save = SaveVideo().environmentObject(DataCounter())
-            //SaveVideo().saveData(score: Int(score)/100)
-            //self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
+        //DataCounter().saveMyPose(poseList: myPoseList)　　　　　　　　　　　　　　　自分ポーズを保存！！
+        //let save = SaveVideo().environmentObject(DataCounter())
+        //SaveVideo().saveData(score: Int(score)/100)
+        //self.videoCameraView.dataCounter.scoreCounter(score: Int(score * timesBonus)/100)
         //}
         
     }
@@ -73,10 +73,10 @@ class VideoViewController: UIViewController {
 
 extension VideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate{
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-
+        
         connection.videoOrientation = .portrait//UpsideDown
         connection.isVideoMirrored = true
-
+        
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
         let ciimage : CIImage = CIImage(cvPixelBuffer: imageBuffer)
         let context:CIContext = CIContext.init(options: nil)
@@ -89,7 +89,7 @@ extension VideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate{
             currentFrame = cgImage
             poseNet.predict(cgImage)
         }
-
+        
     }
 }
 
@@ -99,7 +99,7 @@ extension VideoViewController: PoseNetDelegate {
         defer { self.currentFrame = nil }
         if self.currentFrame == nil {return}
         let pose = PoseBuilder(output: predictions,configuration: PoseBuilderConfiguration(),inputImage: self.currentFrame!).pose
-
+        
         if CameraModel.check(pose: pose, size: self.currentFrame!.size,isRecording: model.isRecording, jump: model.jump) {
             let poseImage = PoseImageView.showMiss(on: self.currentFrame!)
             let poseImageView = UIImageView(image: poseImage)
@@ -109,35 +109,35 @@ extension VideoViewController: PoseNetDelegate {
             self.view.addSubview(poseImageView)
         }else{
             //フレンドの描画部分
-//            let fPose = Pose()
-//            if !model.countDown{
-//                let namelist = Pose().joints2
-//                //自分のポーズを保存
-//                for i in 0 ... namelist.count-1 {
-//                    if pose[namelist[i]].isValid {
-//                        model.myPoseList.append(Int(pose[namelist[i]].position.x))
-//                        model.myPoseList.append(Int(pose[namelist[i]].position.y))
-//                    }else{
-//                        model.myPoseList.append(-1); model.myPoseList.append(-1)
-//                    }
-//                }
-//                //友達のポーズを引っ張ってきてプレイ！
-//                if !model.friPoseList.isEmpty {
-//                    var n = 0
-//                    for i in stride(from: 0, to: 26, by: 2) {
-//                        if model.friPoseList[i] > -1 {
-//                            fPose[namelist[n]].isValid = true
-//                            fPose[namelist[n]].position = CGPoint(x: model.friPoseList[i], y: model.friPoseList[i+1])
-//                            if model.isRecording {//フレンドのスコアを追加する
-//                                model.score += Float(abs(model.friPoseList[i] - model.friPoseList[i+26])) / 100
-//                            }
-//
-//                        }
-//                        n += 1
-//                    }
-//                    model.friPoseList.removeFirst(26)
-//                }
-//            }
+            //            let fPose = Pose()
+            //            if !model.countDown{
+            //                let namelist = Pose().joints2
+            //                //自分のポーズを保存
+            //                for i in 0 ... namelist.count-1 {
+            //                    if pose[namelist[i]].isValid {
+            //                        model.myPoseList.append(Int(pose[namelist[i]].position.x))
+            //                        model.myPoseList.append(Int(pose[namelist[i]].position.y))
+            //                    }else{
+            //                        model.myPoseList.append(-1); model.myPoseList.append(-1)
+            //                    }
+            //                }
+            //                //友達のポーズを引っ張ってきてプレイ！
+            //                if !model.friPoseList.isEmpty {
+            //                    var n = 0
+            //                    for i in stride(from: 0, to: 26, by: 2) {
+            //                        if model.friPoseList[i] > -1 {
+            //                            fPose[namelist[n]].isValid = true
+            //                            fPose[namelist[n]].position = CGPoint(x: model.friPoseList[i], y: model.friPoseList[i+1])
+            //                            if model.isRecording {//フレンドのスコアを追加する
+            //                                model.score += Float(abs(model.friPoseList[i] - model.friPoseList[i+26])) / 100
+            //                            }
+            //
+            //                        }
+            //                        n += 1
+            //                    }
+            //                    model.friPoseList.removeFirst(26)
+            //                }
+            //            }
             //自分とフレンドの動きを描画
             let poseImage: UIImage = PoseImageView.showDayly(
                 model: model,

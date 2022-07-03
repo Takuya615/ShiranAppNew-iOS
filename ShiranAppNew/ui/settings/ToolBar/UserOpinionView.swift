@@ -39,8 +39,9 @@ struct UserOpinionView: View {
 
             Spacer()
             
-        }.onTapGesture(perform: { UIApplication.shared.closeKeyboard()})
-        
+        }
+        .onTapGesture(perform: { UIApplication.shared.closeKeyboard()})
+        .onAppear(perform: {EventAnalytics.screen(name: str.opinion.rawValue)})
     }
     
     

@@ -35,7 +35,6 @@ class QuestCameraViewModel{
     var _self :QuestCameraViewController
     init(_self :QuestCameraViewController){
         self._self = _self
-        EventAnalytics.action_setting(type: str.quest.rawValue)
     }
     
     func setUpCaptureButton(){
@@ -133,7 +132,7 @@ class QuestCameraViewModel{
                     timer.invalidate()//timerの終了
                     
                     //リザルト表示
-                    let alert = DataCounter.showQuestResult(qType: self.qType,qScore: Int(self.qScore),completion: {self._self.questCameraView.isVideo = false})
+                    let alert = DataCounter().showQuestResult(qType: self.qType,qScore: Int(self.qScore),completion: {self._self.questCameraView.isVideo = false})
                     self._self.present(alert, animated: true, completion: nil)
                     
                 }

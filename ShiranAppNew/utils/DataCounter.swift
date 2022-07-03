@@ -12,18 +12,16 @@ class DataCounter: ObservableObject {
     @Published var continuedRetryCounter = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)
     @Published var countedCoin = UserDefaults.standard.integer(forKey: Keys.coin.rawValue)
     @Published var countedDiamond = UserDefaults.standard.integer(forKey: Keys.diamond.rawValue)
+    //@Published var isDaily = setDailyState()
     //日時の差分を計算するメソッド
     static func setDailyState() -> Int{
-        let User = UserDefaults.standard
-        if User.integer(forKey: Keys.questType.rawValue) == -1{ return 1 }//クエスト
+        if UserDefaults.standard.integer(forKey: Keys.questType.rawValue) == -1{ return 1 }//クエスト
         let today = Date()
-        let LastTimeDay: Date? = User.object(forKey: Keys._LastTimeDay.rawValue) as? Date
+        let LastTimeDay: Date? = UserDefaults.standard.object(forKey: Keys._LastTimeDay.rawValue) as? Date
         if LastTimeDay == nil{
-            User.set(0, forKey: Keys.totalDay.rawValue)//総日数
-            User.set(0, forKey: Keys.continuedDay.rawValue)//継続日数
-            let lastDay: Date? = Calendar.current.date(byAdding: .day, value: -1, to: today)
-            User.set(lastDay, forKey: Keys._LastTimeDay.rawValue)//デイリー更新(初回はもう一度遊べるようにする)
-            User.set(5, forKey: Keys.taskTime.rawValue)
+            UserDefaults.standard.set(0, forKey: Keys.totalDay.rawValue)//総日数
+            UserDefaults.standard.set(0, forKey: Keys.continuedDay.rawValue)//継続日数
+            UserDefaults.standard.set(5, forKey: Keys.taskTime.rawValue)
             return 0
         }
         let cal = Calendar(identifier: .gregorian)
@@ -48,26 +46,20 @@ class DataCounter: ObservableObject {
     
     //リザルト画面３つ。　何もなし　デイリー　クエスト
     static func showScoreResult(score:Float,bonus:Float, completion: @escaping ()->Void,retry: @escaping ()->Void) -> UIAlertController{
-        //saveData(score: Int(score))//スコアリストにセーブ（必要ない？？）
-        EventAnalytics.action_achieve(type: str.def.rawValue, achieve: 0)
         let title = str.score.rawValue + String(Int(score)) + " / 500"
-        var message = ""//str.finishDayly.rawValue
+        var message = ""
         if bonus != 1.0 {message += "\n" + str.assist.rawValue + String(Int(bonus))}
         let alert: UIAlertController = UIAlertController(title: title, message:  message, preferredStyle:  UIAlertController.Style.alert)
-        //alert.view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        let cancelAction: UIAlertAction = UIAlertAction.init(title: str.retry.rawValue, style: UIAlertAction.Style.cancel,handler: {
-            (UIAlertAction) in retry()})
-        let confirmAction: UIAlertAction = UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default, handler:{
-            (action: UIAlertAction!) -> Void in completion()})
-        alert.addAction(cancelAction)
-        alert.addAction(confirmAction)
+        alert.addAction(UIAlertAction(title: str.retry.rawValue, style: UIAlertAction.Style.cancel,
+                                      handler: {_ in retry()}))
+        alert.addAction(UIAlertAction(title: str.ok.rawValue, style: UIAlertAction.Style.default,
+                                      handler:{_ in completion()}))
         return alert
     }
     func showDailyResult(bonus:Float,killList:[boss], completion: @escaping ()->Void) -> (UIAlertController){
         if UserDefaults.standard.integer(forKey: Keys.questType.rawValue) == -1 {
-            return DataCounter.showQuestResult(qType: -1, qScore: killList.count, completion: completion)
+            return showQuestResult(qType: -1, qScore: killList.count, completion: completion)
         }
-        EventAnalytics.action_achieve(type: str.daylyChallenge.rawValue, achieve: killList.count)
         DataCounter.updateDate()
         let alert: UIAlertController = UIAlertController(title: "\n\n\n\n\n\n\n\n\n", message:  "",
                                                          preferredStyle:  UIAlertController.Style.alert)
@@ -110,7 +102,7 @@ class DataCounter: ObservableObject {
         progressLV.setProgress(resultLv.0, animated: true)
         progressLV.tintColor = UIColor.blue
         alert.view.addSubview(progressLV)
-    
+        
         let result = DataCounter.updateTT(score: exp)//初期値、末期値、何回プログレスバーを更新するかInt
         let lav3 = UILabel(frame: CGRect(x: 10, y: 170 , width: 400, height: 20))
         lav3.text = result.2//"制限時間が\(taskTime)秒に伸びました！"
@@ -126,7 +118,7 @@ class DataCounter: ObservableObject {
         return alert
     }
     
-    static func showQuestResult(qType: Int, qScore: Int, completion: @escaping ()->Void) -> UIAlertController{
+    func showQuestResult(qType: Int, qScore: Int, completion: @escaping ()->Void) -> UIAlertController{
         let alert :UIAlertController = UIAlertController(title: "", message: "", preferredStyle:  UIAlertController.Style.alert)
         var title = ""
         let qNum: Int = UserDefaults.standard.integer(forKey: Keys.questNum.rawValue)
@@ -135,7 +127,7 @@ class DataCounter: ObservableObject {
         //print("qType \(qType)  score \(qScore)")
         switch qType {
         case -1:title = "\n" + str.kill.rawValue + String(qScore) + str.tai.rawValue + "\n"
-        case 1:title += "\n" + str.rewardCoin.rawValue + String(qScore) + str.co.rawValue + "\n"
+        case 1:title += "\n" + str.coin.rawValue + String(qScore) + str.co.rawValue + "\n"
         case 2,5,6,7:title = "\n " + str.score2.rawValue + String(qScore) + str.p.rawValue + "\n"
         case 3,4:title += "\n" + str.rewardDistance.rawValue + String(qScore) + str.m.rawValue + "\n"
         default:title = ""
@@ -144,7 +136,7 @@ class DataCounter: ObservableObject {
         if qScore >= qGoal[2] {qsl[qNum]=3; re=3; title += str.questCompAll.rawValue + "\n"}
         else if qScore >= qGoal[1] {qsl[qNum]=2; re=2; title += str.questComp066.rawValue + "\n"}
         else if qScore >= qGoal[0] {qsl[qNum]=1; re=1; title += str.questComp033.rawValue + "\n"}
-        
+        title += "\n" + str.rewardCoin.rawValue + "  " + String(incentive.getCoin_for_quest(dataCounter: self,inc: re)) + "G"
         for i in 1 ... 3 {
             let imageView = UIImageView(frame: CGRect(x:15+50*i, y:0, width:40, height:40))
             if re < i {
@@ -161,10 +153,13 @@ class DataCounter: ObservableObject {
             completion()
         })
         alert.addAction(confirmAction)
-        EventAnalytics.action_achieve(type: str.quest.rawValue, achieve: re)
+        
+        //        let lav1 = UILabel(frame: CGRect(x: 10, y: 85 , width: 200, height: 30))
+        //        lav1.text = str.rewardCoin.rawValue + "  " + String(incentive.getCoin_for_quest(dataCounter: self)) + "G"
+        //        alert.view.addSubview(lav1)
         return alert
     }
- 
+    
     
     static func updateLv(score: Int,data: DataCounter) -> (Float,String){
         let rcLv: Int = Int(UserDefaults.standard.float(forKey: Keys.rcLevel.rawValue)*100)//RemoteConfig

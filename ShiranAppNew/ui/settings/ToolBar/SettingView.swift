@@ -34,5 +34,6 @@ struct SettingView: View {
             }
             Spacer()
         }
+        .onAppear(perform: {EventAnalytics.screen(name: str.set.rawValue)})
     }
 }

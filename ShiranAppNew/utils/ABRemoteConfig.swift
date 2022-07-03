@@ -16,14 +16,14 @@ struct Config{
         remoteConfig.setDefaults(fromPlist: "remote_config_defaults")
         remoteConfig.fetchAndActivate(completionHandler:{ status, error in
             if status == .successFetchedFromRemote || status == .successUsingPreFetchedData{
-//                print("リモート取得　\(remoteConfig.configValue(forKey:Keys.rcLevel.rawValue).numberValue)")
-//                print(remoteConfig.configValue(forKey:Keys.rcAddTT.rawValue).numberValue)
-//                print(remoteConfig.configValue(forKey:Keys.rcCoinRate.rawValue).numberValue)
-//                print(remoteConfig.configValue(forKey:Keys.rcQGoal.rawValue).numberValue)
-//                print(remoteConfig.configValue(forKey:Keys.rcQTime.rawValue).numberValue)
-//                print(remoteConfig.configValue(forKey:Keys.rcQReHeart.rawValue).numberValue)
-//                print(remoteConfig.configValue(forKey:Keys.exist_quest.rawValue).boolValue)
-//                print(remoteConfig.configValue(forKey:Keys.exist_interval_heart.rawValue).boolValue)
+                //                print("リモート取得　\(remoteConfig.configValue(forKey:Keys.rcLevel.rawValue).numberValue)")
+                //                print(remoteConfig.configValue(forKey:Keys.rcAddTT.rawValue).numberValue)
+                //                print(remoteConfig.configValue(forKey:Keys.rcCoinRate.rawValue).numberValue)
+                //                print(remoteConfig.configValue(forKey:Keys.rcQGoal.rawValue).numberValue)
+                //                print(remoteConfig.configValue(forKey:Keys.rcQTime.rawValue).numberValue)
+                //                print(remoteConfig.configValue(forKey:Keys.rcQReHeart.rawValue).numberValue)
+                //                print(remoteConfig.configValue(forKey:Keys.exist_quest.rawValue).boolValue)
+                //                print(remoteConfig.configValue(forKey:Keys.exist_interval_heart.rawValue).boolValue)
                 
                 UserDefaults.standard.set(remoteConfig.configValue(forKey:Keys.rcLevel.rawValue).numberValue,forKey: Keys.rcLevel.rawValue)
                 UserDefaults.standard.set(remoteConfig.configValue(forKey:Keys.rcAddTT.rawValue).numberValue,forKey: Keys.rcAddTT.rawValue)
@@ -57,7 +57,7 @@ struct Config{
         for i in q.goal {
             goal.append(Int(Float(i)*rcQGoal))
         }
-        return Quest(number: q.number, type: q.type, goal: goal, time: time, name: q.name, text: q.text)
+        return Quest(number: q.number, type: q.type, goal: goal, time: time,title:q.title,name: q.name, text: q.text)
     }
     
 }

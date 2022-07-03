@@ -6,14 +6,12 @@ struct toolbarItemView: View {
         Menu{
             Button(action: {
                 appState.isSettingView = true
-                EventAnalytics.screen(name: str.set.rawValue)
             }) {
                 Text(str.set.rawValue)
                 Image(systemName: "gear")//"gearshape")
             }
             Button(action: {
                 appState.isExplainView = true
-                EventAnalytics.screen(name: str.detailApp.rawValue)
             }) {
                 Text(str.detailApp.rawValue)
                 Image(systemName: "info.circle")//"gearshape")
@@ -36,22 +34,20 @@ struct toolbarItemView: View {
              }*/
             Button(action: {
                 appState.isPrivacyPolicy = true
-                EventAnalytics.screen(name: str.privacy_policy.rawValue)
             }) {
                 Text(str.privacy_policy.rawValue)
                 Image(systemName: "shield")
             }
-            Button(action: {
-                guard let writeReviewURL = URL(string: "https://twitter.com/G0DhdLNn4SftTjc") else { fatalError("Expected a valid URL") }
-                UIApplication.shared.open(writeReviewURL)
-                EventAnalytics.screen(name: str.twitter.rawValue)
-            }) {
-                Text(str.twitter.rawValue)
-                Image(systemName: "rectangle.and.pencil.and.ellipsis")
-            }
+//            Button(action: {
+//                EventAnalytics.screen(name: str.twitter.rawValue)
+//                guard let writeReviewURL = URL(string: "https://twitter.com/G0DhdLNn4SftTjc") else { fatalError("Expected a valid URL") }
+//                UIApplication.shared.open(writeReviewURL)
+//            }) {
+//                Text(str.twitter.rawValue)
+//                Image(systemName: "rectangle.and.pencil.and.ellipsis")
+//            }
             Button(action: {
                 appState.isOpinionView = true
-                EventAnalytics.screen(name: str.opinion.rawValue)
             }) {
                 Text(str.opinion.rawValue)
                 Image(systemName: "rectangle.and.pencil.and.ellipsis")
@@ -73,8 +69,8 @@ struct toolbarItemView: View {
                     Image(systemName: "shield")
                 }
                 Button(action: {
-                    UserDefaults.standard.set(1000, forKey: Keys.diamond.rawValue)
-                    UserDefaults.standard.set(10000, forKey: Keys.coin.rawValue)
+                    //UserDefaults.standard.set(1000, forKey: Keys.diamond.rawValue)
+                    UserDefaults.standard.set(240, forKey: Keys.coin.rawValue)
                     UserDefaults.standard.set([3,3, 3,3,3, 3,3,3,3, 0,0,0,0,0], forKey: Keys.qsl.rawValue)
                     UserDefaults.standard.set(0, forKey: Keys.chargTime.rawValue)
                     exit(0)

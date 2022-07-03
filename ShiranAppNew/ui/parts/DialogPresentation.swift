@@ -30,19 +30,19 @@ enum DialogContent: View {
             DialogContent1(isPresented: isPresented)//,isHightLight: isHightLight)
         case .contentDetail2(isPresented: let isPresented):
             DialogContent2(isPresented: isPresented)
-        /*case .contentDetail3(isPresented: let isPresented):
-            DialogContent3(isPresented: isPresented)
-        case .contentDetail4(isPresented: let isPresented):
-            DialogContent4(isPresented: isPresented)
-        case .contentDetail5(isPresented: let isPresented):
-            DialogContent5(isPresented: isPresented)*/
+            /*case .contentDetail3(isPresented: let isPresented):
+             DialogContent3(isPresented: isPresented)
+             case .contentDetail4(isPresented: let isPresented):
+             DialogContent4(isPresented: isPresented)
+             case .contentDetail5(isPresented: let isPresented):
+             DialogContent5(isPresented: isPresented)*/
         }
     }
 }
 
 struct DialogContent1: View {
     @Binding var isPresented: Bool
-    @State var page: Bool = false
+    @State var page: Int = 1
     //@Binding var isHightLight: Bool
     @EnvironmentObject var appState: AppState
     var body: some View {
@@ -55,7 +55,7 @@ struct DialogContent1: View {
                 },
                        label: {Text(str.close.rawValue)})
             }
-            if !page {
+            if page == 1{
                 Text(str.daylyChallenge.rawValue).font(.title)
                 Image("enemy1")
                     .resizable()
@@ -63,16 +63,24 @@ struct DialogContent1: View {
                 Text(str.dialog1_1_1.rawValue)
                 Text(str.dialog1_1_2.rawValue).foregroundColor(.red)
                 Text(str.dialog1_1_3.rawValue)
-                Button(action: { page = true }, label: {Text(str.next.rawValue)})
-            }else{
+                Button(action: { page = 2 }, label: {Text(str.next.rawValue)})
+            }else if page == 2{
                 Text(str.daylyChallenge.rawValue).font(.title)
                 Image("enemy1")
                     .resizable()
                     .frame(width: 100.0, height: 100.0, alignment: .leading)
                 Text(str.dialog1_2_1.rawValue)
-                Text(str.dialog1_2_2.rawValue).foregroundColor(.red)
-                Text(str.dialog1_2_3.rawValue)
-                Button(action: { page = false }, label: {Text(str.forword.rawValue)})
+                Text(str.dialog1_2_2.rawValue)
+                Button(action: { page = 3 }, label: {Text(str.next.rawValue)})
+            }else{
+                Text(str.daylyChallenge.rawValue).font(.title)
+                Image("enemy1")
+                    .resizable()
+                    .frame(width: 100.0, height: 100.0, alignment: .leading)
+                Text(str.dialog1_3_1.rawValue)
+                Text(str.dialog1_3_2.rawValue)
+                Text(str.dialog1_3_3.rawValue)
+                Button(action: { page = 1 }, label: {Text(str.forword.rawValue)})
             }
             
             
@@ -96,23 +104,34 @@ struct DialogContent2: View {
                 Button(action: {isPresented = false},
                        label: {Text(str.close.rawValue)})
             }
-            if page1 == 3 {
-                Text(str.quest.rawValue).font(.title)
-                //Text("\nクエストをこなすと、コインや経験値を集めることもできます。")
-                Text(str.dialog2_1_1.rawValue)//.foregroundColor(.red)
-                Text(str.dialog2_1_2.rawValue).foregroundColor(.red)
-                Button(action: { page1 = 1 }, label: {Text(str.forword.rawValue)})
+            if page1 == 1 {
+                Text(str.dialog2_1_1.rawValue).font(.title)//.foregroundColor(.red)
+                Text(str.dialog2_1_2.rawValue)//.foregroundColor(.red)
+                Text(str.dialog2_1_3.rawValue)
+                Button(action: { page1 = 2 }, label: {Text(str.next.rawValue)})
                 
             }else if page1 == 2{
-                Text(str.dialog2_2_1.rawValue).font(.title)
-                Text(str.dialog2_2_2.rawValue).font(.body)
+                Text(str.dialog2_1_1.rawValue).font(.title)
+                Text(str.dialog2_2_1.rawValue)
+                Text(str.dialog2_2_2.rawValue)
+                Text(str.dialog2_2_3.rawValue)
                 Button(action: { page1 = 3 }, label: {Text(str.next.rawValue)})
-            }else if page1 == 1{
-                Text(str.dialog2_3_1.rawValue).font(.title)
-                Text(str.dialog2_3_2.rawValue).font(.body)
-                Button(action: { page1 = 2 }, label: {Text(str.next.rawValue)})
+                
+            }else if page1 == 3{
+                Text(str.dialog2_1_1.rawValue).font(.title)
+                Text(str.dialog2_3_1.rawValue)
+                Text(str.dialog2_3_2.rawValue)
+                Button(action: { page1 = 4 }, label: {Text(str.next.rawValue)})
+            }else{
+                Text(str.dialog2_4_1.rawValue).font(.title)
+                Text(str.dialog2_4_2.rawValue)
+                HStack{
+                    Button(action: { page1 = 1 }, label: {Text(str.forword.rawValue)})
+                    Text("    ")
+                    Button(action: { self.appState.isSettingView = true }, label: {Text(str.dialog2_4_button.rawValue)})
+                    
+                }
             }
-            
         }
         .background(Color.white)
         .cornerRadius(8)

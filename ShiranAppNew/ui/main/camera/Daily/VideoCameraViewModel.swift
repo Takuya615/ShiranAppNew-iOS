@@ -35,11 +35,11 @@ class VideoCameraViewModel{
     let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
     let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
     let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)+1//1 2 3
- 
+    
     var _self :VideoViewController
     init(_self :VideoViewController){
         self._self = _self
-        EventAnalytics.action_setting(type: str.daylyChallenge.rawValue)
+        EventAnalytics.action_setting()
     }
     
     func setUpCaptureButton(){
@@ -70,9 +70,9 @@ class VideoCameraViewModel{
         
         
         /*let heart2 = UIImageView(image: UIImage(systemName: "heart.fill"))
-        heart2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        heart2.layer.position = CGPoint(x: rect.width/2 + 100, y: 25)
-        self.view.addSubview(heart2)*/
+         heart2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+         heart2.layer.position = CGPoint(x: rect.width/2 + 100, y: 25)
+         self.view.addSubview(heart2)*/
         
         self.bossHPbar = UIProgressView(frame: CGRect(x: 0, y: 0, width: rect.width-20, height: 30))
         self.bossHPbar.progress = 0.0//Float(damage / exiteBoss!.maxHp)
@@ -106,28 +106,8 @@ class VideoCameraViewModel{
         self.recordButton.layer.position = CGPoint(x: rect.width / 2, y:rect.height - 42)
         self.recordButton.addTarget(self, action: #selector(self.onClickRecordButton(sender:)), for: .touchUpInside)
         _self.view.addSubview(recordButton)//subView 0
-        
-        if !AppState().coachMark2 {
-            let alert: UIAlertController = UIAlertController(
-                title: str.coachMarck2text.rawValue, message: "", preferredStyle:  UIAlertController.Style.alert)
-            let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-                (action: UIAlertAction!) -> Void in
-                UserDefaults.standard.set(true, forKey: "CoachMark2 ")
-                //self.coachController.start(in: .window(over: self))　コーチマーク
-            })
-            alert.addAction(confirmAction)
-            _self.present(alert, animated: true, completion: nil)
-            UserDefaults.standard.set(true, forKey: "CoachMark2")
-        }
         let der = UILabel()// あとで消す用のUIView
         _self.view.addSubview(der)
-        /*
-        if !AppState().coachMark2 {
-            let MainView = UIHostingController(rootView: IntroView(imageName: "sample", number: 0).environmentObject(AppState()))//ContentView())
-            MainView.presentationController?.delegate = self
-            self.present(MainView, animated: true, completion:nil)
-        }*/
-
     }
     
     @objc func onClickBackButton(sender: UIButton) {

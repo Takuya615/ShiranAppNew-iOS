@@ -61,10 +61,10 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
     
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
         let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
-                coachViews.bodyView.hintLabel.text = self.messages[index] // ここで文章を設定
+        coachViews.bodyView.hintLabel.text = self.messages[index] // ここで文章を設定
         coachViews.bodyView.nextLabel.text = str.ok.rawValue // 「次へ」などの文章
-
-                return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
+        
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
         return 1//self.messages.count
@@ -72,7 +72,7 @@ class cmViewController: UIViewController, CoachMarksControllerDataSource {
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
         //self.coachController.overlay.backgroundColor = UIColor.init(.blue)//(white: 000000, alpha: 0.3)
         return self.coachController.helper.makeCoachMark(for: self.views[index], pointOfInterest: nil, cutoutPathMaker: nil)
-                // for: にUIViewを指定すれば、マークがそのViewに対応します
+        // for: にUIViewを指定すれば、マークがそのViewに対応します
     }
     
     func setOne(){

@@ -5,7 +5,7 @@ import SwiftUI
 struct ShopView: View{
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var dataCounter: DataCounter
-    @State var dialogPresentation = DialogPresentation()
+    //@State var dialogPresentation = DialogPresentation()
     @State var coin = UserDefaults.standard.integer(forKey: Keys.coin.rawValue)
     @State var showAlert = false
     @State var isBought = false
@@ -19,6 +19,7 @@ struct ShopView: View{
                     Section {
                         ForEach(0..<products.count, id: \.self){ i in
                             SkinItemView(num:i, p: products[i], callBack: {
+                                EventAnalytics.spend_virtual_currency(item: products[i].name, matter: "like", amount: products.count)
                                 let buyAny = ShopViewModel.buy(type:"Skin",id: products[i].id, coin: products[i].coin, dia: products[i].dia)
                                 if buyAny.1 {self.dataCounter.countedCoin = buyAny.0}
                                 else{self.dataCounter.countedDiamond = buyAny.0}
@@ -30,6 +31,7 @@ struct ShopView: View{
                     Section {
                         ForEach(products2, id: \.self){ p in
                             BodyItemView(p: p, callBack: {
+                                EventAnalytics.spend_virtual_currency(item: p.name, matter: "like", amount: products2.count)
                                 let buyAny = ShopViewModel.buy(type: "Body", id: p.id, coin: p.coin, dia: p.dia)
                                 if buyAny.1 {self.dataCounter.countedCoin = buyAny.0}
                                 else{self.dataCounter.countedDiamond = buyAny.0}
@@ -52,8 +54,7 @@ struct ShopView: View{
                 }
             }
             .onAppear(perform: {EventAnalytics.screen(name: str.shop.rawValue)})
-        }
-        //.onAppear(perform: { products.remove(at: 0) })
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
     func delete(id: Int){
         var num = 0
@@ -83,11 +84,8 @@ struct SkinItemView: View {
     @State var isBought = false
     @EnvironmentObject var appState: AppState
     var body: some View {
-        if num == 0{
             Button(action: {
-                if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
-                    isBought.toggle()
-                }else{self.appState.isPurchaseView = true;EventAnalytics.screen(name: str.in_app_purchase.rawValue)}
+                isBought.toggle()
             }, label: {
                 HStack{
                     Image(p.image,bundle: .main)
@@ -110,20 +108,27 @@ struct SkinItemView: View {
                 }
             })
             .alert(isPresented: $isBought) {
-                return Alert(title: Text(str.doYouBuyIt.rawValue),
-                             message: Text(p.name),
-                             primaryButton: .cancel(Text(str.quite.rawValue)),
-                             secondaryButton: .default(Text(str.purchase.rawValue),
-                                                       action: {callBack()}))
+                if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
+                    return Alert(title: Text(str.doYouBuyIt.rawValue),
+                                 message: Text(p.name),
+                                 primaryButton: .cancel(Text(str.quite.rawValue)),
+                                 secondaryButton: .default(Text(str.purchase.rawValue),
+                                                           action: {callBack()}))
+                }else{
+                    //self.appState.isPurchaseView = true;EventAnalytics.screen(name: str.in_app_purchase.rawValue)
+                    return Alert(title: Text(str.noMoney.rawValue),
+                                 dismissButton: .default(Text(str.modoru.rawValue),action: {}))
+                }
             }
-        }else{
-            HStack{
-                Image(systemName: "questionmark.circle.fill")
-                    .resizable()
-                    .frame(width: 40.0, height: 40.0, alignment: .leading)
-                Text(p.name).font(.title)
-            }
-        }
+//        if num == 0{　　アイテムを一つずつしか買えなくするUI
+//        }else{
+//            HStack{
+//                Image(systemName: "questionmark.circle.fill")
+//                    .resizable()
+//                    .frame(width: 40.0, height: 40.0, alignment: .leading)
+//                Text(p.name).font(.title)
+//            }
+//        }
     }
 }
 struct BodyItemView: View {
@@ -133,9 +138,7 @@ struct BodyItemView: View {
     @EnvironmentObject var appState: AppState
     var body: some View {
         Button(action: {
-            if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
-                isBought.toggle()
-            }else{self.appState.isPurchaseView = true;EventAnalytics.screen(name:str.in_app_purchase.rawValue)}
+            isBought.toggle()
         }, label: {
             HStack{
                 Image(uiImage:BodyRender.showRender(skin: 0, body: p.id))
@@ -158,11 +161,16 @@ struct BodyItemView: View {
             }
         })
         .alert(isPresented: $isBought) {
-            return Alert(title: Text(str.doYouBuyIt.rawValue),
-                         message: Text(p.name),
-                         primaryButton: .cancel(Text(str.quite.rawValue)),
-                         secondaryButton: .default(Text(str.purchase.rawValue),
-                         action: {callBack()}))
+            if ShopViewModel.checkCanBuy(price: p.coin, dia: p.dia){
+                return Alert(title: Text(str.doYouBuyIt.rawValue),
+                             message: Text(p.name),
+                             primaryButton: .cancel(Text(str.quite.rawValue)),
+                             secondaryButton: .default(Text(str.purchase.rawValue),
+                                                       action: {callBack()}))
+            }else{
+                return Alert(title: Text(str.noMoney.rawValue),
+                             dismissButton: .default(Text(str.modoru.rawValue),action: {}))
+            }
         }
     }
 }

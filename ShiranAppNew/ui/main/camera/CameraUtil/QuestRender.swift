@@ -91,7 +91,7 @@ class QuestRender{
         let rectangle = CGRect(x: model.qPlace.x, y: 0, width: size.width/2, height: size.height)
         cgContext.setAlpha(0.2)
         cgContext.fill(rectangle)
-        
+        cgContext.setFillColor(Colors.cgYellow)
         if !model.isRecording {return}
         randomAct(model: model, callBack: {
             if model.qPlace.x == 0 {
@@ -122,7 +122,7 @@ class QuestRender{
         let rectangle = CGRect(x: 0, y: model.qPlace.y, width: size.width, height: size.height/2)
         cgContext.setAlpha(0.2)
         cgContext.fill(rectangle)
-        
+        cgContext.setFillColor(Colors.cgYellow)
         if !model.isRecording {return}
         randomAct(model:model, callBack: {
             if model.qPlace.y == 0 {
@@ -168,7 +168,7 @@ class QuestRender{
         let rectangle = CGRect(x: model.qPlace.x, y: model.qPlace.y, width: size.width/2, height: size.height/2)
         cgContext.setAlpha(0.2)
         cgContext.fill(rectangle)
-        
+        cgContext.setFillColor(Colors.cgYellow)
         if !model.isRecording {return}
         randomAct(model: model, callBack: {
             if model.qPlace.x == 0 {

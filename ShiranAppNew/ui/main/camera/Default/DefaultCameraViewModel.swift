@@ -27,11 +27,10 @@ class DefaultCameraViewModel{
     let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
     let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
     let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)+1//1 2 3
-
+    
     var _self :DefaultCameraController
     init(_self :DefaultCameraController){
         self._self = _self
-        EventAnalytics.action_setting(type: str.def.rawValue)
     }
     
     func setUpCaptureButton(){
@@ -83,22 +82,22 @@ class DefaultCameraViewModel{
                 title: str.coachMarck2text.rawValue, message: "", preferredStyle:  UIAlertController.Style.alert)
             let confirmAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
                 (action: UIAlertAction!) -> Void in
-                UserDefaults.standard.set(true, forKey: "CoachMark2 ")
+                UserDefaults.standard.set(true, forKey: "CoachMark2")
+                UserDefaults.standard.set(Calendar.current.date(byAdding: .day, value: -1, to: Date()), forKey: Keys._LastTimeDay.rawValue)
                 //self.coachController.start(in: .window(over: self))　コーチマーク
             })
             alert.addAction(confirmAction)
             _self.present(alert, animated: true, completion: nil)
-            UserDefaults.standard.set(true, forKey: "CoachMark2")
         }
         let der = UILabel()// あとで消す用のUIView
         _self.view.addSubview(der)
         /*
-        if !AppState().coachMark2 {
-            let MainView = UIHostingController(rootView: IntroView(imageName: "sample", number: 0).environmentObject(AppState()))//ContentView())
-            MainView.presentationController?.delegate = self
-            self.present(MainView, animated: true, completion:nil)
-        }*/
-
+         if !AppState().coachMark2 {
+         let MainView = UIHostingController(rootView: IntroView(imageName: "sample", number: 0).environmentObject(AppState()))//ContentView())
+         MainView.presentationController?.delegate = self
+         self.present(MainView, animated: true, completion:nil)
+         }*/
+        
     }
     
     @objc func onClickBackButton(sender: UIButton) {
@@ -165,6 +164,8 @@ class DefaultCameraViewModel{
         self.time = 3
         self.countDown = true
         score = 0
+        jumpC = 2
+        isMiss = false
     }
     
     //Extension

@@ -16,6 +16,7 @@ struct DaylyRender{
     //デイリー
     static func daily(model: VideoCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         var sta = 1.0
+        cgContext.setFillColor(Colors.cgGreen)
         switch model.difficult {
         case 2 : sta = 5/6//  Hard Mode
         case 3 : sta = 4/6//  VeryHard Mode
@@ -70,6 +71,7 @@ struct DaylyRender{
     //デフォルト
     static func def(model: DefaultCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         var sta = 1.0
+        cgContext.setFillColor(Colors.cgGreen)
         switch model.difficult {
         case 2 : sta = 5/6//  Hard Mode
         case 3 : sta = 4/6//  VeryHard Mode

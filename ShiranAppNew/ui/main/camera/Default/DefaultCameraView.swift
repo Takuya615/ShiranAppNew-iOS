@@ -40,17 +40,19 @@ class DefaultCameraController: UIViewController {
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
+        super.viewWillAppear(animated)
         camera.setViewWillAppear()
         model.setUpCaptureButton()
     }
     override func viewWillDisappear(_ animated: Bool) {
-      super.viewWillDisappear(animated)
+        super.viewWillDisappear(animated)
         camera.setViewWillDisappear()
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         camera.setViewDidDisappear()
+        model.isRecording = false
+        model.timer.invalidate()
     }
 }
 
@@ -58,7 +60,7 @@ extension DefaultCameraController: AVCaptureVideoDataOutputSampleBufferDelegate{
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         connection.videoOrientation = .portrait//UpsideDown
         connection.isVideoMirrored = true
-
+        
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
         let ciimage : CIImage = CIImage(cvPixelBuffer: imageBuffer)
         let context:CIContext = CIContext.init(options: nil)
@@ -71,7 +73,7 @@ extension DefaultCameraController: AVCaptureVideoDataOutputSampleBufferDelegate{
             currentFrame = cgImage
             poseNet.predict(cgImage)
         }
-
+        
     }
 }
 

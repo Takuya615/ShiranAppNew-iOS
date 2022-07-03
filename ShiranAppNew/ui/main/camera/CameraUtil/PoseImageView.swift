@@ -115,7 +115,7 @@ class PoseImageView: UIImageView {
     }
     
     static func drawHead(num skinNo:Int, pose: Pose, in cgContext: CGContext) {
-        let head: Skin = Skin.skins[skinNo]
+        let head: Skin = Skin.skins()[skinNo]
         guard let image: UIImage = UIImage(named: head.image) else {return}
         let ix:CGFloat = head.x ?? 0.0
         let iy:CGFloat = head.y ?? 0.0

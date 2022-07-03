@@ -22,7 +22,7 @@ struct QuestView: View{
     
     var body: some View {
         if !UserDefaults.standard.bool(forKey: Keys.exist_quest.rawValue){
-            Text("ただいま準備中・・・\(String(UserDefaults.standard.bool(forKey: Keys.exist_quest.rawValue)))")
+            Text("ただいま準備中・・・")
         }else{
             NavigationView{
                 if stage+1 == stageOnNow {
@@ -51,15 +51,17 @@ struct QuestView: View{
                             HStack{
                                 Text(item.name)
                                 switch item.number {
-                                case 0: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(page: item.number)})
-                                case 1: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(page: item.number)})
-                                case 2: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(page: item.number)})
-                                case 5: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(page: item.number)})
+                                case 0: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(item.number)})
+                                case 2: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(item.number)})
+                                case 3: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(item.number)})
+                                case 4: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(item.number)})
+                                case 7: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(item.number)})
+                                case 10: Text("▶️").onTapGesture(perform: {sheetItem = QuestViewModel.getQuestSheetItem(item.number)})
                                 default: Text("")
                                 }
                             }
                             Button(action: {
-                                alertItem = QuestViewModel.getQuestAlertItem(item: item, appState: appState,charg: charge)
+                                alertItem = QuestViewModel.getQuestAlertItem(item: item, appState: appState,charg: charge,star: qsl[item.number])
                             }, label: {
                                 HStack{
                                     Spacer()

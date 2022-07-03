@@ -31,13 +31,13 @@ struct BodyRender{
             let jointA = pose[segment.jointA]
             let jointB = pose[segment.jointB]
             guard jointA.isValid, jointB.isValid else {continue}
-            //PoseImageView.drawLine(from: jointA,to: jointB,in: cgContext,color:Colors.gray,line:30)
+            //PoseImageView.drawLine(from: jointA,to: jointB,in: cgContext,color:Colors.white.cgColor,line:35)
             PoseImageView.drawLine(from: jointA,to: jointB,in: cgContext,color:Colors.line1,line:30)
             //            if count == 3 {PoseImageView.fillBody(wid:20.0,color: Colors.line2, pose: pose, in: cgContext)}
             //            count += 1
         }
         for joint in pose.joints.values.filter({ $0.isValid }) {
-            //PoseImageView.draw(circle: joint, in:cgContext,color: Colors.gray,line:30)
+            //PoseImageView.draw(circle: joint, in:cgContext,color: Colors.white.cgColor,line:35)
             PoseImageView.draw(circle: joint, in:cgContext,color: Colors.dot1,line:30)
         }
         PoseImageView.fillBody(wid:15,color: Colors.line1, pose: pose, in: cgContext)

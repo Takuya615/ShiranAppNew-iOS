@@ -16,4 +16,9 @@ struct incentive{
         UserDefaults.standard.set(dataCounter.countedDiamond, forKey: Keys.diamond.rawValue)
         EventAnalytics.earn_virtual_currency(matter: str.diamond.rawValue, amount: inc)
     }
+    static func getCoin_for_quest(dataCounter: DataCounter,inc: Int)->Int{//まだクエストの達成率毎に報酬を変化させない
+        dataCounter.countedCoin += 5//inc*2
+        UserDefaults.standard.set(dataCounter.countedCoin, forKey: Keys.coin.rawValue)
+        return 5//inc*2
+    }
 }
