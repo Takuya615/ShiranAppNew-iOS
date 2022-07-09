@@ -54,6 +54,7 @@ struct HomeView: View{
                     self.dataCounter.countedLevel = UserDefaults.standard.integer(forKey: Keys.level.rawValue)
                     self.dataCounter.continuedDayCounter = UserDefaults.standard.integer(forKey: Keys.continuedDay.rawValue)
                     self.dataCounter.continuedRetryCounter = UserDefaults.standard.integer(forKey: Keys.retry.rawValue)
+                    self.dataCounter.countedCoin = UserDefaults.standard.integer(forKey: Keys.coin.rawValue)
                     if CharacterModel.useTaskHelper() > 1.0 {
                         self.appState.showWanWan = true
                     }else{

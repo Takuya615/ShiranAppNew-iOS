@@ -37,11 +37,11 @@ struct QuestViewModel {
         Quest(number: 0,type: 1,goal: [3,4,10],time: 0,title: "coin_collect",name: "コイン集め", text: "時間以内に、画面上のコインを10コ集める"),
         Quest(number: 1,type: 2,goal: [200,350,700],time: 0,title: "free_exercise",name: "とにかく動け！", text: "時間以内に、スコア 700以上のはげしい運動をする"),
         //TT = 8-15
-        Quest(number: 2,type: 3,goal: [60,100,150],time: 0,title: "bouldering",name: "ボルダリング", text: "時間以内に、カベを150m登りきる"),
+        Quest(number: 2,type: 3,goal: [80,150,300],time: 0,title: "bouldering",name: "ボルダリング", text: "時間以内に、カベを300m登りきる"),
         Quest(number: 3, type: 5, goal: [150,300,600], time: 0,title: "charging",name: "パワーチャージ", text: "時間内にエナジーバーを満杯にする"),
         Quest(number: 4, type: -1, goal: [10,20,25], time: 60,title: "hiit60",name: "HIIT(ヒート)体験版",text:textHiit(60,25)),
         //TT = 10-20
-        Quest(number: 5,type: 3,goal: [80,110,200],time: 0,title: "bouldering",name: "ボルダリング", text: "時間以内に、カベを200m登りきる"),
+        Quest(number: 5,type: 3,goal: [140,200,600],time: 0,title: "bouldering",name: "ボルダリング", text: "時間以内に、カベを600m登りきる"),
         Quest(number: 6, type: -1, goal: [30,40,50], time: 120,title: "hiit120",name: "HIIT(ヒート)体験版2", text:textHiit(120, 50)),
         Quest(number: 7, type: 6, goal: [150,300,600], time: 0,title: "charging2",name: "パワーチャージ2", text: "時間内にエナジーバーを満杯にする"),
         //TT = 13-30
