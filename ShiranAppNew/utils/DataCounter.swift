@@ -126,16 +126,16 @@ class DataCounter: ObservableObject {
         var qsl: [Int] = UserDefaults.standard.array(forKey: Keys.qsl.rawValue) as? [Int] ?? [0,0,0]
         //print("qType \(qType)  score \(qScore)")
         switch qType {
-        case -1:title = "\n" + str.kill.rawValue + String(qScore) + str.tai.rawValue + "\n"
-        case 1:title += "\n" + str.coin.rawValue + String(qScore) + str.co.rawValue + "\n"
-        case 2,5,6,7:title = "\n " + str.score2.rawValue + String(qScore) + str.p.rawValue + "\n"
-        case 3,4:title += "\n" + str.rewardDistance.rawValue + String(qScore) + str.m.rawValue + "\n"
+        case -1:title = "\n" + str.kill.rawValue + String(qScore) + " / "
+        case 1:title += "\n" + str.coin.rawValue + String(qScore) + " / "
+        case 2,5,6,7:title = "\n " + str.score2.rawValue + String(qScore) + " / "
+        case 3,4:title += "\n" + str.rewardDistance.rawValue + String(qScore) + " / "
         default:title = ""
         }
         var re = 0
-        if qScore >= qGoal[2] {qsl[qNum]=3; re=3; title += str.questCompAll.rawValue + "\n"}
-        else if qScore >= qGoal[1] {qsl[qNum]=2; re=2; title += str.questComp066.rawValue + "\n"}
-        else if qScore >= qGoal[0] {qsl[qNum]=1; re=1; title += str.questComp033.rawValue + "\n"}
+        if qScore >= qGoal[2] {qsl[qNum]=3; re=3; title += String(qGoal[2]) + "\n" + str.questCompAll.rawValue + "\n"}
+        else if qScore >= qGoal[1] {qsl[qNum]=2; re=2; title += String(qGoal[1]) + "\n" + str.questComp066.rawValue + "\n"}
+        else if qScore >= qGoal[0] {qsl[qNum]=1; re=1; title += String(qGoal[0]) + "\n" + str.questComp033.rawValue + "\n"}
         title += "\n" + str.rewardCoin.rawValue + "  " + String(incentive.getCoin_for_quest(dataCounter: self,inc: re)) + "G"
         for i in 1 ... 3 {
             let imageView = UIImageView(frame: CGRect(x:15+50*i, y:0, width:40, height:40))

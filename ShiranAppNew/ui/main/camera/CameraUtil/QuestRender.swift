@@ -29,15 +29,15 @@ class QuestRender{
     //coins
     static func quest1(model:QuestCameraViewModel, pose:Pose, size: CGSize, in cgContext: CGContext){
         if model.qPlace.y == 0 {
-            let places: [CGPoint] = [CGPoint(x: size.width*2/6,y: size.height*2/6),
-                                     CGPoint(x: size.width*2/6,y: size.height*3/6),
-                                     CGPoint(x: size.width*2/6,y: size.height*5/6),
-                                     CGPoint(x: size.width*3/6,y: size.height*2/6),
-                                     CGPoint(x: size.width*3/6,y: size.height*3/6),
-                                     CGPoint(x: size.width*3/6,y: size.height*5/6),
-                                     CGPoint(x: size.width*5/6,y: size.height*2/6),
-                                     CGPoint(x: size.width*5/6,y: size.height*3/6),
-                                     CGPoint(x: size.width*5/6,y: size.height*5/6),]
+            let places: [CGPoint] = [CGPoint(x: size.width*1/6,y: size.height*1/4),
+                                     CGPoint(x: size.width*1/6,y: size.height*2/4),
+                                     CGPoint(x: size.width*1/6,y: size.height*3/4),
+                                     CGPoint(x: size.width*3/6,y: size.height*1/4),
+                                     CGPoint(x: size.width*3/6,y: size.height*2/4),
+                                     CGPoint(x: size.width*3/6,y: size.height*3/4),
+                                     CGPoint(x: size.width*5/6,y: size.height*1/4),
+                                     CGPoint(x: size.width*5/6,y: size.height*2/4),
+                                     CGPoint(x: size.width*5/6,y: size.height*3/4),]
             model.qPlace = places.randomElement() ?? CGPoint(x: -100, y: 0)
         }
         let rectangle = CGRect(x: model.qPlace.x - 30, y: -model.qPlace.y - 30,

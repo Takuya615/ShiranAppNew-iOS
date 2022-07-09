@@ -9,7 +9,7 @@ struct ItemSelectView: View {
     
     var body: some View {
         let items: [Int] = UserDefaults.standard.array(forKey: Keys.yourItem.rawValue) as? [Int] ?? [0] as [Int]
-        let skins = Skin.skins()
+        let skins = Skin.skins
         let itemBodys: [Int] = UserDefaults.standard.array(forKey: Keys.yourBodys.rawValue) as? [Int] ?? [0] as [Int]
         VStack {
             BackKeyView(callBack: {self.appState.isItemSelectView.toggle()})

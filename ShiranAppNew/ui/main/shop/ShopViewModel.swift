@@ -32,7 +32,7 @@ struct ShopViewModel{
         }else{
             your = Keys.yourItem.rawValue
             select = Keys.selectSkin.rawValue
-            name = Skin.skins()[articleId].name
+            name = Skin.skins[articleId].name
         }
         if articleDia != nil {
             var diamonds = UserDefaults.standard.integer(forKey: Keys.diamond.rawValue)
@@ -58,7 +58,7 @@ struct ShopViewModel{
     static func getSkins() -> [Skin]{
         let gotItems: [Int] = UserDefaults.standard.array(forKey:Keys.yourItem.rawValue)as? [Int] ?? [0] as [Int]
         //let bought: Int = UserDefaults.standard.integer(forKey:Keys.boughtSkin.rawValue)
-        var sList = Skin.skins()
+        var sList = Skin.skins
         var count = 0
         for num in gotItems.sorted() {
             sList.remove(at: num-count)
