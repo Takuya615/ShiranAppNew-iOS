@@ -53,6 +53,9 @@ struct EventAnalytics {
             AnalyticsParameterVirtualCurrencyName: virtualCurrencyName//coin or diamond
         ])
     }
+    
+    ///　デイリーを途中でやめた場合のイベントログ
+    
     //    static func action_quality(error:Int,quarter:Int,half:Int,three:Int){
     //        DispatchQueue.global().async {
     //
