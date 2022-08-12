@@ -44,12 +44,17 @@ struct Body:Hashable{
     var code = UUID()
     var id: Int//String = "aa"//UUID()     // ユニークなIDを自動で設定
     var name: String
-    var coin: Int
+    var coin: Int  = 0
     var dia: Int?
     
     static var bodys: [Body] = [
-        Body(id: 0,name: "デフォルト",coin: 0),
-        Body(id: 1,name: "ピクトグラム 青",coin: 150),
-        Body(id: 2,name: "ピクトグラム ピンク",coin: 150),
+        Body(id: 0,name: "デフォルト"),
+        Body(id: 1,name: "ピクトグラム あか",coin: 150),
+        Body(id: 2,name: "ピクトグラム あお",coin: 150),
+        Body(id: 3,name: "ピクトグラム　みどり",coin: 150),
+        Body(id: 4,name: "ピクトグラム　グレー" ,coin: 150),
+        Body(id: 5,name: "ピクトグラム オレンジ",coin: 150),
+        Body(id: 6,name: "スーツ",coin: 150),
+        Body(id: 7,name: "ドレス",coin: 150),
     ]
 }

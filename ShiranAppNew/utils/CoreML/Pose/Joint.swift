@@ -27,6 +27,14 @@ class Joint {
         case leftAnkle
         case rightAnkle
     }
+    
+    enum SegmentName: String, CaseIterable {
+        case shoulder = "shoulder"
+        case hip = "hip"
+        case arm = "arm"
+        case leg = "leg"
+        case none = "none"
+    }
 
     static let scoreParts = [
         Name.rightHip,Name.leftHip,

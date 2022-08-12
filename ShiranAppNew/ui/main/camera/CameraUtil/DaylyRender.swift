@@ -2,17 +2,6 @@
 import SwiftUI
 
 struct DaylyRender{
-    static func show(pose:Pose,cgContext:CGContext) {
-        for segment in PoseImageView.jointSegments {
-            let jointA = pose[segment.jointA]
-            let jointB = pose[segment.jointB]
-            guard jointA.isValid, jointB.isValid else {continue}
-            PoseImageView.drawLine(from: jointA,to: jointB,in: cgContext,color:Colors.line0,line:8)
-        }
-        for joint in pose.joints.values.filter({ $0.isValid }) {
-            PoseImageView.draw(circle: joint, in:cgContext,color: Colors.dot0,line:16)
-        }
-    }
     //デイリー
     static func daily(model: VideoCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         var sta = 1.0
@@ -110,24 +99,24 @@ struct DaylyRender{
             }
         }
     }
-//    func angle(
-//        firstLandmark: Joint,
-//        midLandmark: Joint,
-//        lastLandmark: Joint
-//    ) -> CGFloat {
-//        let radians: CGFloat =
-//        atan2(lastLandmark.position.y - midLandmark.position.y,
-//              lastLandmark.position.x - midLandmark.position.x) -
-//        atan2(firstLandmark.position.y - midLandmark.position.y,
-//              firstLandmark.position.x - midLandmark.position.x)
-//        var degrees = radians * 180.0 / .pi
-//        degrees = abs(degrees) // Angle should never be negative
-//        if degrees > 180.0 {
-//            degrees = 360.0 - degrees // Always get the acute representation of the angle
-//        }
-//        return degrees
-//    }
-
-
+    //    func angle(
+    //        firstLandmark: Joint,
+    //        midLandmark: Joint,
+    //        lastLandmark: Joint
+    //    ) -> CGFloat {
+    //        let radians: CGFloat =
+    //        atan2(lastLandmark.position.y - midLandmark.position.y,
+    //              lastLandmark.position.x - midLandmark.position.x) -
+    //        atan2(firstLandmark.position.y - midLandmark.position.y,
+    //              firstLandmark.position.x - midLandmark.position.x)
+    //        var degrees = radians * 180.0 / .pi
+    //        degrees = abs(degrees) // Angle should never be negative
+    //        if degrees > 180.0 {
+    //            degrees = 360.0 - degrees // Always get the acute representation of the angle
+    //        }
+    //        return degrees
+    //    }
+    
+    
     
 }

@@ -32,8 +32,8 @@ class VideoCameraViewModel{
     var killList: [boss] = []
     var exiteBoss: boss? = BOSS().isExist()
     
-    let skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
-    let bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
+    var skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
+    var bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
     let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)+1//1 2 3
     
     var _self :VideoViewController
@@ -149,6 +149,8 @@ class VideoCameraViewModel{
                 self.textTimer.textColor = UIColor.blue
                 self.count20_10()
                 self.difficultBonus()
+//                self.skinNo = Int.random(in: 1...17)
+//                self.bodyNo = Int.random(in: 0...6)
             }
             self.time -= 1
         })

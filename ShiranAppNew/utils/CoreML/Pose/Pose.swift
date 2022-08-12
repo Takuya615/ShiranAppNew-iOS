@@ -26,8 +26,8 @@ struct Pose {
             case Joint.Name.rightHip:     point = CGPoint(x: w*0.39, y: h*0.55);joint.isValid = true
             case Joint.Name.leftKnee:     point = CGPoint(x: w*0.63, y: h*0.7);joint.isValid = true
             case Joint.Name.rightKnee:    point = CGPoint(x: w*0.37, y: h*0.7);joint.isValid = true
-            case Joint.Name.leftAnkle:    point = CGPoint(x: w*0.63, y: h*0.9);joint.isValid = true
-            case Joint.Name.rightAnkle:   point = CGPoint(x: w*0.37, y: h*0.9);joint.isValid = true
+            case Joint.Name.leftAnkle:    point = CGPoint(x: w*0.63, y: h*0.85);joint.isValid = true
+            case Joint.Name.rightAnkle:   point = CGPoint(x: w*0.37, y: h*0.85);joint.isValid = true
             default:point = CGPoint();joint.isValid = false
             }
             joint.position = point

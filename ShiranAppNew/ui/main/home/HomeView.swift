@@ -35,7 +35,7 @@ struct HomeView: View{
                         }
                     }
                     ZStack{
-                        Image(uiImage:BodyRender.showRender())
+                        Image(uiImage:RenderUtil.showRender())
                             .resizable()
                             .frame(width:width/2, height: height*0.6)
                         Rectangle()

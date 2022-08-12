@@ -141,7 +141,7 @@ struct BodyItemView: View {
             isBought.toggle()
         }, label: {
             HStack{
-                Image(uiImage:BodyRender.showRender(skin: 0, body: p.id))
+                Image(uiImage:RenderUtil.showRender(skin: 0, body: p.id))
                     .resizable()
                     .frame(width: 50.0, height: 100.0, alignment: .leading)
                 VStack{

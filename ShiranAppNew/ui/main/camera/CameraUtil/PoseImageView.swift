@@ -64,26 +64,28 @@ class PoseImageView: UIImageView {
         return dstImage
     }
     
+    
     struct JointSegment {
+        let segmentName: Joint.SegmentName
         let jointA: Joint.Name
         let jointB: Joint.Name
     }
     static let jointSegments = [
-        JointSegment(jointA: .leftHip, jointB: .leftShoulder),
-        JointSegment(jointA: .rightHip, jointB: .rightShoulder),
-        JointSegment(jointA: .leftShoulder, jointB: .rightShoulder),
-        JointSegment(jointA: .leftHip, jointB: .rightHip),
+        JointSegment(segmentName: .arm, jointA: .leftShoulder, jointB: .leftElbow),
+        JointSegment(segmentName: .arm, jointA: .rightShoulder, jointB: .rightElbow),
+        JointSegment(segmentName: .leg, jointA: .leftHip, jointB: .leftKnee),
+        JointSegment(segmentName: .leg, jointA: .rightHip, jointB: .rightKnee),
         
-        JointSegment(jointA: .leftShoulder, jointB: .leftElbow),
-        JointSegment(jointA: .leftElbow, jointB: .leftWrist),
-        JointSegment(jointA: .leftHip, jointB: .leftKnee),
-        JointSegment(jointA: .leftKnee, jointB: .leftAnkle),
-        
-        JointSegment(jointA: .rightShoulder, jointB: .rightElbow),
-        JointSegment(jointA: .rightElbow, jointB: .rightWrist),
-        JointSegment(jointA: .rightHip, jointB: .rightKnee),
-        JointSegment(jointA: .rightKnee, jointB: .rightAnkle),
-        
+        JointSegment(segmentName: .none, jointA: .leftHip, jointB: .leftShoulder),
+        JointSegment(segmentName: .none, jointA: .rightHip, jointB: .rightShoulder),
+        JointSegment(segmentName: .hip, jointA: .leftHip, jointB: .rightHip),
+        JointSegment(segmentName: .shoulder, jointA: .leftShoulder, jointB: .rightShoulder),
+    
+        JointSegment(segmentName: .arm, jointA: .leftElbow, jointB: .leftWrist),
+        JointSegment(segmentName: .arm, jointA: .rightElbow, jointB: .rightWrist),
+        JointSegment(segmentName: .leg, jointA: .leftKnee, jointB: .leftAnkle),
+        JointSegment(segmentName: .leg, jointA: .rightKnee, jointB: .rightAnkle),
+    
     ]
     static func draw(image: CGImage, in cgContext: CGContext) {
         cgContext.saveGState()
@@ -172,5 +174,110 @@ class PoseImageView: UIImageView {
         )
         string.draw(at: CGPoint(x: image.width*1/10, y: image.height*9/10))
         UIGraphicsPopContext()
+    }
+    
+    static func pictoBody(color: CGColor,pose: Pose, cgContext:CGContext){
+        for segment in PoseImageView.jointSegments {
+            let jointA = pose[segment.jointA]
+            let jointB = pose[segment.jointB]
+            guard jointA.isValid, jointB.isValid else {continue}
+            drawLine(from: jointA,to: jointB,in: cgContext,color:color,line:30)
+        }
+        for joint in pose.joints.values.filter({ $0.isValid }) {
+            draw(circle: joint, in:cgContext,color: color,line:30)
+        }
+        fillBody(wid: 15, color: color, pose: pose, in: cgContext)
+        drawPictoHead(color: color, pose: pose, in: cgContext)
+    }
+    
+    static func drawBodyPicture(num bodyNo:Int,part: String,from jointA: Joint,
+                                to jointB: Joint, in cgContext: CGContext) {
+        guard let origin: UIImage = UIImage(named: "body" + String(bodyNo) + "_" + part) else {return}
+        
+        let radian: CGFloat = RenderUtil.angle(
+            f: jointA.position,
+            m: jointB.position,
+            l: CGPoint(x: jointA.position.x, y: jointB.position.y))
+//        let radian2: CGFloat = RenderUtil.angle(jointA.position,jointB.position)
+        
+        let image = RenderUtil.imageRotate(image: origin, angle: radian)
+        var long:CGFloat = RenderUtil.calcDisntace(jointA.position, jointB.position)
+        let center = RenderUtil.calcCenter(jointA.position, jointB.position)
+        
+        if part == "shoulder" || part == "hip"  {long = long * 2}
+//
+        guard let cg: CGImage = image.cgImage else {return}
+        let rectangle = CGRect(x: center.x - long/2, y: -center.y - long/2, width: long, height: long)
+        cgContext.saveGState()
+        cgContext.scaleBy(x: 1.0, y: -1.0)
+        cgContext.draw(cg, in: rectangle)
+        cgContext.restoreGState()
+        
+    }
+    
+    
+}
+
+struct RenderUtil{
+    
+    //回転画像
+    static func imageRotate(image: UIImage, angle:CGFloat) -> UIImage{
+        let imgSize = CGSize.init(width: image.size.width, height: image.size.height)
+        UIGraphicsBeginImageContextWithOptions(imgSize, false, 0.0)
+        let context: CGContext = UIGraphicsGetCurrentContext()!
+        context.translateBy(x: image.size.width/2, y: image.size.height/2)
+        context.scaleBy(x: 1.0, y: -1.0)
+        let radian: CGFloat = angle// * CGFloat(Double.pi) / 180.0
+        context.rotate(by: radian)
+        context.draw(image.cgImage!, in: CGRect.init(x: -image.size.width/2, y: -image.size.height/2, width: image.size.width, height: image.size.height))
+        let rotatedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return rotatedImage
+    }
+    //画像の1一辺の長さ
+    static func calcDisntace(_ pA: CGPoint, _ pB: CGPoint) -> CGFloat{
+        let dx = Float(pA.x - pB.x)
+        let dy = Float(pA.y - pB.y)
+        return CGFloat(sqrt(dx*dx + dy*dy)*1.5)
+    }
+//    イメージの中心の座標
+    static func calcCenter(_ pA: CGPoint, _ pB: CGPoint) -> CGPoint{
+        let x = (pA.x+pB.x)/2
+        let y = (pA.y+pB.y)/2
+        return CGPoint(x: x, y: y);
+    }
+    
+    static func angle(
+          f firstLandmark: CGPoint,
+          m midLandmark: CGPoint,
+          l lastLandmark:CGPoint
+      ) -> CGFloat {
+          let radians: CGFloat =
+              atan2(lastLandmark.y - midLandmark.y,
+                        lastLandmark.x - midLandmark.x) -
+                atan2(firstLandmark.y - midLandmark.y,
+                        firstLandmark.x - midLandmark.x)
+          var degrees = radians// * 180.0 /  M_PI//.pi
+//          degrees = abs(degrees) // Angle should never be negative
+//          if degrees > 180.0 {
+//              degrees = 360.0 - degrees // Always get the acute representation of the angle
+//          }
+          return degrees
+      }
+    
+    static func showRender(
+        skin:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue),
+        body:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
+    ) -> UIImage {
+        let size = CGSize(width: 500, height: 1000)
+        let pose = Pose.defaultPose(size: size)
+        let dstImageFormat = UIGraphicsImageRendererFormat()
+        dstImageFormat.scale = 1
+        let renderer = UIGraphicsImageRenderer(size: size,format: dstImageFormat)
+        let dstImage = renderer.image { rendererContext in
+            BodyRender.show(BodyNo: body, pose: pose, cgContext: rendererContext.cgContext)
+            PoseImageView.drawHead(num: skin,pose: pose, in: rendererContext.cgContext)
+        }
+        return dstImage
     }
 }

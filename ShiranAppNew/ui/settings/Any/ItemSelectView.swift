@@ -14,7 +14,7 @@ struct ItemSelectView: View {
         VStack {
             BackKeyView(callBack: {self.appState.isItemSelectView.toggle()})
             ItemView(
-                image: Image(uiImage:BodyRender.showRender(skin: skinNo, body: bodyNo)),
+                image: Image(uiImage:RenderUtil.showRender(skin: skinNo, body: bodyNo)),
                 callBack: {}, width: 75, height: 150)
             ScrollView(.vertical) {
                 LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
@@ -32,7 +32,7 @@ struct ItemSelectView: View {
                     Section {
                         ForEach(0 ..< itemBodys.count) { i in
                             ItemView(
-                                image: Image(uiImage:BodyRender.showRender(skin: 0, body: itemBodys[i])),
+                                image: Image(uiImage:RenderUtil.showRender(skin: 0, body: itemBodys[i])),
                                 callBack: {
                                     UserDefaults.standard.set(itemBodys[i], forKey: Keys.selectBody.rawValue)
                                     bodyNo = itemBodys[i]
