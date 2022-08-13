@@ -5,12 +5,11 @@ import Firebase
 import FirebaseAnalytics
 
 struct EventAnalytics {
-    static let isDebag = true
-    static let isDeb = true
+    static let isDebag = false
     
     static func action_setting(){
         let diff = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//0 1 2
-        if isDeb {return}
+        if isDebag {return}
         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
             AnalyticsParameterContentType: SettingView.difficults[diff],
         ])
@@ -18,35 +17,35 @@ struct EventAnalytics {
     }
     
     static func reclear_quest(title: String){
-        if isDeb {print(title);return}
+        if isDebag {print(title);return}
         print("reclear_quest_"+title)
         //Analytics.logEvent("reclear_quest_"+title, parameters: nil)
         Analytics.logEvent("reclear_quest", parameters: ["reclear_quest_"+title: 1])
     }
     
     static func screen(name: String){
-        if isDeb {print(name);return}
+        if isDebag {print(name);return}
         Analytics.logEvent(AnalyticsEventScreenView,parameters: [
             AnalyticsParameterScreenName: name,
             //AnalyticsParameterScreenClass: ""
         ])
     }
     static func levelUp(level: Int){
-        if isDeb {print("level\(level)");return}
+        if isDebag {print("level\(level)");return}
         Analytics.logEvent(AnalyticsEventLevelUp, parameters: [
             //AnalyticsParameterCharacter: character!,
             AnalyticsParameterLevel: level
         ])
     }
     static func earn_virtual_currency(matter virtualCurrencyName :String,amount value: Int){
-        if isDeb {print("稼いだ\(virtualCurrencyName)を\(value)");return}
+        if isDebag {print("稼いだ\(virtualCurrencyName)を\(value)");return}
         Analytics.logEvent(AnalyticsEventEarnVirtualCurrency, parameters: [
             "earn_virtual_currency_value": value,
             "earn_virtual_currency_name": virtualCurrencyName//coin or diamond
         ])
     }
     static func spend_virtual_currency(item itemName:String,matter virtualCurrencyName :String,amount value: Int){
-        if isDeb {print("支払い\(virtualCurrencyName)の\(value)で\(itemName)を買った");return}
+        if isDebag {print("支払い\(virtualCurrencyName)の\(value)で\(itemName)を買った");return}
         Analytics.logEvent(AnalyticsEventSpendVirtualCurrency, parameters: [
             AnalyticsParameterItemName: itemName,
             AnalyticsParameterValue: value,
