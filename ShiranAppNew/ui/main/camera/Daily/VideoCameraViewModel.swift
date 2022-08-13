@@ -149,8 +149,6 @@ class VideoCameraViewModel{
                 self.textTimer.textColor = UIColor.blue
                 self.count20_10()
                 self.difficultBonus()
-//                self.skinNo = Int.random(in: 1...17)
-//                self.bodyNo = Int.random(in: 0...6)
             }
             self.time -= 1
         })

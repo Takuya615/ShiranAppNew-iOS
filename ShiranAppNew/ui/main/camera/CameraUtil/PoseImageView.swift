@@ -31,6 +31,7 @@ class PoseImageView: UIImageView {
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
+//            PoseImageView.setBackGround(size: dstImageSize, in: rendererContext.cgContext)
             BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
             PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
             DaylyRender.def(model: model, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
@@ -44,6 +45,7 @@ class PoseImageView: UIImageView {
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
+//            PoseImageView.setBackGround(size: dstImageSize, in: rendererContext.cgContext)
             BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
             PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
             DaylyRender.daily(model: model,pose: pose, size: dstImageSize, in: rendererContext.cgContext)
@@ -94,6 +96,16 @@ class PoseImageView: UIImageView {
         cgContext.draw(image, in: drawingRect)
         cgContext.restoreGState()
     }
+    
+    static func setBackGround(size: CGSize, in cgContext: CGContext){
+        let cgImage = UIImage(named: "wallpaper1")?.cgImage
+        let rectangle = CGRect(x: 0, y: -size.height, width: size.width, height: size.height)
+        cgContext.saveGState()
+        cgContext.scaleBy(x: 1.0, y: -1.0)
+        cgContext.draw(cgImage!, in: rectangle)
+        cgContext.restoreGState()
+    }
+    
     static func drawLine(from parentJoint: Joint,
                           to childJoint: Joint,
                           in cgContext: CGContext,
@@ -257,12 +269,12 @@ struct RenderUtil{
                         lastLandmark.x - midLandmark.x) -
                 atan2(firstLandmark.y - midLandmark.y,
                         firstLandmark.x - midLandmark.x)
-          var degrees = radians// * 180.0 /  M_PI//.pi
+//          var degrees = radians// * 180.0 /  M_PI//.pi
 //          degrees = abs(degrees) // Angle should never be negative
 //          if degrees > 180.0 {
 //              degrees = 360.0 - degrees // Always get the acute representation of the angle
 //          }
-          return degrees
+          return radians
       }
     
     static func showRender(
