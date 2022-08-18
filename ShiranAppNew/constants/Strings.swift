@@ -95,7 +95,7 @@ enum str: String {
     case sameNameError = "同じ名前を使っているユーザーがみつかりました\n別の名前に変更してください"
     case select = "決定"
     
-    case close = "❎閉じる"
+    case close = "とじる"
     case forword = "\nもどる\n"
     case next = "\nつぎへ\n"
     case daylyChallenge = "デイリーチャレンジ"

@@ -53,7 +53,7 @@ struct DialogContent1: View {
                     isPresented = false
                     self.appState.coachMarkf = true
                 },
-                       label: {Text(str.close.rawValue)})
+                       label: {Text("❎"+str.close.rawValue)})
             }
             if page == 1{
                 Text(str.daylyChallenge.rawValue).font(.title)
@@ -80,7 +80,11 @@ struct DialogContent1: View {
                 Text(str.dialog1_3_1.rawValue)
                 Text(str.dialog1_3_2.rawValue)
                 Text(str.dialog1_3_3.rawValue)
-                Button(action: { page = 1 }, label: {Text(str.forword.rawValue)})
+                HStack{
+                    Button(action: { page = 1 }, label: {Text(str.forword.rawValue)})
+                    Text("    ")
+                    Button(action: { isPresented = false; self.appState.coachMarkf = true }, label: {Text(str.close.rawValue)})
+                }
             }
             
             
@@ -102,7 +106,7 @@ struct DialogContent2: View {
             HStack{
                 Spacer()
                 Button(action: {isPresented = false},
-                       label: {Text(str.close.rawValue)})
+                       label: {Text("❎"+str.close.rawValue)})
             }
             if page1 == 1 {
                 Text(str.dialog2_1_1.rawValue).font(.title)//.foregroundColor(.red)
@@ -129,7 +133,6 @@ struct DialogContent2: View {
                     Button(action: { page1 = 1 }, label: {Text(str.forword.rawValue)})
                     Text("    ")
                     Button(action: { self.appState.isSettingView = true }, label: {Text(str.dialog2_4_button.rawValue)})
-                    
                 }
             }
         }

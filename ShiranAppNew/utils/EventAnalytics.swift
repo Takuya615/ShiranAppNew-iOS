@@ -5,7 +5,7 @@ import Firebase
 import FirebaseAnalytics
 
 struct EventAnalytics {
-    static let isDebag = false
+    static let isDebag = true
     
     static func action_setting(){
         let diff = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)//0 1 2
