@@ -7,12 +7,12 @@ class QuestRender{
         switch UserDefaults.standard.integer(forKey: Keys.questType .rawValue) {
         case 1: quest1(model:model,pose: pose, size: size, in: cgContext)
         case 3: quest3(model:model,pre: model.prePose, pose: pose, size: size, in: cgContext)
-        case 2: quest2(model: model, pose: pose)
+        case 2: quest2(model: model, pose: pose,in: cgContext)
             //case 4: quest4(model:model, pose: pose, size: size, in: cgContext)
         case 5: quest5(model:model, pose: pose, size: size, in: cgContext)
         case 6: quest6(model:model, pose: pose, size: size, in: cgContext)
         case 7: quest7(model:model, pose: pose, size: size, in: cgContext)
-            //case 8: quest8(model:model, pose: pose, size: size, in: cgContext)
+        case 8: quest8(model:model, pose: pose, size: size, in: cgContext)
         default: return
         }
     }
@@ -28,6 +28,8 @@ class QuestRender{
     
     //coins
     static func quest1(model:QuestCameraViewModel, pose:Pose, size: CGSize, in cgContext: CGContext){
+        BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
+        PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
         if model.qPlace.y == 0 {
             let places: [CGPoint] = [CGPoint(x: size.width*1/6,y: size.height*1/4),
                                      CGPoint(x: size.width*1/6,y: size.height*2/4),
@@ -55,7 +57,10 @@ class QuestRender{
         if r_diff < 40 { model.qPlace = CGPoint(x: -100, y: 0); model.qScore += 1; SystemSounds.score_up("")}
     }
     
-    static func quest2(model:QuestCameraViewModel, pose:Pose){
+    //とにかく動け
+    static func quest2(model:QuestCameraViewModel, pose:Pose, in cgContext: CGContext){
+        BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
+        PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
         Joint.Name.allCases.forEach {name in
             if pose.joints[name] != nil && model.prePose.joints[name] != nil{
                 if pose.joints[name]!.confidence > 0.1 && model.prePose.joints[name]!.confidence > 0.1 {
@@ -70,6 +75,8 @@ class QuestRender{
     
     //climbing
     static func quest3(model:QuestCameraViewModel,pre:Pose,pose: Pose,size: CGSize, in cgContext: CGContext){
+        BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
+        PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
         let cgImage = UIImage(named: "rockwall")?.cgImage
         let rectangle = CGRect(x:0, y:model.qPlace.y-size.height, width:size.width, height:size.height)
         let rectangle2 = CGRect(x:0, y:model.qPlace.y, width:size.width, height:size.height)
@@ -88,6 +95,8 @@ class QuestRender{
     }
     //powerCharge
     static func quest5(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
+        BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
+        PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
         let rectangle = CGRect(x: model.qPlace.x, y: 0, width: size.width/2, height: size.height)
         cgContext.setAlpha(0.2)
         cgContext.fill(rectangle)
@@ -119,6 +128,8 @@ class QuestRender{
     }
     
     static func quest6(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
+        BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
+        PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
         let rectangle = CGRect(x: 0, y: model.qPlace.y, width: size.width, height: size.height/2)
         cgContext.setAlpha(0.2)
         cgContext.fill(rectangle)
@@ -164,7 +175,8 @@ class QuestRender{
     }
     
     static func quest7(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
-        
+        BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
+        PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
         let rectangle = CGRect(x: model.qPlace.x, y: model.qPlace.y, width: size.width/2, height: size.height/2)
         cgContext.setAlpha(0.2)
         cgContext.fill(rectangle)
@@ -218,5 +230,34 @@ class QuestRender{
         }
     }
     
-    
+    static func quest8(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
+        let min = size.width/20
+        let bar1 :CGFloat = 100
+        let bar2 :CGFloat = 300
+        let obstacle1 = CGRect(x:0, y:bar1-min/2, width:size.width/2, height:min)
+        let obstacle2 = CGRect(x:size.width/2, y:bar2-min/2, width:size.width/2, height:min)
+        cgContext.setFillColor(Colors.cgWhite)
+        cgContext.addRect(obstacle1)
+        cgContext.addRect(obstacle2)
+        cgContext.drawPath(using: .fillStroke)
+        
+        
+        
+        let p = CGPoint(x: (pose[.rightShoulder].position.x + pose[.leftShoulder].position.x)/2, y: pose[.leftShoulder].position.y)
+        cgContext.setFillColor(Colors.cgPink)
+        
+        if p.x < size.width/2 {
+            let diff = abs(p.y - bar1)
+            if diff < 10 {cgContext.setFillColor(Colors.cgGreen)}
+        }else{
+            let diff = abs(p.y - bar2)
+            if diff < 10 {cgContext.setFillColor(Colors.cgGreen)}
+        }
+        
+        let rectangle = CGRect(x: p.x - min/2, y: p.y - min/2,width: min, height: min)
+        cgContext.addEllipse(in: rectangle)
+        cgContext.drawPath(using: .fill)
+        
+        
+    }
 }

@@ -37,6 +37,7 @@ enum Keys: String {
     case retry = "retry"
     case _LastTimeDay = "LastTimeDay"
     case taskTime = "TaskTime"
+    case threedays = "ThreeDays"
     
     case listD = "dateList"
     case listS = "scoreList"

@@ -60,7 +60,7 @@ class CameraModel{
         let qT = UserDefaults.standard.integer(forKey: Keys.qTime.rawValue)
         if qT != 0 { return qT }
         var taskTime: Int = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
-        if taskTime < 5 {taskTime = 5}
+        if taskTime < 10 {taskTime = 10}
         if taskTime > 240 {taskTime = 240}
         return taskTime
     }

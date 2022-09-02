@@ -31,7 +31,7 @@ class PoseImageView: UIImageView {
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
-//            PoseImageView.setBackGround(size: dstImageSize, in: rendererContext.cgContext)
+//            PoseImageView.setNoBackGround(size: dstImageSize, in: rendererContext.cgContext)
             BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
             PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
             DaylyRender.def(model: model, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
@@ -45,7 +45,7 @@ class PoseImageView: UIImageView {
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
             PoseImageView.draw(image: frame, in: rendererContext.cgContext)
-//            PoseImageView.setBackGround(size: dstImageSize, in: rendererContext.cgContext)
+//            PoseImageView.setNoBackGround(size: dstImageSize, in: rendererContext.cgContext)
             BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
             PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
             DaylyRender.daily(model: model,pose: pose, size: dstImageSize, in: rendererContext.cgContext)
@@ -59,8 +59,8 @@ class PoseImageView: UIImageView {
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { context in
             PoseImageView.draw(image: frame, in: context.cgContext)
-            BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: context.cgContext)
-            PoseImageView.drawHead(num: model.skinNo,pose: pose, in: context.cgContext)
+//            PoseImageView.setNoBackGround(size: dstImageSize, in: context.cgContext)
+            
             QuestRender.show(model: model, pose: pose, size: dstImageSize, cgContext: context.cgContext)
         }
         return dstImage
@@ -104,6 +104,13 @@ class PoseImageView: UIImageView {
         cgContext.scaleBy(x: 1.0, y: -1.0)
         cgContext.draw(cgImage!, in: rectangle)
         cgContext.restoreGState()
+    }
+    static func setNoBackGround(size: CGSize, in cgContext: CGContext){
+        let rectangle = CGRect(x: 0, y: -size.height, width: size.width, height: size.height)
+        cgContext.setFillColor(Colors.cgGray)
+        cgContext.addRect(rectangle)
+        cgContext.drawPath(using: .fillStroke)
+        
     }
     
     static func drawLine(from parentJoint: Joint,

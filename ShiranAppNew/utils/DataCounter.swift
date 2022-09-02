@@ -21,7 +21,7 @@ class DataCounter: ObservableObject {
         if LastTimeDay == nil{
             UserDefaults.standard.set(0, forKey: Keys.totalDay.rawValue)//総日数
             UserDefaults.standard.set(0, forKey: Keys.continuedDay.rawValue)//継続日数
-            UserDefaults.standard.set(5, forKey: Keys.taskTime.rawValue)
+            UserDefaults.standard.set(10, forKey: Keys.taskTime.rawValue)
             return 0
         }
         let cal = Calendar(identifier: .gregorian)
@@ -103,16 +103,16 @@ class DataCounter: ObservableObject {
         progressLV.tintColor = UIColor.blue
         alert.view.addSubview(progressLV)
         
-        let result = DataCounter.updateTT(score: exp)//初期値、末期値、何回プログレスバーを更新するかInt
+        let taskTime = DataCounter.updateTT(score: exp)//初期値、末期値、何回プログレスバーを更新するかInt
         let lav3 = UILabel(frame: CGRect(x: 10, y: 170 , width: 400, height: 20))
-        lav3.text = result.2//"制限時間が\(taskTime)秒に伸びました！"
+        lav3.text = taskTime//"制限時間が\(taskTime)秒に伸びました！"
         alert.view.addSubview(lav3)
-        let progressView = UIProgressView(progressViewStyle: .default)
-        progressView.frame = CGRect(x: 10, y: 195 , width: 200, height: 20)
-        progressView.progress = result.0
-        progressView.setProgress(result.0, animated: true)
-        progressView.tintColor = UIColor.blue
-        alert.view.addSubview(progressView)
+//        let progressView = UIProgressView(progressViewStyle: .default)
+//        progressView.frame = CGRect(x: 10, y: 195 , width: 200, height: 20)
+//        progressView.progress = result.0
+//        progressView.setProgress(result.0, animated: true)
+//        progressView.tintColor = UIColor.blue
+//        alert.view.addSubview(progressView)
         
         //self.saveData(score: exp)
         return alert
@@ -188,41 +188,40 @@ class DataCounter: ObservableObject {
     }
     
     //前のタイム経験値、今回の経験値の端数、何回プログレスバーを更新するかInt (VideoCameraView)
-    static func updateTT(score: Int) -> (Float,Int,String){
-        let rcTimes: Int = Int(UserDefaults.standard.float(forKey: Keys.rcAddTT.rawValue)*100)//RemoteConfig
+    static func updateTT(score: Int) -> String{
+//        let rcTimes: Int = Int(UserDefaults.standard.float(forKey: Keys.rcAddTT.rawValue)*100)//RemoteConfig
+        var three = UserDefaults.standard.integer(forKey: Keys.threedays.rawValue) + 1
+        let expTT = UserDefaults.standard.integer(forKey: Keys.expTT.rawValue)//totalExp
         let lastTime = UserDefaults.standard.integer(forKey: Keys.taskTime.rawValue)
-        let total = UserDefaults.standard.integer(forKey: Keys.totalDay.rawValue)
-        var tt = 1
-        switch total {
-        case 0 ..< 61: tt = 1
-        case 61 ..< 91: tt = 2
-        case 91 ..< 121: tt = 3
-        case 121 ..< 151: tt = 4
-        case 151 ..< 181: tt = 5
-        default:          tt = 1
+        var nextTime = lastTime
+        if(three == 3){
+            three = 0
+            if(lastTime % 30 == 0){
+                nextTime += 10
+            }else{
+                nextTime += 20
+            }
         }
-        
-        let expTT = UserDefaults.standard.integer(forKey: Keys.expTT.rawValue)
-        var bn = 1
-        var an = 1
-        for i in 1..<table.count {
-            if table[i]*rcTimes/100 > expTT { bn = i; break }
+//        以前のレベル計算
+//        var bn = 1
+//        for i in 1..<table.count {
+//            if table[i]*rcTimes/100 > expTT { bn = i; break }
+//        }
+//        //今回のレベル計算
+//        var an = 1
+//        for i in 1..<table.count {
+//            if table[i]*rcTimes/100 > expTT+score { an = i; break }
+//        }
+//        //プログラスバーに表示するのに必要
+//        let after = Float(expTT+score-table[an-1]*rcTimes/100) / Float(table[an]*rcTimes/100 - table[an-1]*rcTimes/100 )// 0.0 - 1.0
+        var text = str.limitTime.rawValue + String(lastTime) + str.sec.rawValue + "→" + String(nextTime) + str.sec.rawValue
+        if nextTime == lastTime {
+            text = str.limitTime.rawValue + String(nextTime) + str.sec.rawValue
         }
-        for i in 1..<table.count {
-            if table[i]*rcTimes/100 > expTT+score { an = i; break }
-        }
-        
-        
-        let after = Float(expTT+score-table[an-1]*rcTimes/100) / Float(table[an]*rcTimes/100 - table[an-1]*rcTimes/100 )// 0.0 - 1.0
-        var text = ""
-        if an == bn {
-            text = str.limitTime.rawValue + String(lastTime) + str.sec.rawValue
-        }else {
-            text = String(lastTime) + str.sec.rawValue + "→" + String(lastTime + (tt * (an-bn))) + str.sec.rawValue
-        }
-        UserDefaults.standard.set(lastTime + (tt * (an-bn)), forKey: Keys.taskTime.rawValue)
+        UserDefaults.standard.set(three, forKey: Keys.threedays.rawValue)
+        UserDefaults.standard.set(nextTime, forKey: Keys.taskTime.rawValue)
         UserDefaults.standard.set(expTT+score, forKey: Keys.expTT.rawValue)
-        return (after,an-bn,text)
+        return (text)
     }
     
     static func saveMyPose(poseList:[Int]){

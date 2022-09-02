@@ -20,7 +20,7 @@ struct ExplainAppView: View {
                     self.btn0.toggle()
                 }, label: {
                     HStack{
-                        Text(str.expTitle1.rawValue)
+                        Text(str.expTitle1.rawValue)// "あそびかた"
                         Image(systemName: "play.rectangle.fill")
                             .foregroundColor(.red)
                     }
@@ -38,17 +38,17 @@ struct ExplainAppView: View {
                  }).sheet(isPresented: self.$btn01, content: {
                  PlayerView2()
                  })*/
-                Button(str.expTitle2.rawValue){
+                Button(str.expTitle2.rawValue){//"アプリの流れ"
                     self.btn1.toggle()
                 }.sheet(isPresented: self.$btn1, content: {
                     Explanation1()
                 })
-                Button(str.expTitle3.rawValue){
+                Button(str.expTitle3.rawValue){//"HIITってなに？？"
                     self.btn2.toggle()
                 }.sheet(isPresented: self.$btn2, content: {
                     Explanation2()
                 })
-                Button(str.expTitle4.rawValue){
+                Button(str.expTitle4.rawValue){//HIITのメリット
                     self.btn3.toggle()
                 }.sheet(isPresented: self.$btn3, content: {
                     Explanation3()
