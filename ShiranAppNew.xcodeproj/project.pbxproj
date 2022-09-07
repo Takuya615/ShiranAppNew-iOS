@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,8 @@
 		2C487DF427DF6D7C00D807E3 /* ItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C487DF327DF6D7C00D807E3 /* ItemSelectView.swift */; };
 		2C544FCC281F8BBA00C99758 /* BackKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C544FCB281F8BBA00C99758 /* BackKeyView.swift */; };
 		2C544FD1282250D200C99758 /* fabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C544FD0282250D200C99758 /* fabView.swift */; };
+		2C65660A28C7359A00CD37BF /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 2C65660928C7359A00CD37BF /* FacebookCore */; };
+		2C65660C28C7359A00CD37BF /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 2C65660B28C7359A00CD37BF /* FacebookLogin */; };
 		2C70048D286D5B16002F09B4 /* q_charge.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C70048B286D4A5A002F09B4 /* q_charge.MP4 */; };
 		2C70048E286D5B26002F09B4 /* introduce.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C700489286D4A3B002F09B4 /* introduce.MP4 */; };
 		2C70048F286D5B29002F09B4 /* q_charge2.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C70048C286D4A5A002F09B4 /* q_charge2.MP4 */; };
@@ -81,7 +83,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		19952098D76C964EA17B04F0 /* Pods-ShiranAppNew-ShiranAppNewUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew-ShiranAppNewUITests.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew-ShiranAppNewUITests/Pods-ShiranAppNew-ShiranAppNewUITests.release.xcconfig"; sourceTree = "<group>"; };
 		242450BC5328E37D4F3BF182 /* Pods-ShiranAppNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew/Pods-ShiranAppNew.debug.xcconfig"; sourceTree = "<group>"; };
 		26A3157912BDEF62C9667874 /* Pods_ShiranAppNew_ShiranAppNewUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNew_ShiranAppNewUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C43027D280BBED800EB8866 /* QuestRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestRender.swift; sourceTree = "<group>"; };
@@ -105,9 +106,7 @@
 		2CCFAB762809340500F68401 /* DefaultCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCameraViewModel.swift; sourceTree = "<group>"; };
 		2CCFAB7C2809BA7500F68401 /* BodyRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyRender.swift; sourceTree = "<group>"; };
 		2CCFAB7E2809BC0200F68401 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
-		643182000FA48A12898BB36F /* Pods-ShiranAppNewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7B9AA6378422A39AD27C5B34 /* Pods_ShiranAppNew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		83D47980BB6380F61B6ED32E /* Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew-ShiranAppNewUITests/Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		84965A22621B1E5CD4F97631 /* Pods_ShiranAppNewTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShiranAppNewTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE854FBDD6C14135AE89B35 /* Pods-ShiranAppNew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNew.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNew/Pods-ShiranAppNew.release.xcconfig"; sourceTree = "<group>"; };
 		CE04B411270C04AF00F21059 /* cheers.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cheers.mp3; sourceTree = "<group>"; };
@@ -163,7 +162,6 @@
 		CED6999227065EC8006E3AEA /* DataCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCounter.swift; sourceTree = "<group>"; };
 		CED6B890270D5EE7009BC3F6 /* EventAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAnalytics.swift; sourceTree = "<group>"; };
 		CEE6FEF727571AFB0026F6CC /* PoseNetMobileNet100S16FP16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoseNetMobileNet100S16FP16.mlmodel; sourceTree = "<group>"; };
-		E6C48DFF81CD90D5D320ADA6 /* Pods-ShiranAppNewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShiranAppNewTests.release.xcconfig"; path = "Target Support Files/Pods-ShiranAppNewTests/Pods-ShiranAppNewTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,7 +169,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C65660C28C7359A00CD37BF /* FacebookLogin in Frameworks */,
 				7FAEDB78D8FD5FE373130AAA /* Pods_ShiranAppNew.framework in Frameworks */,
+				2C65660A28C7359A00CD37BF /* FacebookCore in Frameworks */,
 				2CCCDF06281CCD540001A3EC /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,10 +234,6 @@
 			children = (
 				242450BC5328E37D4F3BF182 /* Pods-ShiranAppNew.debug.xcconfig */,
 				ADE854FBDD6C14135AE89B35 /* Pods-ShiranAppNew.release.xcconfig */,
-				83D47980BB6380F61B6ED32E /* Pods-ShiranAppNew-ShiranAppNewUITests.debug.xcconfig */,
-				19952098D76C964EA17B04F0 /* Pods-ShiranAppNew-ShiranAppNewUITests.release.xcconfig */,
-				643182000FA48A12898BB36F /* Pods-ShiranAppNewTests.debug.xcconfig */,
-				E6C48DFF81CD90D5D320ADA6 /* Pods-ShiranAppNewTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -503,6 +499,10 @@
 			dependencies = (
 			);
 			name = ShiranAppNew;
+			packageProductDependencies = (
+				2C65660928C7359A00CD37BF /* FacebookCore */,
+				2C65660B28C7359A00CD37BF /* FacebookLogin */,
+			);
 			productName = ShiranAppNew;
 			productReference = CE96197E26E1AE7F0084F1A7 /* ShiranAppNew.app */;
 			productType = "com.apple.product-type.application";
@@ -530,6 +530,9 @@
 				Base,
 			);
 			mainGroup = CE96197526E1AE7F0084F1A7;
+			packageReferences = (
+				2C65660828C7359A00CD37BF /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+			);
 			productRefGroup = CE96197F26E1AE7F0084F1A7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -890,6 +893,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2C65660828C7359A00CD37BF /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2C65660928C7359A00CD37BF /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C65660828C7359A00CD37BF /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		2C65660B28C7359A00CD37BF /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C65660828C7359A00CD37BF /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CE96197626E1AE7F0084F1A7 /* Project object */;
 }

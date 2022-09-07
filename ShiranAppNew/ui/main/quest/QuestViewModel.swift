@@ -34,8 +34,8 @@ struct QuestViewModel {
     }
     static var quests:[Quest] = [
         //TT = 5~10
-//        Quest(number: 0,type: 8,goal: [3,4,10],time: 0,title: "coin_collect",name: "テスト", text: "テスト"),
-        Quest(number: 0,type: 1,goal: [3,4,10],time: 0,title: "coin_collect",name: "コイン集め", text: "時間以内に、画面上のコインを10コ集める"),
+        Quest(number: 0,type: 8,goal: [3,4,10],time: 0,title: "coin_collect",name: "テスト", text: "テスト"),
+//        Quest(number: 0,type: 1,goal: [3,4,10],time: 0,title: "coin_collect",name: "コイン集め", text: "時間以内に、画面上のコインを10コ集める"),
         Quest(number: 1,type: 2,goal: [200,350,700],time: 0,title: "free_exercise",name: "とにかく動け！", text: "時間以内に、スコア 700以上のはげしい運動をする"),
         //TT = 8-15
         Quest(number: 2,type: 3,goal: [80,150,300],time: 0,title: "bouldering",name: "ボルダリング", text: "時間以内に、カベを300m登りきる"),
