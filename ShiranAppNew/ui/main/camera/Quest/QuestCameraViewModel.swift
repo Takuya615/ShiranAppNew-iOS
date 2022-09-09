@@ -23,7 +23,6 @@ class QuestCameraViewModel{
     var prePose: Pose! = Pose()
     var qScore: CGFloat = 0.0
     var flg = 0.0
-    var flg2 = 0.0
     var qPlace :CGPoint = CGPoint()
     
     
@@ -72,7 +71,7 @@ class QuestCameraViewModel{
         let boltImage = UIImageView(image: UIImage(systemName: "bolt.fill")?.withTintColor(.green))
         boltImage.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         boltImage.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-        for i in [2,5,6,7] {
+        for i in [2,5,6,7,8] {
             if qType == i {
                 _self.view.addSubview(self.boltGaugebar)
                 _self.view.addSubview(boltImage)

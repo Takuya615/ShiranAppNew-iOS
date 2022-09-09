@@ -71,7 +71,7 @@ struct toolbarItemView: View {
                 Button(action: {
                     //UserDefaults.standard.set(1000, forKey: Keys.diamond.rawValue)
                     UserDefaults.standard.set(10000, forKey: Keys.coin.rawValue)
-                    UserDefaults.standard.set([3,3, 3,3,3, 3,3,3,3, 3,3,3,3,3], forKey: Keys.qsl.rawValue)
+//                    UserDefaults.standard.set([3,3, 3,3,3, 3,3,3,3, 3,3,3,3,3], forKey: Keys.qsl.rawValue)
                     UserDefaults.standard.set(0, forKey: Keys.chargTime.rawValue)
 //                    exit(0)
                 }) {

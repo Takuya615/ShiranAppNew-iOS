@@ -13,6 +13,7 @@ class QuestRender{
         case 6: quest6(model:model, pose: pose, size: size, in: cgContext)
         case 7: quest7(model:model, pose: pose, size: size, in: cgContext)
         case 8: quest8(model:model, pose: pose, size: size, in: cgContext)
+        case 9: quest9(model:model, pose: pose, size: size, in: cgContext)
         default: return
         }
     }
@@ -126,7 +127,7 @@ class QuestRender{
             }
         }
     }
-    
+    //powerCharge
     static func quest6(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
         PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
@@ -173,7 +174,7 @@ class QuestRender{
             }
         }
     }
-    
+    //powerCharge
     static func quest7(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
         PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
@@ -229,34 +230,46 @@ class QuestRender{
             }
         }
     }
-    
+    //Aboid Bars
     static func quest8(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
+        //flg is time keeper
         let min = size.width/20
-        let bar1 :CGFloat = 100
-        let bar2 :CGFloat = 300
-        let obstacle1 = CGRect(x:0, y:bar1-min/2, width:size.width/2, height:min)
-        let obstacle2 = CGRect(x:size.width/2, y:bar2-min/2, width:size.width/2, height:min)
-        cgContext.setFillColor(Colors.cgWhite)
-        cgContext.addRect(obstacle1)
-        cgContext.addRect(obstacle2)
-        cgContext.drawPath(using: .fillStroke)
-        
-        
-        
         let p = CGPoint(x: (pose[.rightShoulder].position.x + pose[.leftShoulder].position.x)/2, y: pose[.leftShoulder].position.y)
-        cgContext.setFillColor(Colors.cgPink)
-        
-        if p.x < size.width/2 {
-            let diff = abs(p.y - bar1)
-            if diff < 10 {cgContext.setFillColor(Colors.cgGreen)}
-        }else{
-            let diff = abs(p.y - bar2)
-            if diff < 10 {cgContext.setFillColor(Colors.cgGreen)}
-        }
-        
         let rectangle = CGRect(x: p.x - min/2, y: p.y - min/2,width: min, height: min)
+        cgContext.setFillColor(Colors.cgPink)
         cgContext.addEllipse(in: rectangle)
         cgContext.drawPath(using: .fill)
+        
+        if !model.isRecording {return}
+        model.flg += 10.0
+        let numbers :Int = Int(model.flg) / Int(size.height/3)
+        var color = Colors.cgWhite
+        for i in 0...numbers {
+            let y = model.flg-min/2 - size.height/3*CGFloat(i)
+            let obstacle1 = CGRect(x:0, y:y, width:size.width/2, height:min)
+            let obstacle2 = CGRect(x:size.width/2, y:size.height-y, width:size.width/2, height:min)
+            
+            if p.x < size.width/2 {
+                let diff = abs(p.y - y)
+                if diff < 10 {color = Colors.cgPink;model.qScore += 1}
+            }else{
+                let diff = abs(p.y - (size.height-y))
+                if diff < 10 {color = Colors.cgPink;model.qScore += 1}
+            }
+            cgContext.setFillColor(color)
+            cgContext.addRect(obstacle1)
+            cgContext.addRect(obstacle2)
+            cgContext.drawPath(using: .fillStroke)
+            
+        }
+    }
+    
+    //Rhythm Game 1
+    static func quest9(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
+//        if !model.isRecording {return}
+        if abs(pose[.rightWrist].position.x-pose[.leftWrist].position.x) < 40 {
+            SystemSounds.score_up("")
+        }
         
         
     }
