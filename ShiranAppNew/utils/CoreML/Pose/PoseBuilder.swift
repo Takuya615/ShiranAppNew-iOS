@@ -1,59 +1,26 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The implementation of a structure that analyzes the PoseNet model outputs to detect
- single or multiple poses.
-*/
 
 import CoreGraphics
 
 struct PoseBuilder {
-    /// A prediction from the PoseNet model.
-    ///
-    /// Prediction outputs are analyzed to find and construct poses.
     let output: PoseNetOutput
-
-    /// A transformation matrix used to map joints from the PoseNet model's input image size onto the original image size.
     let modelToInputTransformation: CGAffineTransform
 
-    /// The parameters the Pose Builder uses in its pose algorithms.
-    var configuration: PoseBuilderConfiguration
 
-    init(output: PoseNetOutput, configuration: PoseBuilderConfiguration, inputImage: CGImage) {
+    init(output: PoseNetOutput, inputImage: CGImage) {
         self.output = output
-        self.configuration = configuration
 
-        // Create a transformation matrix to transform joint positions back into the space
-        // of the original input size.
         modelToInputTransformation = CGAffineTransform(scaleX: inputImage.size.width / output.modelInputSize.width,
                                                        y: inputImage.size.height / output.modelInputSize.height)
     }
 }
 
-struct PoseBuilderConfiguration {
-    /// The minimum value for valid joints in a pose.ポーズ内の有効なジョイントの最小値。
-    var jointConfidenceThreshold = 0.5
-
-    /// The minimum value for a valid pose.  有効なポーズの最小値。
-    var poseConfidenceThreshold = 0.5
-}
-
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The implementation of a single-person pose estimation algorithm, based on the TensorFlow
- project "Pose Detection in the Browser."
-*/
-
-import CoreGraphics
 
 extension PoseBuilder {
     /// Returns a pose constructed using the outputs from the PoseNet model.
     var pose: Pose {
         var pose = Pose()
 
+        pose[.leftWrist] = Joint(name: .nose)
         // For each joint, find its most likely position and associated confidence
         // by querying the heatmap array for the cell with the greatest
         // confidence and using this to compute its position.
@@ -100,6 +67,33 @@ extension PoseBuilder {
         joint.cell = bestCell
         joint.position = output.position(for: joint.name, at: joint.cell)
         joint.confidence = bestConfidence
-        joint.isValid = joint.confidence >= configuration.jointConfidenceThreshold
+        joint.isValid = joint.confidence >= 0.5/// The minimum value for valid joints in a pose.ポーズ内の有効なジョイントの最小値。
+    }
+    
+    static func sample(size: CGSize) -> Pose {
+        let pose: Pose = Pose()
+        let w = size.width
+        let h = size.height
+        pose.joints.values.forEach { joint in
+            var point: CGPoint = .zero
+            switch joint.name {
+            case Joint.Name.nose:         point = CGPoint(x: w*0.5, y: h*0.15);joint.isValid = true
+            case Joint.Name.leftShoulder: point = CGPoint(x: w*0.62, y: h*0.25);joint.isValid = true
+            case Joint.Name.rightShoulder:point = CGPoint(x: w*0.38, y: h*0.25);joint.isValid = true
+            case Joint.Name.leftElbow:    point = CGPoint(x: w*0.73, y: h*0.38);joint.isValid = true
+            case Joint.Name.rightElbow:   point = CGPoint(x: w*0.27, y: h*0.38);joint.isValid = true
+            case Joint.Name.leftWrist:    point = CGPoint(x: w*0.78, y: h*0.51);joint.isValid = true
+            case Joint.Name.rightWrist:   point = CGPoint(x: w*0.26, y: h*0.51);joint.isValid = true
+            case Joint.Name.leftHip:      point = CGPoint(x: w*0.61, y: h*0.55);joint.isValid = true
+            case Joint.Name.rightHip:     point = CGPoint(x: w*0.39, y: h*0.55);joint.isValid = true
+            case Joint.Name.leftKnee:     point = CGPoint(x: w*0.63, y: h*0.7);joint.isValid = true
+            case Joint.Name.rightKnee:    point = CGPoint(x: w*0.37, y: h*0.7);joint.isValid = true
+            case Joint.Name.leftAnkle:    point = CGPoint(x: w*0.63, y: h*0.85);joint.isValid = true
+            case Joint.Name.rightAnkle:   point = CGPoint(x: w*0.37, y: h*0.85);joint.isValid = true
+            default:point = CGPoint();joint.isValid = false
+            }
+            joint.position = point
+        }
+        return pose
     }
 }

@@ -24,6 +24,8 @@ class QuestCameraViewModel{
     var qScore: CGFloat = 0.0
     var flg = 0.0
     var qPlace :CGPoint = CGPoint()
+    var rhythmTime :Int = 0
+    var rhythm = Timer()
     
     
     let qType = UserDefaults.standard.integer(forKey: Keys.questType.rawValue)
@@ -71,12 +73,10 @@ class QuestCameraViewModel{
         let boltImage = UIImageView(image: UIImage(systemName: "bolt.fill")?.withTintColor(.green))
         boltImage.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         boltImage.layer.position = CGPoint(x: rect.width/2, y: rect.height-42)
-        for i in [2,5,6,7,8] {
-            if qType == i {
-                _self.view.addSubview(self.boltGaugebar)
-                _self.view.addSubview(boltImage)
-                break
-            }
+
+        if [2,5,6,7,8,9].contains(where: {$0 == qType}){
+            _self.view.addSubview(self.boltGaugebar)
+            _self.view.addSubview(boltImage)
         }
         
         // recording button
@@ -101,17 +101,27 @@ class QuestCameraViewModel{
     @objc func onClickRecordButton(sender: UIButton) {
         var Ring = false
         self.recordButton.isHidden = true
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
+        if [9].contains(where: {$0 == qType}) {
+            rhythm = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { _ in
+
+//                if self.isRecording {  }
+                self.rhythmTime += 1
+                if self.rhythmTime%10 == 0 || self.rhythmTime%10 == 5{
+                    SystemSounds.beat()
+                }
+                
+            })
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
             self.time -= 1
             
             if self.countDown {
                 if !Ring {
                     Ring = true
-                    SystemSounds.countDown("")
+                    SystemSounds.countDown()
                 }
                 self.textTimer.text = String(self.time)
                 self.textTimer.textColor = UIColor.orange
-                
             }else{
                 self.textTimer.text = CameraModel.min(time: self.time)
                 self.textTimer.textColor = UIColor.blue
@@ -124,11 +134,10 @@ class QuestCameraViewModel{
                     self.isRecording = true
                     self.time = CameraModel.taskTime() //                           本編スタート
                 }else{
-                    SystemSounds.buttonVib("")
-                    SystemSounds.buttonSampleWav("")
-                    //SystemSounds().EndVideoRecording()
+                    SystemSounds.typeWriter()
                     self.isRecording = false
-                    timer.invalidate()//timerの終了
+                    self.timer.invalidate()
+                    self.rhythm.invalidate()
                     
                     //リザルト表示
                     let alert = DataCounter().showQuestResult(qType: self.qType,qScore: Int(self.qScore),completion: {self._self.questCameraView.isVideo = false})

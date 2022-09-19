@@ -126,9 +126,7 @@ class VideoCameraViewModel{
                     self.isRecording = true
                     self.time = CameraModel.taskTime() //                           本編スタート
                 }else{
-                    SystemSounds.buttonVib("")
-                    SystemSounds.buttonSampleWav("")
-                    //SystemSounds().EndVideoRecording()
+                    SystemSounds.typeWriter()
                     self._self.view.backgroundColor = .white
                     self.isRecording = false
                     timer.invalidate()//timerの終了
@@ -140,7 +138,7 @@ class VideoCameraViewModel{
             if self.countDown {
                 if !Ring {
                     Ring = true
-                    SystemSounds.countDown("")
+                    SystemSounds.countDown()
                 }
                 self.textTimer.text = String(self.time)
                 self.textTimer.textColor = UIColor.orange
@@ -172,7 +170,7 @@ class VideoCameraViewModel{
                 switchTime = 20
             }
         }
-        if switchTime == 3 {SystemSounds.countDown("")}
+        if switchTime == 3 {SystemSounds.countDown()}
         switchTime -= 1
         if self.time == 0 && !self.countDown { _self.view.backgroundColor = .white }
     }

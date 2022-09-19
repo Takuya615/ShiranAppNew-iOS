@@ -52,7 +52,6 @@ class PoseNet {
         DispatchQueue.global(qos: .userInitiated).async {
             // Wrap the image in an instance of PoseNetInput to have it resized
             // before being passed to the PoseNet model.
-            //print("image インプット")
             let input = PoseNetInput(image: image, size: self.modelInputSize)
 
             guard let prediction = try? self.poseNetMLModel.prediction(from: input) else {

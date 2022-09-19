@@ -89,7 +89,7 @@ struct DialogContent1: View {
             
             
         }
-        .onAppear(perform: { SystemSounds.buttonVib("") })
+        .onAppear(perform: { SystemSounds.buttonVib() })
         .onDisappear(perform: {appState.coachMark3 = true; UserDefaults.standard.set(true, forKey: "CoachMark3")})
         .background(Color.white)
         .cornerRadius(8)

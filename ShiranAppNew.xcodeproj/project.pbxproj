@@ -19,6 +19,13 @@
 		2C70048F286D5B29002F09B4 /* q_charge2.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C70048C286D4A5A002F09B4 /* q_charge2.MP4 */; };
 		2C700490286D5B2C002F09B4 /* q_charge3.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C70048A286D4A59002F09B4 /* q_charge3.MP4 */; };
 		2C7BA19427EE99C80016D3B7 /* QuestCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */; };
+		2C82DEFB28D15D02005CC50E /* bpm120.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2C82DEF428D15D01005CC50E /* bpm120.wav */; };
+		2C82DEFC28D15D02005CC50E /* failure2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2C82DEF528D15D01005CC50E /* failure2.mp3 */; };
+		2C82DEFD28D15D02005CC50E /* warning.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2C82DEF628D15D01005CC50E /* warning.mp3 */; };
+		2C82DEFE28D15D02005CC50E /* beat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2C82DEF728D15D01005CC50E /* beat.mp3 */; };
+		2C82DEFF28D15D02005CC50E /* subjugation.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2C82DEF828D15D01005CC50E /* subjugation.mp3 */; };
+		2C82DF0028D15D02005CC50E /* failure.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2C82DEF928D15D01005CC50E /* failure.mp3 */; };
+		2C82DF0128D15D02005CC50E /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2C82DEFA28D15D02005CC50E /* success.mp3 */; };
 		2C90999927E85F1B00B3EF6D /* VideoCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */; };
 		2C9E041E2839D9C300EB9CC8 /* ABRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E041D2839D9C300EB9CC8 /* ABRemoteConfig.swift */; };
 		2CA35E90285435A200BE6E78 /* remote_config_defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CA35E8F285435A200BE6E78 /* remote_config_defaults.plist */; };
@@ -95,6 +102,13 @@
 		2C70048B286D4A5A002F09B4 /* q_charge.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = q_charge.MP4; sourceTree = "<group>"; };
 		2C70048C286D4A5A002F09B4 /* q_charge2.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = q_charge2.MP4; sourceTree = "<group>"; };
 		2C7BA19327EE99C80016D3B7 /* QuestCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCameraViewModel.swift; sourceTree = "<group>"; };
+		2C82DEF428D15D01005CC50E /* bpm120.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bpm120.wav; sourceTree = "<group>"; };
+		2C82DEF528D15D01005CC50E /* failure2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = failure2.mp3; sourceTree = "<group>"; };
+		2C82DEF628D15D01005CC50E /* warning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = warning.mp3; sourceTree = "<group>"; };
+		2C82DEF728D15D01005CC50E /* beat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beat.mp3; sourceTree = "<group>"; };
+		2C82DEF828D15D01005CC50E /* subjugation.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = subjugation.mp3; sourceTree = "<group>"; };
+		2C82DEF928D15D01005CC50E /* failure.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = failure.mp3; sourceTree = "<group>"; };
+		2C82DEFA28D15D02005CC50E /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = success.mp3; sourceTree = "<group>"; };
 		2C90999827E85F1B00B3EF6D /* VideoCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCameraViewModel.swift; sourceTree = "<group>"; };
 		2C9E041D2839D9C300EB9CC8 /* ABRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABRemoteConfig.swift; sourceTree = "<group>"; };
 		2CA35E8F285435A200BE6E78 /* remote_config_defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = remote_config_defaults.plist; sourceTree = "<group>"; };
@@ -461,6 +475,13 @@
 				2C70048B286D4A5A002F09B4 /* q_charge.MP4 */,
 				2C70048C286D4A5A002F09B4 /* q_charge2.MP4 */,
 				2C70048A286D4A59002F09B4 /* q_charge3.MP4 */,
+				2C82DEF728D15D01005CC50E /* beat.mp3 */,
+				2C82DEF428D15D01005CC50E /* bpm120.wav */,
+				2C82DEF928D15D01005CC50E /* failure.mp3 */,
+				2C82DEF528D15D01005CC50E /* failure2.mp3 */,
+				2C82DEF828D15D01005CC50E /* subjugation.mp3 */,
+				2C82DEFA28D15D02005CC50E /* success.mp3 */,
+				2C82DEF628D15D01005CC50E /* warning.mp3 */,
 				CE59CC93277B1244007E96C3 /* attack.mp3 */,
 				CE25ACE72751CABB00ABDF18 /* score_up.mp3 */,
 				CE6C8DD1271196C8007286A4 /* countdown.mp3 */,
@@ -548,19 +569,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEBE67EA2761B49400DA11B2 /* q_coin.mp4 in Resources */,
+				2C82DF0028D15D02005CC50E /* failure.mp3 in Resources */,
 				2C70048D286D5B16002F09B4 /* q_charge.MP4 in Resources */,
 				2C70048F286D5B29002F09B4 /* q_charge2.MP4 in Resources */,
+				2C82DF0128D15D02005CC50E /* success.mp3 in Resources */,
 				CEBE67E92761B47800DA11B2 /* q_climb.mp4 in Resources */,
 				2C70048E286D5B26002F09B4 /* introduce.MP4 in Resources */,
 				CE6C8DD2271196C8007286A4 /* countdown.mp3 in Resources */,
 				CE04B412270C04AF00F21059 /* cheers.mp3 in Resources */,
 				2CA35E90285435A200BE6E78 /* remote_config_defaults.plist in Resources */,
+				2C82DEFB28D15D02005CC50E /* bpm120.wav in Resources */,
 				CE25ACE82751CABB00ABDF18 /* score_up.mp3 in Resources */,
 				CE59CC94277B1244007E96C3 /* attack.mp3 in Resources */,
 				CE96198926E1AE820084F1A7 /* Preview Assets.xcassets in Resources */,
 				CE96198626E1AE820084F1A7 /* Assets.xcassets in Resources */,
 				CE9619AD26E1B76B0084F1A7 /* GoogleService-Info.plist in Resources */,
+				2C82DEFC28D15D02005CC50E /* failure2.mp3 in Resources */,
+				2C82DEFD28D15D02005CC50E /* warning.mp3 in Resources */,
+				2C82DEFF28D15D02005CC50E /* subjugation.mp3 in Resources */,
 				CECBA1AB27925DCB00079CCA /* q_hiit.mov in Resources */,
+				2C82DEFE28D15D02005CC50E /* beat.mp3 in Resources */,
 				2C700490286D5B2C002F09B4 /* q_charge3.MP4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

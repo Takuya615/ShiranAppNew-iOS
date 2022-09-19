@@ -20,7 +20,7 @@ struct DaylyRender{
             let right = pose[.rightAnkle].position.y
             if left < size.height*sta && right < size.height*sta {
                 //qScore+=1
-                SystemSounds.score_up("")
+                SystemSounds.score_up()
                 model.jump = false
             }
         }else{
@@ -40,7 +40,7 @@ struct DaylyRender{
                 let ra = pose[.rightAnkle].confidence
                 if lh+lk+la+rh+rk+ra < 2.4 {
                     //qScore+=1
-                    SystemSounds.score_up("")
+                    SystemSounds.score_up()
                     model.jump = true
                 }
                 //if lh+lk+la+rh+rk+ra < 3.0 {SystemSounds().buttonVib("")}
@@ -74,7 +74,7 @@ struct DaylyRender{
             let left = pose[.leftAnkle].position.y
             let right = pose[.rightAnkle].position.y
             if left < size.height*sta && right < size.height*sta {
-                SystemSounds.score_up("")
+                SystemSounds.score_up()
                 model.jump = false
             }
         }else{
@@ -93,7 +93,7 @@ struct DaylyRender{
                 let rk = pose[.rightKnee].confidence
                 let ra = pose[.rightAnkle].confidence
                 if lh+lk+la+rh+rk+ra < 2.4 {
-                    SystemSounds.score_up("")
+                    SystemSounds.score_up()
                     model.jump = true
                 }
             }

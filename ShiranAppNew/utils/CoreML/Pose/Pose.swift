@@ -7,46 +7,20 @@
 
 import CoreGraphics
 
-struct Pose {
-    static func defaultPose(size: CGSize) -> Pose {
-        let pose: Pose = Pose()
-        let w = size.width
-        let h = size.height
-        pose.joints.values.forEach { joint in
-            var point: CGPoint = .zero
-            switch joint.name {
-            case Joint.Name.nose:         point = CGPoint(x: w*0.5, y: h*0.15);joint.isValid = true
-            case Joint.Name.leftShoulder: point = CGPoint(x: w*0.62, y: h*0.25);joint.isValid = true
-            case Joint.Name.rightShoulder:point = CGPoint(x: w*0.38, y: h*0.25);joint.isValid = true
-            case Joint.Name.leftElbow:    point = CGPoint(x: w*0.73, y: h*0.38);joint.isValid = true
-            case Joint.Name.rightElbow:   point = CGPoint(x: w*0.27, y: h*0.38);joint.isValid = true
-            case Joint.Name.leftWrist:    point = CGPoint(x: w*0.78, y: h*0.51);joint.isValid = true
-            case Joint.Name.rightWrist:   point = CGPoint(x: w*0.26, y: h*0.51);joint.isValid = true
-            case Joint.Name.leftHip:      point = CGPoint(x: w*0.61, y: h*0.55);joint.isValid = true
-            case Joint.Name.rightHip:     point = CGPoint(x: w*0.39, y: h*0.55);joint.isValid = true
-            case Joint.Name.leftKnee:     point = CGPoint(x: w*0.63, y: h*0.7);joint.isValid = true
-            case Joint.Name.rightKnee:    point = CGPoint(x: w*0.37, y: h*0.7);joint.isValid = true
-            case Joint.Name.leftAnkle:    point = CGPoint(x: w*0.63, y: h*0.85);joint.isValid = true
-            case Joint.Name.rightAnkle:   point = CGPoint(x: w*0.37, y: h*0.85);joint.isValid = true
-            default:point = CGPoint();joint.isValid = false
-            }
-            joint.position = point
-        }
-        return pose
-    }
+/// A structure used to describe a parent-child relationship between two joints.
+struct Edge {
+    let index: Int
+    let parent: Joint.Name
+    let child: Joint.Name
     
-    /// A structure used to describe a parent-child relationship between two joints.
-    struct Edge {
-        let index: Int
-        let parent: Joint.Name
-        let child: Joint.Name
-        
-        init(from parent: Joint.Name, to child: Joint.Name, index: Int) {
-            self.index = index
-            self.parent = parent
-            self.child = child
-        }
+    init(from parent: Joint.Name, to child: Joint.Name, index: Int) {
+        self.index = index
+        self.parent = parent
+        self.child = child
     }
+}
+struct Pose {
+    
     
     /// An array of edges used to define the connections between the joints.
     ///
@@ -128,11 +102,11 @@ struct Pose {
     /// - parameters:
     ///     - jointName: Query joint name.
     /// - returns: All edges that connect to or from `jointName`.
-    static func edges(for jointName: Joint.Name) -> [Edge] {
-        return Pose.edges.filter {
-            $0.parent == jointName || $0.child == jointName
-        }
-    }
+//    static func edges(for jointName: Joint.Name) -> [Edge] {
+//        return Pose.edges.filter {
+//            $0.parent == jointName || $0.child == jointName
+//        }
+//    }
     
     /// Returns the edge having the specified parent and child  joint names.
     ///
@@ -140,7 +114,7 @@ struct Pose {
     ///     - parentJointName: Edge's parent joint name.
     ///     - childJointName: Edge's child joint name.
     /// - returns: All edges that connect to or from `jointName`.
-    static func edge(from parentJointName: Joint.Name, to childJointName: Joint.Name) -> Edge? {
-        return Pose.edges.first(where: { $0.parent == parentJointName && $0.child == childJointName })
-    }
+//    static func edge(from parentJointName: Joint.Name, to childJointName: Joint.Name) -> Edge? {
+//        return Pose.edges.first(where: { $0.parent == parentJointName && $0.child == childJointName })
+//    }
 }

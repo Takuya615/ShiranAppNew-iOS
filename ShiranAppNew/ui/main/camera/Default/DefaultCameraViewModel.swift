@@ -115,8 +115,7 @@ class DefaultCameraViewModel{
                     self.isRecording = true
                     self.time = 10
                 }else{
-                    SystemSounds.buttonVib("")
-                    SystemSounds.buttonSampleWav("")
+                    SystemSounds.typeWriter()
                     self._self.view.backgroundColor = .white
                     self.isRecording = false
                     timer.invalidate()//timerの終了
@@ -127,7 +126,7 @@ class DefaultCameraViewModel{
             if self.countDown {
                 if !Ring {
                     Ring = true
-                    SystemSounds.countDown("")
+                    SystemSounds.countDown()
                 }
                 self.textTimer.text = String(self.time)
                 self.textTimer.textColor = UIColor.orange

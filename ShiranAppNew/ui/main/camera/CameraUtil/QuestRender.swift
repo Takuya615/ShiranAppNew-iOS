@@ -13,7 +13,7 @@ class QuestRender{
         case 6: quest6(model:model, pose: pose, size: size, in: cgContext)
         case 7: quest7(model:model, pose: pose, size: size, in: cgContext)
         case 8: quest8(model:model, pose: pose, size: size, in: cgContext)
-        case 9: quest9(model:model, pose: pose, size: size, in: cgContext)
+        case 9: quest9(model:model,pre: model.prePose, pose: pose, size: size, in: cgContext)
         default: return
         }
     }
@@ -21,7 +21,7 @@ class QuestRender{
         if model.qGoal[2]/10 < Int(model.flg) {
             model.flg = 0.0
             if Bool.random() {
-                SystemSounds.score_up("")
+                SystemSounds.score_up()
                 callBack()
             }
         }
@@ -52,10 +52,10 @@ class QuestRender{
         if !model.isRecording {return}
         let left = pose[.leftWrist].position
         let l_diff = abs(model.qPlace.x - left.x) + abs(model.qPlace.y - left.y)
-        if l_diff < 40 { model.qPlace = CGPoint(x: -100, y: 0); model.qScore += 1; SystemSounds.score_up("")}
+        if l_diff < 40 { model.qPlace = CGPoint(x: -100, y: 0); model.qScore += 1; SystemSounds.score_up()}
         let right = pose[.rightWrist].position
         let r_diff = abs(model.qPlace.x - right.x) + abs(model.qPlace.y - right.y)
-        if r_diff < 40 { model.qPlace = CGPoint(x: -100, y: 0); model.qScore += 1; SystemSounds.score_up("")}
+        if r_diff < 40 { model.qPlace = CGPoint(x: -100, y: 0); model.qScore += 1; SystemSounds.score_up()}
     }
     
     //とにかく動け
@@ -265,11 +265,52 @@ class QuestRender{
     }
     
     //Rhythm Game 1
-    static func quest9(model:QuestCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
-//        if !model.isRecording {return}
-        if abs(pose[.rightWrist].position.x-pose[.leftWrist].position.x) < 40 {
-            SystemSounds.score_up("")
+    static func quest9(model:QuestCameraViewModel,pre: Pose,pose: Pose,size: CGSize, in cgContext: CGContext){
+//        BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: cgContext)
+//        PoseImageView.drawHead(num: model.skinNo,pose: pose, in: cgContext)
+        
+//        model.flg == 0.0 ? 0.0 : 10.0
+        
+        if !model.isRecording {return}// 0~600
+        
+        
+//        let actions = [30,50]
+//        let actionType = []
+        
+        let time = model.rhythmTime
+        switch time{
+        case 27: SystemSounds.attack()
+        case 28: SystemSounds.attack()
+        case 32: SystemSounds.attack()
+        case 33: SystemSounds.attack()
+        default: do {}
         }
+        
+        if abs(pose[.rightWrist].position.x-pose[.leftWrist].position.x) < 30 &&
+            abs(pre[.rightWrist].position.x-pre[.leftWrist].position.x) > 30
+        {
+            switch time {
+            case 39...41: model.flg = 0.1
+            case 43...45: model.flg = 0.2
+            case 35...37: model.flg = 0.2
+            default: model.flg = 0.0
+            }
+        }
+        
+        switch model.flg {
+        case 0.1: cgContext.setFillColor(Colors.cgPink)
+        case 0.2: cgContext.setFillColor(Colors.cgGreen)
+        default: cgContext.setFillColor(Colors.cgGray)
+        }
+        
+        
+        let min = size.width/10
+        let p = CGPoint(x: (pose[.rightShoulder].position.x + pose[.leftShoulder].position.x)/2, y: pose[.leftShoulder].position.y)
+        let rectangle = CGRect(x: p.x - min/2, y: p.y - min/2,width: min, height: min)
+        cgContext.addEllipse(in: rectangle)
+        cgContext.drawPath(using: .fill)
+
+        time == 50 ? model.rhythmTime = 0 : nil
         
         
     }

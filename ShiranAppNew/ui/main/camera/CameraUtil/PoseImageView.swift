@@ -289,7 +289,7 @@ struct RenderUtil{
         body:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
     ) -> UIImage {
         let size = CGSize(width: 500, height: 1000)
-        let pose = Pose.defaultPose(size: size)
+        let pose = PoseBuilder.sample(size: size)
         let dstImageFormat = UIGraphicsImageRendererFormat()
         dstImageFormat.scale = 1
         let renderer = UIGraphicsImageRenderer(size: size,format: dstImageFormat)

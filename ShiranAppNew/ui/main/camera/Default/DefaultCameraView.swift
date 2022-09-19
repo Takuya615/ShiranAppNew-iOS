@@ -82,7 +82,7 @@ extension DefaultCameraController: PoseNetDelegate {
     func poseNet(_ poseNet: PoseNet, didPredict predictions: PoseNetOutput) {
         defer { self.currentFrame = nil }
         if self.currentFrame == nil {return}
-        let pose = PoseBuilder(output: predictions,configuration: PoseBuilderConfiguration(),inputImage: self.currentFrame!).pose
+        let pose = PoseBuilder(output: predictions,inputImage: self.currentFrame!).pose
         
         if CameraModel.check(pose: pose, size: self.currentFrame!.size,isRecording: model.isRecording, jump: model.jump) {
             let poseImage = PoseImageView.showMiss(on: self.currentFrame!)
