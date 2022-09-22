@@ -53,7 +53,7 @@ struct PoseNetOutput {
     /// and, `y` and `x` is the vertical and horizontal grid cell indices respectively.
     ///
     /// - Note: This is only used when detecting multiple poses.
-    let backwardDisplacementMap: MLMultiArray
+//    let backwardDisplacementMap: MLMultiArray
 
     /// A multidimensional array that stores the displacement vector from each parent joint to one of its children.
     ///
@@ -61,7 +61,7 @@ struct PoseNetOutput {
     /// and, `y` and `x` is the vertical and horizontal grid cell indices respectively.
     ///
     /// - Note: This is only used when detecting multiple poses.
-    let forwardDisplacementMap: MLMultiArray
+//    let forwardDisplacementMap: MLMultiArray
 
     /// The PoseNet model's input size.
     ///
@@ -106,8 +106,8 @@ struct PoseNetOutput {
 
         self.heatmap = heatmap
         self.offsets = offsets
-        self.backwardDisplacementMap = backwardDisplacementMap
-        self.forwardDisplacementMap = forwardDisplacementMap
+//        self.backwardDisplacementMap = backwardDisplacementMap
+//        self.forwardDisplacementMap = forwardDisplacementMap
 
         self.modelInputSize = modelInputSize
         self.modelOutputStride = modelOutputStride
@@ -198,17 +198,17 @@ extension PoseNetOutput {
     ///     - edgeIndex: Index of the first dimension of the `forwardDisplacementMap` array.
     ///     - cell: The coordinates in `forwardDisplacementMap` output for the given edge.
     /// - returns: Displacement vector for `edge` at index `yIndex` and `xIndex`.
-    func forwardDisplacement(for edgeIndex: Int, at cell: Cell) -> CGVector {
-        // Create the MLMultiArray index
-        let yEdgeIndex = [edgeIndex, cell.yIndex, cell.xIndex]
-        let xEdgeIndex = [edgeIndex + Pose.edges.count, cell.yIndex, cell.xIndex]
-
-        // Extract the displacements from MultiArray
-        let displacementY = forwardDisplacementMap[yEdgeIndex].doubleValue
-        let displacementX = forwardDisplacementMap[xEdgeIndex].doubleValue
-
-        return CGVector(dx: displacementX, dy: displacementY)
-    }
+//    func forwardDisplacement(for edgeIndex: Int, at cell: Cell) -> CGVector {
+//        // Create the MLMultiArray index
+//        let yEdgeIndex = [edgeIndex, cell.yIndex, cell.xIndex]
+//        let xEdgeIndex = [edgeIndex + Pose.edges.count, cell.yIndex, cell.xIndex]
+//
+//        // Extract the displacements from MultiArray
+//        let displacementY = forwardDisplacementMap[yEdgeIndex].doubleValue
+//        let displacementX = forwardDisplacementMap[xEdgeIndex].doubleValue
+//
+//        return CGVector(dx: displacementX, dy: displacementY)
+//    }
 
     /// Returns the backwards displacement vector for the specified edge and cell.
     ///
@@ -216,17 +216,17 @@ extension PoseNetOutput {
     ///     - edgeIndex: Index of the first dimension of the `backwardDisplacementMap` array.
     ///     - cell: The coordinates in `backwardDisplacementMap` output for the given edge.
     /// - returns: Displacement vector for `edge` at index `yIndex` and `xIndex`.
-    func backwardDisplacement(for edgeIndex: Int, at cell: Cell) -> CGVector {
-        // Create the MLMultiArray index
-        let yEdgeIndex = [edgeIndex, cell.yIndex, cell.xIndex]
-        let xEdgeIndex = [edgeIndex + Pose.edges.count, cell.yIndex, cell.xIndex]
-
-        // Extract the displacements from MultiArray
-        let displacementY = backwardDisplacementMap[yEdgeIndex].doubleValue
-        let displacementX = backwardDisplacementMap[xEdgeIndex].doubleValue
-
-        return CGVector(dx: displacementX, dy: displacementY)
-    }
+//    func backwardDisplacement(for edgeIndex: Int, at cell: Cell) -> CGVector {
+//        // Create the MLMultiArray index
+//        let yEdgeIndex = [edgeIndex, cell.yIndex, cell.xIndex]
+//        let xEdgeIndex = [edgeIndex + Pose.edges.count, cell.yIndex, cell.xIndex]
+//
+//        // Extract the displacements from MultiArray
+//        let displacementY = backwardDisplacementMap[yEdgeIndex].doubleValue
+//        let displacementX = backwardDisplacementMap[xEdgeIndex].doubleValue
+//
+//        return CGVector(dx: displacementX, dy: displacementY)
+//    }
 }
 
 // MARK: - MLFeatureProvider extension

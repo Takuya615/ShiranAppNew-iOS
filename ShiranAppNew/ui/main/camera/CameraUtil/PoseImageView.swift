@@ -34,21 +34,29 @@ class PoseImageView: UIImageView {
             PoseImageView.setNoBackGround(size: dstImageSize, in: rendererContext.cgContext)
             BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
             PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
-            DaylyRender.def(model: model, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
+            DailyRender.def(model: model, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
         }
         return dstImage
     }
-    static func showDayly(model: VideoCameraViewModel,pose: Pose,friPose: Pose?, on frame: CGImage) -> UIImage {
+    static func showDaily(model: VideoCameraViewModel,pose: Pose,friPose: Pose?, on frame: CGImage) -> UIImage {
         let dstImageSize = CGSize(width: frame.width, height: frame.height)
         let dstImageFormat = UIGraphicsImageRendererFormat()
         dstImageFormat.scale = 1
         let renderer = UIGraphicsImageRenderer(size: dstImageSize,format: dstImageFormat)
         let dstImage = renderer.image { rendererContext in
-//            PoseImageView.draw(image: frame, in: rendererContext.cgContext)
-            PoseImageView.setNoBackGround(size: dstImageSize, in: rendererContext.cgContext)
-            BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
-            PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
-            DaylyRender.daily(model: model,pose: pose, size: dstImageSize, in: rendererContext.cgContext)
+            
+            if model.rest {
+                PoseImageView.setNoBackGround(size: dstImageSize, in: rendererContext.cgContext)
+                DailyRender.dailyQuest(model:model, pose: pose, size: dstImageSize, in: rendererContext.cgContext)
+//                QuestRender.show(model: model, pose: pose, size: dstImageSize, cgContext: context.cgContext)
+            }else{
+                //            PoseImageView.draw(image: frame, in: rendererContext.cgContext)
+                PoseImageView.setNoBackGround(size: dstImageSize, in: rendererContext.cgContext)
+                BodyRender.show(BodyNo: model.bodyNo, pose: pose, cgContext: rendererContext.cgContext)
+                PoseImageView.drawHead(num: model.skinNo,pose: pose, in: rendererContext.cgContext)
+                DailyRender.daily(model: model,pose: pose, size: dstImageSize, in: rendererContext.cgContext)
+            }
+            
         }
         return dstImage
     }

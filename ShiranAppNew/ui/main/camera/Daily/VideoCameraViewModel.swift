@@ -32,6 +32,14 @@ class VideoCameraViewModel{
     var killList: [boss] = []
     var exiteBoss: boss? = BOSS().isExist()
     
+    //forQuestRender
+    var qScore: CGFloat = 0.0
+    var flg = 0.0
+    var qPlace :CGPoint = CGPoint()
+//    var rhythmTime :Int = 0
+//    var rhythm = Timer()
+    
+    
     var skinNo:Int = UserDefaults.standard.integer(forKey:Keys.selectSkin.rawValue)
     var bodyNo:Int = UserDefaults.standard.integer(forKey:Keys.selectBody.rawValue)
     let difficult = UserDefaults.standard.integer(forKey: Keys.difficult.rawValue)+1//1 2 3
@@ -155,14 +163,14 @@ class VideoCameraViewModel{
         if switchTime == 0 {
             rest = !rest
             if rest {
-                self.isRecording = false
+//                self.isRecording = false
                 self.bossImage.isHidden = true
                 self.bossHPbar.isHidden = true
                 self.scoreBoad.isHidden = false
                 _self.view.backgroundColor = UIColor.init(red: 102/255, green: 153/255, blue: 255/255, alpha: 80/100)
                 switchTime = 10
             }else{
-                self.isRecording = true
+//                self.isRecording = true
                 self.bossImage.isHidden = false
                 self.bossHPbar.isHidden = false
                 self.scoreBoad.isHidden = true

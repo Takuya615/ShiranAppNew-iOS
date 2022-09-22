@@ -4,7 +4,7 @@ import CoreGraphics
 struct PoseBuilder {
     let output: PoseNetOutput
     let modelToInputTransformation: CGAffineTransform
-
+    let minimumJointsValue = 0.5/// The minimum value for valid joints in a pose.ポーズ内の有効なジョイントの最小値。
 
     init(output: PoseNetOutput, inputImage: CGImage) {
         self.output = output
@@ -20,7 +20,6 @@ extension PoseBuilder {
     var pose: Pose {
         var pose = Pose()
 
-        pose[.leftWrist] = Joint(name: .nose)
         // For each joint, find its most likely position and associated confidence
         // by querying the heatmap array for the cell with the greatest
         // confidence and using this to compute its position.
@@ -67,7 +66,7 @@ extension PoseBuilder {
         joint.cell = bestCell
         joint.position = output.position(for: joint.name, at: joint.cell)
         joint.confidence = bestConfidence
-        joint.isValid = joint.confidence >= 0.5/// The minimum value for valid joints in a pose.ポーズ内の有効なジョイントの最小値。
+        joint.isValid = joint.confidence >= minimumJointsValue
     }
     
     static func sample(size: CGSize) -> Pose {

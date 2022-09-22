@@ -1,7 +1,7 @@
 
 import SwiftUI
 
-struct DaylyRender{
+struct DailyRender{
     //デイリー
     static func daily(model: VideoCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
         var sta = 1.0
@@ -51,9 +51,7 @@ struct DaylyRender{
                  midLandmark: pose[.leftElbow],
                  lastLandmark: leftW)
                  if angleL < 150 || angleR < 90 {
-                 
                  }*/
-                
             }
         }
     }
@@ -99,24 +97,40 @@ struct DaylyRender{
             }
         }
     }
-    //    func angle(
-    //        firstLandmark: Joint,
-    //        midLandmark: Joint,
-    //        lastLandmark: Joint
-    //    ) -> CGFloat {
-    //        let radians: CGFloat =
-    //        atan2(lastLandmark.position.y - midLandmark.position.y,
-    //              lastLandmark.position.x - midLandmark.position.x) -
-    //        atan2(firstLandmark.position.y - midLandmark.position.y,
-    //              firstLandmark.position.x - midLandmark.position.x)
-    //        var degrees = radians * 180.0 / .pi
-    //        degrees = abs(degrees) // Angle should never be negative
-    //        if degrees > 180.0 {
-    //            degrees = 360.0 - degrees // Always get the acute representation of the angle
-    //        }
-    //        return degrees
-    //    }
     
     
+    //Aboid Bars
+    static func dailyQuest(model:VideoCameraViewModel,pose: Pose,size: CGSize, in cgContext: CGContext){
+        //flg is time keeper
+        let min = size.width/20
+        let p = CGPoint(x: (pose[.rightShoulder].position.x + pose[.leftShoulder].position.x)/2, y: pose[.leftShoulder].position.y)
+        let rectangle = CGRect(x: p.x - min/2, y: p.y - min/2,width: min, height: min)
+        cgContext.setFillColor(Colors.cgPink)
+        cgContext.addEllipse(in: rectangle)
+        cgContext.drawPath(using: .fill)
+        
+        if !model.isRecording {return}
+        model.flg += 10.0
+        let numbers :Int = Int(model.flg) / Int(size.height/3)
+        var color = Colors.cgWhite
+        for i in 0...numbers {
+            let y = model.flg-min/2 - size.height/3*CGFloat(i)
+            let obstacle1 = CGRect(x:0, y:y, width:size.width/2, height:min)
+            let obstacle2 = CGRect(x:size.width/2, y:size.height-y, width:size.width/2, height:min)
+            
+            if p.x < size.width/2 {
+                let diff = abs(p.y - y)
+                if diff < 10 {color = Colors.cgPink;model.qScore += 1}
+            }else{
+                let diff = abs(p.y - (size.height-y))
+                if diff < 10 {color = Colors.cgPink;model.qScore += 1}
+            }
+            cgContext.setFillColor(color)
+            cgContext.addRect(obstacle1)
+            cgContext.addRect(obstacle2)
+            cgContext.drawPath(using: .fillStroke)
+            
+        }
+    }
     
 }

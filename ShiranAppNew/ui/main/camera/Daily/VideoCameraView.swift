@@ -96,7 +96,6 @@ extension VideoViewController: PoseNetDelegate {
         defer { self.currentFrame = nil }
         if self.currentFrame == nil {return}
         let pose = PoseBuilder(output: predictions,inputImage: self.currentFrame!).pose
-        
         if CameraModel.check(pose: pose, size: self.currentFrame!.size,isRecording: model.isRecording, jump: model.jump) {
             let poseImage = PoseImageView.showMiss(on: self.currentFrame!)
             let poseImageView = UIImageView(image: poseImage)
@@ -136,13 +135,12 @@ extension VideoViewController: PoseNetDelegate {
             //                }
             //            }
             //自分とフレンドの動きを描画
-            let poseImage: UIImage = PoseImageView.showDayly(
+            let poseImage: UIImage = PoseImageView.showDaily(
                 model: model,
                 pose: pose,//自分のポーズ
                 friPose: nil,//fPose,//フレンドのポーズ
                 on: self.currentFrame!)
             let size = self.view.bounds.size
-            
             
             let poseImageView = UIImageView(image: poseImage)
             poseImageView.layer.position = CGPoint(x: size.width/2, y:60 + poseImage.size.height/2)
@@ -151,6 +149,7 @@ extension VideoViewController: PoseNetDelegate {
             
             model.damageManager(pose: pose)
         }
+        
         
     }
     

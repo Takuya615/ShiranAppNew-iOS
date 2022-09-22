@@ -1,49 +1,42 @@
-/*
- See LICENSE folder for this sample’s licensing information.
- 
- Abstract:
- Implementation details of a structure used to describe a pose.
- */
 
 import CoreGraphics
 
-/// A structure used to describe a parent-child relationship between two joints.
-struct Edge {
-    let index: Int
-    let parent: Joint.Name
-    let child: Joint.Name
-    
-    init(from parent: Joint.Name, to child: Joint.Name, index: Int) {
-        self.index = index
-        self.parent = parent
-        self.child = child
-    }
-}
 struct Pose {
-    
+    /// A structure used to describe a parent-child relationship between two joints.
+//    struct Edge {
+//        let index: Int
+//        let parent: Joint.Name
+//        let child: Joint.Name
+//
+//        init(from parent: Joint.Name, to child: Joint.Name, index: Int) {
+//            self.index = index
+//            self.parent = parent
+//            self.child = child
+//        }
+//    }
     
     /// An array of edges used to define the connections between the joints.
     ///
     /// The index relates to the index used to access the associated value within the displacement maps
     /// output by the PoseNet model.
-    static let edges = [
-        Edge(from: .nose, to: .leftEye, index: 0),
-        Edge(from: .leftEye, to: .leftEar, index: 1),
-        Edge(from: .nose, to: .rightEye, index: 2),
-        Edge(from: .rightEye, to: .rightEar, index: 3),
-        Edge(from: .nose, to: .leftShoulder, index: 4),
-        Edge(from: .leftShoulder, to: .leftElbow, index: 5),
-        Edge(from: .leftElbow, to: .leftWrist, index: 6),
-        Edge(from: .leftShoulder, to: .leftHip, index: 7),
-        Edge(from: .leftHip, to: .leftKnee, index: 8),
-        Edge(from: .leftKnee, to: .leftAnkle, index: 9),
-        Edge(from: .nose, to: .rightShoulder, index: 10),
-        Edge(from: .rightShoulder, to: .rightElbow, index: 11),
-        Edge(from: .rightElbow, to: .rightWrist, index: 12),
-        Edge(from: .rightShoulder, to: .rightHip, index: 13),
-        Edge(from: .rightHip, to: .rightKnee, index: 14),
-        Edge(from: .rightKnee, to: .rightAnkle, index: 15)
-    ]
+//    static let edges = [
+//        Edge(from: .nose, to: .leftEye, index: 0),
+//        Edge(from: .leftEye, to: .leftEar, index: 1),
+//        Edge(from: .nose, to: .rightEye, index: 2),
+//        Edge(from: .rightEye, to: .rightEar, index: 3),
+//        Edge(from: .nose, to: .leftShoulder, index: 4),
+//        Edge(from: .leftShoulder, to: .leftElbow, index: 5),
+//        Edge(from: .leftElbow, to: .leftWrist, index: 6),
+//        Edge(from: .leftShoulder, to: .leftHip, index: 7),
+//        Edge(from: .leftHip, to: .leftKnee, index: 8),
+//        Edge(from: .leftKnee, to: .leftAnkle, index: 9),
+//        Edge(from: .nose, to: .rightShoulder, index: 10),
+//        Edge(from: .rightShoulder, to: .rightElbow, index: 11),
+//        Edge(from: .rightElbow, to: .rightWrist, index: 12),
+//        Edge(from: .rightShoulder, to: .rightHip, index: 13),
+//        Edge(from: .rightHip, to: .rightKnee, index: 14),
+//        Edge(from: .rightKnee, to: .rightAnkle, index: 15)
+//    ]
     
     /// The joints that make up a pose.
     private(set) var joints: [Joint.Name: Joint] = [
@@ -66,22 +59,22 @@ struct Pose {
         .rightAnkle: Joint(name: .rightAnkle)
     ]
     
-    var joints2: [Joint.Name] = [
-        .nose,
-        .leftShoulder,
-        .leftElbow,
-        .leftWrist,
-        .leftHip,
-        .leftKnee,
-        .leftAnkle,
-        
-            .rightShoulder,
-        .rightElbow,
-        .rightWrist,
-        .rightHip,
-        .rightKnee,
-        .rightAnkle
-    ]
+//    var joints2: [Joint.Name] = [
+//        .nose,
+//        .leftShoulder,
+//        .leftElbow,
+//        .leftWrist,
+//        .leftHip,
+//        .leftKnee,
+//        .leftAnkle,
+//        
+//        .rightShoulder,
+//        .rightElbow,
+//        .rightWrist,
+//        .rightHip,
+//        .rightKnee,
+//        .rightAnkle
+//    ]
     
     /// The confidence score associated with this pose.
     var confidence: Double = 0.0
