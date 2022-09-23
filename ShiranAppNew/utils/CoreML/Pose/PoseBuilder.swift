@@ -20,7 +20,6 @@ extension PoseBuilder {
     var pose: Pose {
         var pose = Pose()
 
-        pose[.leftWrist] = Joint(name: .nose)
         // For each joint, find its most likely position and associated confidence
         // by querying the heatmap array for the cell with the greatest
         // confidence and using this to compute its position.
